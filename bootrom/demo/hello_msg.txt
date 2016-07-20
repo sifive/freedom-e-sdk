@@ -1,0 +1,37 @@
+
+                SIFIVE, INC.
+
+         5555555555555555555555555
+        5555                   5555
+       5555                     5555
+      5555                       5555
+     5555       5555555555555555555555
+    5555       555555555555555555555555
+   5555                             5555
+  5555                               5555
+ 5555                                 5555
+5555555555555555555555555555          55555
+ 55555           555555555           55555
+   55555           55555           55555
+     55555           5           55555
+       55555                   55555
+         55555               55555
+           55555           55555
+             55555       55555
+               55555   55555
+                 555555555
+                   55555
+                     5
+
+           SiFive RISC-V Coreplex
+
+Welcome to the Arty FPGA Freedom E Dev Kit. 
+The red LEDs are blinking very fast and appear
+dim. Try pressing the buttons and switches to control
+the blue and green LEDs. You can try using the
+debugger to step through the boot code.
+
+
+
+
+

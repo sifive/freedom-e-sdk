@@ -1,0 +1,1 @@
+../../riscv-tests/debug/targets/m2gl_m2s/link.lds

@@ -9,4 +9,4 @@
 	url = http://github.com/sifive/riscv-binutils-gdb.git
 [submodule "riscv-tests"]
 	path = riscv-tests
-	url = http://github.com/timsifive/riscv-tests
+	url = http://github.com/riscv/riscv-tests.git
