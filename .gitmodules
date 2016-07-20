@@ -1,0 +1,12 @@
+[submodule "openocd"]
+	path = openocd
+	url = http://github.com/sifive/openocd.git
+[submodule "riscv-gnu-toolchain"]
+	path = riscv-gnu-toolchain
+	url = http://github.com/riscv/riscv-gnu-toolchain.git
+[submodule "riscv-binutils-gdb"]
+	path = riscv-binutils-gdb
+	url = http://github.com/sifive/riscv-binutils-gdb.git
+[submodule "riscv-tests"]
+	path = riscv-tests
+	url = http://github.com/timsifive/riscv-tests
