@@ -46,7 +46,7 @@ void _exit(int code)
   write(STDERR_FILENO, message, strlen(message));
   write_hex(STDERR_FILENO, code);
 
-  while (1);
+  while (1){};
     
 }
 
@@ -192,11 +192,11 @@ ssize_t write(int fd, const void* ptr, size_t len)
     
     for (jj = 0; jj < len; jj++){
 
-      while ((*uart_tx_count) < 1);
+      while ((*uart_tx_count) < 1){};
       *uart_tx = current[jj];
 
       if (current[jj] == '\n'){
-	while ((*uart_tx_count) < 1);
+	while ((*uart_tx_count) < 1){};
 	*uart_tx = '\r';
       }
     }
