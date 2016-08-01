@@ -8,7 +8,8 @@ C_SRCS += $(SHARED_DIR)/init.c
 C_SRCS += $(SHARED_DIR)/syscall.c
 C_SRCS += $(SHARED_DIR)/drivers_sifive/plic.c
 
-LINKER_SCRIPT := $(SHARED_DIR)/link.lds
+PLATFORM ?= freedom-e300
+LINKER_SCRIPT := $(SWDIR)/../riscv-tests/debug/targets/$(PLATFORM)/link.lds
 HEADERS += $(SHARED_DIR)/*.h
 
 C_SRCS += $(TARGET).c
