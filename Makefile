@@ -41,6 +41,8 @@ help :
 # This section is for tool installation
 #############################################################
 
+NUM_JOBS ?= 1
+
 toolchain_srcdir := $(srcdir)/riscv-gnu-toolchain
 toolchain32_wrkdir := $(wrkdir)/riscv32-gnu-toolchain
 toolchain64_wrkdir := $(wrkdir)/riscv64-gnu-toolchain
@@ -68,12 +70,12 @@ openocd: $(openocd_dest)/bin/openocd
 $(toolchain_dest)/bin/$(target64)-gcc: $(toolchain_srcdir)
 	mkdir -p $(toolchain64_wrkdir)
 	cd $(toolchain64_wrkdir); $(toolchain_srcdir)/configure --prefix=$(toolchain_dest) 
-	$(MAKE) -C $(toolchain64_wrkdir)
+	$(MAKE) -C $(toolchain64_wrkdir) -j$(NUM_JOBS)
 
 $(toolchain_dest)/bin/$(target32)-gcc: $(toolchain_srcdir)
 	mkdir -p $(toolchain32_wrkdir)
 	cd $(toolchain32_wrkdir); $(toolchain_srcdir)/configure --prefix=$(toolchain_dest) --with-arch=RV32IMA
-	$(MAKE) -C $(toolchain32_wrkdir)
+	$(MAKE) -C $(toolchain32_wrkdir) -j$(NUM_JOBS)
 
 $(openocd_dest)/bin/openocd: $(openocd_srcdir)
 	mkdir -p $(openocd_wrkdir)
@@ -81,7 +83,7 @@ $(openocd_dest)/bin/openocd: $(openocd_srcdir)
 	$(openocd_srcdir)/bootstrap
 	cd $(openocd_wrkdir); \
 	$(openocd_srcdir)/configure --prefix=$(openocd_dest)
-	$(MAKE) -C $(openocd_wrkdir)
+	$(MAKE) -C $(openocd_wrkdir) -j$(NUM_JOBS)
 	$(MAKE) -C $(openocd_wrkdir) install
 
 .PHONY: uninstall

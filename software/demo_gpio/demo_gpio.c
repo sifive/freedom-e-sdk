@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 
-#include "shared.h"
-#include "plic.h"
+#include "sifive/platform.h"
+#include "sifive/devices/plic.h"
 #include <string.h>
 
 void reset_demo (void);
@@ -23,10 +23,10 @@ function_ptr_t g_m_timer_interrupt_handler = no_interrupt_handler;
 plic_instance_t g_plic;
 
 // Simple variables for LEDs, buttons, etc.
-volatile unsigned int* g_outputs  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
-volatile unsigned int* g_inputs   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_IN_OFFSET);
-volatile unsigned int* g_tristates = (unsigned int *) (GPIO_BASE_ADDR + GPIO_TRI_OFFSET);
-
+volatile unsigned int* g_output_vals  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_VAL);
+volatile unsigned int* g_input_vals   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_VAL);
+volatile unsigned int* g_output_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_EN);
+volatile unsigned int* g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INTPUT_EN);
 
 /*Entry Point for PLIC Interrupt Handler*/
 void handle_m_ext_interrupt(){
@@ -56,16 +56,17 @@ void handle_m_time_interrupt(){
   *mtimecmp = then;
  
   // read the current value of the LEDS and invert them.
-  uint32_t leds = *g_outputs;
-		   
-  *g_outputs = (~leds) & ((0xF << RED_LEDS_OFFSET)   |
-			  (0xF << GREEN_LEDS_OFFSET) |
-			  (0xF << BLUE_LEDS_OFFSET));
+  uint32_t leds = *g_output_vals;
+  
+
+  *g_output_vals = (~leds) & ((0x1 << RED_LED_OFFSET)   |
+                              (0x1 << GREEN_LED_OFFSET) |
+                              (0x1 << BLUE_LED_OFFSET));
   
 
   // Re-enable the timer interrupt.
   set_csr(mie, MIP_MTIP);
- 
+  
 }
 
 
@@ -112,8 +113,8 @@ void print_instructions() {
 
 void button_0_handler(void) {
 
-  // Rainbow LEDs!
-  * g_outputs = (0x9 << RED_LEDS_OFFSET) | (0xA << GREEN_LEDS_OFFSET) | (0xC << BLUE_LEDS_OFFSET);
+  // All LEDS on
+  * g_outputs = (0x1 << RED_LED_OFFSET) | (0x1 << GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET);
 
 };
 
@@ -159,13 +160,18 @@ void reset_demo (){
 
 int main(int argc, char **argv)
 {
-  // Set up the GPIOs such that the inputs' tristate are set.
-  // The boot ROM actually does this, but still good.
-  
-  * g_tristates = (0xF << BUTTONS_OFFSET) | (0xF << SWITCHES_OFFSET) | (0xF << JA_IN_OFFSET);
-  
-  * g_outputs = (0xF << RED_LEDS_OFFSET);
+  // Set up the GPIOs such that the LED GPIO
+  // can be used as both Inputs and Outputs.
 
+#ifdef HAS_ONBOARD_BUTTONS
+  * g_output_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
+  * g_pullup_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
+  * g_input_en   |= ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
+#endif
+  
+  * g_intput_en  &= ~((0x1<< RED_LED_OFFSET) (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  * g_output_en  |=  ((0x1<< RED_LED_OFFSET) (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  * g_output_xor &= ~((0x1<< RED_LED_OFFSET) (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
 
   /**************************************************************************
    * Set up the PLIC

@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 #include "encoding.h"
-#include "shared.h"
+#include "sifive/platform.h"
 
 int main(void);
 
