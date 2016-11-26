@@ -14,7 +14,6 @@
 
 /* TXCTRL register */
 #define UART_TXEN               0x1
-#define UART_TXNSTOP            0x2
 #define UART_TXWM(x)            (((x) & 0xffff) << 16)
 
 /* RXCTRL register */

@@ -14,34 +14,28 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "encoding.h"
+#include "platform.h"
 
-#include "shared.h"
-
-volatile uint64_t tohost __attribute__((aligned(64)));
-volatile uint64_t fromhost __attribute__((aligned(64)));
-
-void write_hex(int fd, uint32_t hex){
+void write_hex(int fd, uint32_t hex)
+{
   uint8_t ii;
   uint8_t jj;
   char towrite;
-  write( fd , "0x", 2 );
-  for (ii = 8 ; ii > 0; ii--){
-    jj = ii-1;
+  write(fd , "0x", 2);
+  for (ii = 8 ; ii > 0; ii--) {
+    jj = ii - 1;
     uint8_t digit = ((hex & (0xF << (jj*4))) >> (jj*4));
     towrite = digit < 0xA ? ('0' + digit) : ('A' +  (digit - 0xA));
-    write( fd, &towrite, 1);
+    write(fd, &towrite, 1);
   }
-
 }
 
-               
 void _exit(int code)
 {
-  volatile uint32_t* leds = (uint32_t*) (GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
+  //volatile uint32_t* leds = (uint32_t*) (GPIO_BASE_ADDR + GPIO_OUT_OFFSET);
   const char * message = "\nProgam has exited with code:";
   
-  *leds = (~(code));
+  //*leds = (~(code));
 
   write(STDERR_FILENO, message, strlen(message));
   write_hex(STDERR_FILENO, code);
@@ -52,20 +46,19 @@ void _exit(int code)
 
 void *sbrk(ptrdiff_t incr)
 {
-  //  extern char _end[];
-  //  extern char _heap_end[];
-  //  static char *curbrk = _end;
+  extern char _end[];
+  extern char _heap_end[];
+  static char *curbrk = _end;
 
-  //  if ((curbrk + incr < _end) || (curbrk + incr > _heap_end))
+  if ((curbrk + incr < _end) || (curbrk + incr > _heap_end))
     return NULL - 1;
 
-    //  curbrk += incr;
-    //return curbrk - incr;
+  curbrk += incr;
+  return curbrk - incr;
 }
 
 static int stub(int err)
 {
-  errno = err;
   return -1;
 }
 
@@ -114,7 +107,6 @@ int isatty(int fd)
   if (fd == STDOUT_FILENO || fd == STDERR_FILENO)
     return 1;
 
-  errno = EBADF;
   return 0;
 }
 
@@ -138,23 +130,20 @@ off_t lseek(int fd, off_t ptr, int dir)
 
 ssize_t read(int fd, void* ptr, size_t len)
 {
-  int i;
-  uint8_t * current = (uint8_t*) ptr;
-  volatile uint8_t  * uart_rx = (uint8_t*) (UART_BASE_ADDR + UART_RX_OFFSET);
-  volatile uint32_t * uart_rx_cnt = (uint32_t*) (UART_BASE_ADDR + UART_RX_COUNT_OFFSET);
+  uint8_t * current = (uint8_t *)ptr;
+  volatile uint32_t * uart_rx = (uint32_t *)(UART0_BASE_ADDR + UART_REG_RXFIFO);
+  volatile uint8_t * uart_rx_cnt = (uint8_t *)(UART0_BASE_ADDR + UART_REG_RXCTRL + 2);
 
   ssize_t result = 0;
   
   if (isatty(fd)) {
-    
-    for (current = (uint8_t*) ptr;
-	 (current < ((uint8_t*) ptr) + len) && (*uart_rx_cnt > 0);
-	 current ++){
+    for (current = (uint8_t *)ptr;
+        (current < ((uint8_t *)ptr) + len) && (*uart_rx_cnt > 0);
+        current ++) {
       *current = *uart_rx;
-      result ++;
+      result++;
     }
     return result;
-
   }
  
   return stub(EBADF);
@@ -182,25 +171,22 @@ int wait(int* status)
 
 ssize_t write(int fd, const void* ptr, size_t len)
 {
-
-  const uint8_t * current = (const char*) ptr;
-  volatile uint32_t * uart_tx_count = (uint32_t*) (UART_BASE_ADDR + UART_TX_COUNT_OFFSET);
-  volatile uint8_t *  uart_tx = (uint8_t*) (UART_BASE_ADDR + UART_TX_OFFSET);
+  const uint8_t * current = (const char *)ptr;
+  volatile uint32_t * uart_tx = (uint32_t *)(UART0_BASE_ADDR + UART_REG_TXFIFO);
 
   size_t jj;
   if (isatty(fd)) {
-    
-    for (jj = 0; jj < len; jj++){
-
-      while ((*uart_tx_count) < 1){};
+    for (size_t jj = 0; jj < len; jj++) {
+      while ((*uart_tx) & 0x80000000) ;
       *uart_tx = current[jj];
 
-      if (current[jj] == '\n'){
-	while ((*uart_tx_count) < 1){};
-	*uart_tx = '\r';
+      if (current[jj] == '\n') {
+        while ((*uart_tx) & 0x80000000) ;
+        *uart_tx = '\r';
       }
     }
     return len;
   } 
+
   return stub(EBADF);
 }

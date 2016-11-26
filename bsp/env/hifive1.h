@@ -1,13 +1,7 @@
 // See LICENSE for license details.
 
-#ifndef SIFIVE_HIFIVE_H
-#define SIFIVE_HIFIVE_H
-
-/****************************************************************************
- * Clock Parameters
- *****************************************************************************/
-
-#define CLOCK_FREQUENCY 62500000
+#ifndef _SIFIVE_HIFIVE1_H
+#define _SIFIVE_HIFIVE1_H
 
 /****************************************************************************
  * GPIO Connections
@@ -45,20 +39,12 @@
 #define PIN_18_OFFSET 12
 #define PIN_19_OFFSET 13
 
-
-// These defines apply only to the
-// Freedom E300 Arty FPGA Dev Kit
+#ifdef HAS_BOARD_BUTTONS
 #define BUTTON_0_OFFSET 15
 #define BUTTON_1_OFFSET 30
 #define BUTTON_2_OFFSET 31
-// On the Freedeom E300 Arty FGPA Dev Kit,
-// Button 3 drives the "Digital Wakeup" pin,
-// Equivalent to the "WAKE" button on the HiFive1 Board.
-// These are mapped onto the Freedom E300 Arty FGPA Dev Kit
-// to provide an additional UART RX/TX port.
-#define JA_0_OFFSET    25 
-#define JA_1_1_OFFSET  24
+#endif
 
 void write_hex(int fd, uint32_t hex);
 
-#endif
+#endif /* _SIFIVE_HIFIVE1_H */

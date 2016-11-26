@@ -1,1 +1,0 @@
-../../riscv-tests/debug/programs/entry.S
