@@ -22,6 +22,7 @@
  * Platform definitions
  *****************************************************************************/
 
+// Memory map
 #define MASKROM_BASE_ADDR _AC(0x00001000,UL)
 #define TRAPVEC_TABLE_BASE_ADDR _AC(0x00001010,UL)
 #define OTP_MMAP_ADDR _AC(0x00020000,UL)
@@ -42,6 +43,7 @@
 #define SPI0_MMAP_ADDR _AC(0x20000000,UL)
 #define MEM_BASE_ADDR _AC(0x80000000,UL)
 
+// IOF masks
 #define IOF0_SPI1_MASK _AC(0x000007FC,UL)
 #define IOF0_UART0_MASK _AC(0x00030000,UL)
 #define IOF0_UART1_MASK _AC(0x03000000,UL)
@@ -50,6 +52,7 @@
 #define IOF1_PWM2_MASK _AC(0x00003C00,UL)
 #define IOF1_PWM1_MASK _AC(0x00780000,UL)
 
+// Interrupt numbers
 #define INT_RESERVED 0
 #define INT_WDOGCMP 1
 #define INT_RTCCMP 2
@@ -63,8 +66,32 @@
 #define INT_PWM1_BASE 44
 #define INT_PWM2_BASE 48
 
+// Helper functions
+#define _REG32(p, i) (*(volatile uint32_t *) ((p) + (i)))
+#define AON_REG(offset) _REG32(AON_BASE_ADDR, offset)
+#define CLINT_REG(offset) _REG32(CLINT_BASE_ADDR, offset)
+#define GPIO_REG(offset) _REG32(GPIO_BASE_ADDR, offset)
+#define OTP_REG(offset) _REG32(OTP_BASE_ADDR, offset)
+#define PLIC_REG(offset) _REG32(PLIC_BASE_ADDR, offset)
+#define PRCI_REG(offset) _REG32(PRCI_BASE_ADDR, offset)
+#define PWM0_REG(offset) _REG32(PWM0_BASE_ADDR, offset)
+#define PWM1_REG(offset) _REG32(PWM1_BASE_ADDR, offset)
+#define PWM2_REG(offset) _REG32(PWM2_BASE_ADDR, offset)
+#define SPI0_REG(offset) _REG32(SPI0_BASE_ADDR, offset)
+#define SPI1_REG(offset) _REG32(SPI1_BASE_ADDR, offset)
+#define SPI2_REG(offset) _REG32(SPI2_BASE_ADDR, offset)
+#define UART0_REG(offset) _REG32(UART0_BASE_ADDR, offset)
+#define UART1_REG(offset) _REG32(UART1_BASE_ADDR, offset)
+
+// Misc
+
+#include <stdint.h>
+
 #define PLIC_NUM_INTERRUPTS 52
 #define PLIC_NUM_PRIORITIES 7
+
 #include "hifive1.h"
+
+uint32_t get_cpu_freq();
 
 #endif /* _SIFIVE_PLATFORM_H */

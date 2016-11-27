@@ -3,130 +3,150 @@
 
 #include "platform.h"
 
-#define HFXTAL
+uint32_t cpu_freq = 0;
 
 extern int main();
 
-static void freedom_e300_clock_setup()
+uint32_t mtime_lo(void)
 {
-  // This is a very coarse parameterization. To revisit in the future
-  // as more chips and boards are added.
-  volatile uint32_t * pllcfg     = (volatile uint32_t*)  (PRCI_BASE_ADDR + PRCI_PLLCFG);
-  volatile uint32_t * plldiv     = (volatile uint32_t*)  (PRCI_BASE_ADDR + PRCI_PLLDIV);
-  volatile uint32_t * hfrosccfg  = (volatile uint32_t*)  (PRCI_BASE_ADDR + PRCI_HFROSCCFG);
-  volatile uint32_t * lfrosccfg  = (volatile uint32_t*)  (AON_BASE_ADDR + AON_LFROSC);
-  volatile uint64_t * mtimecmp   = (volatile uint64_t*)  (CLINT_BASE_ADDR + CLINT_MTIMECMP);
-  volatile uint64_t * mtime      = (volatile uint64_t*)  (CLINT_BASE_ADDR + CLINT_MTIME);
+  return *(volatile uint32_t *)(CLINT_BASE_ADDR + CLINT_MTIME);
+}
 
-  //Ensure that we aren't running off the PLL before we mess with it.
-  if (*pllcfg & PLL_SEL(1)) {
-    //Make sure the HFROSC is running at its default setting
-    *hfrosccfg  = (ROSC_DIV(4) | ROSC_TRIM(16) | ROSC_EN(1));
-    while ((*hfrosccfg & ROSC_RDY(1)) == 0) {}
-    *pllcfg &= ~PLL_SEL(1);
+uint32_t mcycle_lo(void)
+{
+  uint32_t t;
+  asm volatile ("csrr %0, mcycle" : "=r" (t));
+  return t;
+}
+
+static void use_hfrosc(int div, int trim)
+{
+  // Make sure the HFROSC is running at its default setting
+  PRCI_REG(PRCI_HFROSCCFG) = (ROSC_DIV(div) | ROSC_TRIM(trim) | ROSC_EN(1));
+  while ((PRCI_REG(PRCI_HFROSCCFG) & ROSC_RDY(1)) == 0) ;
+  PRCI_REG(PRCI_PLLCFG) &= ~PLL_SEL(1);
+}
+
+static void use_pll(int refsel, int bypass, int r, int f, int q)
+{
+  // Ensure that we aren't running off the PLL before we mess with it.
+  if (PRCI_REG(PRCI_PLLCFG) & PLL_SEL(1)) {
+    // Make sure the HFROSC is running at its default setting
+    use_hfrosc(4, 16);
   }
 
   // Set PLL Source to be HFXOSC if available.
   uint32_t config_value = 0;
-  
-#ifdef HFXTAL
-  config_value |= PLL_REFSEL(1);
-#else
-  // TODO!!!: Setting trim of HFRSOC
-#endif
 
-  if (F_CPU == 256000000UL) {
+  config_value |= PLL_REFSEL(refsel);
 
+  if (bypass) {
+    // Bypass
+    config_value |= PLL_BYPASS(1);
+
+    PRCI_REG(PRCI_PLLCFG) = config_value;
+
+    // If we don't have an HFXTAL, this doesn't really matter.
+    // Set our Final output divide to divide-by-1:
+    PRCI_REG(PRCI_PLLDIV) = (PLL_FINAL_DIV_BY_1(1) | PLL_FINAL_DIV(0));
+  } else {
     // In case we are executing from QSPI,
     // (which is quite likely) we need to
     // set the QSPI clock divider appropriately
     // before boosting the clock frequency.
 
     // Div = f_sck/2
-    *(uint32_t*)(SPI0_BASE_ADDR + SPI_REG_SCKDIV) = 8;
-    
+    SPI0_REG(SPI_REG_SCKDIV) = 8;
+
     // Set DIV Settings for PLL
     // Both HFROSC and HFXOSC are modeled as ideal
     // 16MHz sources (assuming dividers are set properly for
     // HFROSC).
     // (Legal values of f_REF are 6-48MHz)
-    
+
     // Set DIVR to divide-by-2 to get 8MHz frequency
     // (legal values of f_R are 6-12 MHz)
-    
+
     config_value |= PLL_BYPASS(1);
-    config_value |= PLL_R(0x1);
-    
+    config_value |= PLL_R(r);
+
     // Set DIVF to get 512Mhz frequncy
     // There is an implied multiply-by-2, 16Mhz.
     // So need to write 32-1
     // (legal values of f_F are 384-768 MHz)
-    config_value |= PLL_F(0x1F);
-    
+    config_value |= PLL_F(f);
+
     // Set DIVQ to divide-by-2 to get 256 MHz frequency
     // (legal values of f_Q are 50-400Mhz)
-    config_value |= PLL_Q(0x1);
-    
-    // Set our Final output divide to divide-by-1:
-    *plldiv = (PLL_FINAL_DIV_BY_1(1) | PLL_FINAL_DIV(0));
+    config_value |= PLL_Q(q);
 
-    *pllcfg = config_value;
+    // Set our Final output divide to divide-by-1:
+    PRCI_REG(PRCI_PLLDIV) = (PLL_FINAL_DIV_BY_1(1) | PLL_FINAL_DIV(0));
+
+    PRCI_REG(PRCI_PLLCFG) = config_value;
 
     // Un-Bypass the PLL.
-    *pllcfg &= ~PLL_BYPASS(1);
+    PRCI_REG(PRCI_PLLCFG) &= ~PLL_BYPASS(1);
 
     // Wait for PLL Lock
     // Note that the Lock signal can be glitchy.
     // Need to wait 100 us
-    // RTC is running at 32kHz. 
+    // RTC is running at 32kHz.
     // So wait 4 ticks of RTC.
-    uint64_t now = *mtime;
-    uint64_t then = now + 4;
+    uint32_t now = mtime_lo();
+    while (mtime_lo() - now < 4) ;
 
-    while ((*mtime) < then){ 
-    }
-    
     // Now it is safe to check for PLL Lock
-    while ((*pllcfg & PLL_LOCK(1)) == 0) {
-    }
-
-  } else { // if (F_CPU == 16000000UL) TODO:  For all other frequencies, ignore the setting (for now).
-
-    // Bypass
-    config_value |= PLL_BYPASS(1);
-
-    *pllcfg = config_value;
-    
-    // If we don't have an HFXTAL, this doesn't really matter.
-    // Set our Final output divide to divide-by-1:
-    *plldiv = (PLL_FINAL_DIV_BY_1(1) | PLL_FINAL_DIV(0));
+    while ((PRCI_REG(PRCI_PLLCFG) & PLL_LOCK(1)) == 0) ;
   }
-  
+
   // Switch over to PLL Clock source
-  *pllcfg |= PLL_SEL(1);
-  
-#ifdef HFXTAL
-  // Turn off the HFROSC
-   * hfrosccfg  &= ~ROSC_EN(1);
-#endif
-   
-#ifdef LFCLKBYPASS
-   // Turn off the LFROSC
-   * lfrosccfg &= ~ROSC_EN(1);
-#endif
+  PRCI_REG(PRCI_PLLCFG) |= PLL_SEL(1);
 }
 
-static void uart_init()
+static void use_default_clocks()
 {
-  *(uint32_t*)(GPIO_BASE_ADDR + GPIO_IOF_SEL) &= ~IOF0_UART0_MASK;
-  *(uint32_t*)(GPIO_BASE_ADDR + GPIO_IOF_EN) |= IOF0_UART0_MASK;
-  *(uint32_t*)(UART0_BASE_ADDR + UART_REG_DIV) = 139;
-  *(uint32_t*)(UART0_BASE_ADDR + UART_REG_TXCTRL) |= UART_TXEN;
+  // Turn off the LFROSC
+  AON_REG(AON_LFROSC) &= ~ROSC_EN(1);
+
+  // Use HFROSC
+  use_hfrosc(4, 16);
+}
+
+void measure_cpu_freq(size_t n, size_t mtime_freq)
+{
+  uint32_t start_mtime = mtime_lo();
+  uint32_t start_mcycle = mcycle_lo();
+
+  while (mtime_lo() - start_mtime < n) ;
+
+  uint32_t end_mtime = mtime_lo();
+  uint32_t end_mcycle = mcycle_lo();
+
+  cpu_freq = (end_mcycle-start_mcycle)/n*mtime_freq;
+}
+
+uint32_t get_cpu_freq()
+{
+  return cpu_freq;
+}
+
+static void uart_init(size_t baud_rate)
+{
+  GPIO_REG(GPIO_IOF_SEL) &= ~IOF0_UART0_MASK;
+  GPIO_REG(GPIO_IOF_EN) |= IOF0_UART0_MASK;
+  UART0_REG(UART_REG_DIV) = get_cpu_freq() / baud_rate - 1;
+  UART0_REG(UART_REG_TXCTRL) |= UART_TXEN;
 }
 
 void _init()
 {
-  freedom_e300_clock_setup();
-  uart_init();
+  use_default_clocks();
+  use_pll(0, 0, 1, 31, 1);
+  measure_cpu_freq(1000, 32768);
+  uart_init(115200);
+
+  printf("core freq at %d Hz\n", get_cpu_freq());
+
   _exit(main());
 }

@@ -8,7 +8,7 @@ long time(void)
 {
   long t;
   asm volatile ("csrr %0, mcycle" : "=r" (t));
-  return t / (F_CPU / 1000);
+  return t / (get_cpu_freq() / 1000);
 }
 
 // set the number of dhrystone iterations

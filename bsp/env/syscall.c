@@ -39,9 +39,9 @@ void _exit(int code)
 
   write(STDERR_FILENO, message, strlen(message));
   write_hex(STDERR_FILENO, code);
+  write(STDERR_FILENO, "\n", 1);
 
-  while (1){};
-    
+  while (1) ;
 }
 
 void *sbrk(ptrdiff_t incr)
@@ -172,17 +172,15 @@ int wait(int* status)
 ssize_t write(int fd, const void* ptr, size_t len)
 {
   const uint8_t * current = (const char *)ptr;
-  volatile uint32_t * uart_tx = (uint32_t *)(UART0_BASE_ADDR + UART_REG_TXFIFO);
 
-  size_t jj;
   if (isatty(fd)) {
     for (size_t jj = 0; jj < len; jj++) {
-      while ((*uart_tx) & 0x80000000) ;
-      *uart_tx = current[jj];
+      while (UART0_REG(UART_REG_TXFIFO) & 0x80000000) ;
+      UART0_REG(UART_REG_TXFIFO) = current[jj];
 
       if (current[jj] == '\n') {
-        while ((*uart_tx) & 0x80000000) ;
-        *uart_tx = '\r';
+        while (UART0_REG(UART_REG_TXFIFO) & 0x80000000) ;
+        UART0_REG(UART_REG_TXFIFO) = '\r';
       }
     }
     return len;
