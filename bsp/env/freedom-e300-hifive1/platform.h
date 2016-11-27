@@ -63,8 +63,8 @@
 #define INT_PWM1_BASE 44
 #define INT_PWM2_BASE 48
 
+#define PLIC_NUM_INTERRUPTS 52
+#define PLIC_NUM_PRIORITIES 7
 #include "hifive1.h"
-
-#define F_CPU 16000000UL // 16MHz
 
 #endif /* _SIFIVE_PLATFORM_H */
