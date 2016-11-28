@@ -36,30 +36,7 @@
 #define SPI0_MMAP_ADDR _AC(0x20000000,UL)
 #define MEM_BASE_ADDR _AC(0x80000000,UL)
 
-#define IOF0_SPI1_MASK _AC(0x000007FC,UL)
-#define IOF0_UART0_MASK _AC(0x00030000,UL)
-#define IOF0_UART1_MASK _AC(0x03000000,UL)
-#define IOF0_SPI2_MASK _AC(0xFC000000,UL)
-#define IOF1_PWM0_MASK _AC(0x0000000F,UL)
-#define IOF1_PWM2_MASK _AC(0x00003C00,UL)
-#define IOF1_PWM1_MASK _AC(0x00780000,UL)
-
-#define INT_RESERVED 0
-#define INT_WDOGCMP 1
-#define INT_RTCCMP 2
-#define INT_UART0_BASE 3
-#define INT_UART1_BASE 4
-#define INT_SPI0_BASE 5
-#define INT_SPI1_BASE 6
-#define INT_SPI2_BASE 7
-#define INT_GPIO_BASE 8
-#define INT_PWM0_BASE 40
-#define INT_PWM1_BASE 44
-#define INT_PWM2_BASE 48
-
-#define PLIC_NUM_INTERRUPTS 52
-#define PLIC_NUM_PRIORITIES 7
-
+// IOF Mappings
 #define IOF0_SPI1_MASK          _AC(0x000007FC,UL)
 #define SPI11_NUM_SS     (4)
 #define IOF_SPI1_SS0          (2u)
@@ -85,8 +62,6 @@
 #define IOF_SPI2_DQ2          (30u)
 #define IOF_SPI2_DQ3          (31u)
 
-//#define IOF0_I2C_MASK          _AC(0x00003000,UL)
-
 #define IOF0_UART0_MASK         _AC(0x00030000, UL)
 #define IOF_UART0_RX   (16u)
 #define IOF_UART0_TX   (17u)
@@ -98,6 +73,23 @@
 #define IOF1_PWM0_MASK          _AC(0x0000000F, UL)
 #define IOF1_PWM1_MASK          _AC(0x00780000, UL)
 #define IOF1_PWM2_MASK          _AC(0x00003C00, UL)
+
+// Interrupt Numbers
+#define INT_RESERVED 0
+#define INT_WDOGCMP 1
+#define INT_RTCCMP 2
+#define INT_UART0_BASE 3
+#define INT_UART1_BASE 4
+#define INT_SPI0_BASE 5
+#define INT_SPI1_BASE 6
+#define INT_SPI2_BASE 7
+#define INT_GPIO_BASE 8
+#define INT_PWM0_BASE 40
+#define INT_PWM1_BASE 44
+#define INT_PWM2_BASE 48
+
+#define PLIC_NUM_INTERRUPTS 52
+#define PLIC_NUM_PRIORITIES 7
 
 #include "hifive1.h"
 
