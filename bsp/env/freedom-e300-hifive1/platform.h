@@ -99,10 +99,11 @@
 
 // Helper functions
 #define _REG32(p, i) (*(volatile uint32_t *) ((p) + (i)))
+#define _REG32P(p, i) ((volatile uint32_t *) ((p) + (i)))
 #define AON_REG(offset) _REG32(AON_BASE_ADDR, offset)
 #define CLINT_REG(offset) _REG32(CLINT_BASE_ADDR, offset)
 #define GPIO_REG(offset) _REG32(GPIO_BASE_ADDR, offset)
-#define OTP_REG(offset) _REG32(OTP_BASE_ADDR, offset)
+#define OTP_REG(offset)  _REG32(OTP_BASE_ADDR, offset)
 #define PLIC_REG(offset) _REG32(PLIC_BASE_ADDR, offset)
 #define PRCI_REG(offset) _REG32(PRCI_BASE_ADDR, offset)
 #define PWM0_REG(offset) _REG32(PWM0_BASE_ADDR, offset)
@@ -120,8 +121,6 @@
 
 #define PLIC_NUM_INTERRUPTS 52
 #define PLIC_NUM_PRIORITIES 7
-
-
 
 #include "hifive1.h"
 

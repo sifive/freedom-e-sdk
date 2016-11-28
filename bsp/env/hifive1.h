@@ -41,6 +41,24 @@
 #define PIN_18_OFFSET 12
 #define PIN_19_OFFSET 13
 
+// These are *PIN* numbers, not
+// GPIO Offset Numbers.
+#define PIN_SPI1_SCK    (13u)
+#define PIN_SPI1_MISO   (12u)
+#define PIN_SPI1_MOSI   (11u)
+#define PIN_SPI1_SS0    (10u)
+#define PIN_SPI1_SS1    (14u) 
+#define PIN_SPI1_SS2    (15u)
+#define PIN_SPI1_SS3    (16u)
+
+#define SS_PIN_TO_CS_ID(x) \
+  ((x==PIN_SPI1_SS0 ? 0 :		 \
+    (x==PIN_SPI1_SS1 ? 1 :		 \
+     (x==PIN_SPI1_SS2 ? 2 :		 \
+      (x==PIN_SPI1_SS3 ? 3 :		 \
+       -1))))) 
+
+
 // These buttons are present only on the Freedom E300 Arty Dev Kit.
 #ifdef HAS_BOARD_BUTTONS
 #define BUTTON_0_OFFSET 15
@@ -52,6 +70,11 @@
 #define INT_DEVICE_BUTTON_2 (INT_GPIO_BASE + BUTTON_0_OFFSET)
 
 #endif
+
+#define HAS_HFXOSC 1
+#define HAS_LFROSC_BYPASS 1
+
+
 
 void write_hex(int fd, uint32_t hex);
 

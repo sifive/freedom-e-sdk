@@ -57,6 +57,9 @@
 #define SPI_INSN_CMD_CODE(x)    (((x) & 0xff) << 16)
 #define SPI_INSN_PAD_CODE(x)    (((x) & 0xff) << 24)
 
+#define SPI_TXFIFO_FULL  (1 << 31)   
+#define SPI_RXFIFO_EMPTY (1 << 31)   
+
 /* Values */
 
 #define SPI_CSMODE_AUTO         0
@@ -72,5 +75,6 @@
 
 #define SPI_ENDIAN_MSB          0
 #define SPI_ENDIAN_LSB          1
+
 
 #endif /* _SIFIVE_SPI_H */

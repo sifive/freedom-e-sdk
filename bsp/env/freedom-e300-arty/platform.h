@@ -88,6 +88,28 @@
 #define INT_PWM1_BASE 44
 #define INT_PWM2_BASE 48
 
+// Helper functions
+#define _REG32(p, i) (*(volatile uint32_t *) ((p) + (i)))
+#define _REG32P(p, i) ((volatile uint32_t *) ((p) + (i)))
+#define AON_REG(offset) _REG32(AON_BASE_ADDR, offset)
+#define CLINT_REG(offset) _REG32(CLINT_BASE_ADDR, offset)
+#define GPIO_REG(offset) _REG32(GPIO_BASE_ADDR, offset)
+#define OTP_REG(offset)  _REG32(OTP_BASE_ADDR, offset)
+#define PLIC_REG(offset) _REG32(PLIC_BASE_ADDR, offset)
+#define PRCI_REG(offset) _REG32(PRCI_BASE_ADDR, offset)
+#define PWM0_REG(offset) _REG32(PWM0_BASE_ADDR, offset)
+#define PWM1_REG(offset) _REG32(PWM1_BASE_ADDR, offset)
+#define PWM2_REG(offset) _REG32(PWM2_BASE_ADDR, offset)
+#define SPI0_REG(offset) _REG32(SPI0_BASE_ADDR, offset)
+#define SPI1_REG(offset) _REG32(SPI1_BASE_ADDR, offset)
+#define SPI2_REG(offset) _REG32(SPI2_BASE_ADDR, offset)
+#define UART0_REG(offset) _REG32(UART0_BASE_ADDR, offset)
+#define UART1_REG(offset) _REG32(UART1_BASE_ADDR, offset)
+
+// Misc
+
+#include <stdint.h>
+  
 #define PLIC_NUM_INTERRUPTS 52
 #define PLIC_NUM_PRIORITIES 7
 
