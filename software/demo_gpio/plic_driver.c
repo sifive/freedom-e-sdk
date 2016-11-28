@@ -1,6 +1,8 @@
 // See LICENSE for license details.
 
-#include "plic.h"
+#include "sifive/devices/plic.h"
+#include "plic_driver.h"
+#include "platform.h"
 #include "encoding.h"
 #include <string.h>
 
@@ -8,20 +10,21 @@
 // Note that there are no assertions or bounds checking on these
 // parameter values.
 
-void volatile_memzero(uint8_t * base, unsigned int size){
-
+void volatile_memzero(uint8_t * base, unsigned int size)
+{
   volatile uint8_t * ptr;
   for (ptr = base; ptr < (base + size); ptr++){
     *ptr = 0;
   }
 }
-  
+
 void PLIC_init (
                 plic_instance_t * this_plic,
-                uintptr_t            base_addr,
+                uintptr_t         base_addr,
                 uint32_t num_sources,
                 uint32_t num_priorities
-                ){
+                )
+{
   
   this_plic->base_addr = base_addr;
   this_plic->num_sources = num_sources;
@@ -49,7 +52,8 @@ void PLIC_init (
   
 }
 
-void PLIC_set_threshold (plic_instance_t * this_plic, plic_threshold threshold){
+void PLIC_set_threshold (plic_instance_t * this_plic,
+			 plic_threshold threshold){
 
   unsigned long hart_id = read_csr(mhartid);  
   volatile plic_threshold* threshold_ptr = (plic_threshold*) (this_plic->base_addr +

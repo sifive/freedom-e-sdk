@@ -87,6 +87,9 @@
 
 #include <stdint.h>
 
+#define PLIC_NUM_INTERRUPTS 52
+#define PLIC_NUM_PRIORITIES 7
+
 #include "hifive1.h"
 
 uint32_t get_cpu_freq();

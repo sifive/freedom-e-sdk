@@ -41,10 +41,16 @@
 #define PIN_18_OFFSET 12
 #define PIN_19_OFFSET 13
 
+// These buttons are present only on the Freedom E300 Arty Dev Kit.
 #ifdef HAS_BOARD_BUTTONS
 #define BUTTON_0_OFFSET 15
 #define BUTTON_1_OFFSET 30
 #define BUTTON_2_OFFSET 31
+
+#define INT_DEVICE_BUTTON_0 (INT_GPIO_BASE + BUTTON_0_OFFSET)
+#define INT_DEVICE_BUTTON_1 (INT_GPIO_BASE + BUTTON_0_OFFSET)
+#define INT_DEVICE_BUTTON_2 (INT_GPIO_BASE + BUTTON_0_OFFSET)
+
 #endif
 
 void write_hex(int fd, uint32_t hex);
