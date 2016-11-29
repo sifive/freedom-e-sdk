@@ -59,8 +59,6 @@ void _init()
   printf("core freq at %d Hz\n", get_cpu_freq());
 
   write_csr(mtvec, &trap_entry);
-  
-  //  _exit(main(0, NULL));
 }
 
 

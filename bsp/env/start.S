@@ -47,5 +47,8 @@ _start:
 1:
 #endif
 
+	/* argc = argv = 0 */
+	li a0, 0
+	li a1, 0
 	call main
 	tail exit

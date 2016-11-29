@@ -188,8 +188,6 @@ void _init()
     write_csr(mstatus, MSTATUS_FS); // allow FPU instructions without trapping
     write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
   }
-
-  //_exit(main(0, NULL));
 }
 
 void _fini()
