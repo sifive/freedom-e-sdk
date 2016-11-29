@@ -6,7 +6,7 @@
 
 uint32_t cpu_freq = 0;
 
-extern int main();
+extern int main(int argc, char** argv);
 
 uint32_t mtime_lo(void)
 {
@@ -183,5 +183,5 @@ void _init()
 
   write_csr(mtvec, &handle_trap);
 
-  _exit(main());
+  _exit(main(0, NULL));
 }

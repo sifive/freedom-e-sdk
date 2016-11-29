@@ -4,7 +4,7 @@
 #include "platform.h"
 #include "encoding.h"
 
-extern int main();
+extern int main(int argc, char** argv);
 
 uint32_t get_cpu_freq()
 {
@@ -57,5 +57,5 @@ void _init()
 
   write_csr(mtvec, &handle_trap);
   
-  _exit(main());
+  _exit(main(0, NULL));
 }
