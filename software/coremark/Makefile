@@ -16,7 +16,7 @@ HEADERS := \
 
 CFLAGS := -Dscanf=dhry_scanf -Dee_printf=dhry_printf -O2 -fno-common -funroll-loops
 CFLAGS += -DFLAGS_STR=\""$(CFLAGS)"\"
-CFLAGS += -DITERATIONS=0 -DPERFORMANCE_RUN=1
+CFLAGS += -DITERATIONS=10000 -DPERFORMANCE_RUN=1
 
 BSP_BASE = ../../bsp
 include $(BSP_BASE)/env/common.mk

@@ -96,7 +96,7 @@ typedef size_t ee_size_t;
 	SEED_VOLATILE - from volatile variables.
 */
 #ifndef SEED_METHOD
-#define SEED_METHOD SEED_ARG
+#define SEED_METHOD SEED_VOLATILE
 #endif
 
 /* Configuration : MEM_METHOD
