@@ -1,8 +1,8 @@
 # See LICENSE for license details.
 
-PLATFORM ?= freedom-e300-hifive1
+BOARD ?= freedom-e300-hifive1
 ENV_DIR = $(BSP_BASE)/env
-PLATFORM_DIR = $(ENV_DIR)/$(PLATFORM)
+PLATFORM_DIR = $(ENV_DIR)/$(BOARD)
 
 ASM_SRCS += $(PLATFORM_DIR)/entry.S
 C_SRCS += $(PLATFORM_DIR)/init.c
@@ -24,6 +24,8 @@ ASM_OBJS := $(patsubst %.S,%.o,$(ASM_SRCS))
 C_OBJS := $(patsubst %.c,%.o,$(C_SRCS))
 
 LINK_OBJS += $(ASM_OBJS) $(C_OBJS)
+
+CFLAGS += -g
 
 $(TARGET): $(LINK_OBJS) $(LINKER_SCRIPT)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LINK_OBJS) -o $@ $(LDFLAGS)
