@@ -20,7 +20,6 @@ void no_interrupt_handler (void) {};
 
 function_ptr_t g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS];
 
-function_ptr_t g_m_timer_interrupt_handler = no_interrupt_handler;
 
 // Instance data for the PLIC.
 
@@ -30,6 +29,7 @@ plic_instance_t g_plic;
 volatile unsigned int* g_output_vals  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_VAL);
 volatile unsigned int* g_input_vals   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_VAL);
 volatile unsigned int* g_output_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_EN);
+volatile unsigned int* g_pullup_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_PULLUP_EN);
 volatile unsigned int* g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_EN);
 
 /*Entry Point for PLIC Interrupt Handler*/
@@ -71,11 +71,6 @@ void handle_m_time_interrupt(){
   
 }
 
-
-/*Entry Point for Machine Timer Interrupt  Handler*/
-void handle_m_timer_interrupt(){
-  g_m_timer_interrupt_handler();
-}
 
 const char * instructions_msg = " \
 \n\
@@ -134,13 +129,13 @@ void reset_demo (){
     g_ext_interrupt_handlers[ii] = no_interrupt_handler;
   }
 
-#if HAS_BOARD_BUTTONS
+#ifdef HAS_BOARD_BUTTONS
   g_ext_interrupt_handlers[INT_DEVICE_BUTTON_0] = button_0_handler;
 #endif
   
   print_instructions();
 
-#if HAS_BOARD_BUTTONS  
+#ifdef HAS_BOARD_BUTTONS
   PLIC_enable_interrupt (&g_plic, INT_DEVICE_BUTTON_0);
 #endif
   
@@ -167,7 +162,7 @@ int main(int argc, char **argv)
   // Set up the GPIOs such that the LED GPIO
   // can be used as both Inputs and Outputs.
 
-#ifdef HAS_ONBOARD_BUTTONS
+#ifdef HAS_BOARD_BUTTONS
   * g_output_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
   * g_pullup_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
   * g_input_en   |= ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
@@ -175,6 +170,8 @@ int main(int argc, char **argv)
   
   * g_input_en  &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
   * g_output_en  |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  * g_output_vals|= (0x1 << BLUE_LED_OFFSET) ;
+  * g_output_vals &=  ~((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET)) ;
 
   /**************************************************************************
    * Set up the PLIC

@@ -113,6 +113,7 @@
 #define PLIC_NUM_INTERRUPTS 52
 #define PLIC_NUM_PRIORITIES 7
 
+#define HAS_BOARD_BUTTONS
 #include "hifive1.h"
 
 #endif /* _SIFIVE_PLATFORM_H */

@@ -107,7 +107,7 @@ dasm: software
 #############################################################
 # This Section is for uploading a program to SPI Flash
 #############################################################
-OPENOCD_UPLOAD = $(srcdir)/tools/openocd_upload.sh
+OPENOCD_UPLOAD = $(srcdir)/bsp/tools/openocd_upload.sh
 OPENOCDCFG ?= $(srcdir)/bsp/env/$(BOARD)/openocd.cfg
 
 upload:
