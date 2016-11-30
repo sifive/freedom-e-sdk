@@ -17,23 +17,22 @@ help :
 	@echo " tools:"
 	@echo "    Install compilation & debugging tools"
 	@echo ""
-	@echo " software [PROGRAM=demo_gpio PLATFORM=freedom-e300]:"
+	@echo " software [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
 	@echo ""
-	@echo " run_debug [PROGRAM=demo_gpio PLATFORM=freedom-e300]:"
+	@echo " run_debug [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
 	@echo "    Launch OpenOCD & GDB to load or debug "
 	@echo "    running programs."
+	@echo "" 
+	@echo " upload [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
+	@echo "    Launch OpenOCD to flash your program to the"
+	@echo "    on-board Flash"
 	@echo ""
-	@echo " run_openocd [PLATFORM=freedom-e300]:"
-	@echo " run_gdb     [PROGRAM=demo_gpio PLATFORM=freedom-e300]:"
-	@echo "     Launch OpenOCD & GDB seperately"
-	@echo ""
-	@echo " fpga [BOOTROM=demo]:"
-	@echo "    Rebuild the image (including Boot SW) to"
-	@echo "	   reprogram the FPGA image for Arty Board. "
-	@echo ""
-
+	@echo " run_openocd [BOARD=freedom-e300-arty]:"
+	@echo " run_gdb     [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
+	@echo "     Launch OpenOCD or GDB seperately"
+	@echo "" 
 	@echo " For more information, visit dev.sifive.com"
 
 
@@ -43,14 +42,12 @@ help :
 
 toolchain_srcdir := $(srcdir)/riscv-gnu-toolchain
 toolchain32_wrkdir := $(wrkdir)/riscv32-gnu-toolchain
-toolchain64_wrkdir := $(wrkdir)/riscv64-gnu-toolchain
 toolchain_dest := $(CURDIR)/toolchain
 
 openocd_srcdir := $(srcdir)/openocd
 openocd_wrkdir := $(wrkdir)/openocd
 openocd_dest := $(CURDIR)/toolchain
 
-target64 := riscv64-unknown-linux-gnu
 target32 := riscv32-unknown-linux-gnu
 
 
@@ -58,17 +55,11 @@ target32 := riscv32-unknown-linux-gnu
 all: tools
 	@echo All done.
 
-tools: tools64 tools32 openocd
+tools: tools32 openocd
 	@echo All Tools Installed
 
-tools64: $(toolchain_dest)/bin/$(target64)-gcc
 tools32: $(toolchain_dest)/bin/$(target32)-gcc
 openocd: $(openocd_dest)/bin/openocd
-
-$(toolchain_dest)/bin/$(target64)-gcc: $(toolchain_srcdir)
-	mkdir -p $(toolchain64_wrkdir)
-	cd $(toolchain64_wrkdir); $(toolchain_srcdir)/configure --prefix=$(toolchain_dest) 
-	$(MAKE) -C $(toolchain64_wrkdir)
 
 $(toolchain_dest)/bin/$(target32)-gcc: $(toolchain_srcdir)
 	mkdir -p $(toolchain32_wrkdir)
@@ -89,27 +80,12 @@ uninstall:
 	rm -rf -- $(toolchain_dest)
 
 #############################################################
-# This Section is for MCS File Generation (
+# This Section is for Software Compilation
 #############################################################
-
-BOOTROM ?= demo
-BOOTROM_DIR = $(srcdir)/bootrom/$(BOOTROM)/
-
-.PHONY:
-fpga:
-	cd $(BOOTROM_DIR);\
-	make mcs
-
-fpga_clean:
-	cd $(BOOTROM_DIR);\
-	make clean
-
-#############################################################
-# This Section is for Software (non-boot) compilation
-#############################################################
-
-PROGRAM ?= demo_gpio
+BOARD ?= freedom-e300-arty
+PROGRAM  ?= demo_gpio
 PROGRAM_DIR = $(srcdir)/software/$(PROGRAM)
+PROGRAM_ELF = $(srcdir)/software/$(PROGRAM)/$(PROGRAM)
 
 .PHONY: software
 software:
@@ -120,14 +96,27 @@ software_clean:
 	cd $(PROGRAM_DIR);\
 	make clean
 
+dasm: software	
+	cd $(PROGRAM_DIR); \
+	$(toolchain_dest)/bin/riscv32-unknown-elf-objdump -D $(PROGRAM_ELF)
+
+#############################################################
+# This Section is for uploading a program to SPI Flash
+#############################################################
+OPENOCD_UPLOAD = $(srcdir)/bsp/tools/openocd_upload.sh
+OPENOCDCFG ?= $(srcdir)/bsp/env/$(BOARD)/openocd.cfg
+
+upload:
+	$(OPENOCD_UPLOAD) $(PROGRAM_ELF) $(OPENOCDCFG)
+
 #############################################################
 # This Section is for launching the debugger
 #############################################################
-OPENOCD     = $(toolchain_dest)/bin/openocd
-PLATFORM      ?= freedom-e300
-OPENOCDARGS += -f $(srcdir)/riscv-tests/debug/targets/$(PLATFORM)/openocd.cfg
 
-GDB     = $(toolchain_dest)/bin/riscv64-unknown-elf-gdb
+OPENOCD     = $(toolchain_dest)/bin/openocd
+OPENOCDARGS += -f $(OPENOCDCFG)
+
+GDB     = $(toolchain_dest)/bin/riscv32-unknown-elf-gdb
 GDBCMDS += -ex "target extended-remote localhost:3333"
 GDBARGS =
 
