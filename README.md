@@ -18,7 +18,7 @@ git clone --recursive http://github.com/sifive/freedom-e-sdk.git
 
 Ubuntu packages needed:
 
-	$ sudo apt-get install autoconf automake libmpc-dev libmpfr-dev libgmp-dev gawk bison flex texinfo libtool libusb-1.0-0-dev make g++ pkg-config
+	$ sudo apt-get install autoconf automake libmpc-dev libmpfr-dev libgmp-dev gawk bison flex texinfo libtool libusb-1.0-0-dev make g++ pkg-config libexpat1-dev
 
 Next, build the tools:
 
