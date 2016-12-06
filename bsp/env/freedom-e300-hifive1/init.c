@@ -182,6 +182,7 @@ void _init()
   printf("core freq at %d Hz\n", get_cpu_freq());
 
   write_csr(mtvec, &handle_trap);
+  write_csr(mstatus, MSTATUS_FS); // enable FPU
 
   _exit(main(0, NULL));
 }
