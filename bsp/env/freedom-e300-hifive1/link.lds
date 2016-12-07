@@ -46,24 +46,14 @@ SECTIONS
     *(.gnu.linkonce.r.*)
   } >flash AT>flash :flash
 
-  .lalign         :
-  {
-    . = ALIGN(4);
-    PROVIDE( _data_lma = . );
-  } >flash AT>flash :flash
-
-  .dalign         :
-  {
-    . = ALIGN(4);
-    PROVIDE( _data = . );
-  } >ram AT>flash :ram_init
+  . = ALIGN(4);
 
   .preinit_array  :
   {
     PROVIDE_HIDDEN (__preinit_array_start = .);
     KEEP (*(.preinit_array))
     PROVIDE_HIDDEN (__preinit_array_end = .);
-  } >ram AT>flash :ram_init
+  } >flash AT>flash :flash
 
   .init_array     :
   {
@@ -71,7 +61,7 @@ SECTIONS
     KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
     KEEP (*(.init_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))
     PROVIDE_HIDDEN (__init_array_end = .);
-  } >ram AT>flash :ram_init
+  } >flash AT>flash :flash
 
   .fini_array     :
   {
@@ -79,7 +69,7 @@ SECTIONS
     KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
     KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
     PROVIDE_HIDDEN (__fini_array_end = .);
-  } >ram AT>flash :ram_init
+  } >flash AT>flash :flash
 
   .ctors          :
   {
@@ -101,7 +91,7 @@ SECTIONS
     KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))
     KEEP (*(SORT(.ctors.*)))
     KEEP (*(.ctors))
-  } >ram AT>flash :ram_init
+  } >flash AT>flash :flash
 
   .dtors          :
   {
@@ -110,6 +100,18 @@ SECTIONS
     KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .dtors))
     KEEP (*(SORT(.dtors.*)))
     KEEP (*(.dtors))
+  } >flash AT>flash :flash
+
+  .lalign         :
+  {
+    . = ALIGN(4);
+    PROVIDE( _data_lma = . );
+  } >flash AT>flash :flash
+
+  .dalign         :
+  {
+    . = ALIGN(4);
+    PROVIDE( _data = . );
   } >ram AT>flash :ram_init
 
   .data          :
