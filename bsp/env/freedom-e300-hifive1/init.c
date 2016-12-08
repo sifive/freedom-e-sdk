@@ -182,6 +182,10 @@ void _init()
   printf("core freq at %d Hz\n", get_cpu_freq());
 
   write_csr(mtvec, &handle_trap);
+  if (read_csr(misa) & (1 << ('F' - 'A'))) { // if F extension is present
+    write_csr(mstatus, MSTATUS_FS); // allow FPU instructions without trapping
+    write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
+  }
 
   _exit(main(0, NULL));
 }
