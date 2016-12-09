@@ -5,6 +5,7 @@
 #include "encoding.h"
 
 extern int main(int argc, char** argv);
+extern void trap_entry();
 
 uint32_t get_cpu_freq()
 {
@@ -55,7 +56,7 @@ void _init()
 
   printf("core freq at %d Hz\n", get_cpu_freq());
 
-  write_csr(mtvec, &handle_trap);
+  write_csr(mtvec, &trap_entry);
   
   _exit(main(0, NULL));
 }
