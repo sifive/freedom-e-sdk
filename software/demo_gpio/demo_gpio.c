@@ -35,7 +35,7 @@ volatile unsigned int* g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_
 /*Entry Point for PLIC Interrupt Handler*/
 void handle_m_ext_interrupt(){
   plic_source int_num  = PLIC_claim_interrupt(&g_plic);
-  if ((int_num >=1 ) && (int_num <= 8)) {
+  if ((int_num >=1 ) && (int_num < PLIC_NUM_INTERRUPTS)) {
     g_ext_interrupt_handlers[int_num]();
   }
   else {
@@ -56,7 +56,7 @@ void handle_m_time_interrupt(){
   volatile uint64_t * mtime       = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
   volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIMECMP);
   uint64_t now = *mtime;
-  uint64_t then = now + 3 * RTC_FREQUENCY;
+  uint64_t then = now + 1.5 * RTC_FREQUENCY;
   *mtimecmp = then;
  
   // read the current value of the LEDS and invert them.
@@ -98,8 +98,10 @@ const char * instructions_msg = " \
                    55555\n\
                      5\n\
 \n\
- SiFive E-Series Coreplex Demo on Arty Board\n \
- \n\
+SiFive E-Series Software Development Kit 'demo_gpio' program.\n\
+Every 1.5 second, the Timer Interrupt will invert the LEDs.\n\
+(Arty Dev Kit Only): Press Buttons 0, 1, 2 to Set the LEDs.\n\
+\n\
  ";
 
 void print_instructions() {
@@ -110,11 +112,32 @@ void print_instructions() {
 
 void button_0_handler(void) {
 
-  // All LEDS on
-  * g_output_vals = (0x1 << RED_LED_OFFSET) |
-                    (0x1 << GREEN_LED_OFFSET) |
-                    (0x1 << BLUE_LED_OFFSET);
+  // Red LED on
+  * g_output_vals |= (0x1 << RED_LED_OFFSET);
+		     
+  // Clear the GPIO Pending interrupt by writing 1.
 
+  GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_0_OFFSET);
+
+};
+
+void button_1_handler(void) {
+
+  // Green LED On
+  * g_output_vals |= (1 << GREEN_LED_OFFSET);
+
+  GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_1_OFFSET);
+  
+};
+
+ 
+void button_2_handler(void) {
+
+  // Blue LED On
+  * g_output_vals |= (1 << BLUE_LED_OFFSET);
+
+  GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_2_OFFSET);
+  
 };
 
 
@@ -131,12 +154,29 @@ void reset_demo (){
 
 #ifdef HAS_BOARD_BUTTONS
   g_ext_interrupt_handlers[INT_DEVICE_BUTTON_0] = button_0_handler;
+  g_ext_interrupt_handlers[INT_DEVICE_BUTTON_1] = button_1_handler;
+  g_ext_interrupt_handlers[INT_DEVICE_BUTTON_2] = button_2_handler;
 #endif
   
   print_instructions();
 
 #ifdef HAS_BOARD_BUTTONS
+
+  // Have to enable the interrupt both at the GPIO level,
+  // and at the PLIC level.
   PLIC_enable_interrupt (&g_plic, INT_DEVICE_BUTTON_0);
+  PLIC_enable_interrupt (&g_plic, INT_DEVICE_BUTTON_1);
+  PLIC_enable_interrupt (&g_plic, INT_DEVICE_BUTTON_2);
+
+  // Priority must be set > 0 to trigger the interrupt.
+  PLIC_set_priority(&g_plic, INT_DEVICE_BUTTON_0, 1);
+  PLIC_set_priority(&g_plic, INT_DEVICE_BUTTON_1, 1);
+  PLIC_set_priority(&g_plic, INT_DEVICE_BUTTON_2, 1);
+  
+  GPIO_REG(GPIO_RISE_IE) |= (1 << BUTTON_0_OFFSET);
+  GPIO_REG(GPIO_RISE_IE) |= (1 << BUTTON_1_OFFSET);
+  GPIO_REG(GPIO_RISE_IE) |= (1 << BUTTON_2_OFFSET);
+  
 #endif
   
     // Set the machine timer to go off in 3 seconds.
@@ -144,7 +184,7 @@ void reset_demo (){
     volatile uint64_t * mtime       = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
     volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIMECMP);
     uint64_t now = *mtime;
-    uint64_t then = now + 3*RTC_FREQUENCY;
+    uint64_t then = now + 1.5*RTC_FREQUENCY;
     *mtimecmp = then;
     
     // Enable the Machine-External bit in MIE
@@ -163,15 +203,15 @@ int main(int argc, char **argv)
   // can be used as both Inputs and Outputs.
 
 #ifdef HAS_BOARD_BUTTONS
-  * g_output_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
-  * g_pullup_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
-  * g_input_en   |= ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x2 << BUTTON_2_OFFSET));
+  * g_output_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  * g_pullup_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  * g_input_en   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
 #endif
   
-  * g_input_en  &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-  * g_output_en  |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-  * g_output_vals|= (0x1 << BLUE_LED_OFFSET) ;
-  * g_output_vals &=  ~((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET)) ;
+  * g_input_en    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  * g_output_en   |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  * g_output_vals |=   (0x1 << BLUE_LED_OFFSET) ;
+  * g_output_vals &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
 
   /**************************************************************************
    * Set up the PLIC
