@@ -4,6 +4,7 @@ BOARD ?= freedom-e300-hifive1
 ENV_DIR = $(BSP_BASE)/env
 PLATFORM_DIR = $(ENV_DIR)/$(BOARD)
 
+ASM_SRCS += $(PLATFORM_DIR)/start.S
 ASM_SRCS += $(PLATFORM_DIR)/entry.S
 C_SRCS += $(PLATFORM_DIR)/init.c
 C_SRCS += $(ENV_DIR)/syscall.c

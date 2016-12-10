@@ -7,6 +7,7 @@
 uint32_t cpu_freq = 0;
 
 extern int main(int argc, char** argv);
+extern void trap_entry();
 
 uint32_t mtime_lo(void)
 {
@@ -181,7 +182,7 @@ void _init()
 
   printf("core freq at %d Hz\n", get_cpu_freq());
 
-  write_csr(mtvec, &handle_trap);
+  write_csr(mtvec, &trap_entry);
   if (read_csr(misa) & (1 << ('F' - 'A'))) { // if F extension is present
     write_csr(mstatus, MSTATUS_FS); // allow FPU instructions without trapping
     write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
