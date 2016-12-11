@@ -6,7 +6,8 @@ This repository, maintained by SiFive, Inc, makes it easy to get started develop
 
 * RISC-V Software Toolchain 
 * RISC-V Debugging Toolchain
-* FPGA Toolchain Commands (Specific to the Freedom E300 Arty Development Kit).
+* Board Support Packages for FE310 and Development Kits
+* A Few Example Programs
 
 ### Setting up the SDK ###
 
