@@ -109,7 +109,10 @@
 // Misc
 
 #include <stdint.h>
-  
+
+
+#define NUM_GPIO 32
+
 #define PLIC_NUM_INTERRUPTS 52
 #define PLIC_NUM_PRIORITIES 7
 

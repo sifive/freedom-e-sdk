@@ -1,3 +1,4 @@
+// See LICENSE for License Details
 #ifndef ENTRY_S
 #define ENTRY_S
 
