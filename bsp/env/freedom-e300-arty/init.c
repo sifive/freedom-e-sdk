@@ -1,3 +1,4 @@
+//See LICENSE for license details.
 #include <stdint.h>
 #include <unistd.h>
 
