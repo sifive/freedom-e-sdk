@@ -246,7 +246,7 @@ static void vprintfmt(void (*putch)(int, void**), void **putdat, const char *fmt
   }
 }
 
-int printf(const char* fmt, ...)
+int __wrap_printf(const char* fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
@@ -257,7 +257,7 @@ int printf(const char* fmt, ...)
   return 0; // incorrect return value, but who cares, anyway?
 }
 
-int sprintf(char* str, const char* fmt, ...)
+int __wrap_sprintf(char* str, const char* fmt, ...)
 {
   va_list ap;
   char* str0 = str;

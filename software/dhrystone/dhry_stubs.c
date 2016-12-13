@@ -12,20 +12,7 @@ long time(void)
 }
 
 // set the number of dhrystone iterations
-void scanf(const char* fmt, int* n)
+void __wrap_scanf(const char* fmt, int* n)
 {
   *n = 1500000;
 }
-
-// simple memory allocator
-void* malloc(unsigned long sz)
-{
-  extern void* sbrk(long);
-  void* res = sbrk(sz);
-  if ((long)res == -1)
-    return 0;
-  return res;
-}
-
-// simple memory deallocator
-void free(void* ptr) {}
