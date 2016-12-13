@@ -188,5 +188,9 @@ void _init()
     write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
   }
 
-  _exit(main(0, NULL));
+  //_exit(main(0, NULL));
+}
+
+void _fini()
+{
 }

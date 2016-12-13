@@ -49,10 +49,3 @@ _start:
 
 	call main
 	tail exit
-
-	/* init_array/fini_array are used instead */
-	.globl _init
-	.globl _fini
-_init:
-_fini:
-	ret
