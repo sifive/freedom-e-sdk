@@ -63,7 +63,7 @@ openocd: $(openocd_dest)/bin/openocd
 
 $(toolchain_dest)/bin/$(target32)-gcc: $(toolchain_srcdir)
 	mkdir -p $(toolchain32_wrkdir)
-	cd $(toolchain32_wrkdir); $(toolchain_srcdir)/configure --prefix=$(toolchain_dest) --with-arch=RV32IMA
+	cd $(toolchain32_wrkdir); $(toolchain_srcdir)/configure --prefix=$(toolchain_dest) --with-arch=rv32ima --with-abi=ilp32
 	$(MAKE) -C $(toolchain32_wrkdir)
 
 $(openocd_dest)/bin/openocd: $(openocd_srcdir)
