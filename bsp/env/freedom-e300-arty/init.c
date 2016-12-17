@@ -60,5 +60,10 @@ void _init()
 
   write_csr(mtvec, &trap_entry);
   
-  _exit(main(0, NULL));
+  //  _exit(main(0, NULL));
+}
+
+
+void _fini()
+{
 }
