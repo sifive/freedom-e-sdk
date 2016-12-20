@@ -1,6 +1,3 @@
-RISCV ?= $(CURDIR)/toolchain
-PATH := $(RISCV)/bin:$(PATH)
-
 srcdir := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 srcdir := $(srcdir:/=)
 wrkdir := $(CURDIR)/work
@@ -43,6 +40,7 @@ help :
 toolchain_srcdir := $(srcdir)/riscv-gnu-toolchain
 toolchain32_wrkdir := $(wrkdir)/riscv32-gnu-toolchain
 toolchain_dest := $(CURDIR)/toolchain
+PATH := $(toolchain_dest)/bin:$(PATH)
 
 openocd_srcdir := $(srcdir)/openocd
 openocd_wrkdir := $(wrkdir)/openocd
