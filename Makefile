@@ -2,6 +2,9 @@ srcdir := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 srcdir := $(srcdir:/=)
 wrkdir := $(CURDIR)/work
 
+DEFAULT_BOARD := freedom-e300-hifive1
+DEFAULT_PROGRAM := demo_gpio
+
 #############################################################
 # Prints help message
 #############################################################
@@ -14,20 +17,20 @@ help :
 	@echo " tools:"
 	@echo "    Install compilation & debugging tools"
 	@echo ""
-	@echo " software [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
+	@echo " software [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
 	@echo ""
-	@echo " run_debug [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
+	@echo " run_debug [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "    Launch OpenOCD & GDB to load or debug "
 	@echo "    running programs."
 	@echo "" 
-	@echo " upload [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
+	@echo " upload [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
 	@echo "    on-board Flash"
 	@echo ""
-	@echo " run_openocd [BOARD=freedom-e300-arty]:"
-	@echo " run_gdb     [PROGRAM=demo_gpio BOARD=freedom-e300-arty]:"
+	@echo " run_openocd [BOARD=$(DEFAULT_BOARD)]:"
+	@echo " run_gdb     [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "     Launch OpenOCD or GDB seperately"
 	@echo "" 
 	@echo " For more information, visit dev.sifive.com"
@@ -80,8 +83,8 @@ uninstall:
 #############################################################
 # This Section is for Software Compilation
 #############################################################
-BOARD ?= freedom-e300-arty
-PROGRAM  ?= demo_gpio
+BOARD ?= $(DEFAULT_BOARD)
+PROGRAM ?= $(DEFAULT_PROGRAM)
 PROGRAM_DIR = $(srcdir)/software/$(PROGRAM)
 PROGRAM_ELF = $(srcdir)/software/$(PROGRAM)/$(PROGRAM)
 
