@@ -90,15 +90,12 @@ PROGRAM_ELF = $(srcdir)/software/$(PROGRAM)/$(PROGRAM)
 
 .PHONY: software
 software:
-	cd $(PROGRAM_DIR);\
-	make
+	$(MAKE) -C $(PROGRAM_DIR)
 
 software_clean:
-	cd $(PROGRAM_DIR);\
-	make clean
+	$(MAKE) -C $(PROGRAM_DIR) clean
 
 dasm: software	
-	cd $(PROGRAM_DIR); \
 	$(toolchain_dest)/bin/riscv32-unknown-elf-objdump -D $(PROGRAM_ELF)
 
 #############################################################
