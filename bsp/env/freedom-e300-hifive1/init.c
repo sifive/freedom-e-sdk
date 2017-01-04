@@ -5,8 +5,6 @@
 #include "platform.h"
 #include "encoding.h"
 
-uint32_t cpu_freq = 0;
-
 extern int main(int argc, char** argv);
 extern void trap_entry();
 
@@ -116,21 +114,40 @@ static void use_default_clocks()
   use_hfrosc(4, 16);
 }
 
-void measure_cpu_freq(size_t n, size_t mtime_freq)
+static unsigned long __attribute__((noinline)) measure_cpu_freq(size_t n)
 {
-  uint32_t start_mtime = mtime_lo();
-  uint32_t start_mcycle = mcycle_lo();
+  unsigned long start_mtime, delta_mtime;
+  unsigned long mtime_freq = get_timer_freq();
 
-  while (mtime_lo() - start_mtime < n) ;
+  // Don't start measuruing until we see an mtime tick
+  unsigned long tmp = mtime_lo();
+  do {
+    start_mtime = mtime_lo();
+  } while (start_mtime == tmp);
 
-  uint32_t end_mtime = mtime_lo();
-  uint32_t end_mcycle = mcycle_lo();
+  unsigned long start_mcycle = read_csr(mcycle);
 
-  cpu_freq = (end_mcycle-start_mcycle)/n*mtime_freq;
+  do {
+    delta_mtime = mtime_lo() - start_mtime;
+  } while (delta_mtime < n);
+
+  unsigned long delta_mcycle = read_csr(mcycle) - start_mcycle;
+
+  return (delta_mcycle / delta_mtime) * mtime_freq
+         + ((delta_mcycle % delta_mtime) * mtime_freq) / delta_mtime;
 }
 
-uint32_t get_cpu_freq()
+unsigned long get_cpu_freq()
 {
+  static uint32_t cpu_freq;
+
+  if (!cpu_freq) {
+    // warm up I$
+    measure_cpu_freq(1);
+    // measure for real
+    cpu_freq = measure_cpu_freq(10);
+  }
+
   return cpu_freq;
 }
 
@@ -178,7 +195,6 @@ void _init()
 {
   use_default_clocks();
   use_pll(0, 0, 1, 31, 1);
-  measure_cpu_freq(1000, 32768);
   uart_init(115200);
 
   printf("core freq at %d Hz\n", get_cpu_freq());
