@@ -8,16 +8,40 @@
 extern int main(int argc, char** argv);
 extern void trap_entry();
 
-uint32_t mtime_lo(void)
+static unsigned long mtime_lo(void)
 {
-  return *(volatile uint32_t *)(CLINT_BASE_ADDR + CLINT_MTIME);
+  return *(volatile unsigned long *)(CLINT_BASE_ADDR + CLINT_MTIME);
 }
 
-uint32_t mcycle_lo(void)
+#ifdef __riscv32
+
+static uint32_t mtime_hi(void)
 {
-  uint32_t t;
-  asm volatile ("csrr %0, mcycle" : "=r" (t));
-  return t;
+  return *(volatile uint32_t *)(CLINT_BASE_ADDR + CLINT_MTIME + 4);
+}
+
+uint64_t get_timer_value()
+{
+  while (1) {
+    uint32_t hi = mtime_hi();
+    uint32_t lo = mtime_lo();
+    if (hi == mtime_hi())
+      return ((uint64_t)hi << 32) | lo;
+  }
+}
+
+#else /* __riscv32 */
+
+uint64_t get_timer_value()
+{
+  return mtime_lo();
+}
+
+#endif
+
+unsigned long get_timer_freq()
+{
+  return 32768;
 }
 
 static void use_hfrosc(int div, int trim)

@@ -119,4 +119,7 @@
 #define HAS_BOARD_BUTTONS
 #include "hifive1.h"
 
+unsigned long get_timer_freq(void);
+uint64_t get_timer_value(void);
+
 #endif /* _SIFIVE_PLATFORM_H */
