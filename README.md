@@ -14,7 +14,7 @@ This repository, maintained by SiFive, Inc, makes it easy to get started develop
 First, clone this repository:
 
 ```
-git clone --recursive http://github.com/sifive/freedom-e-sdk.git
+git clone --recursive https://github.com/sifive/freedom-e-sdk.git
 ```
 
 Ubuntu packages needed:
@@ -25,7 +25,7 @@ Next, build the tools:
 
 ```
 cd freedom-e-sdk
-make tools
+make -j $(nproc) tools
 ```
 
 To compile a bare-metal RISC-V program:
@@ -93,4 +93,4 @@ to download and run the benchmark on the HiFive1 board:
 
 Documentation, Forums, and much more available at
 
-[dev.sifive.com](http://dev.sifive.com)
+[dev.sifive.com](https://dev.sifive.com)
