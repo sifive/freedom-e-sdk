@@ -5,7 +5,7 @@ C_SRCS := dhry_stubs.c dhry_printf.c
 HEADERS := dhry.h
 
 DHRY_SRCS := dhry_1.c dhry_2.c
-DHRY_CFLAGS := -O2 -DTIME -fno-inline -fno-builtin-printf -Wno-implicit
+DHRY_CFLAGS := -O2 -DTIME -fno-inline -fno-builtin-printf -Wno-implicit -march=rv32ima
 
 XLEN ?= 32
 CFLAGS := -Os -fno-common

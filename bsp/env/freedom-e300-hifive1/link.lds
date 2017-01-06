@@ -26,6 +26,8 @@ SECTIONS
 
   .text           :
   {
+    *(.text.unlikely .text.unlikely.*)
+    *(.text.startup .text.startup.*)
     *(.text .text.*)
     *(.gnu.linkonce.t.*)
   } >flash AT>flash :flash

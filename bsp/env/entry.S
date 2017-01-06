@@ -7,6 +7,7 @@
 #include "sifive/bits.h"
 
   .section      .text.entry	
+  .align 2
   .global trap_entry
 trap_entry:
   addi sp, sp, -32*REGBYTES
@@ -46,7 +47,7 @@ trap_entry:
   csrr a0, mcause
   csrr a1, mepc
   mv a2, sp
-  jal handle_trap
+  call handle_trap
   csrw mepc, a0
 
   # Remain in M-mode after mret
@@ -90,6 +91,7 @@ trap_entry:
 
 .weak handle_trap
 handle_trap:
-  j handle_trap
+1:
+  j 1b
 	
 #endif
