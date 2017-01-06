@@ -67,8 +67,7 @@ void UART_set_baud(unsigned long baud)
  */
 void UART_set_stop_bits(int stop_bits)
 {
-  // TODO: mask this correctly
-  UART0_REG(UART_REG_TXCTRL)  &= ((stop_bits ? 1 : 0) << 1);
+  UART0_REG(UART_REG_TXCTRL)  &= (((stop_bits ? 1 : 0) << 1) & 0xFFFFFFFF);
 }
 
 /* Outputs a character on the UART device. If blocking is
