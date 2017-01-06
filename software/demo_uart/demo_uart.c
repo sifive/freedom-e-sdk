@@ -59,7 +59,7 @@ void start_demo()
   set_csr(mstatus, MSTATUS_MIE);
 
   /* Set up 9600 baud with 1 stop bit */
-  UART_init(115200, 0);
+  UART_init(9600, 0);
 }
 
 int main()
