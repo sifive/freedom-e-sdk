@@ -13,7 +13,7 @@
 #include "UART_driver.h"
 
 #define RTC_FREQUENCY 32768
-const char * msg = "Hello, SiFive! Keep up the great work.\n";
+const char * msg = "Hello, SiFive! Keep up the great work.\n\r";
 
 void handle_m_time_interrupt()
 {

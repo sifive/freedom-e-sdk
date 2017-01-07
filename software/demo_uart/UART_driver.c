@@ -80,7 +80,7 @@ void UART_set_stop_bits(int stop_bits)
  */
 int UART_put_char(char ch, int blocking)
 {
-  volatile uint32_t *val = UART0_REG(UART_REG_TXFIFO);
+  volatile uint32_t *val = &UART0_REG(UART_REG_TXFIFO);
   uint32_t busy = (*val) & 0x80000000;
   if (blocking) {
     while (*val & 0x80000000);
