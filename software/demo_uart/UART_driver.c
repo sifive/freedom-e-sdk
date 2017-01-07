@@ -25,7 +25,7 @@ void UART_init(unsigned long baud, int stop_bits) {
 
   /* Set remaining UART attributes */
   UART_set_baud(baud);
-  // TODO: set stop bit
+  UART_set_stop_bits(stop_bits);
 
   /* Enable TX and RX by writing to the enable bits
    * of their respective controller registers
@@ -93,12 +93,32 @@ int UART_put_char(char ch, int blocking)
 
 int UART_get_char(char * ch, int blocking)
 {
-  char c;
   int busy;
 
-  // TODO: finish this function
+  do {
+    UART_probe_rx();
+    busy = (rxbuf_head == rxbuf_tail);
+  } while (blocking && busy);
 
+  if (busy) {
+    return -1;
+  }
+
+  *ch = rxbuf[rxbuf_tail++];
+  rxbuf_tail &= UART_RXBUF_MASK;
   return 0;
+}
+
+int UART_probe_rx()
+{
+  int32_t c;
+
+  if ((c = UART0_REG(UART_REG_RXFIFO)) >= 0) {
+    rxbuf[rxbuf_head++] = (char)c;
+    rxbuf_head &= UART_RXBUF_MASK;
+    return 0;
+  }
+  return -1;
 }
 
 /* Writes a string to the UART.
@@ -140,7 +160,7 @@ int UART_read_n(char * buffer, int max_chars, char terminator, int blocking)
     if (0 != UART_get_char(&buffer[i], blocking)) {
         break;
     }
-    if ((buffer[i] == terminator) || (buffer[i] == NULL)) {
+    if ((buffer[i] == terminator) || (buffer[i] == 0)) {
       break;
     }
   }
