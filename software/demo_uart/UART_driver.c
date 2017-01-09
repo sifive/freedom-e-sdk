@@ -91,6 +91,13 @@ int UART_put_char(char ch, int blocking)
   return 0;
 }
 
+/* Retrieves a single character from the UART receive buffer.
+ *
+ * ch: pointer to a destination char to put the read character into.
+ * blocking: whether the function should block until success.
+ *
+ * Returns 0 on success.
+ */
 int UART_get_char(char * ch, int blocking)
 {
   int busy;
@@ -109,6 +116,11 @@ int UART_get_char(char * ch, int blocking)
   return 0;
 }
 
+/* Checks whether a byte is pending in UART receive buffer and 
+ * pops it if present.
+ *
+ * Returns 0 on success.
+ */
 int UART_probe_rx()
 {
   int32_t c;
