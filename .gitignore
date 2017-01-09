@@ -2,3 +2,7 @@
 *.a
 work/
 toolchain/
+
+*.kate-swp
+openocd_upload.log
+

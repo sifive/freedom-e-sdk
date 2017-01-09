@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "platform.h"
 
-// Do not set this to high, it may damage your led
+// Do not set this to high, it may damage your eyes or your LED
 const uint8_t LED_MAX_BRIGHTNESS = 0x20;
 
 
@@ -16,20 +16,16 @@ volatile unsigned int* g_iof_sel      = (unsigned int *) (GPIO_BASE_ADDR + GPIO_
 volatile unsigned int* g_out_xor      = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_XOR);
 
 
+// Use only the lower part of the uint64_t mtime register
+volatile uint32_t * mtime           = (uint32_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
+
 /**
- * Wait a bit, TODO improve
+ * Wait a bit, TODO how long exactly
  */
 void busy_loop(uint32_t const duration) {
-  uint32_t j;
-  for (uint32_t i = duration; i > 0; --i) {
-    if (i % 23) {
-      ++j;
-    }
-  }
-  if (j == 0) {
-    // this forces the optimizer to keep the loop and the branch
-    printf("this willl never happen\n");
-  }
+  uint32_t now = *mtime;
+
+  while (*mtime - now < duration) {}
 }
 
 
@@ -90,7 +86,6 @@ int main() {
         red += 1;
         if (red == LED_MAX_BRIGHTNESS) {
           state = 1;
-          printf("1");
         }
         break;
 
@@ -98,7 +93,6 @@ int main() {
         green += 1;
         if (green == LED_MAX_BRIGHTNESS) {
           state = 2;
-          printf("2");
         }
         break;
 
@@ -107,7 +101,6 @@ int main() {
         blue += 1;
         if (blue == LED_MAX_BRIGHTNESS) {
           state = 3;
-          printf("3");
         }
         break;
 
@@ -116,7 +109,6 @@ int main() {
         red += 1;
         if (red == LED_MAX_BRIGHTNESS) {
           state = 4;
-          printf("4");
         }
         break;
 
@@ -125,7 +117,6 @@ int main() {
         green += 1;
         if (green == LED_MAX_BRIGHTNESS) {
           state = 2;
-          printf("2");
         }
         break;
 
@@ -137,7 +128,7 @@ int main() {
     pwm_dimm(red, green, blue);
 
 
-    busy_loop(420000);
+    busy_loop(4200);
   }
 
   return 0;
