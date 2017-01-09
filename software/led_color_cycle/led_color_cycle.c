@@ -2,18 +2,18 @@
 #include "platform.h"
 
 // Do not set this to high, it may damage your eyes or your LED
-const uint8_t LED_MAX_BRIGHTNESS = 0x20;
+uint8_t const LED_MAX_BRIGHTNESS = 0x20;
 
 
 // Simple variables for LEDs, buttons, etc.
-volatile unsigned int* g_output_vals  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_VAL);
-volatile unsigned int* g_input_vals   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_VAL);
-volatile unsigned int* g_output_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_EN);
-volatile unsigned int* g_pullup_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_PULLUP_EN);
-volatile unsigned int* g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_EN);
-volatile unsigned int* g_iof_en       = (unsigned int *) (GPIO_BASE_ADDR + GPIO_IOF_EN);
-volatile unsigned int* g_iof_sel      = (unsigned int *) (GPIO_BASE_ADDR + GPIO_IOF_SEL);
-volatile unsigned int* g_out_xor      = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_XOR);
+volatile unsigned int * const g_output_vals  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_VAL);
+volatile unsigned int * const g_input_vals   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_VAL);
+volatile unsigned int * const g_output_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_EN);
+volatile unsigned int * const g_pullup_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_PULLUP_EN);
+volatile unsigned int * const g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_EN);
+volatile unsigned int * const g_iof_en       = (unsigned int *) (GPIO_BASE_ADDR + GPIO_IOF_EN);
+volatile unsigned int * const g_iof_sel      = (unsigned int *) (GPIO_BASE_ADDR + GPIO_IOF_SEL);
+volatile unsigned int * const g_out_xor      = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_XOR);
 
 
 // Use only the lower part of the uint64_t mtime register
@@ -30,13 +30,13 @@ void busy_loop(uint32_t const duration) {
 
 
 
-volatile unsigned int * g_pwm1 = (unsigned int *) PWM1_BASE_ADDR;
-volatile unsigned int * g_pwm1_s   = (unsigned int *) (PWM1_BASE_ADDR + PWM_S);
-volatile unsigned int * g_pwm1_count   = (unsigned int *) (PWM1_BASE_ADDR + PWM_COUNT);
-volatile unsigned int * g_pwm_cmp0 = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP0);
-volatile unsigned int * g_pwm_red   = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP3);
-volatile unsigned int * g_pwm_green = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP1);
-volatile unsigned int * g_pwm_blue  = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP2);
+volatile unsigned int * const g_pwm1 = (unsigned int *) PWM1_BASE_ADDR;
+volatile unsigned int * const g_pwm1_s   = (unsigned int *) (PWM1_BASE_ADDR + PWM_S);
+volatile unsigned int * const g_pwm1_count   = (unsigned int *) (PWM1_BASE_ADDR + PWM_COUNT);
+volatile unsigned int * const g_pwm_cmp0 = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP0);
+volatile unsigned int * const g_pwm_red   = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP3);
+volatile unsigned int * const g_pwm_green = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP1);
+volatile unsigned int * const g_pwm_blue  = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP2);
 
 void setup_pwm() {
   // reset counters
@@ -55,7 +55,7 @@ void setup_pwm() {
   ;
 }
 
-void pwm_dimm(uint8_t red, uint8_t green, uint8_t blue) {
+void pwm_dimm(uint8_t const red, uint8_t const green, uint8_t const blue) {
   *g_pwm_red   = red;
   *g_pwm_green = green;
   *g_pwm_blue  = blue;
