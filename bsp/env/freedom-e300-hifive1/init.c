@@ -215,6 +215,10 @@ uintptr_t handle_trap(uintptr_t mcause, uintptr_t epc)
 }
 
 
+#ifdef NO_INIT
+void _init() {
+}
+#else
 void _init()
 {
   use_default_clocks();
@@ -229,6 +233,7 @@ void _init()
     write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
   }
 }
+#endif
 
 void _fini()
 {
