@@ -214,9 +214,10 @@ uintptr_t handle_trap(uintptr_t mcause, uintptr_t epc)
   return epc;
 }
 
-
 void _init()
 {
+  
+  #ifndef NO_INIT
   use_default_clocks();
   use_pll(0, 0, 1, 31, 1);
   uart_init(115200);
@@ -228,6 +229,8 @@ void _init()
     write_csr(mstatus, MSTATUS_FS); // allow FPU instructions without trapping
     write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
   }
+  #endif
+  
 }
 
 void _fini()
