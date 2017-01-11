@@ -76,7 +76,7 @@ int main(void)
         // PWM Red LED
 
         GPIO_REG(GPIO_IOF_EN)     |=   (1 << RED_LED);
-	GPIO_REG(GPIO_OUTPUT_XOR) &=  ~(1 << RED_LED);
+        GPIO_REG(GPIO_OUTPUT_XOR) &=  ~(1 << RED_LED);
         GPIO_REG(GPIO_IOF_SEL)    |=   (1 << RED_LED);
 
         GPIO_REG(GPIO_OUTPUT_VAL) &=  ~(1 << GREEN_LED);
