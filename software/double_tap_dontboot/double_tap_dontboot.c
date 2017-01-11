@@ -53,7 +53,6 @@ int main(void)
 {
   uint64_t now;
   uint64_t then;
-
   
   // Restore the default mtvec (which may have been set by initialization
   // code, depending on the environment in which this C code is compiled).
@@ -67,71 +66,71 @@ int main(void)
   if ((AON_REG(AON_PMUCAUSE) & AON_PMUCAUSE_WAKEUPCAUSE) ==
       AON_WAKEUPCAUSE_RESET) {
 
-      if (AON_REG(AON_BACKUP15) == BACKUP15_MAGIC) {
-	// Reset was "double-tapped".
+    if (AON_REG(AON_BACKUP15) == BACKUP15_MAGIC) {
+      // Reset was "double-tapped".
+
+      // Re-arm the reset double-tap
+      AON_REG(AON_BACKUP15) = 0;
+
+      // PWM Red LED
+
+      GPIO_REG(GPIO_IOF_EN)     |=   (1 << RED_LED);
+      GPIO_REG(GPIO_OUTPUT_XOR) &=  ~(1 << RED_LED);
+      GPIO_REG(GPIO_IOF_SEL)    |=   (1 << RED_LED);
+
+      GPIO_REG(GPIO_OUTPUT_VAL) &=  ~(1 << GREEN_LED);
+      GPIO_REG(GPIO_OUTPUT_XOR) &=  ~(1 << GREEN_LED);
+      GPIO_REG(GPIO_OUTPUT_EN)  &=  ~(1 << GREEN_LED);
+
+      PWM1_REG(PWM_CFG)   = 0;
+      PWM1_REG(PWM_COUNT) = 0;
+      PWM1_REG(PWM_CMP0)  = 0xFF;
+      PWM1_REG(PWM_CMP3)  = 0xFF;
+      PWM1_REG(PWM_CFG)   = PWM_CFG_ENALWAYS;
+
+      int pwm_val = 255;
 	
-        // Re-arm the reset double-tap
-        AON_REG(AON_BACKUP15) = 0;
+      // Wait for debugger or another RESET press.
+      while(1){
 
-        // PWM Red LED
+	// Make the PWM a fade. This is preferable to just a PWM blink
+	// because it makes it clear that the processor is actually
+	// running this code, not just the PWM hardware.
 
-        GPIO_REG(GPIO_IOF_EN)     |=   (1 << RED_LED);
-        GPIO_REG(GPIO_OUTPUT_XOR) &=  ~(1 << RED_LED);
-        GPIO_REG(GPIO_IOF_SEL)    |=   (1 << RED_LED);
-
-        GPIO_REG(GPIO_OUTPUT_VAL) &=  ~(1 << GREEN_LED);
-        GPIO_REG(GPIO_OUTPUT_XOR) &=  ~(1 << GREEN_LED);
-        GPIO_REG(GPIO_OUTPUT_EN)  &=  ~(1 << GREEN_LED);
-        
-        PWM1_REG(PWM_CFG)   = 0;
-        PWM1_REG(PWM_COUNT) = 0;
-        PWM1_REG(PWM_CMP0)  = 0xFF; 
-        PWM1_REG(PWM_CMP3)  = 0xFF;
-        PWM1_REG(PWM_CFG)   = PWM_CFG_ENALWAYS;
-
-        int pwm_val = 255;
-	
-        // Wait for debugger or another RESET press.
-        while(1){
-
-	  // Make the PWM a fade. This is preferable to just a PWM blink
-	  // because it makes it clear that the processor is actually
-	  // running this code, not just the PWM hardware.
-	  
-          now = *((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME));
-          then = now + 32768/500;
-          while (*((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME)) < then) {
-            asm volatile ("");
-          }
-          pwm_val = (pwm_val == 0) ? 255 : (pwm_val -1);
-          PWM1_REG(PWM_CMP3) = pwm_val << 4;
-        }
+	now = *((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME));
+	then = now + 32768/500;
+	while (*((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME)) < then) {
+	  asm volatile ("");
+	}
+	pwm_val = (pwm_val == 0) ? 255 : (pwm_val -1);
+	PWM1_REG(PWM_CMP3) = pwm_val << 4;
+      }
            
-      } // If Magic
+    } // If Magic
       
       // Turn on Green LED to indicate time-to-double-tap
       // LEDs are Active-Low
-      GPIO_REG(GPIO_OUTPUT_VAL)     |=  (1 << GREEN_LED);
-      GPIO_REG(GPIO_OUTPUT_XOR)     |=  (1 << GREEN_LED);
-      GPIO_REG(GPIO_OUTPUT_EN)      |=  (1 << GREEN_LED);
+    GPIO_REG(GPIO_OUTPUT_VAL)     |=  (1 << GREEN_LED);
+    GPIO_REG(GPIO_OUTPUT_XOR)     |=  (1 << GREEN_LED);
+    GPIO_REG(GPIO_OUTPUT_EN)      |=  (1 << GREEN_LED);
 
-      // Re-arm the reset double-tap
-      uint32_t save = AON_REG(AON_BACKUP15);
+    // Re-arm the reset double-tap
+    uint32_t save = AON_REG(AON_BACKUP15);
       
-      AON_REG(AON_BACKUP15) = BACKUP15_MAGIC;
+    AON_REG(AON_BACKUP15) = BACKUP15_MAGIC;
 
-      // Wait 500 ms. If reset is tapped at this point,
-      // we will execute the "magic" loop above.
-      now = *((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME));
-      then = now + 32768/2;
-      while (*((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME)) < then) {
-        asm volatile ("");
-      }
-      
-      // Re-arm the reset double-tap
-      AON_REG(AON_BACKUP15) = save;
-   
+    // Wait 500 ms. If reset is tapped at this point,
+    // we will execute the "magic" loop above.
+    now = *((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME));
+    then = now + 32768/2;
+    while (*((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME)) < then) {
+      asm volatile ("");
     }
+      
+    // Re-arm the reset double-tap
+    AON_REG(AON_BACKUP15) = save;
+   
+  }
   
   // Restore the GPIO Registers to their default
   GPIO_REG(GPIO_OUTPUT_VAL)     = 0;
@@ -142,5 +141,8 @@ int main(void)
   void (*pgm_start)(void) = (void*) FINAL_ADDRESS;
   pgm_start();
 
+  // This value is meaningless, but
+  // since this code should never be reached,
+  // make it non-zero.
   return (1234567);
 }
