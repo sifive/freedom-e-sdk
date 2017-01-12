@@ -17,10 +17,11 @@ volatile unsigned int * const g_out_xor      = (unsigned int *) (GPIO_BASE_ADDR 
 
 
 // Use only the lower part of the uint64_t mtime register
-volatile uint32_t * mtime           = (uint32_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
+volatile uint32_t * mtime = (uint32_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
 
 /**
- * Wait a bit, TODO how long exactly
+ * Wait for `duration` times 32.768 kHz.
+ * This uses the RTC directly.
  */
 void busy_loop(uint32_t const duration) {
   uint32_t now = *mtime;
@@ -30,13 +31,13 @@ void busy_loop(uint32_t const duration) {
 
 
 
-volatile unsigned int * const g_pwm1 = (unsigned int *) PWM1_BASE_ADDR;
-volatile unsigned int * const g_pwm1_s   = (unsigned int *) (PWM1_BASE_ADDR + PWM_S);
-volatile unsigned int * const g_pwm1_count   = (unsigned int *) (PWM1_BASE_ADDR + PWM_COUNT);
-volatile unsigned int * const g_pwm_cmp0 = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP0);
-volatile unsigned int * const g_pwm_red   = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP3);
-volatile unsigned int * const g_pwm_green = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP1);
-volatile unsigned int * const g_pwm_blue  = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP2);
+volatile unsigned int * const g_pwm1       = (unsigned int *) PWM1_BASE_ADDR;
+volatile unsigned int * const g_pwm1_s     = (unsigned int *) (PWM1_BASE_ADDR + PWM_S);
+volatile unsigned int * const g_pwm1_count = (unsigned int *) (PWM1_BASE_ADDR + PWM_COUNT);
+volatile unsigned int * const g_pwm_cmp0   = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP0);
+volatile unsigned int * const g_pwm_red    = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP3);
+volatile unsigned int * const g_pwm_green  = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP1);
+volatile unsigned int * const g_pwm_blue   = (unsigned int *) (PWM1_BASE_ADDR + PWM_CMP2);
 
 void setup_pwm() {
   // reset counters
