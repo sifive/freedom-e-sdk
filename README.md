@@ -25,8 +25,10 @@ Next, build the tools:
 
 ```
 cd freedom-e-sdk
-make -j $(nproc) tools
+make tools
 ```
+
+Provided you have your machine has enough resources you can speed up the build process by adding `-j n` to make where `n` is the amount of processors of your build system.
 
 To compile a bare-metal RISC-V program:
 
