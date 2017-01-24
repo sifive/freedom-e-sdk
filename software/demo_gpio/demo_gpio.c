@@ -25,12 +25,6 @@ function_ptr_t g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS];
 
 plic_instance_t g_plic;
 
-// Simple variables for LEDs, buttons, etc.
-volatile unsigned int* g_output_vals  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_VAL);
-volatile unsigned int* g_input_vals   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_VAL);
-volatile unsigned int* g_output_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_EN);
-volatile unsigned int* g_pullup_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_PULLUP_EN);
-volatile unsigned int* g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_EN);
 
 /*Entry Point for PLIC Interrupt Handler*/
 void handle_m_ext_interrupt(){
@@ -60,12 +54,12 @@ void handle_m_time_interrupt(){
   *mtimecmp = then;
 
   // read the current value of the LEDS and invert them.
-  uint32_t leds = *g_output_vals;
+  uint32_t leds = GPIO_REG(GPIO_OUTPUT_VAL);
 
-  *g_output_vals ^= ((0x1 << RED_LED_OFFSET)   |
-		     (0x1 << GREEN_LED_OFFSET) |
-		     (0x1 << BLUE_LED_OFFSET));
-
+  GPIO_REG(GPIO_OUTPUT_VAL) ^= ((0x1 << RED_LED_OFFSET)   |
+				(0x1 << GREEN_LED_OFFSET) |
+				(0x1 << BLUE_LED_OFFSET));
+  
   // Re-enable the timer interrupt.
   set_csr(mie, MIP_MTIP);
 
@@ -114,7 +108,7 @@ void print_instructions() {
 void button_0_handler(void) {
 
   // Red LED on
-  * g_output_vals |= (0x1 << RED_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) |= (0x1 << RED_LED_OFFSET);
 
   // Clear the GPIO Pending interrupt by writing 1.
   GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_0_OFFSET);
@@ -124,7 +118,7 @@ void button_0_handler(void) {
 void button_1_handler(void) {
 
   // Green LED On
-  * g_output_vals |= (1 << GREEN_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << GREEN_LED_OFFSET);
 
   // Clear the GPIO Pending interrupt by writing 1.
   GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_1_OFFSET);
@@ -135,7 +129,7 @@ void button_1_handler(void) {
 void button_2_handler(void) {
 
   // Blue LED On
-  * g_output_vals |= (1 << BLUE_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << BLUE_LED_OFFSET);
 
   GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_2_OFFSET);
 
@@ -204,15 +198,15 @@ int main(int argc, char **argv)
   // can be used as both Inputs and Outputs.
 
 #ifdef HAS_BOARD_BUTTONS
-  * g_output_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
-  * g_pullup_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
-  * g_input_en   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_OUTPUT_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_PULLUP_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_INPUT_EN)   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
 #endif
 
-  * g_input_en    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-  * g_output_en   |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-  * g_output_vals |=   (0x1 << BLUE_LED_OFFSET) ;
-  * g_output_vals &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
+  GPIO_REG(GPIO_INPUT_EN)    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  GPIO_REG(GPIO_OUTPUT_EN)   |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  GPIO_REG(GPIO_OUTPUT_VAL)  |=   (0x1 << BLUE_LED_OFFSET) ;
+  GPIO_REG(GPIO_OUTPUT_VAL)  &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
 
   /**************************************************************************
    * Set up the PLIC
@@ -225,7 +219,9 @@ int main(int argc, char **argv)
 
   reset_demo();
 
-  while (1);
+  while (1){
+
+  }
 
   return 0;
 
