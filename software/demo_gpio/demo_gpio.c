@@ -232,10 +232,9 @@ int main(int argc, char **argv)
    * Atomics give a quick way to control a single bit.
    *************************************************************************/
   uint32_t  mask = (1 << PIN_19_OFFSET);
-  uint32_t  other_mask = (1 << PIN_19_OFFSET);
 
   while (1){
-    atomic_fetch_xor(&GPIO_REG(GPIO_OUTPUT_VAL), mask);
+    atomic_fetch_xor_explicit(&GPIO_REG(GPIO_OUTPUT_VAL), mask, memory_order_relaxed);
   }
 
   return 0;
