@@ -7,6 +7,7 @@
 #include "plic_driver.h"
 #include "encoding.h"
 #include <unistd.h>
+#include "stdatomic.h"
 
 #define RTC_FREQUENCY 32768
 
@@ -95,6 +96,8 @@ const char * instructions_msg = " \
 SiFive E-Series Software Development Kit 'demo_gpio' program.\n\
 Every 1.5 second, the Timer Interrupt will invert the LEDs.\n\
 (Arty Dev Kit Only): Press Buttons 0, 1, 2 to Set the LEDs.\n\
+Pin 19 (HiFive1) or A5 (Arty Dev Kit) is being bit-banged\n\
+for GPIO speed demonstration.\n\
 \n\
  ";
 
@@ -208,6 +211,9 @@ int main(int argc, char **argv)
   GPIO_REG(GPIO_OUTPUT_VAL)  |=   (0x1 << BLUE_LED_OFFSET) ;
   GPIO_REG(GPIO_OUTPUT_VAL)  &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
 
+  // For Bit-banging with Atomics demo.
+  GPIO_REG(GPIO_OUTPUT_EN)   |= (0x1 << PIN_19_OFFSET);
+ 
   /**************************************************************************
    * Set up the PLIC
    *
@@ -219,8 +225,17 @@ int main(int argc, char **argv)
 
   reset_demo();
 
-  while (1){
+  /**************************************************************************
+   * Demonstrate fast GPIO bit-banging.
+   * One can bang it faster than this if you know
+   * the entire OUTPUT_VAL that you want to write, but 
+   * Atomics give a quick way to control a single bit.
+   *************************************************************************/
+  uint32_t  mask = (1 << PIN_19_OFFSET);
+  uint32_t  other_mask = (1 << PIN_19_OFFSET);
 
+  while (1){
+    atomic_fetch_xor(&GPIO_REG(GPIO_OUTPUT_VAL), mask);
   }
 
   return 0;
