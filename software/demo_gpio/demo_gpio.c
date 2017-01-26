@@ -7,6 +7,7 @@
 #include "plic_driver.h"
 #include "encoding.h"
 #include <unistd.h>
+#include "stdatomic.h"
 
 #define RTC_FREQUENCY 32768
 
@@ -25,12 +26,6 @@ function_ptr_t g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS];
 
 plic_instance_t g_plic;
 
-// Simple variables for LEDs, buttons, etc.
-volatile unsigned int* g_output_vals  = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_VAL);
-volatile unsigned int* g_input_vals   = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_VAL);
-volatile unsigned int* g_output_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_OUTPUT_EN);
-volatile unsigned int* g_pullup_en    = (unsigned int *) (GPIO_BASE_ADDR + GPIO_PULLUP_EN);
-volatile unsigned int* g_input_en     = (unsigned int *) (GPIO_BASE_ADDR + GPIO_INPUT_EN);
 
 /*Entry Point for PLIC Interrupt Handler*/
 void handle_m_ext_interrupt(){
@@ -60,12 +55,12 @@ void handle_m_time_interrupt(){
   *mtimecmp = then;
 
   // read the current value of the LEDS and invert them.
-  uint32_t leds = *g_output_vals;
+  uint32_t leds = GPIO_REG(GPIO_OUTPUT_VAL);
 
-  *g_output_vals ^= ((0x1 << RED_LED_OFFSET)   |
-		     (0x1 << GREEN_LED_OFFSET) |
-		     (0x1 << BLUE_LED_OFFSET));
-
+  GPIO_REG(GPIO_OUTPUT_VAL) ^= ((0x1 << RED_LED_OFFSET)   |
+				(0x1 << GREEN_LED_OFFSET) |
+				(0x1 << BLUE_LED_OFFSET));
+  
   // Re-enable the timer interrupt.
   set_csr(mie, MIP_MTIP);
 
@@ -101,6 +96,8 @@ const char * instructions_msg = " \
 SiFive E-Series Software Development Kit 'demo_gpio' program.\n\
 Every 1.5 second, the Timer Interrupt will invert the LEDs.\n\
 (Arty Dev Kit Only): Press Buttons 0, 1, 2 to Set the LEDs.\n\
+Pin 19 (HiFive1) or A5 (Arty Dev Kit) is being bit-banged\n\
+for GPIO speed demonstration.\n\
 \n\
  ";
 
@@ -114,7 +111,7 @@ void print_instructions() {
 void button_0_handler(void) {
 
   // Red LED on
-  * g_output_vals |= (0x1 << RED_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) |= (0x1 << RED_LED_OFFSET);
 
   // Clear the GPIO Pending interrupt by writing 1.
   GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_0_OFFSET);
@@ -124,7 +121,7 @@ void button_0_handler(void) {
 void button_1_handler(void) {
 
   // Green LED On
-  * g_output_vals |= (1 << GREEN_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << GREEN_LED_OFFSET);
 
   // Clear the GPIO Pending interrupt by writing 1.
   GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_1_OFFSET);
@@ -135,7 +132,7 @@ void button_1_handler(void) {
 void button_2_handler(void) {
 
   // Blue LED On
-  * g_output_vals |= (1 << BLUE_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << BLUE_LED_OFFSET);
 
   GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_2_OFFSET);
 
@@ -204,16 +201,19 @@ int main(int argc, char **argv)
   // can be used as both Inputs and Outputs.
 
 #ifdef HAS_BOARD_BUTTONS
-  * g_output_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
-  * g_pullup_en  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
-  * g_input_en   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_OUTPUT_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_PULLUP_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_INPUT_EN)   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
 #endif
 
-  * g_input_en    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-  * g_output_en   |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-  * g_output_vals |=   (0x1 << BLUE_LED_OFFSET) ;
-  * g_output_vals &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
+  GPIO_REG(GPIO_INPUT_EN)    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  GPIO_REG(GPIO_OUTPUT_EN)   |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+  GPIO_REG(GPIO_OUTPUT_VAL)  |=   (0x1 << BLUE_LED_OFFSET) ;
+  GPIO_REG(GPIO_OUTPUT_VAL)  &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
 
+  // For Bit-banging with Atomics demo.
+  GPIO_REG(GPIO_OUTPUT_EN)   |= (0x1 << PIN_19_OFFSET);
+ 
   /**************************************************************************
    * Set up the PLIC
    *
@@ -225,7 +225,17 @@ int main(int argc, char **argv)
 
   reset_demo();
 
-  while (1);
+  /**************************************************************************
+   * Demonstrate fast GPIO bit-banging.
+   * One can bang it faster than this if you know
+   * the entire OUTPUT_VAL that you want to write, but 
+   * Atomics give a quick way to control a single bit.
+   *************************************************************************/
+  uint32_t  mask = (1 << PIN_19_OFFSET);
+
+  while (1){
+    atomic_fetch_xor_explicit(&GPIO_REG(GPIO_OUTPUT_VAL), mask, memory_order_relaxed);
+  }
 
   return 0;
 

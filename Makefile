@@ -32,7 +32,10 @@ help :
 	@echo " run_openocd [BOARD=$(DEFAULT_BOARD)]:"
 	@echo " run_gdb     [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "     Launch OpenOCD or GDB seperately"
-	@echo "" 
+	@echo ""
+	@echo " dasm [PROGRAM=$(DEFAULT_BOARD)]:"
+	@echo "     Generates the dissassembly output of objdump -D to stdout."
+	@echo ""
 	@echo " For more information, visit dev.sifive.com"
 
 
@@ -88,12 +91,13 @@ PROGRAM ?= $(DEFAULT_PROGRAM)
 PROGRAM_DIR = $(srcdir)/software/$(PROGRAM)
 PROGRAM_ELF = $(srcdir)/software/$(PROGRAM)/$(PROGRAM)
 
-.PHONY: software
-software:
-	$(MAKE) -C $(PROGRAM_DIR)
-
+.PHONY: software_clean
 software_clean:
 	$(MAKE) -C $(PROGRAM_DIR) clean
+
+.PHONY: software
+software: software_clean
+	$(MAKE) -C $(PROGRAM_DIR)
 
 dasm: software	
 	$(toolchain_dest)/bin/riscv32-unknown-elf-objdump -D $(PROGRAM_ELF)
