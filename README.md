@@ -43,6 +43,23 @@ To see additional options:
 cd freedom-e-sdk
 make help
 ```
+### Updating your SDK ###
+
+If you'd like to update your SDK to the latest version:
+
+```
+cd freedom-e-sdk
+git pull origin master
+git submodule update --init --recursive
+```
+
+If you would like to recompile the entire toolchain after performing the above:
+
+```
+rm -rf toolchain
+rm -rf work
+make tools
+```
 
 ### Benchmarking ###
 
