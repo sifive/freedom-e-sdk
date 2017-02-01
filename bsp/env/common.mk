@@ -19,6 +19,7 @@ C_SRCS += $(PLATFORM_DIR)/init.c
 LINKER_SCRIPT := $(PLATFORM_DIR)/link.lds
 
 INCLUDES += -I$(BSP_BASE)/include
+INCLUDES += -I$(BSP_BASE)/drivers/
 INCLUDES += -I$(ENV_DIR)
 INCLUDES += -I$(PLATFORM_DIR)
 

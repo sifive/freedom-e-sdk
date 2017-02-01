@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "platform.h"
 #include <string.h>
-#include "plic_driver.h"
+#include "plic/plic_driver.h"
 #include "encoding.h"
 #include <unistd.h>
 #include "stdatomic.h"
