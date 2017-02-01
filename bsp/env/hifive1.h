@@ -74,6 +74,8 @@
 #define HAS_HFXOSC 1
 #define HAS_LFROSC_BYPASS 1
 
+#define RTC_FREQ 32768
+
 void write_hex(int fd, uint32_t hex);
 
 #endif /* _SIFIVE_HIFIVE1_H */
