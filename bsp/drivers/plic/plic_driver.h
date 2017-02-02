@@ -3,6 +3,9 @@
 #ifndef PLIC_DRIVER_H
 #define PLIC_DRIVER_H
 
+
+__BEGIN_DECLS
+
 #include "platform.h"
 
 typedef struct __plic_instance_t
@@ -42,5 +45,7 @@ plic_source PLIC_claim_interrupt(plic_instance_t * this_plic);
 
 void PLIC_complete_interrupt(plic_instance_t * this_plic,
 			     plic_source source);
-  
+
+__END_DECLS
+
 #endif
