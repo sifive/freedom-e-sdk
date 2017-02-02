@@ -1,7 +1,9 @@
 // See LICENSE file for license details
 
-#include "fe300prci/fe300prci_driver.h"
 #include "platform.h"
+
+#ifdef PRCI_BASE_ADDR
+#include "fe300prci/fe300prci_driver.h"
 #include <unistd.h>
 
 #define rdmcycle(x)  {				       \
@@ -245,3 +247,5 @@ uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target )
   return cpu_freq;
 
 }
+
+#endif
