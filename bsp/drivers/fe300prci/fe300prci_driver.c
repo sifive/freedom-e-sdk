@@ -177,7 +177,7 @@ void PRCI_use_hfxosc(uint32_t finaldiv)
 // this way.
 // It returns the actual measured CPU frequency.
 
-uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu)
+uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target )
 {
 
   int hfrosctrim = 16;
@@ -186,23 +186,62 @@ uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu)
   // Ignore the first run (for icache reasons)
   uint32_t cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ); 
   cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+  int prev_trim = hfrosctrim;
+  int prev_freq = cpu_freq;
   
   if (cpu_freq > F_CPU) {
-    while((cpu_freq > F_CPU) && (hfrosctrim >= 0) ){  
-	PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, hfrosctrim );
-	cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
-	hfrosctrim--;
-      }
+   while((cpu_freq > F_CPU) && (hfrosctrim > 0) ){
+     prev_freq = cpu_freq;
+     prev_trim = hfrosctrim;
+     hfrosctrim--;
+     PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, hfrosctrim );
+     cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+   }
+   
+   // Check for over/undershoot
+   switch(target) {
+     case(PRCI_FREQ_CLOSEST):
+       if ((prev_freq - F_CPU) < (F_CPU - cpu_freq) && target == PRCI_FREQ_CLOSEST) {
+	 PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
+	 cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+       }
+       break;
+     case(PRCI_FREQ_OVERSHOOT):
+       PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
+       cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+       break;
+       //default:
+       // Do Nothing
+   }
+    
     return cpu_freq;
   }
-  
-  while(cpu_freq < F_CPU) {
-    if (hfrosctrim >= 0x20) {
-      break;
-    }
+   
+  while(cpu_freq < F_CPU && hfrosctrim < 0x20) {
+    prev_freq = cpu_freq;
+    prev_trim = hfrosctrim;
+    hfrosctrim ++;
     PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, hfrosctrim );
     cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
-    hfrosctrim++;
   }
+
+  
+  // Check for over/undershoot
+  switch(target) {
+  case(PRCI_FREQ_CLOSEST):
+    if ((F_CPU - prev_freq) < (cpu_freq - F_CPU)) {
+      PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
+      cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+    }
+    break;
+  case(PRCI_FREQ_UNDERSHOOT):
+    PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
+    cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+    break;
+    //default:
+    // Do Nothing
+  }
+  
   return cpu_freq;
+
 }

@@ -7,6 +7,14 @@ __BEGIN_DECLS
 
 #include <unistd.h>
 
+typedef enum prci_freq_target {
+  
+  PRCI_FREQ_OVERSHOOT,
+  PRCI_FREQ_CLOSEST,
+  PRCI_FREQ_UNDERSHOOT
+
+} PRCI_freq_target;
+
 /* Measure and return the approximate frequency of the 
  * CPU, as given by measuring the mcycle counter against 
  * the mtime ticks.
@@ -55,7 +63,7 @@ void PRCI_use_default_clocks();
  * achievable with this function, and not all 
  * are guaranteed to actually work.
  */
-uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu);
+uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target);
 
 __END_DECLS
 
