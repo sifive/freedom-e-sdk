@@ -182,9 +182,9 @@ void PRCI_use_hfxosc(uint32_t finaldiv)
 uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target )
 {
 
-  int hfrosctrim = 0;
-  int hfroscdiv = 4;
-  int prev_trim = 0;
+  uint32_t hfrosctrim = 0;
+  uint32_t hfroscdiv = 4;
+  uint32_t prev_trim = 0;
 
   // In this function we use PLL settings which
   // will give us a 32x multiplier from the output
@@ -195,22 +195,23 @@ uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target )
   // requested is something in the limit of the PLL. For
   // now that is up to the user.
 
-  uint32_t desired_hfrosc_freq = f_cpu / 32;
+  // This will undershoot for frequencies not divisible by 16.
+  uint32_t desired_hfrosc_freq = (f_cpu/ 16);
 
   PRCI_use_hfrosc(hfroscdiv, hfrosctrim);
   
   // Ignore the first run (for icache reasons)
-  uint32_t cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+  uint32_t cpu_freq = PRCI_measure_mcycle_freq(3000, RTC_FREQ);
 
-  cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+  cpu_freq = PRCI_measure_mcycle_freq(3000, RTC_FREQ);
   uint32_t prev_freq = cpu_freq;
   
-  while ((cpu_freq < desired_hfrosc_freq) && hfrosctrim < 0x1F){
+  while ((cpu_freq < desired_hfrosc_freq) && (hfrosctrim < 0x1F)){
     prev_trim = hfrosctrim;
     prev_freq = cpu_freq;
     hfrosctrim ++;
     PRCI_use_hfrosc(hfroscdiv, hfrosctrim);
-    cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+    cpu_freq = PRCI_measure_mcycle_freq(3000, RTC_FREQ);
   } 
 
   // We couldn't go low enough
@@ -232,17 +233,18 @@ uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target )
   case(PRCI_FREQ_CLOSEST):
     if ((desired_hfrosc_freq - prev_freq) < (cpu_freq - desired_hfrosc_freq)) {
       PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, prev_trim);
-      cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+    } else {
+      PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, hfrosctrim);
     }
     break;
   case(PRCI_FREQ_UNDERSHOOT):
     PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, prev_trim);
-    cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
     break;
-    //default:
-    // Do Nothing
+  default:
+    PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, hfrosctrim);
   }
 
+  cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
   return cpu_freq;
 
 }
