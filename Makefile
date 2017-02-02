@@ -15,26 +15,30 @@ help :
 	@echo "  Makefile targets:"
 	@echo ""
 	@echo " tools:"
-	@echo "    Install compilation & debugging tools"
+	@echo "    Install compilation & debugging tools."
+	@echo ""
+	@echo " uninstall:"
+	@echo "    Uninstall the compilation & debugging tools."
 	@echo ""
 	@echo " software [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
 	@echo ""
-	@echo " run_debug [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
-	@echo "    Launch OpenOCD & GDB to load or debug "
-	@echo "    running programs."
-	@echo "" 
 	@echo " upload [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
-	@echo "    on-board Flash"
+	@echo "    on-board Flash."
+	@echo ""
+	@echo " run_debug [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
+	@echo "    Launch OpenOCD & GDB to load or debug "
+	@echo "    running programs. Does not allow Ctrl-C to halt running programs."
 	@echo ""
 	@echo " run_openocd [BOARD=$(DEFAULT_BOARD)]:"
 	@echo " run_gdb     [PROGRAM=$(DEFAULT_PROGRAM) BOARD=$(DEFAULT_BOARD)]:"
-	@echo "     Launch OpenOCD or GDB seperately"
+	@echo "     Launch OpenOCD or GDB seperately. Allows Ctrl-C to halt running"
+	@echo "     programs."
 	@echo ""
 	@echo " dasm [PROGRAM=$(DEFAULT_BOARD)]:"
-	@echo "     Generates the dissassembly output of objdump -D to stdout."
+	@echo "     Generates the dissassembly output of 'objdump -D' to stdout."
 	@echo ""
 	@echo " For more information, visit dev.sifive.com"
 
@@ -81,7 +85,8 @@ $(openocd_dest)/bin/openocd: $(openocd_srcdir)
 
 .PHONY: uninstall
 uninstall:
-	rm -rf -- $(toolchain_dest)
+	rm -rf $(wrkdir)
+	rm -rf $(toolchain_dest)
 
 #############################################################
 # This Section is for Software Compilation
