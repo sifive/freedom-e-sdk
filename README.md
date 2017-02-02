@@ -56,8 +56,7 @@ git submodule update --init --recursive
 If you would like to recompile the entire toolchain after performing the above:
 
 ```
-rm -rf toolchain
-rm -rf work
+make uninstall
 make tools
 ```
 
