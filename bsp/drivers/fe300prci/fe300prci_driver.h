@@ -54,15 +54,23 @@ void PRCI_use_pll(int refsel, int bypass,
 void PRCI_use_default_clocks();
 
 /* This routine will adjust the HFROSC trim
- * as the PLL clock source, measure the resulting
- * frequency, and attempt to get close to the requested
- * frequency. It returns the actual measured frequency. 
+ * while using HFROSC as the clock source, 
+ * measure the resulting frequency, then
+ * use it as the PLL clock source, 
+ * in an attempt to get over, under, or close to the 
+ * requested frequency. It returns the actual measured 
+ * frequency. 
  *
  * Note that the requested frequency must be within the 
  * range supported by the PLL so not all values are 
  * achievable with this function, and not all 
- * are guaranteed to actually work.
+ * are guaranteed to actually work. The PLL
+ * is rated higher than the hardware.
+ * 
+ * There is no check on the desired f_cpu frequency, it
+ * is up to the user to specify something reasonable.
  */
+
 uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target);
 
 __END_DECLS

@@ -175,75 +175,74 @@ void PRCI_use_hfxosc(uint32_t finaldiv)
 // doesn't span the entire range of HFROSC settings.
 // It only adjusts the trim, which can span a hundred MHz or so.
 // This function does not check the legality of the PLL settings
-// at all, ant it is quite possible to configure invalid PLL settings
+// at all, and it is quite possible to configure invalid PLL settings
 // this way.
 // It returns the actual measured CPU frequency.
 
 uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target )
 {
 
-  int hfrosctrim = 16;
-  PRCI_use_default_clocks();
-  PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, 16);
-  // Ignore the first run (for icache reasons)
-  uint32_t cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ); 
-  cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
-  int prev_trim = hfrosctrim;
-  int prev_freq = cpu_freq;
+  int hfrosctrim = 0;
+  int hfroscdiv = 4;
+  int prev_trim = 0;
+
+  // In this function we use PLL settings which
+  // will give us a 32x multiplier from the output
+  // of the HFROSC source to the output of the
+  // PLL. We first measure our HFROSC to get the
+  // right trim, then finally use it as the PLL source.
+  // We should really check here that the f_cpu
+  // requested is something in the limit of the PLL. For
+  // now that is up to the user.
+
+  uint32_t desired_hfrosc_freq = f_cpu / 32;
+
+  PRCI_use_hfrosc(hfroscdiv, hfrosctrim);
   
-  if (cpu_freq > F_CPU) {
-   while((cpu_freq > F_CPU) && (hfrosctrim > 0) ){
-     prev_freq = cpu_freq;
-     prev_trim = hfrosctrim;
-     hfrosctrim--;
-     PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, hfrosctrim );
-     cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
-   }
-   
-   // Check for over/undershoot
-   switch(target) {
-     case(PRCI_FREQ_CLOSEST):
-       if ((prev_freq - F_CPU) < (F_CPU - cpu_freq) && target == PRCI_FREQ_CLOSEST) {
-	 PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
-	 cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
-       }
-       break;
-     case(PRCI_FREQ_OVERSHOOT):
-       PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
-       cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
-       break;
-       //default:
-       // Do Nothing
-   }
-    
+  // Ignore the first run (for icache reasons)
+  uint32_t cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+
+  cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+  uint32_t prev_freq = cpu_freq;
+  
+  while ((cpu_freq < desired_hfrosc_freq) && hfrosctrim < 0x1F){
+    prev_trim = hfrosctrim;
+    prev_freq = cpu_freq;
+    hfrosctrim ++;
+    PRCI_use_hfrosc(hfroscdiv, hfrosctrim);
+    cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+  } 
+
+  // We couldn't go low enough
+  if (prev_freq > desired_hfrosc_freq){
+    PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, prev_trim);
+    cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
     return cpu_freq;
   }
-   
-  while(cpu_freq < F_CPU && hfrosctrim < 0x20) {
-    prev_freq = cpu_freq;
-    prev_trim = hfrosctrim;
-    hfrosctrim ++;
-    PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, hfrosctrim );
+  
+  // We couldn't go high enough
+  if (cpu_freq < desired_hfrosc_freq){
+    PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, prev_trim);
     cpu_freq = PRCI_measure_mcycle_freq(1000, RTC_FREQ);
+    return cpu_freq;
   }
 
-  
   // Check for over/undershoot
   switch(target) {
   case(PRCI_FREQ_CLOSEST):
-    if ((F_CPU - prev_freq) < (cpu_freq - F_CPU)) {
-      PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
+    if ((desired_hfrosc_freq - prev_freq) < (cpu_freq - desired_hfrosc_freq)) {
+      PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, prev_trim);
       cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
     }
     break;
   case(PRCI_FREQ_UNDERSHOOT):
-    PRCI_use_pll(0, 0, 1, 31, 1, 1, 4, prev_trim);
+    PRCI_use_pll(0, 0, 1, 31, 1, 1, hfroscdiv, prev_trim);
     cpu_freq =  PRCI_measure_mcycle_freq(1000, RTC_FREQ);
     break;
     //default:
     // Do Nothing
   }
-  
+
   return cpu_freq;
 
 }
