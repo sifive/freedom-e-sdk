@@ -3,19 +3,26 @@
 #ifndef _FE300PRCI_DRIVER_H_
 #define _FE300PRCI_DRIVER_H_
 
-#include <unistd.h>
+__BEGIN_DECLS
 
+#include <unistd.h>
 
 /* Measure and return the approximate frequency of the 
  * CPU, as given by measuring the mcycle counter against 
  * the mtime ticks.
  */
-static uint32_t PRCI_measure_mcycle_freq(uint32_t mtime_ticks, uint32_t mtime_freq);
+uint32_t PRCI_measure_mcycle_freq(uint32_t mtime_ticks, uint32_t mtime_freq);
 
 /* Safely switch over to the HFROSC using the given div
  * and trim settings.
  */
-static void PRCI_use_hfrosc(int div, int trim);
+void PRCI_use_hfrosc(int div, int trim);
+
+/* Safely switch over to the 16MHz HFXOSC,
+ * applying the finaldiv clock divider (1 is the lowest
+ * legal value).
+ */
+void PRCI_use_hfxosc(uint32_t finaldiv);
 
 /* Safely switch over to the PLL using the given
  * settings.
@@ -27,7 +34,7 @@ static void PRCI_use_hfrosc(int div, int trim);
  * doesn't protect against you making it too fast or slow.)
  */
 
-static void PRCI_use_pll(int refsel, int bypass,
+void PRCI_use_pll(int refsel, int bypass,
 			 int r, int f, int q, int finaldiv,
 			 int hfroscdiv, int hfrosctrim);
 
@@ -36,7 +43,7 @@ static void PRCI_use_pll(int refsel, int bypass,
  * (on the current FE310 Dev Platforms, an external LFROSC is 
  * used as it is more power efficient).
  */
-static void PRCI_use_default_clocks();
+void PRCI_use_default_clocks();
 
 /* This routine will adjust the HFROSC trim
  * as the PLL clock source, measure the resulting
@@ -49,6 +56,8 @@ static void PRCI_use_default_clocks();
  * are guaranteed to actually work.
  */
 uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu);
+
+__END_DECLS
 
 #endif
   

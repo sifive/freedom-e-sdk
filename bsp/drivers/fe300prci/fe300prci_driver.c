@@ -1,6 +1,6 @@
 // See LICENSE file for license details
 
-#include "drivers/fe300prci/fe300prci_driver.h"
+#include "fe300prci/fe300prci_driver.h"
 #include "platform.h"
 #include <unistd.h>
 
@@ -15,7 +15,7 @@
     *(x) = lo | ((uint64_t) hi << 32); 				\
   }
 
-static uint32_t PRCI_measure_mcycle_freq(uint32_t mtime_ticks, uint32_t mtime_freq)
+uint32_t PRCI_measure_mcycle_freq(uint32_t mtime_ticks, uint32_t mtime_freq)
 {
 
   uint32_t start_mtime = CLINT_REG(CLINT_MTIME);
@@ -48,7 +48,7 @@ static uint32_t PRCI_measure_mcycle_freq(uint32_t mtime_ticks, uint32_t mtime_fr
 }
  
 
-static void PRCI_use_hfrosc(int div, int trim)
+void PRCI_use_hfrosc(int div, int trim)
 {
   // Make sure the HFROSC is running at its default setting
   // It is OK to change this even if we are running off of it.
@@ -60,7 +60,7 @@ static void PRCI_use_hfrosc(int div, int trim)
   PRCI_REG(PRCI_PLLCFG) &= ~PLL_SEL(1);
 }
 
-static void PRCI_use_pll(int refsel, int bypass,
+void PRCI_use_pll(int refsel, int bypass,
 			 int r, int f, int q, int finaldiv,
 			 int hfroscdiv, int hfrosctrim)
 {
@@ -70,7 +70,7 @@ static void PRCI_use_pll(int refsel, int bypass,
     PRCI_use_hfrosc(4, 16);
   }
   
-  // Set PLL Source to be HFXOSC if available.
+  // Set PLL Source to be HFXOSC if desired.
   uint32_t config_value = 0;
 
   config_value |= PLL_REFSEL(refsel);
@@ -115,7 +115,7 @@ static void PRCI_use_pll(int refsel, int bypass,
     if (finaldiv == 1){
       PRCI_REG(PRCI_PLLDIV) = (PLL_FINAL_DIV_BY_1(1) | PLL_FINAL_DIV(0));
     } else {
-      PRCI_REG(PRCI_PLLDIV) = (PLL_FINAL_DIV(finaldiv));
+      PRCI_REG(PRCI_PLLDIV) = (PLL_FINAL_DIV(finaldiv-1));
     }
 
     PRCI_REG(PRCI_PLLCFG) = config_value;
@@ -138,9 +138,16 @@ static void PRCI_use_pll(int refsel, int bypass,
 
   // Switch over to PLL Clock source
   PRCI_REG(PRCI_PLLCFG) |= PLL_SEL(1);
+
+  // If we're running off HFXOSC, turn off the HFROSC to
+  // save power.
+  if (refsel) {
+    PRCI_REG(PRCI_HFROSCCFG) &= ~ROSC_EN(1);
+  }
+  
 }
 
-static void PRCI_use_default_clocks()
+void PRCI_use_default_clocks()
 {
   // Turn off the LFROSC
   AON_REG(AON_LFROSC) &= ~ROSC_EN(1);
@@ -149,11 +156,25 @@ static void PRCI_use_default_clocks()
   PRCI_use_hfrosc(4, 16);
 }
 
+void PRCI_use_hfxosc(uint32_t finaldiv)
+{
+  
+  PRCI_use_pll(1, // Use HFXTAL
+	       1, // Bypass = 1
+	       0, // PLL settings don't matter
+	       0, // PLL settings don't matter
+	       0, // PLL settings don't matter
+	       finaldiv,
+	       -1,
+	       -1);
+}
+
 // This is a generic function, which
 // doesn't span the entire range of HFROSC settings.
 // It only adjusts the trim, which can span a hundred MHz or so.
-// This function needs improvement to ensure that the PLL settings
-// are legal every step of the way.
+// This function does not check the legality of the PLL settings
+// at all, ant it is quite possible to configure invalid PLL settings
+// this way.
 // It returns the actual measured CPU frequency.
 
 uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu)

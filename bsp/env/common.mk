@@ -48,7 +48,7 @@ $(ASM_OBJS): %.o: %.S $(HEADERS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 $(C_OBJS): %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+	$(CC) $(CFLAGS) $(INCLUDES) -include sys/cdefs.h -c -o $@ $<
 
 .PHONY: clean
 clean:
