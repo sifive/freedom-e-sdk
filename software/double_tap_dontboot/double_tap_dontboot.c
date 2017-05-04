@@ -42,6 +42,11 @@
 #include "platform.h"
 #include "encoding.h"
 
+#ifndef _SIFIVE_HIFIVE1_H
+#error "double_tap_dontboot is designed to run on HiFive1 and/or E300 Arty Dev Kit."
+#endif
+
+
 #define BACKUP15_MAGIC 0xD027B007
 
 #define FINAL_ADDRESS 0x20400000
@@ -97,9 +102,9 @@ int main(void)
 	// because it makes it clear that the processor is actually
 	// running this code, not just the PWM hardware.
 
-	now = *((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME));
+	now = *((volatile uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME));
 	then = now + 32768/500;
-	while (*((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME)) < then) {
+	while (*((volatile uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME)) < then) {
 	  asm volatile ("");
 	}
 	pwm_val = (pwm_val == 0) ? 255 : (pwm_val -1);
@@ -121,9 +126,9 @@ int main(void)
 
     // Wait 500 ms. If reset is tapped at this point,
     // we will execute the "magic" loop above.
-    now = *((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME));
+    now = *((volatile uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME));
     then = now + 32768/2;
-    while (*((volatile uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME)) < then) {
+    while (*((volatile uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME)) < then) {
       asm volatile ("");
     }
       

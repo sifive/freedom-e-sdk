@@ -11,8 +11,8 @@
 ssize_t __wrap_read(int fd, void* ptr, size_t len)
 {
   uint8_t * current = (uint8_t *)ptr;
-  volatile uint32_t * uart_rx = (uint32_t *)(UART0_BASE_ADDR + UART_REG_RXFIFO);
-  volatile uint8_t * uart_rx_cnt = (uint8_t *)(UART0_BASE_ADDR + UART_REG_RXCTRL + 2);
+  volatile uint32_t * uart_rx = (uint32_t *)(UART0_CTRL_ADDR + UART_REG_RXFIFO);
+  volatile uint8_t * uart_rx_cnt = (uint8_t *)(UART0_CTRL_ADDR + UART_REG_RXCTRL + 2);
 
   ssize_t result = 0;
 

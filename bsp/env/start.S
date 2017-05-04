@@ -1,5 +1,7 @@
 // See LICENSE for license details.
 
+// See LICENSE for license details.
+
 	.section .init
 	.globl _start
 	.type _start,@function
@@ -50,5 +52,7 @@ _start:
 	/* argc = argv = 0 */
 	li a0, 0
 	li a1, 0
+	call _init
 	call main
+	call _fini
 	tail exit

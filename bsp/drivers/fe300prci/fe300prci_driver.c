@@ -2,7 +2,7 @@
 
 #include "platform.h"
 
-#ifdef PRCI_BASE_ADDR
+#ifdef PRCI_CTRL_ADDR
 #include "fe300prci/fe300prci_driver.h"
 #include <unistd.h>
 
