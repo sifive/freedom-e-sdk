@@ -10,14 +10,14 @@ extern void trap_entry();
 
 static unsigned long mtime_lo(void)
 {
-  return *(volatile unsigned long *)(CLINT_BASE_ADDR + CLINT_MTIME);
+  return *(volatile unsigned long *)(CLINT_CTRL_ADDR + CLINT_MTIME);
 }
 
 #ifdef __riscv32
 
 static uint32_t mtime_hi(void)
 {
-  return *(volatile uint32_t *)(CLINT_BASE_ADDR + CLINT_MTIME + 4);
+  return *(volatile uint32_t *)(CLINT_CTRL_ADDR + CLINT_MTIME + 4);
 }
 
 uint64_t get_timer_value()

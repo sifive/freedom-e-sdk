@@ -9,8 +9,6 @@
 #include <unistd.h>
 #include "stdatomic.h"
 
-#define RTC_FREQUENCY 32768
-
 void reset_demo (void);
 
 // Structures for registering different interrupt handlers
@@ -48,10 +46,10 @@ void handle_m_time_interrupt(){
   // Reset the timer for 3s in the future.
   // This also clears the existing timer interrupt.
 
-  volatile uint64_t * mtime       = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
-  volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIMECMP);
+  volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
+  volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
   uint64_t now = *mtime;
-  uint64_t then = now + 1.5 * RTC_FREQUENCY;
+  uint64_t then = now + 2 * RTC_FREQ;
   *mtimecmp = then;
 
   // read the current value of the LEDS and invert them.
@@ -94,7 +92,7 @@ const char * instructions_msg = " \
                      5\n\
 \n\
 SiFive E-Series Software Development Kit 'demo_gpio' program.\n\
-Every 1.5 second, the Timer Interrupt will invert the LEDs.\n\
+Every 2 second, the Timer Interrupt will invert the LEDs.\n\
 (Arty Dev Kit Only): Press Buttons 0, 1, 2 to Set the LEDs.\n\
 Pin 19 (HiFive1) or A5 (Arty Dev Kit) is being bit-banged\n\
 for GPIO speed demonstration.\n\
@@ -179,10 +177,10 @@ void reset_demo (){
 
     // Set the machine timer to go off in 3 seconds.
     // The
-    volatile uint64_t * mtime       = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIME);
-    volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_BASE_ADDR + CLINT_MTIMECMP);
+    volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
+    volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
     uint64_t now = *mtime;
-    uint64_t then = now + 1.5*RTC_FREQUENCY;
+    uint64_t then = now + 2*RTC_FREQ;
     *mtimecmp = then;
 
     // Enable the Machine-External bit in MIE
@@ -199,6 +197,7 @@ int main(int argc, char **argv)
 {
   // Set up the GPIOs such that the LED GPIO
   // can be used as both Inputs and Outputs.
+  
 
 #ifdef HAS_BOARD_BUTTONS
   GPIO_REG(GPIO_OUTPUT_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
@@ -211,15 +210,26 @@ int main(int argc, char **argv)
   GPIO_REG(GPIO_OUTPUT_VAL)  |=   (0x1 << BLUE_LED_OFFSET) ;
   GPIO_REG(GPIO_OUTPUT_VAL)  &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
 
+  
   // For Bit-banging with Atomics demo.
-  GPIO_REG(GPIO_OUTPUT_EN)   |= (0x1 << PIN_19_OFFSET);
- 
+  
+  uint32_t bitbang_mask = 0;
+#ifdef _SIFIVE_HIFIVE1_H
+  bitbang_mask = (1 << PIN_19_OFFSET);
+#else
+#ifdef _SIFIVE_COREPLEXIP_ARTY_H
+  bitbang_mask = (0x1 << JA_0_OFFSET);
+#endif
+#endif
+
+  GPIO_REG(GPIO_OUTPUT_EN) |= bitbang_mask;
+  
   /**************************************************************************
    * Set up the PLIC
    *
    *************************************************************************/
   PLIC_init(&g_plic,
-	    PLIC_BASE_ADDR,
+	    PLIC_CTRL_ADDR,
 	    PLIC_NUM_INTERRUPTS,
 	    PLIC_NUM_PRIORITIES);
 
@@ -231,10 +241,10 @@ int main(int argc, char **argv)
    * the entire OUTPUT_VAL that you want to write, but 
    * Atomics give a quick way to control a single bit.
    *************************************************************************/
-  uint32_t  mask = (1 << PIN_19_OFFSET);
-
+  // For Bit-banging with Atomics demo.
+  
   while (1){
-    atomic_fetch_xor_explicit(&GPIO_REG(GPIO_OUTPUT_VAL), mask, memory_order_relaxed);
+    atomic_fetch_xor_explicit(&GPIO_REG(GPIO_OUTPUT_VAL), bitbang_mask, memory_order_relaxed);
   }
 
   return 0;

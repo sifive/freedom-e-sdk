@@ -8,7 +8,6 @@ all: $(TARGET)
 
 include $(BSP_BASE)/libwrap/libwrap.mk
 
-BOARD ?= freedom-e300-hifive1
 ENV_DIR = $(BSP_BASE)/env
 PLATFORM_DIR = $(ENV_DIR)/$(BOARD)
 
@@ -25,9 +24,6 @@ INCLUDES += -I$(PLATFORM_DIR)
 
 TOOL_DIR = $(BSP_BASE)/../toolchain/bin
 
-CC := $(TOOL_DIR)/riscv32-unknown-elf-gcc
-AR := $(TOOL_DIR)/riscv32-unknown-elf-ar
-
 LDFLAGS += -T $(LINKER_SCRIPT) -nostartfiles
 LDFLAGS += -L$(ENV_DIR)
 
@@ -40,6 +36,9 @@ LINK_DEPS += $(LINKER_SCRIPT)
 CLEAN_OBJS += $(TARGET) $(LINK_OBJS)
 
 CFLAGS += -g
+CFLAGS += -march=$(RISCV_ARCH)
+CFLAGS += -mabi=$(RISCV_ABI)
+CFLAGS += -mcmodel=medany
 
 $(TARGET): $(LINK_OBJS) $(LINK_DEPS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LINK_OBJS) -o $@ $(LDFLAGS)

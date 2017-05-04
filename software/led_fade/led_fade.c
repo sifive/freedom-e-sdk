@@ -6,6 +6,10 @@
 #include <stdint.h>
 #include "platform.h"
 
+#ifndef _SIFIVE_HIFIVE1_H
+#error "'led_fade' is designed to run on HiFive1 and/or E300 Arty Dev Kit."
+#endif
+
 static const char led_msg[] = "\a\n\r\n\r\
 55555555555555555555555555555555555555555555555\n\r\
 5555555 Are the LEDs Changing? [y/n]  555555555\n\r\
@@ -118,7 +122,7 @@ int main (void){
   GPIO_REG(GPIO_OUTPUT_XOR) |= (1 << RED_LED_OFFSET);
 
   while(1){
-    volatile uint64_t *  now = (volatile uint64_t*)(CLINT_BASE_ADDR + CLINT_MTIME);
+    volatile uint64_t *  now = (volatile uint64_t*)(CLINT_CTRL_ADDR + CLINT_MTIME);
     volatile uint64_t then = *now + 100;
     while (*now < then) { }
   
