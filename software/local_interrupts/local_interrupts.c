@@ -78,7 +78,7 @@ const char * instructions_msg = " \
 \n\
 The Buttons 0-3 and Switch 3 are enabled as local\n\
 interrupts sources. A .5 s 'debounce' timer is used \n\
-between these interrupts. Software interrupts are
+between these interrupts. Software interrupts are\n\
 used to print a message while debouncing.\n\
 Note the priority of the interrupts sources.\n\
 \n";
