@@ -4,8 +4,14 @@
 #define _SIFIVE_PLATFORM_H
 
 // Some things missing from the official encoding.h
-#define MCAUSE_INT         0x80000000
-#define MCAUSE_CAUSE       0x7FFFFFFF
+
+#if __riscv_xlen == 32
+#define MCAUSE_INT         0x80000000UL
+#define MCAUSE_CAUSE       0x7FFFFFFFUL
+#else
+#define MCAUSE_INT         0x80000000000000000UL
+#define MCAUSE_CAUSE       0x7FFFFFFFFFFFFFFFFUL
+#endif
 
 #define IRQ_M_LOCAL        16
 #define MIP_MLIP(x)        (1 << (IRQ_M_LOCAL + x))
