@@ -76,6 +76,6 @@
 
 #define RTC_FREQ 32768
 
-void write_hex(int fd, uint32_t hex);
+void write_hex(int fd, long int hex);
 
 #endif /* _SIFIVE_HIFIVE1_H */
