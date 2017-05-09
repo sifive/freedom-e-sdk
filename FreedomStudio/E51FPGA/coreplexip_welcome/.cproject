@@ -23,28 +23,36 @@
 							<option id="org.eclipse.cdt.cross.riscv.gnu.linux.option.target.arch.rvm.1798333519" name="Hardware Multiply/Divide (RVM)" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.option.target.arch.rvm" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 							<option id="org.eclipse.cdt.cross.riscv.gnu.linux.option.addtools.createlisting.40702007" name="Generate code listing" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.option.addtools.createlisting" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 							<option id="org.eclipse.cdt.cross.riscv.gnu.linux.option.addtools.createflash.1083158657" name="Generate flash/programmer file" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.option.addtools.createflash" useByScannerDiscovery="false" value="false" valueType="boolean"/>
+							<option id="org.eclipse.cdt.cross.riscv.gnu.linux.option.target.processor.1197913840" name="Target" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.option.target.processor" useByScannerDiscovery="false" value="org.eclipse.cdt.cross.riscv.gnu.base.option.target.processor.m64" valueType="enumerated"/>
+							<option id="org.eclipse.cdt.cross.riscv.gnu.linux.option.target.abi.1349561162" name="ABI" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.option.target.abi" useByScannerDiscovery="false" value="org.eclipse.cdt.cross.riscv.gnu.base.option.target.abi.lp64" valueType="enumerated"/>
 							<targetPlatform id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.platform.debug.1179966513" isAbstract="false" name="All Platform" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.platform.debug"/>
 							<builder buildPath="${workspace_loc:/hello}/Debug" id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.builder.debug.1284899433" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GNU Make Builder for RISC-V" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.builder.debug"/>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.assembler.debug.2136801255" name="RISC-V GCC/Newlib Assembler" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.assembler.debug">
 								<option id="org.eclipse.cdt.cross.riscv.gnu.assembler.option.include.paths.662514382" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.riscv.gnu.assembler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../bsp/env/freedom-e300-hifive1"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
+									<listOptionValue builtIn="false" value="../../../../bsp/env/coreplexip-e51-arty"/>
 								</option>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def.2027450665" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def" useByScannerDiscovery="false"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def.2027450665" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="NO_INIT"/>
+								</option>
 								<inputType id="org.eclipse.cdt.cross.riscv.gnu.linux.assembler.base.input.1388230464" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.assembler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.compiler.debug.1126128967" name="RISC-V GCC/Newlib C Compiler" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.compiler.debug">
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.level.2008456434" name="Optimization level" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="org.eclipse.cdt.cross.riscv.gnu.base.option.optimization.level.none" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.include.paths.845925242" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="../../../../bsp/env/freedom-e300-hifive1"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
+									<listOptionValue builtIn="false" value="../../../../bsp/env/coreplexip-e31-arty"/>
 								</option>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags.180774102" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags" useByScannerDiscovery="false" value="-c -fno-builtin-printf -include sys/cdefs.h" valueType="string"/>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def.1810971598" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def" useByScannerDiscovery="false"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags.180774102" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags" useByScannerDiscovery="false" value="-c -fno-builtin-printf -include sys/cdefs.h -mcmodel=medany" valueType="string"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def.1810971598" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="NO_INIT"/>
+								</option>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.functionsections.1337314251" name="Function sections (-ffunction-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.functionsections" useByScannerDiscovery="false" value="false" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.datasections.1305768439" name="Data sections (-fdata-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.datasections" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<inputType id="org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input.873855873" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.cpp.compiler.debug.1072169719" name="RISC-V GCC/Newlib C++ Compiler" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.cpp.compiler.debug">
@@ -54,15 +62,15 @@
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.scriptfile.2063684537" name="Script file (-T)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.scriptfile" useByScannerDiscovery="false" value="../link.lds" valueType="string"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.libs.965576520" name="Libraries (-l)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="c"/>
-									<listOptionValue builtIn="false" value="wrap-hifive1"/>
+									<listOptionValue builtIn="false" value="wrap-E51FPGA"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.paths.642729294" name="Library search path (-L)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="../../wrap-hifive1/Debug"/>
+									<listOptionValue builtIn="false" value="../../wrap-E51FPGA/Debug"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.otherflags.858334429" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.otherflags" useByScannerDiscovery="false" value="-Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=open -Wl,--wrap=lseek -Wl,--wrap=read -Wl,--wrap=write -Wl,--wrap=fstat -Wl,--wrap=stat -Wl,--wrap=close -Wl,--wrap=link -Wl,--wrap=unlink -Wl,--wrap=execve -Wl,--wrap=fork -Wl,--wrap=getpid -Wl,--wrap=kill -Wl,--wrap=wait -Wl,--wrap=isatty -Wl,--wrap=times -Wl,--wrap=sbrk -Wl,--wrap=_exit -L. -Wl,--start-group -Wl,--end-group" valueType="string"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostdlibs.576751960" name="No startup or default libs (-nostdlib)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostdlibs" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostart.1023525778" name="Do not use standard start files (-nostartfiles)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostart" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.gc-sections.131473887" name="Remove unused sections (-Xlinker --gc-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.gc-sections" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.gc-sections.131473887" name="Remove unused sections (-Xlinker --gc-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.gc-sections" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nodeflibs.1574863606" name="Do not use default libraries (-nodefaultlibs)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nodeflibs" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.strip.611297819" name="Omit all symbol information (-s)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.strip" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.print-gc-sections.1887984291" name="Print removed sections (-Xlinker --print-gc-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.print-gc-sections" useByScannerDiscovery="false" value="false" valueType="boolean"/>

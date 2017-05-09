@@ -32,7 +32,10 @@
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
 								</option>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def.2027450665" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def.2027450665" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.assembler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="USE_PLIC"/>
+									<listOptionValue builtIn="false" value="USE_M_TIME"/>
+								</option>
 								<inputType id="org.eclipse.cdt.cross.riscv.gnu.linux.assembler.base.input.1388230464" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.assembler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.compiler.debug.1126128967" name="RISC-V GCC/Newlib C Compiler" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.compiler.debug">
@@ -44,7 +47,10 @@
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags.180774102" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags" useByScannerDiscovery="false" value="-c -fno-builtin-printf -include sys/cdefs.h" valueType="string"/>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def.1810971598" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def.1810971598" name="Defined symbols (-D)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="USE_M_TIME"/>
+									<listOptionValue builtIn="false" value="USE_PLIC"/>
+								</option>
 								<inputType id="org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input.873855873" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.cpp.compiler.debug.1072169719" name="RISC-V GCC/Newlib C++ Compiler" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.cpp.compiler.debug">

@@ -5,20 +5,20 @@
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.doFirstReset" value="false"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.doGdbServerAllocateConsole" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.doGdbServerAllocateTelnetConsole" value="false"/>
-<booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.doSecondReset" value="false"/>
+<booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.doSecondReset" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.doStartGdbServer" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.enableSemihosting" value="false"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.firstResetType" value="init"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbClientOtherCommands" value="set mem inaccessible-by-default off&#10;set arch riscv:rv32"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbClientOtherOptions" value=""/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerConnectionAddress" value=""/>
-<stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerExecutable" value="${FSDIR}/bin/${openocd_executable}"/>
+<stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerExecutable" value="${FSBINDIR}/${openocd_executable}"/>
 <intAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerGdbPortNumber" value="3333"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerLog" value=""/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerOther" value="-f openocd.cfg"/>
 <intAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.gdbServerTelnetPortNumber" value="4444"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.otherInitCommands" value=""/>
-<stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.otherRunCommands" value="set $pc=0x20400000"/>
+<stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.otherRunCommands" value=""/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.openocd.secondResetType" value="halt"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageFileName" value=""/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.imageOffset" value=""/>
@@ -39,17 +39,17 @@
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useProjBinaryForImage" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useProjBinaryForSymbols" value="true"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.useRemoteTarget" value="true"/>
-<stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="${FSDIR}/bin/riscv64-unknown-elf-gdb"/>
-<booleanAttribute key="org.eclipse.cdt.dsf.gdb.UPDATE_THREADLIST_ON_SUSPEND" value="true"/>
+<stringAttribute key="org.eclipse.cdt.dsf.gdb.DEBUG_NAME" value="${FSBINDIR}/${cross_prefix}gdb${cross_suffix}"/>
+<booleanAttribute key="org.eclipse.cdt.dsf.gdb.UPDATE_THREADLIST_ON_SUSPEND" value="false"/>
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/hello.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="hello"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/global_interrupts.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="global_interrupts"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="true"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value="org.eclipse.cdt.cross.riscv.gnu.linux.elf.debug.83943911"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/hello"/>
+<listEntry value="/global_interrupts"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
