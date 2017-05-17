@@ -17,6 +17,15 @@ First, clone this repository:
 git clone --recursive https://github.com/sifive/freedom-e-sdk.git
 ```
 
+To see Makefile options:
+
+```
+cd freedom-e-sdk
+make help
+```
+
+#### Building Tools from Source ####
+
 Ubuntu packages needed:
 
 	$ sudo apt-get install autoconf automake libmpc-dev libmpfr-dev libgmp-dev gawk bison flex texinfo libtool libusb-1.0-0-dev make g++ pkg-config libexpat1-dev zlib1g-dev  
@@ -25,7 +34,7 @@ Next, build the tools:
 
 ```
 cd freedom-e-sdk
-make tools
+make tools [BOARD=freedom-e300-hifive1]
 ```
 
 If your machine has enough resources, you can speed up the build process by adding `-j n` to `make`, where `n` is the number of processors of your build system.
@@ -34,15 +43,30 @@ To compile a bare-metal RISC-V program:
 
 ```
 cd freedom-e-sdk
-make software [PROGRAM=demo_gpio]
+make software [PROGRAM=demo_gpio] [BOARD=freedom-e300-hifive1]
+```
+#### Using Pre-Built Binary Tools ####
+
+If you would like to avoid compiling the tools from source, they are
+available as pre-built binaries from
+
+https://sifive.com/products/tools
+
+For OpenOCD and/or RISC-V GNU Toolchain,
+download the .tar.gz for your platform, and unpack it to
+your desired location. Then, use the `RISC_PREFIX` and `RISCV_OPENOCD_PREFIX`
+variables when attempting to use the tools:
+
+```
+cp openocd-<date>-<platform>.tar.gz /my/desired/location/
+cp riscv-gnu-toolchain-<date>-<platform>.tar.gz /my/desired/location
+cd /my/desired/location
+tar -xvf openocd-<date>-<platform>.tar.gz
+tar -xvf riscv-gnu-toolchain-<date>-<platform>.tar.gz
+export RISCV_OPENOCD_PREFIX /my/desired/location/openocd
+export RISCV_PREFIX /my/desired/location/riscv-gnu-toolchain
 ```
 
-To see additional options:
-
-```
-cd freedom-e-sdk
-make help
-```
 ### Updating your SDK ###
 
 If you'd like to update your SDK to the latest version:

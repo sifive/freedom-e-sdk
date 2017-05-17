@@ -103,13 +103,15 @@ tools: riscv-gnu-toolchain openocd
 toolchain_builddir := $(builddir)/riscv-gnu-toolchain/riscv64-unknown-elf
 toolchain_prefix := $(toolchain_builddir)/prefix
 
-RISCV_GCC     := $(abspath $(toolchain_prefix)/bin/riscv64-unknown-elf-gcc)
-RISCV_GXX     := $(abspath $(toolchain_prefix)/bin/riscv64-unknown-elf-g++)
-RISCV_OBJDUMP := $(abspath $(toolchain_prefix)/bin/riscv64-unknown-elf-objdump)
-RISCV_GDB     := $(abspath $(toolchain_prefix)/bin/riscv64-unknown-elf-gdb)
-RISCV_AR      := $(abspath $(toolchain_prefix)/bin/riscv64-unknown-elf-ar)
+RISCV_PREFIX ?= $(toolchain_prefix)
 
-PATH := $(abspath $(toolchain_prefix)/bin):$(PATH)
+RISCV_GCC     := $(abspath $(RISCV_PREFIX)/bin/riscv64-unknown-elf-gcc)
+RISCV_GXX     := $(abspath $(RISCV_PREFIX)/bin/riscv64-unknown-elf-g++)
+RISCV_OBJDUMP := $(abspath $(RISCV_PREFIX)/bin/riscv64-unknown-elf-objdump)
+RISCV_GDB     := $(abspath $(RISCV_PREFIX)/bin/riscv64-unknown-elf-gdb)
+RISCV_AR      := $(abspath $(RISCV_PREFIX)/bin/riscv64-unknown-elf-ar)
+
+PATH := $(abspath $(RISCV_PREFIX)/bin):$(PATH)
 
 $(RISCV_GCC) $(RISCV_GXX) $(RISCV_OBJDUMP) $(RISCV_GDB) $(RISCV_AR): $(toolchain_builddir)/install.stamp
 	touch -c $@
@@ -148,7 +150,9 @@ toolchain-clean:
 # initializing the target.
 openocd_builddir := $(builddir)/openocd
 openocd_prefix := $(openocd_builddir)/prefix
-RISCV_OPENOCD := $(openocd_prefix)/bin/openocd
+
+RISCV_OPENOCD_PREFIX ?= $(openocd_prefix)
+RISCV_OPENOCD ?= $(RISCV_OPENOCD_PREFIX)/bin/openocd
 
 .PHONY: openocd
 openocd: $(RISCV_OPENOCD)
@@ -215,7 +219,7 @@ GDB_UPLOAD_CMDS += -ex "quit"
 
 upload:
 	$(RISCV_OPENOCD) $(OPENOCDARGS) & \
-	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDB_UPLOAD_ARGS) $(GDB_UPLOAD_CMDS);\
+	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDB_UPLOAD_ARGS) $(GDB_UPLOAD_CMDS) && \
 	echo "Successfully uploaded '$(PROGRAM)' to $(BOARD)."
 
 #############################################################
