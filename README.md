@@ -39,12 +39,7 @@ make tools [BOARD=freedom-e300-hifive1]
 
 If your machine has enough resources, you can speed up the build process by adding `-j n` to `make`, where `n` is the number of processors of your build system.
 
-To compile a bare-metal RISC-V program:
 
-```
-cd freedom-e-sdk
-make software [PROGRAM=demo_gpio] [BOARD=freedom-e300-hifive1]
-```
 #### Using Pre-Built Binary Tools ####
 
 If you would like to avoid compiling the tools from source, they are
@@ -83,6 +78,16 @@ If you would like to recompile the entire toolchain after performing the above:
 make uninstall
 make tools
 ```
+### Using the Tools ###
+
+To compile a bare-metal RISC-V program:
+
+```
+cd freedom-e-sdk
+make software [PROGRAM=demo_gpio] [BOARD=freedom-e300-hifive1]
+```
+
+Run `make help` for more commands.
 
 ### Benchmarking ###
 
