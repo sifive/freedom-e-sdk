@@ -49,17 +49,17 @@ https://sifive.com/products/tools
 
 For OpenOCD and/or RISC-V GNU Toolchain,
 download the .tar.gz for your platform, and unpack it to
-your desired location. Then, use the `RISC_PREFIX` and `RISCV_OPENOCD_PREFIX`
+your desired location. Then, use the `RISC_PATH` and `RISCV_OPENOCD_PATH`
 variables when attempting to use the tools:
 
 ```
 cp openocd-<date>-<platform>.tar.gz /my/desired/location/
-cp riscv-gnu-toolchain-<date>-<platform>.tar.gz /my/desired/location
+cp riscv64-unknown-elf-gcc-<date>-<platform>.tar.gz /my/desired/location
 cd /my/desired/location
 tar -xvf openocd-<date>-<platform>.tar.gz
-tar -xvf riscv-gnu-toolchain-<date>-<platform>.tar.gz
-export RISCV_OPENOCD_PREFIX /my/desired/location/openocd
-export RISCV_PREFIX /my/desired/location/riscv-gnu-toolchain
+tar -xvf riscv64-unknown-elf-gcc-<date>-<platform>.tar.gz
+export RISCV_OPENOCD_PATH=/my/desired/location/openocd
+export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
 ```
 
 ### Updating your SDK ###
