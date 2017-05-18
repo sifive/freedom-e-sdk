@@ -16,7 +16,7 @@ GDB    	= $(CCPATH)/$(TARGET)-gdb
 
 FREERTOS_SOURCE_DIR	= ../../Source
 CC_OPTS = -mabi=ilp32 -g3 -gdwarf-2 -march=rv32imac
-PROG	= RISCV_HiFive1_GCC
+PROG	= RISCV_E31Arty_GCC
 #-----------------------------------------------------------
 RISCV_OPENOCD = /Applications/FreedomStudio/bin/openocd
 

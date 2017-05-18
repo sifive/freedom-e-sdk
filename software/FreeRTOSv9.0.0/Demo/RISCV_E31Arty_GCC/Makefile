@@ -31,11 +31,10 @@ INCLUDES = \
  	-I$(BSP_BASE)/env/$(BOARD)	
 
 DEFINES = \
-	-D_HIFIVE 
 
 CFLAGS = \
 	$(WARNINGS) $(INCLUDES) $(DEFINES) \
-	-ffunction-sections -fdata-sections -Wall -c -fno-builtin-printf -include sys/cdefs.h
+	-ffunction-sections -fdata-sections -Wall -c -fno-builtin-printf -include sys/cdefs.h -mcmodel=medany
 
 AFLAGS = \
 	$(WARNINGS) $(INCLUDES) $(DEFINES) \
