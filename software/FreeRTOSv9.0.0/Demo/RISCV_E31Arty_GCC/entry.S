@@ -115,7 +115,7 @@ interrupt:
 	jal handle_interrupt
 	popREGFILE 
 
-	/* Interupt is not m-time  */
+	/* Interupt is m-time  */
 MTIME_IRQ:
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
