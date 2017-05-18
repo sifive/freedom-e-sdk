@@ -130,11 +130,6 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>bsp/libwrap</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
 			<name>Source/include/FreeRTOS.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/software/FreeRTOSv9.0.0/Source/include/FreeRTOS.h</locationURI>
@@ -270,26 +265,6 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>bsp/libwrap/libwrap.mk</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/libwrap.mk</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/misc</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/stdlib</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
 			<name>Source/portable/GCC/.DS_Store</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/software/FreeRTOSv9.0.0/Source/portable/GCC/.DS_Store</locationURI>
@@ -363,116 +338,6 @@
 			<name>bsp/include/sifive/smp.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/smp.h</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/misc/write_hex.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/misc/write_hex.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/stdlib/malloc.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/stdlib/malloc.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/_exit.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/_exit.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/close.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/close.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/execve.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/execve.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/fork.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/fork.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/fstat.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/fstat.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/getpid.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/getpid.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/isatty.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/isatty.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/kill.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/kill.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/link.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/link.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/lseek.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/lseek.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/open.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/open.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/openat.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/openat.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/read.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/read.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/sbrk.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/sbrk.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/stat.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/stat.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/stub.h</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/stub.h</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/times.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/times.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/unlink.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/unlink.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/wait.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/wait.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/write.c</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/write.c</locationURI>
 		</link>
 		<link>
 			<name>Source/portable/GCC/RISCV/port.c</name>
