@@ -104,26 +104,25 @@ interrupt:
 	li      t1,INT_MASK
 	and     t0,t0,t1
 	li      t1, 0x7
-	bne     t0,t1, NON_TIMER_IRQ
+	beq     t0,t1, MTIME_IRQ
 
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
 	addi	sp, sp, 3*REGBYTES
 
 	/* Interupt is timer interrupt */
-	j		TIMER_CMP_INT
-	mret
+	pushREGFILE
+	jal handle_interrupt
+	popREGFILE 
 
 	/* Interupt is not m-time  */
-NON_TIMER_IRQ:
+MTIME_IRQ:
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
 	addi	sp, sp, 3*REGBYTES
 	nop
-	pushREGFILE
-	jal handle_interrupt
-	popREGFILE //j portRESTORE_CONTEXT
-
+	j		MTIME_INT
+	mret
 
 /* For when a trap is fired */
 trap_entry:
@@ -137,7 +136,7 @@ trap_entry:
 
 	/* synchronous trap*/
 	pushREGFILE
-	jal ulSyscallTrap
+	jal ulSynchTrap
 	popREGFILE
 
 

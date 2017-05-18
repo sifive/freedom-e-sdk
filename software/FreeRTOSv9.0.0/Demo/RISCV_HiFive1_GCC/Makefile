@@ -41,7 +41,7 @@ AFLAGS = \
 	$(WARNINGS) $(INCLUDES) $(DEFINES) \
 	-Wall -c -Wa,-march=rv32imac -x assembler-with-cpp
 
-GCCVER 	= $(shell $(GCC) --version | grep gcc | cut -d" " -f9)
+
 
 #
 # Define all object files.

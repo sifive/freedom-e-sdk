@@ -468,6 +468,14 @@ uintptr_t handle_interrupt(uintptr_t mcause, uintptr_t epc){
 }
 /*-----------------------------------------------------------*/
 
+/* System Call Trap */
+uintptr_t ulSynchTrap(uintptr_t mcause, uintptr_t epc)	{
+	    write(1, "trap\n", 5);
+	    _exit(1 + mcause);
+	  return epc;
+}
+/*-----------------------------------------------------------*/
+
 
 //enables interrupt and assigns handler
 void enable_interrupt(uint32_t int_num, uint32_t int_priority, function_ptr_t handler) {
