@@ -306,8 +306,8 @@ const uint32_t ulValueToSend = 100UL;
 
 static void prvQueueReceiveTask( void *pvParameters )
 {
-uint32_t ulReceivedValue;
-
+    uint32_t ulReceivedValue;
+    char stringValue[10];
     for( ;; )
     {
 
@@ -315,7 +315,12 @@ uint32_t ulReceivedValue;
         indefinitely provided INCLUDE_vTaskSuspend is set to 1 in
         FreeRTOSConfig.h. */
         xQueueReceive( xQueue, &ulReceivedValue, portMAX_DELAY );
-        printf("Recieved: %ld\n", ulReceivedValue);
+        //printf("Recieved: %ld\n", ulReceivedValue);
+
+        itoa(ulReceivedValue,stringValue, 10);
+        write(1,"Recieved: ", 10);
+        write(1,stringValue, 3);
+        write(1,"\n",1);
 
         /*  To get here something must have been received from the queue, but
         is it the expected value?  If it is, increment the counter. */
