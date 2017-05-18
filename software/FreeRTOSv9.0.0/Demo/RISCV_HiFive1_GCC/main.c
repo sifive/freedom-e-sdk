@@ -446,9 +446,10 @@ volatile size_t xFreeStackSpace;
 the wake button */
 void wake_ISR( )    {
     const uint32_t ulValueToSend = 555UL;
-    write(1,"---------->\n",20);
+    
     GPIO_REG(GPIO_OUTPUT_VAL)  ^=   (0x1 << RED_LED_OFFSET) ;
     xQueueSendFromISR( xQueue, &ulValueToSend, 0 );
+    write(1,"---------->\n",13);
     //clear irq - interrupt pending register is write 1 to clear
     GPIO_REG(GPIO_FALL_IP) |= (1<<PIN_2_OFFSET);
 }
