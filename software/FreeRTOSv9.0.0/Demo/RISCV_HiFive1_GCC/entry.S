@@ -51,7 +51,7 @@
 	mv a2, sp
 .endm
 
-/* Macro for saving task context */
+/* Macro for restoring task context */
 .macro popREGFILE
 csrw mepc, a0
 
@@ -110,7 +110,7 @@ interrupt:
 	LOAD    t1, 1*REGBYTES(sp)
 	addi	sp, sp, 3*REGBYTES
 
-	/* Interupt is timer interrupt */
+	/* Interupt not m-time interrupt */
 	pushREGFILE
 	jal handle_interrupt
 	popREGFILE 

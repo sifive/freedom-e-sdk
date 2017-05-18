@@ -96,7 +96,7 @@ static void prvTaskExitError( void );
 
 void vPortEnterCritical( void )
 {
-	portDISABLE_INTERRUPTS();
+	//portDISABLE_INTERRUPTS();
 	uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
@@ -213,13 +213,6 @@ void vPortSetup()	{
 	set_csr(mstatus,MSTATUS_MPIE);
 }
 /*-----------------------------------------------------------*/
-
-/* System Call Trap */
-uintptr_t ulSyscallTrap(uintptr_t mcause, uintptr_t epc)	{
-	    write(1, "trap\n", 5);
-	    _exit(1 + mcause);
-	  return epc;
-}
 
 
 

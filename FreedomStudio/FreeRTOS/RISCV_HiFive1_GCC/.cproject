@@ -51,15 +51,18 @@
 								<option id="org.eclipse.cdt.cross.riscv.gnu.cpp.compiler.option.optimization.level.708858281" name="Optimization level" superClass="org.eclipse.cdt.cross.riscv.gnu.cpp.compiler.option.optimization.level" value="org.eclipse.cdt.cross.riscv.gnu.base.option.optimization.level.none" valueType="enumerated"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.linker.debug.542817762" name="RISC-V GCC/Newlib C Linker" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.linker.debug">
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.otherflags.728397606" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.otherflags" useByScannerDiscovery="false" value="-Wl,-Map=$(PROG).map -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=open -Wl,--wrap=lseek -Wl,--wrap=read -Wl,--wrap=write -Wl,--wrap=fstat -Wl,--wrap=stat -Wl,--wrap=close -Wl,--wrap=link -Wl,--wrap=unlink -Wl,--wrap=execve -Wl,--wrap=fork -Wl,--wrap=getpid -Wl,--wrap=kill -Wl,--wrap=wait -Wl,--wrap=isatty -Wl,--wrap=times -Wl,--wrap=sbrk -Wl,--wrap=_exit -L. -Wl,--start-group -Wl,--end-group -Wl,-gc-sections&#10;&#10;" valueType="string"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.otherflags.728397606" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.otherflags" useByScannerDiscovery="false" value="-static -Wl,-Map=$(PROG).map -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=open -Wl,--wrap=lseek -Wl,--wrap=read -Wl,--wrap=write -Wl,--wrap=fstat -Wl,--wrap=stat -Wl,--wrap=close -Wl,--wrap=link -Wl,--wrap=unlink -Wl,--wrap=execve -Wl,--wrap=fork -Wl,--wrap=getpid -Wl,--wrap=kill -Wl,--wrap=wait -Wl,--wrap=isatty -Wl,--wrap=times -Wl,--wrap=sbrk -Wl,--wrap=_exit -L. -Wl,--start-group -Wl,--end-group -Wl,-gc-sections&#10;&#10;" valueType="string"/>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.paths.1540187895" name="Library search path (-L)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.libs.355063979" name="Libraries (-l)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="c"/>
+									<listOptionValue builtIn="false" value="gcc"/>
 									<listOptionValue builtIn="false" value="wrap-hifive1"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.scriptfile.1595045124" name="Script file (-T)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.scriptfile" useByScannerDiscovery="false" value="../link.lds" valueType="string"/>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostdlibs.27271772" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostdlibs" useByScannerDiscovery="false" value="false" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostdlibs.27271772" name="No startup or default libs (-nostdlib)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.nostdlibs" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.link.option.gc-sections.434397273" name="Remove unused sections (-Xlinker --gc-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.link.option.gc-sections" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<inputType id="org.eclipse.cdt.cross.riscv.gnu.c.linker.input.925001923" superClass="org.eclipse.cdt.cross.riscv.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
