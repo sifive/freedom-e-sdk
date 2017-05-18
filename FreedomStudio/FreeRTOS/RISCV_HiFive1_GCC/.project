@@ -30,11 +30,6 @@
 			<locationURI>PARENT-3-PROJECT_LOC/software/FreeRTOSv9.0.0/Demo/RISCV_HiFive1_GCC/FreeRTOSConfig.h</locationURI>
 		</link>
 		<link>
-			<name>Makefile.inc</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/software/FreeRTOSv9.0.0/Demo/RISCV_HiFive1_GCC/Makefile.inc</locationURI>
-		</link>
-		<link>
 			<name>Source</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>

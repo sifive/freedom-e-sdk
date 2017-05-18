@@ -44,7 +44,7 @@
 									<listOptionValue builtIn="false" value="../../../../software/FreeRTOSv9.0.0/Demo/RISCV_HiFive1_GCC"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.functionsections.649819476" name="Function sections (-ffunction-sections)" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.optimization.functionsections" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags.1246796577" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags" useByScannerDiscovery="false" value="-c -fno-builtin-printf -include sys/cdefs.h" valueType="string"/>
+								<option id="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags.1246796577" name="Other flags" superClass="org.eclipse.cdt.cross.riscv.gnu.c.compiler.option.other.otherflags" useByScannerDiscovery="false" value="-c -fno-builtin-printf -include sys/cdefs.h -mcmodel=medany" valueType="string"/>
 								<inputType id="org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input.17006559" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input"/>
 							</tool>
 							<tool id="org.eclipse.cdt.cross.riscv.gnu.linux.elf.cpp.compiler.debug.1621964021" name="RISC-V GCC/Newlib C++ Compiler" superClass="org.eclipse.cdt.cross.riscv.gnu.linux.elf.cpp.compiler.debug">
@@ -135,22 +135,9 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="RISCV_HiFive1_GCC.org.eclipse.cdt.cross.riscv.gnu.linux.elf.1184051391" name="RISC-V Embedded Application" projectType="org.eclipse.cdt.cross.riscv.gnu.linux.elf"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.riscv.gnu.linux.elf.release.105864211;org.eclipse.cdt.cross.riscv.gnu.linux.elf.release.105864211.;org.eclipse.cdt.cross.riscv.gnu.linux.elf.assembler.release.1341091699;org.eclipse.cdt.cross.riscv.gnu.linux.assembler.base.input.1938464393">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.riscv.gnu.RISCV_GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.riscv.gnu.linux.elf.debug.1632095065;org.eclipse.cdt.cross.riscv.gnu.linux.elf.debug.1632095065.;org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.compiler.debug.765295947;org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input.17006559">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.riscv.gnu.RISCV_GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.riscv.gnu.linux.elf.debug.1632095065;org.eclipse.cdt.cross.riscv.gnu.linux.elf.debug.1632095065.;org.eclipse.cdt.cross.riscv.gnu.linux.elf.assembler.debug.1001899611;org.eclipse.cdt.cross.riscv.gnu.linux.assembler.base.input.863135292">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.riscv.gnu.RISCV_GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="org.eclipse.cdt.cross.riscv.gnu.linux.elf.release.105864211;org.eclipse.cdt.cross.riscv.gnu.linux.elf.release.105864211.;org.eclipse.cdt.cross.riscv.gnu.linux.elf.c.compiler.release.776494214;org.eclipse.cdt.cross.riscv.gnu.linux.c.compiler.base.input.414931126">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.cross.riscv.gnu.RISCV_GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="scannerConfiguration"/>
+	<storageModule moduleId="org.eclipse.cdt.core.pathentry"/>
 </cproject>
