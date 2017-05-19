@@ -187,7 +187,7 @@ int main(void)
                     ( const char * ) "Rx",
                     /* The size (in words) of the stack that should be created
                     for the task. */
-					800, /* printf requires a much deeper stack*/
+					600, /* printf requires a much deeper stack*/
                     /* A parameter that can be passed into the task.  Not used
                     in this simple demo. */
                     NULL,
@@ -220,7 +220,7 @@ int main(void)
     xEventSemaphore semaphore. */
     xTaskCreate(     prvEventSemaphoreTask,
                     ( const char * ) "Sem",
-					configMINIMAL_STACK_SIZE,
+					500,
                     NULL,
                     mainEVENT_SEMAPHORE_TASK_PRIORITY,
                     NULL );
@@ -317,8 +317,6 @@ static void prvQueueReceiveTask( void *pvParameters )
         indefinitely provided INCLUDE_vTaskSuspend is set to 1 in
         FreeRTOSConfig.h. */
         xQueueReceive( xQueue, &ulReceivedValue, portMAX_DELAY );
-        //printf("Recieved: %ld\n", ulReceivedValue);
-
         itoa(ulReceivedValue,stringValue, 10);
         write(1,"Recieved: ", 10);
         write(1,stringValue, 3);
@@ -550,8 +548,12 @@ void interrupts_init(  ) {
 void led_init()  {
     GPIO_REG(GPIO_INPUT_EN)    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
     GPIO_REG(GPIO_OUTPUT_EN)   |=  ((0x1<< RED_LED_OFFSET)| (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
-    GPIO_REG(GPIO_OUTPUT_VAL)  = ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
+    GPIO_REG(GPIO_OUTPUT_VAL)  &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
 
+    //turn down the light!
+    PWM0_REG(PWM_CMP1)  = 0xFFFF;
+    PWM0_REG(PWM_CMP2)  = 0xFFFF;
+    PWM0_REG(PWM_CMP3)  = 0xFFFF;
 }
 /*-----------------------------------------------------------*/
 
