@@ -1,3 +1,12 @@
+## SiFive FreeRTOS Port ##
+
+This is a port of FreeRTOS supporting the following platforms
+
+ - HiFive1: https://www.sifive.com/products/hifive1/
+ - E31 Coreplex Arty FPGA Eval : https://dev.sifive.com/coreplex-risc-v-ip/evaluate/fpga/
+
+
+
 Demos
 -----
 Each supported platform has a demo derived from official FreeRTOS hardware independent [example](http://www.freertos.org/Hardware-independent-RTOS-example.html). This demo creates a number of tasks at different priority levels along with a timer and Idle and Tick hook functions. Queues and Semaphores are used to communicate between tasks.
