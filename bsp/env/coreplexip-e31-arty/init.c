@@ -83,7 +83,7 @@ void _init()
   #ifndef NO_INIT
   uart_init(115200);
 
-  printf("core freq at %d Hz\n", get_cpu_freq());
+  printf("core freq at %ld Hz\n", get_cpu_freq());
 
   write_csr(mtvec, &trap_entry);
   #endif
