@@ -13,7 +13,7 @@ FREERTOS_SRC = \
 PORT_SRC = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISCV/port.c
 PORT_ASM = $(FREERTOS_SOURCE_DIR)/portable/GCC/RISCV/portasm.S
 
-DEMO_SRC +=	$(BSP_BASE)/env/freedom-e300-hifive1/init.c
+DEMO_SRC +=	$(BSP_BASE)/env/$(BOARD)/init.c
 DEMO_SRC +=	$(BSP_BASE)/drivers/plic/plic_driver.c
 DEMO_SRC +=	main.c
 

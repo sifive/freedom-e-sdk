@@ -1,8 +1,9 @@
 # File to be included in all makefiles
 
 TARGET=riscv64-unknown-elf
+fesdk_builddir=../../../../work/build
 #-----------------------------------------------------------
-CCPATH	= /Applications/FreedomStudio/SiFive/riscv64-unknown-elf-gcc-20170503-x86_64-apple-darwin/bin
+CCPATH	= $(fesdk_builddir)/riscv-gnu-toolchain/riscv64-unknown-elf/prefix/bin
 BSP_BASE = ../../../../bsp
 BOARD = freedom-e300-hifive1
 
@@ -18,6 +19,6 @@ FREERTOS_SOURCE_DIR	= ../../Source
 CC_OPTS = -mabi=ilp32 -g3 -gdwarf-2 -march=rv32imac
 PROG	= RISCV_HiFive1_GCC
 #-----------------------------------------------------------
-RISCV_OPENOCD = /Applications/FreedomStudio/bin/openocd
+RISCV_OPENOCD = $(fesdk_builddir)/openocd/prefix/bin/openocd
 
 
