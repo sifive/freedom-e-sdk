@@ -14,6 +14,7 @@ Each supported platform has a demo derived from official FreeRTOS hardware indep
 SiFive specific functionality was also added to the demo and differs slightly by platform. UART communication is used to help understand the status of the application, along with led control, and an button interrupt to send a message to a task via the queue.
 
 **Building and Running**
+
  There is a demo for each supported platform in the Demo directory. The demo applications are setup to use the Freedom-E-SDK toolchain and bsp directory by default. Each demo has a make file in it's directory which can be used to compile the demo and program the platform by running the following commands :
  
  - make - builds the application
