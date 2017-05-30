@@ -82,8 +82,6 @@
 # define REGBYTES 4
 #endif
 
-#define MSTATUS_PRV1 0x1880
-
 .global portSAVE_CONTEXT
 .global portRESTORE_CONTEXT
 .global MTIME_INT
@@ -99,7 +97,7 @@
 .macro portSAVE_CONTEXT
 	.global	pxCurrentTCB
 	/* make room in stack */
-	addi	sp, sp, -REGBYTES * 32
+	addi	sp, sp, -REGBYTES * 33
 
 	/* Save Context */
 	STORE	x1, 0x0(sp)
@@ -134,9 +132,14 @@
 	STORE	x30, 29 * REGBYTES(sp)
 	STORE	x31, 30 * REGBYTES(sp)
 	
+		/* Store mstatus */
+	csrr	t0, mstatus	//pointer
+	STORE	t0, 31 * REGBYTES(sp)
+
 	/* Store current stackpointer in task control block (TCB) */
 	LOAD	t0, pxCurrentTCB	//pointer
 	STORE	sp, 0x0(t0)
+
 .endm
 
 
@@ -144,13 +147,13 @@
 /* Saves current error program counter (EPC) as task program counter */
 .macro portSAVE_EPC
   	csrr	t0, mepc
-	STORE	t0, 31 * REGBYTES(sp)
+	STORE	t0, 32 * REGBYTES(sp)
 
 .endm
 
 /* Saves current return adress (RA) as task program counter */
 .macro portSAVE_RA
-	STORE	ra, 31 * REGBYTES(sp)
+	STORE	ra, 32 * REGBYTES(sp)
 
 .endm
 
@@ -163,12 +166,12 @@ portRESTORE_CONTEXT:
 	LOAD	sp, 0x0(sp)
 
 	/* Load task program counter */
-	LOAD	t0, 31 * REGBYTES(sp)
+	LOAD	t0, 32 * REGBYTES(sp)
   	csrw	mepc, t0
 
-	/* Run in machine mode */
-  	li 		t0, MSTATUS_PRV1
-  	csrs	mstatus, t0
+	/* Load saved mstatus */
+	LOAD	t0, 31 * REGBYTES(sp)
+  	csrw	mstatus, t0
 
 	/* Restore registers,
 	   Skip global pointer because that does not change */
@@ -202,7 +205,7 @@ portRESTORE_CONTEXT:
 	LOAD	x30, 29 * REGBYTES(sp)
 	LOAD	x31, 30 * REGBYTES(sp)
 
-	addi	sp, sp, REGBYTES * 32
+	addi	sp, sp, REGBYTES * 33
 	mret
 //.endm
 

@@ -88,6 +88,12 @@
 variable. */
 UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
+#if USER_MODE_TASKS
+	MSTATUS_INIT = (MSTATUS_MPIE);
+#else
+	MSTATUS_INIT = (MSTATUS_MPP | MSTATUS_MPIE);
+#endif
+
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
@@ -96,7 +102,7 @@ static void prvTaskExitError( void );
 
 void vPortEnterCritical( void )
 {
-	//portDISABLE_INTERRUPTS();
+	portDISABLE_INTERRUPTS();
 	uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
@@ -143,6 +149,11 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 	register int *tp asm("x3");
 	pxTopOfStack--;
 	*pxTopOfStack = (portSTACK_TYPE)pxCode;			/* Start address */
+
+	//set the initial mstatus value
+	pxTopOfStack--;
+	*pxTopOfStack = MSTATUS_INIT;
+
 	pxTopOfStack -= 22;
 	*pxTopOfStack = (portSTACK_TYPE)pvParameters;	/* Register a0 */
 	pxTopOfStack -= 6;
@@ -210,7 +221,7 @@ void vPortSetupTimer()	{
 void vPortSetup()	{
 	vPortSetupTimer();
 	uxCriticalNesting = 0;
-	set_csr(mstatus,MSTATUS_MPIE);
+	//set_csr(mstatus,MSTATUS_MPIE);
 }
 /*-----------------------------------------------------------*/
 
