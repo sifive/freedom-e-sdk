@@ -108,7 +108,7 @@ interrupt:
 
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
-	addi	sp, sp, 3*REGBYTES
+	addi	sp, sp, 2*REGBYTES
 
 	/* Interupt not m-time interrupt */
 	pushREGFILE
@@ -119,20 +119,20 @@ interrupt:
 MTIME_IRQ:
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
-	addi	sp, sp, 3*REGBYTES
-	nop
+	addi	sp, sp, 2*REGBYTES
 	j		MTIME_INT
 	mret
 
+.align 2
 /* For when a trap is fired */
 trap_entry:
 	/* Check for interrupt */
-	addi	sp, sp, -REGBYTES*3
+	addi	sp, sp, -REGBYTES*2
 	STORE	t0, 0x0(sp)
 	csrr	t0, mcause
 	blt	t0,x0,interrupt
 	LOAD	t0, 0x0(sp)
-	addi	sp, sp, 3*REGBYTES
+	addi	sp, sp, 2*REGBYTES
 
 	/* synchronous trap*/
 	pushREGFILE
