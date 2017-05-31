@@ -35,11 +35,6 @@
 			<locationURI>PARENT-3-PROJECT_LOC/software/hello/hello.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/drivers</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -65,9 +60,9 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/.DS_Store</name>
+			<name>bsp/env/coreplexip-arty.h</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/.DS_Store</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-arty.h</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/encoding.h</name>
@@ -93,11 +88,6 @@
 			<name>bsp/env/start.S</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/start.S</locationURI>
-		</link>
-		<link>
-			<name>bsp/include/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/.DS_Store</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive</name>
@@ -143,16 +133,6 @@
 			<name>bsp/env/freedom-e300-hifive1/platform.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/platform.h</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/freedom-e300-hifive1/settings.mk</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/settings.mk</locationURI>
-		</link>
-		<link>
-			<name>bsp/include/sifive/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/.DS_Store</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive/bits.h</name>
