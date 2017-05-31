@@ -54,8 +54,7 @@
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.other.2134381418" name="Other assembler flags" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.other" useByScannerDiscovery="false" value="-c" valueType="string"/>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.defs.1924319359" name="Defined symbols (-D)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="USE_PLIC"/>
-									<listOptionValue builtIn="false" value="USE_M_TIME"/>
+									<listOptionValue builtIn="false" value="NO_INIT"/>
 								</option>
 								<inputType id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.input.991131472" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.input"/>
 							</tool>
@@ -68,8 +67,7 @@
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.other.797100278" name="Other compiler flags" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.other" useByScannerDiscovery="true" value="-mcmodel=medany -c -fno-builtin-printf -include sys/cdefs.h" valueType="string"/>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs.327647524" name="Defined symbols (-D)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.defs" useByScannerDiscovery="true" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="USE_M_TIME"/>
-									<listOptionValue builtIn="false" value="USE_PLIC"/>
+									<listOptionValue builtIn="false" value="NO_INIT"/>
 								</option>
 								<inputType id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.c.compiler.input.558171910" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.c.compiler.input"/>
 							</tool>
