@@ -1,0 +1,36 @@
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - autoconf
+      - automake
+      - autotools-dev
+      - bc
+      - bison
+      - build-essential
+      - curl
+      - flex
+      - gawk
+      - gperf
+      - libgmp-dev
+      - libmpc-dev
+      - libmpfr-dev
+      - libtool
+      - patchutils
+      - texinfo
+      - gcc-4.8
+      - g++-4.8
+env:
+  - BOARD=coreplexip-e51-arty
+  - BOARD=coreplexip-e31-arty
+  - BOARD=coreplexip-e300-arty
+  - BOARD=coreplexip-e300-hifive1
+before_install:
+  - export MAKEFLAGS="-j3"
+  - export CXX=g++-4.8
+  - export CC=gcc-4.8
+install: true
+script:
+  - make tools | tail
+  - ./regression.bash --board=$BOARD
