@@ -97,6 +97,6 @@
 
 #define RTC_FREQ 32768
 
-void write_hex(int fd, long int hex);
+void write_hex(int fd, unsigned long int hex);
 
 #endif /* _SIFIVE_COREPLEXIP_ARTY_H */
