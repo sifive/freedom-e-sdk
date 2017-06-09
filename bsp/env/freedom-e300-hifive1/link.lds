@@ -123,6 +123,7 @@ SECTIONS
   } >ram AT>flash :ram_init
 
   .srodata        :
+    ALIGN(8)
   {
     PROVIDE( _gp = . + 0x800 );
     *(.srodata.cst16)
@@ -133,6 +134,7 @@ SECTIONS
   } >ram AT>flash :ram_init
 
   .sdata          :
+    ALIGN(8)
   {
     *(.sdata .sdata.*)
     *(.gnu.linkonce.s.*)
