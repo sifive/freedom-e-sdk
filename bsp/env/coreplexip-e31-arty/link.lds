@@ -124,7 +124,7 @@ SECTIONS
 
   .sdata          :
   {
-    PROVIDE( _gp = . + 0x800 );
+    PROVIDE( __global_pointer$ = . + 0x800 );
     *(.sdata .sdata.*)
     *(.gnu.linkonce.s.*)
   } >ram AT>flash :ram_init

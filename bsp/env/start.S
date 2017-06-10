@@ -7,7 +7,10 @@
 	.type _start,@function
 
 _start:
-	la gp, _gp
+.option push
+.option norelax
+	la gp, __global_pointer$
+.option pop
 	la sp, _sp
 
 	/* Load data section */
