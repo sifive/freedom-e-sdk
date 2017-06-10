@@ -14,6 +14,7 @@ endif
 # Default target
 BOARD ?= freedom-e300-hifive1
 PROGRAM ?= demo_gpio
+GDB_PORT ?= 3333
 
 # Variables the user probably shouldn't override.
 builddir := work/build
@@ -209,7 +210,7 @@ OPENOCDARGS += -f $(OPENOCDCFG)
 GDB_UPLOAD_ARGS ?= --batch
 
 GDB_UPLOAD_CMDS += -ex "set remotetimeout 240"
-GDB_UPLOAD_CMDS += -ex "target extended-remote localhost:3333"
+GDB_UPLOAD_CMDS += -ex "target extended-remote localhost:$(GDB_PORT)"
 GDB_UPLOAD_CMDS += -ex "monitor reset halt"
 GDB_UPLOAD_CMDS += -ex "monitor flash protect 0 64 last off"
 GDB_UPLOAD_CMDS += -ex "load"
@@ -230,7 +231,7 @@ run_openocd:
 	$(RISCV_OPENOCD) $(OPENOCDARGS)
 
 GDBCMDS += -ex "set remotetimeout 240"
-GDBCMDS += -ex "target extended-remote localhost:3333"
+GDBCMDS += -ex "target extended-remote localhost:$(GDB_PORT)"
 
 run_gdb:
 	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDBARGS) $(GDBCMDS)
