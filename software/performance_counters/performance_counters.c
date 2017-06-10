@@ -18,7 +18,7 @@
 // rollover with this routine as suggested by the
 // RISC-V Priviledged Architecture Specification.
 
-#ifdef __riscv64
+#if __riscv_xlen == 64
 #define rdmcycle(x)  {					\
     uint64_t hi;					\
     __asm__ __volatile__ ("1:\n\t"			\
@@ -44,13 +44,13 @@
 // Freedom E platforms use RV32, we must access it as
 // 2 32-bit registers, same as for mcycle.
 
-#ifdef __riscv64
-#define rdminstret(x)  {			       \
-    uint64_t hi;			       \
-    __asm__ __volatile__ ("1:\n\t"		       \
-			  "csrr %0, minstret\n\t"	       \
-			  : "=r" (hi), "=r" (lo), "=r" (hi2)) ;	\
-    *(x) = lo | ((uint64_t) hi << 32); 				\
+#if __riscv_xlen == 64
+#define rdminstret(x)  {				\
+    uint64_t hi;					\
+    __asm__ __volatile__ ("1:\n\t"			\
+			  "csrr %0, minstret\n\t"	\
+			  : "=r" (hi)) ;		\
+    *(x) = hi;						\
   }
 #else
 #define rdminstret(x)  {			       \
@@ -111,7 +111,7 @@ int main()
 
     write_csr(mcycle,  0);
     write_csr(minstret, 0);
-#ifndef __riscv64
+#if __riscv_xlen == 32
     write_csr(mcycleh, 0);
     write_csr(minstreth, 0);
 #endif
