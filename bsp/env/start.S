@@ -23,7 +23,7 @@ _start:
 	sw t0, (a1)
 	addi a0, a0, 4
 	addi a1, a1, 4
-	bltu a1, a2, 1b
+	bleu a1, a2, 1b
 2:
 
 	/* Clear bss section */
@@ -33,7 +33,7 @@ _start:
 1:
 	sw zero, (a0)
 	addi a0, a0, 4
-	bltu a0, a1, 1b
+	bleu a0, a1, 1b
 2:
 
 	/* Call global constructors */
