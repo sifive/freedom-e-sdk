@@ -190,7 +190,7 @@ PROGRAM_ELF = software/$(PROGRAM)/$(PROGRAM)
 
 .PHONY: software_clean
 software_clean:
-	$(MAKE) -C $(PROGRAM_DIR) clean
+	$(MAKE) -C $(PROGRAM_DIR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) clean
 
 .PHONY: software
 software: software_clean
