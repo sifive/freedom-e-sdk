@@ -120,17 +120,11 @@ SECTIONS
   {
     *(.data .data.*)
     *(.gnu.linkonce.d.*)
-  } >ram AT>flash :ram_init
-
-  .sdata          :
-  {
+    . = ALIGN(8);
     PROVIDE( __global_pointer$ = . + 0x800 );
     *(.sdata .sdata.*)
     *(.gnu.linkonce.s.*)
-  } >ram AT>flash :ram_init
-
-  .srodata        :
-  {
+    . = ALIGN(8);
     *(.srodata.cst16)
     *(.srodata.cst8)
     *(.srodata.cst4)
