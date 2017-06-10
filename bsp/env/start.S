@@ -52,7 +52,8 @@ _start:
 	/* argc = argv = 0 */
 	li a0, 0
 	li a1, 0
-	call _init
 	call main
-	call _fini
 	tail exit
+
+1:
+	j 1b
