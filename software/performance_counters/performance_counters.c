@@ -18,6 +18,15 @@
 // rollover with this routine as suggested by the
 // RISC-V Priviledged Architecture Specification.
 
+#ifdef __riscv64
+#define rdmcycle(x)  {					\
+    uint64_t hi;					\
+    __asm__ __volatile__ ("1:\n\t"			\
+			  "csrr %0, mcycle\n\t"		\
+			  : "=r" (hi)) ;		\
+    *(x) = hi;		 				\
+  }
+#else
 #define rdmcycle(x)  {				       \
     uint32_t lo, hi, hi2;			       \
     __asm__ __volatile__ ("1:\n\t"		       \
@@ -28,12 +37,22 @@
 			  : "=r" (hi), "=r" (lo), "=r" (hi2)) ;	\
     *(x) = lo | ((uint64_t) hi << 32); 				\
   }
+#endif
 
 
 // The minstret counter is 64-bit counter, but
 // Freedom E platforms use RV32, we must access it as
 // 2 32-bit registers, same as for mcycle.
 
+#ifdef __riscv64
+#define rdminstret(x)  {			       \
+    uint64_t hi;			       \
+    __asm__ __volatile__ ("1:\n\t"		       \
+			  "csrr %0, minstret\n\t"	       \
+			  : "=r" (hi), "=r" (lo), "=r" (hi2)) ;	\
+    *(x) = lo | ((uint64_t) hi << 32); 				\
+  }
+#else
 #define rdminstret(x)  {			       \
     uint32_t lo, hi, hi2;			       \
     __asm__ __volatile__ ("1:\n\t"		       \
@@ -44,6 +63,7 @@
 			  : "=r" (hi), "=r" (lo), "=r" (hi2)) ;	\
     *(x) = lo | ((uint64_t) hi << 32); 				\
   }
+#endif
 
 // Simple program to measure the performance of.
 
@@ -90,9 +110,11 @@ int main()
   for (int ii = 0; ii < 3; ii++){
 
     write_csr(mcycle,  0);
-    write_csr(mcycleh, 0);
     write_csr(minstret, 0);
+#ifndef __riscv64
+    write_csr(mcycleh, 0);
     write_csr(minstreth, 0);
+#endif
     
     volatile int result = factorial (100);
     
