@@ -48,6 +48,10 @@
 							<tool command="${cross_prefix}${cross_c}${cross_suffix}" commandLinePattern="${COMMAND} ${cross_toolchain_flags} ${FLAGS} -c ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GCCErrorParser" id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.1472778604" name="GNU RISC-V Cross Assembler" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler">
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.usepreprocessor.874608690" name="Use preprocessor" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.usepreprocessor" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.include.paths.545620458" name="Include paths (-I)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.include.paths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="../bsp/include"/>
+									<listOptionValue builtIn="false" value="../bsp/env"/>
+									<listOptionValue builtIn="false" value="../bsp/env/freedom-e300-hifive1"/>
+									<listOptionValue builtIn="false" value="../bsp/drivers"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env/freedom-e300-hifive1"/>
@@ -58,6 +62,10 @@
 							</tool>
 							<tool command="${cross_prefix}${cross_c}${cross_suffix}" commandLinePattern="${COMMAND} ${cross_toolchain_flags} ${FLAGS} -c ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GCCErrorParser" id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.c.compiler.1632260763" name="GNU RISC-V Cross C Compiler" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.c.compiler">
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths.1464742435" name="Include paths (-I)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
+									<listOptionValue builtIn="false" value="../bsp/drivers"/>
+									<listOptionValue builtIn="false" value="../bsp/env"/>
+									<listOptionValue builtIn="false" value="../bsp/env/freedom-e300-hifive1"/>
+									<listOptionValue builtIn="false" value="../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env/freedom-e300-hifive1"/>
@@ -80,6 +88,7 @@
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.linker.other.1748443680" name="Other linker flags" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.linker.other" useByScannerDiscovery="false" value="-Wl,--start-group -Wl,--end-group -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=open -Wl,--wrap=lseek -Wl,--wrap=read -Wl,--wrap=write -Wl,--wrap=fstat -Wl,--wrap=stat -Wl,--wrap=close -Wl,--wrap=link -Wl,--wrap=unlink -Wl,--wrap=execve -Wl,--wrap=fork -Wl,--wrap=getpid -Wl,--wrap=kill -Wl,--wrap=wait -Wl,--wrap=isatty -Wl,--wrap=times -Wl,--wrap=sbrk -Wl,--wrap=_exit" valueType="string"/>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.linker.paths.1340277823" name="Library search path (-L)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.linker.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../wrap-hifive1/Debug"/>
+									<listOptionValue builtIn="false" value="../"/>
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.linker.scriptfile.535033372" name="Script files (-T)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.linker.scriptfile" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/bsp/env/freedom-e300-hifive1/link.lds}&quot;"/>
