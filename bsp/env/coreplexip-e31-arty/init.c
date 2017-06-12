@@ -6,12 +6,16 @@
 #include "platform.h"
 #include "encoding.h"
 
+#define CPU_FREQ 65000000
+#define XSTR(x) #x
+#define STR(x) XSTR(x)
+
 extern int main(int argc, char** argv);
 extern void trap_entry();
 
 static unsigned long get_cpu_freq()
 {
-  return 65000000;
+  return CPU_FREQ;
 }
 
 unsigned long get_timer_freq()
@@ -83,7 +87,7 @@ void _init()
   #ifndef NO_INIT
   uart_init(115200);
 
-  printf("core freq at %d Hz\n", get_cpu_freq());
+  puts("core freq at " STR(CPU_FREQ) " Hz\n");
 
   write_csr(mtvec, &trap_entry);
   #endif
