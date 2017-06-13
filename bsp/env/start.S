@@ -1,17 +1,26 @@
 // See LICENSE for license details.
+#include <sifive/smp.h>
 
-// See LICENSE for license details.
+/* This is defined in sifive/platform.h, but that can't be included from
+ * assembly. */
+#define CLINT_CTRL_ADDR 0x02000000
 
 	.section .init
 	.globl _start
 	.type _start,@function
 
 _start:
+	.cfi_startproc
+	.cfi_undefined ra
 .option push
 .option norelax
 	la gp, __global_pointer$
 .option pop
 	la sp, _sp
+
+#if defined(ENABLE_SMP)
+	smp_pause(t0, t1)
+#endif
 
 	/* Load data section */
 	la a0, _data_lma
@@ -52,11 +61,51 @@ _start:
 1:
 #endif
 
+#if defined(ENABLE_SMP)
+	smp_resume(t0, t1)
+
+	csrr a0, mhartid
+	bnez a0, 2f
+#endif
+
+	auipc ra, 0
+	addi sp, sp, -16
+#if __riscv_xlen == 32
+	sw ra, 8(sp)
+#else
+	sd ra, 8(sp)
+#endif
+
 	/* argc = argv = 0 */
 	li a0, 0
 	li a1, 0
 	call main
 	tail exit
+1:
+	j 1b
+
+#if defined(ENABLE_SMP)
+2:
+	la t0, trap_entry
+	csrw mtvec, t0
+
+	csrr a0, mhartid
+	la t1, _sp
+	slli t0, a0, 10
+	sub sp, t1, t0
+
+	auipc ra, 0
+	addi sp, sp, -16
+#if __riscv_xlen == 32
+	sw ra, 8(sp)
+#else
+	sd ra, 8(sp)
+#endif
+
+	call secondary_main
+	tail exit
 
 1:
 	j 1b
+#endif
+	.cfi_endproc

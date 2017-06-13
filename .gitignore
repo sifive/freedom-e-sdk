@@ -13,3 +13,4 @@ software/hello/hello
 software/led_fade/led_fade
 software/local_interrupts/local_interrupts
 software/performance_counters/performance_counters
+software/smp/smp
