@@ -203,7 +203,6 @@ dasm: software $(RISCV_OBJDUMP)
 #############################################################
 # This Section is for uploading a program to SPI Flash
 #############################################################
-OPENOCD_UPLOAD = bsp/tools/openocd_upload.sh
 OPENOCDCFG ?= bsp/env/$(BOARD)/openocd.cfg
 OPENOCDARGS += -f $(OPENOCDCFG)
 
