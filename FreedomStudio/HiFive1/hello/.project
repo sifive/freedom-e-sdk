@@ -145,16 +145,6 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/platform.h</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/freedom-e300-hifive1/settings.mk</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/settings.mk</locationURI>
-		</link>
-		<link>
-			<name>bsp/include/sifive/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/include/sifive/bits.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/bits.h</locationURI>

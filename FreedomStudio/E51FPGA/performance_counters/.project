@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>coreplexio_welcome</name>
+	<name>performance_counters</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -30,9 +30,9 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>coreplexip_welcome.c</name>
+			<name>performance_counters.c</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/software/coreplexip_welcome/coreplexip_welcome.c</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/software/performance_counters/performance_counters.c</locationURI>
 		</link>
 		<link>
 			<name>bsp/.DS_Store</name>
@@ -55,6 +55,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>bsp/drivers/.DS_Store</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/.DS_Store</locationURI>
+		</link>
+		<link>
 			<name>bsp/drivers/fe300prci</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -70,7 +75,12 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/.DS_Store</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-e31-arty</name>
+			<name>bsp/env/coreplexip-arty.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-arty.h</locationURI>
+		</link>
+		<link>
+			<name>bsp/env/coreplexip-e51-arty</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -125,34 +135,24 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/plic/plic_driver.h</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-e31-arty/init.c</name>
+			<name>bsp/env/coreplexip-e51-arty/init.c</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/init.c</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/init.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-e31-arty/link.lds</name>
+			<name>bsp/env/coreplexip-e51-arty/link.lds</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/link.lds</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/link.lds</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-e31-arty/openocd.cfg</name>
+			<name>bsp/env/coreplexip-e51-arty/openocd.cfg</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/openocd.cfg</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/openocd.cfg</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-e31-arty/platform.h</name>
+			<name>bsp/env/coreplexip-e51-arty/platform.h</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/platform.h</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/coreplexip-e31-arty/settings.mk</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/settings.mk</locationURI>
-		</link>
-		<link>
-			<name>bsp/include/sifive/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/.DS_Store</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/platform.h</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive/bits.h</name>

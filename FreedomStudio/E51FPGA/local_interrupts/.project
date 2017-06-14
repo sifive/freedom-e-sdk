@@ -55,6 +55,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>bsp/drivers/.DS_Store</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/.DS_Store</locationURI>
+		</link>
+		<link>
 			<name>bsp/drivers/fe300prci</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -70,6 +75,11 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/.DS_Store</locationURI>
 		</link>
 		<link>
+			<name>bsp/env/coreplexip-arty.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-arty.h</locationURI>
+		</link>
+		<link>
 			<name>bsp/env/coreplexip-e51-arty</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -83,6 +93,11 @@
 			<name>bsp/env/entry.S</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/entry.S</locationURI>
+		</link>
+		<link>
+			<name>bsp/env/hifive1.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/hifive1.h</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/start.S</name>
@@ -125,11 +140,6 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/init.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-e51-arty/init.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/init.o</locationURI>
-		</link>
-		<link>
 			<name>bsp/env/coreplexip-e51-arty/link.lds</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/link.lds</locationURI>
@@ -143,16 +153,6 @@
 			<name>bsp/env/coreplexip-e51-arty/platform.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/platform.h</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/coreplexip-e51-arty/settings.mk</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e51-arty/settings.mk</locationURI>
-		</link>
-		<link>
-			<name>bsp/include/sifive/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/.DS_Store</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive/bits.h</name>

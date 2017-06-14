@@ -96,7 +96,6 @@
 #define GPIO_REG(offset) _REG32(GPIO_CTRL_ADDR, offset)
 #define OTP_REG(offset)  _REG32(OTP_CTRL_ADDR, offset)
 #define PLIC_REG(offset) _REG32(PLIC_CTRL_ADDR, offset)
-#define PRCI_REG(offset) _REG32(PRCI_CTRL_ADDR, offset)
 #define PWM0_REG(offset) _REG32(PWM0_CTRL_ADDR, offset)
 #define PWM1_REG(offset) _REG32(PWM1_CTRL_ADDR, offset)
 #define PWM2_REG(offset) _REG32(PWM2_CTRL_ADDR, offset)
