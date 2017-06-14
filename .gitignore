@@ -2,3 +2,15 @@
 *.a
 work/
 toolchain/
+
+software/coremark/coremark
+software/coreplexip_welcome/coreplexip_welcome
+software/demo_gpio/demo_gpio
+software/dhrystone/dhrystone
+software/double_tap_dontboot/double_tap_dontboot
+software/global_interrupts/global_interrupts
+software/hello/hello
+software/led_fade/led_fade
+software/local_interrupts/local_interrupts
+software/performance_counters/performance_counters
+software/smp/smp

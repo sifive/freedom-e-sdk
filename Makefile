@@ -14,6 +14,7 @@ endif
 # Default target
 BOARD ?= freedom-e300-hifive1
 PROGRAM ?= demo_gpio
+LINK_TARGET ?= flash
 GDB_PORT ?= 3333
 
 # Variables the user probably shouldn't override.
@@ -191,11 +192,11 @@ PROGRAM_ELF = software/$(PROGRAM)/$(PROGRAM)
 
 .PHONY: software_clean
 software_clean:
-	$(MAKE) -C $(PROGRAM_DIR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) clean
+	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) LINK_TARGET=$(LINK_TARGET) clean
 
 .PHONY: software
 software: software_clean
-	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD)
+	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) LINK_TARGET=$(LINK_TARGET)
 
 dasm: software $(RISCV_OBJDUMP)
 	$(RISCV_OBJDUMP) -D $(PROGRAM_ELF)
