@@ -68,11 +68,14 @@ static void _puts(const char * s) {
 
 int main (void){
 
-  // Run off 16 MHz Crystal for accuracy.
+  // Make sure the HFROSC is on before the next line:
+  PRCI_REG(PRCI_HFROSCCFG) |= ROSC_EN(1);
+  // Run off 16 MHz Crystal for accuracy. Note that the
+  // first line is 
   PRCI_REG(PRCI_PLLCFG) = (PLL_REFSEL(1) | PLL_BYPASS(1));
   PRCI_REG(PRCI_PLLCFG) |= (PLL_SEL(1));
   // Turn off HFROSC to save power
-  PRCI_REG(PRCI_HFROSCCFG) = 0;
+  PRCI_REG(PRCI_HFROSCCFG) &= ~(ROSC_EN(1));
   
   // Configure UART to print
   GPIO_REG(GPIO_OUTPUT_VAL) |= IOF0_UART0_MASK;
