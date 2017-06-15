@@ -135,14 +135,14 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/plic/plic_driver.h</locationURI>
 		</link>
 		<link>
+			<name>bsp/env/coreplexip-e31-arty/flash.lds</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/flash.lds</locationURI>
+		</link>
+		<link>
 			<name>bsp/env/coreplexip-e31-arty/init.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/init.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/coreplexip-e31-arty/link.lds</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/link.lds</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/coreplexip-e31-arty/openocd.cfg</name>
@@ -153,6 +153,11 @@
 			<name>bsp/env/coreplexip-e31-arty/platform.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/platform.h</locationURI>
+		</link>
+		<link>
+			<name>bsp/env/coreplexip-e31-arty/scratchpad.lds</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-e31-arty/scratchpad.lds</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/coreplexip-e31-arty/settings.mk</name>
