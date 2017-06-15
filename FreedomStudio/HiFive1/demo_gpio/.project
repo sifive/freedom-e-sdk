@@ -125,14 +125,14 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/plic/plic_driver.h</locationURI>
 		</link>
 		<link>
+			<name>bsp/env/freedom-e300-hifive1/flash.lds</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/flash.lds</locationURI>
+		</link>
+		<link>
 			<name>bsp/env/freedom-e300-hifive1/init.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/init.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/freedom-e300-hifive1/link.lds</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/freedom-e300-hifive1/link.lds</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/freedom-e300-hifive1/openocd.cfg</name>
