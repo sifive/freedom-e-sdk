@@ -71,12 +71,22 @@ help:
 	@echo " tools [BOARD = $(BOARD)]:"
 	@echo "    Install compilation & debugging tools to target your desired board."
 	@echo ""
+	@echo " toolchain-clean:"
+	@echo "    Removes the installed toolchain."
+	@echo ""
+	@echo " openocd-clean:"
+	@echo "    Removes the locally built instance of OpenOCD."
+	@echo ""
 	@echo " uninstall:"
 	@echo "    Uninstall the compilation & debugging tools."
 	@echo ""
 	@echo " software [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
+	@echo ""
+	@echo " clean [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo "    Clean compiled objects for a specified "
+	@echo "    software program."
 	@echo ""
 	@echo " upload [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
@@ -91,9 +101,6 @@ help:
 	@echo "     Generates the dissassembly output of 'objdump -D' to stdout."
 	@echo ""
 	@echo " For more information, visit dev.sifive.com"
-
-.PHONY: clean
-clean:
 
 #############################################################
 # This section is for tool installation
@@ -144,7 +151,6 @@ $(builddir)/riscv-gnu-toolchain/%-elf/configure.stamp:
 	date > $@
 
 .PHONY: toolchain-clean
-clean: toolchain-clean
 toolchain-clean:
 	rm -rf $(toolchain_builddir)
 
@@ -180,7 +186,6 @@ $(openocd_builddir)/configure.stamp:
 	date > $@
 
 .PHONY: openocd-clean
-clean: openocd-clean
 openocd-clean:
 	rm -rf $(openocd_builddir)
 
@@ -191,6 +196,7 @@ PROGRAM_DIR = software/$(PROGRAM)
 PROGRAM_ELF = software/$(PROGRAM)/$(PROGRAM)
 
 .PHONY: software_clean
+clean: software_clean
 software_clean:
 	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) LINK_TARGET=$(LINK_TARGET) clean
 
