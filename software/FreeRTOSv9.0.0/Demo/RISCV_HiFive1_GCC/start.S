@@ -7,7 +7,7 @@
 	.type _start,@function
 
 _start:
-	la gp, _gp
+	la gp, __global_pointer$
 	la sp, _sp
 
 	/* Load data section */
@@ -52,7 +52,5 @@ _start:
 	/* argc = argv = 0 */
 	li a0, 0
 	li a1, 0
-	//call _init
 	call main
-	call _fini
 	tail exit
