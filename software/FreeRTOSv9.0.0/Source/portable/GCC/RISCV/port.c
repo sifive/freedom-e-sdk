@@ -91,7 +91,7 @@ UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 #if USER_MODE_TASKS
 	MSTATUS_INIT = (MSTATUS_MPIE);
 #else
-	MSTATUS_INIT = (MSTATUS_MPP | MSTATUS_MPIE);
+	unsigned long MSTATUS_INIT = (MSTATUS_MPP | MSTATUS_MPIE);
 #endif
 
 
