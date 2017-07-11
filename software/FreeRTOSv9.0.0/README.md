@@ -22,7 +22,7 @@ SiFive specific functionality was also added to the demo and differs slightly by
 
 To target a different environment, edit the *Makefile.inc* file.
 
-We have also included Freedom Studio examples. After opening Freedom Studio and selecting a workspace, click *File  -- Import -- Existing Project -- Select Root Directory* and then select the *Freedom-E-SDK/FreedomStudio/FreeRTOS* folder. Do NOT copy the projects into your worksapce as the paths are dependent on the project location.
+We have also included Freedom Studio examples. After opening Freedom Studio and selecting a workspace, click *File  -- Import -- Existing Project -- Select Root Directory* and then select the *Freedom-E-SDK/software/FreeRTOSv9.0.0/Demo/* and then the folder for your target platform. Do NOT copy the projects into your worksapce as the paths are dependent on the project location.
  
 **RISC-V Port Files**
 
