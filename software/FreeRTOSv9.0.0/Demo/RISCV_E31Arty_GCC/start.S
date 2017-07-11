@@ -7,7 +7,7 @@
 	.type _start,@function
 
 _start:
-	la gp, _gp
+	la gp, __global_pointer$
 	la sp, _sp
 
 	/* Load data section */
