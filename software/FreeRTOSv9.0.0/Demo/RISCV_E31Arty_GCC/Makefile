@@ -53,7 +53,7 @@ DEMO_ASM_OBJ = $(DEMO_ASM:.S=.o)
 PORT_ASM_OBJ = $(PORT_ASM:.S=.o)
 OBJS =  $(PORT_ASM_OBJ) $(PORT_OBJ) $(RTOS_OBJ) $(DEMO_OBJ) $(APP_OBJ) $(DEMO_ASM_OBJ)
 
-LDFLAGS	 = -T link.lds -nostartfiles -static -nostdlib -Wl,-Map=$(PROG).map -Wl,--wrap=malloc -Wl,--wrap=free\
+LDFLAGS	 = -T flash.lds -nostartfiles -static -nostdlib -Wl,-Map=$(PROG).map -Wl,--wrap=malloc -Wl,--wrap=free\
 -Wl,--wrap=open -Wl,--wrap=lseek -Wl,--wrap=read -Wl,--wrap=write -Wl,--wrap=fstat -Wl,--wrap=stat\
 -Wl,--wrap=close -Wl,--wrap=link -Wl,--wrap=unlink -Wl,--wrap=execve -Wl,--wrap=fork -Wl,--wrap=getpid\
 -Wl,--wrap=kill -Wl,--wrap=wait -Wl,--wrap=isatty -Wl,--wrap=times -Wl,--wrap=sbrk -Wl,--wrap=_exit\
