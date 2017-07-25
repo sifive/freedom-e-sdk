@@ -131,7 +131,6 @@ vtrap_entry:
   .align 2
   j vlip_Handler4
   .align 2
-  .align 2
   j vlip_Handler5
   .align 2
   j vlip_Handler6
