@@ -42,11 +42,11 @@
   STORE x31, 31*REGBYTES(sp)
 .endm
 
+.macro TRAP_EXIT
 # Remain in M-mode after mret
   li t0, MSTATUS_MPP
   csrs mstatus, t0
 
-.macro TRAP_EXIT
   LOAD x1, 1*REGBYTES(sp)
   LOAD x2, 2*REGBYTES(sp)
   LOAD x3, 3*REGBYTES(sp)
@@ -82,6 +82,51 @@
   addi sp, sp, 32*REGBYTES
   mret
 .endm
+
+
+
+.macro TRAP_ENTRY2
+  addi sp, sp, -14*REGBYTES
+
+  STORE x2, 1*REGBYTES(sp)
+  STORE x8, 2*REGBYTES(sp)
+  STORE x9, 3*REGBYTES(sp)
+  STORE x18, 4*REGBYTES(sp)
+  STORE x19, 5*REGBYTES(sp)
+  STORE x20, 6*REGBYTES(sp)
+  STORE x21, 7*REGBYTES(sp)
+  STORE x22, 8*REGBYTES(sp)
+  STORE x23, 9*REGBYTES(sp)
+  STORE x24, 10*REGBYTES(sp)
+  STORE x25, 11*REGBYTES(sp)
+  STORE x26, 12*REGBYTES(sp)
+  STORE x27, 13*REGBYTES(sp)
+.endm
+
+.macro TRAP_EXIT2
+# Remain in M-mode after mret
+  li t0, MSTATUS_MPP
+  csrs mstatus, t0
+
+  LOAD x3, 1*REGBYTES(sp)
+  LOAD x8, 2*REGBYTES(sp)
+  LOAD x9, 3*REGBYTES(sp)
+  LOAD x18, 4*REGBYTES(sp)
+  LOAD x19, 5*REGBYTES(sp)
+  LOAD x20, 6*REGBYTES(sp)
+  LOAD x21, 7*REGBYTES(sp)
+  LOAD x22, 8*REGBYTES(sp)
+  LOAD x23, 9*REGBYTES(sp)
+  LOAD x24, 10*REGBYTES(sp)
+  LOAD x25, 11*REGBYTES(sp)
+  LOAD x26, 12*REGBYTES(sp)
+  LOAD x27, 13*REGBYTES(sp)
+
+  addi sp, sp, 14*REGBYTES
+  mret
+.endm
+
+
 
 #Vector table for E31/E51
 
@@ -171,15 +216,15 @@ vmsi_Handler:
 
 #Machine Timer Interrupt
 vmti_Handler:
-  TRAP_ENTRY
+  TRAP_ENTRY2
   jal handle_m_time_interrupt
-  TRAP_EXIT
+  TRAP_EXIT2
 
 #Machine External Interrupt
 vmei_Handler:
-  TRAP_ENTRY
+  TRAP_ENTRY2
   jal handle_m_external_interrupt
-  TRAP_EXIT
+  TRAP_EXIT2
 
 #LIP0
 vlip_Handler0:
@@ -213,9 +258,9 @@ vlip_Handler4:
 
 #LIP5
 vlip_Handler5:
-  TRAP_ENTRY
+  TRAP_ENTRY2
   jal handle_local_interrupt5
-  TRAP_EXIT
+  TRAP_EXIT2
 
 #LIP6
 vlip_Handler6:
