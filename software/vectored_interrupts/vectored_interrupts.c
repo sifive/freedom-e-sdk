@@ -100,7 +100,7 @@ void invalid_global_isr() {
   printf("Unexpected global interrupt!\n");
 }
 
-/* b1 global interrupt isr                */
+/* b0 global interrupt isr                */
 /*called from handle_m_external_interrupt */
 void button_0_handler() {
   static uint32_t onoff=1;
@@ -136,7 +136,7 @@ void handle_local_interrupt5() {
 	  onoff=1;
   }
 
-  //debounce by turing off until next timer tick
+  //debounce by turning off until next timer tick
   clear_csr(mie, MIP_MLIP(LOCAL_INT_BTN_1));
 }
 
