@@ -76,9 +76,9 @@ void handle_m_time_interrupt(){
 
 /*Synchronous Trap Handler*/
 /*called from bsp/env/ventry.s          */
-void handle_sync_trap(uintptr_t mcause, uintptr_t epc ) {
+void handle_sync_trap( ) {
     write(1, "vUnhandled Trap:\n", 16);
-    _exit(1 + mcause);
+    _exit(1 + read_csr(mcause));
 }
 
 /*Entry Point for PLIC Interrupt Handler*/

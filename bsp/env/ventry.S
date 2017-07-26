@@ -8,24 +8,24 @@
 
 #only save caller registers
 .macro TRAP_ENTRY
-  addi sp, sp, -17*REGBYTES
+  addi sp, sp, -16*REGBYTES
 
-  STORE x1,  1*REGBYTES(sp)
-  STORE x5,  2*REGBYTES(sp)
-  STORE x6,  3*REGBYTES(sp)
-  STORE x7,  4*REGBYTES(sp)
-  STORE x10, 5*REGBYTES(sp)
-  STORE x11, 6*REGBYTES(sp)
-  STORE x12, 7*REGBYTES(sp)
-  STORE x13, 8*REGBYTES(sp)
-  STORE x14, 9*REGBYTES(sp)
-  STORE x15, 10*REGBYTES(sp)
-  STORE x16, 11*REGBYTES(sp)
-  STORE x17, 12*REGBYTES(sp)
-  STORE x28, 13*REGBYTES(sp)
-  STORE x29, 14*REGBYTES(sp)
-  STORE x30, 15*REGBYTES(sp)
-  STORE x31, 16*REGBYTES(sp)
+  STORE x1,  0*REGBYTES(sp)
+  STORE x5,  1*REGBYTES(sp)
+  STORE x6,  2*REGBYTES(sp)
+  STORE x7,  3*REGBYTES(sp)
+  STORE x10, 4*REGBYTES(sp)
+  STORE x11, 5*REGBYTES(sp)
+  STORE x12, 6*REGBYTES(sp)
+  STORE x13, 7*REGBYTES(sp)
+  STORE x14, 8*REGBYTES(sp)
+  STORE x15, 9*REGBYTES(sp)
+  STORE x16, 10*REGBYTES(sp)
+  STORE x17, 11*REGBYTES(sp)
+  STORE x28, 12*REGBYTES(sp)
+  STORE x29, 13*REGBYTES(sp)
+  STORE x30, 14*REGBYTES(sp)
+  STORE x31, 15*REGBYTES(sp)
 .endm
 
 #restore caller registers
@@ -34,24 +34,24 @@
   li t0, MSTATUS_MPP
   csrs mstatus, t0
 
-  LOAD x1,  1*REGBYTES(sp)
-  LOAD x5,  2*REGBYTES(sp)
-  LOAD x6,  3*REGBYTES(sp)
-  LOAD x7,  4*REGBYTES(sp)
-  LOAD x10, 5*REGBYTES(sp)
-  LOAD x11, 6*REGBYTES(sp)
-  LOAD x12, 7*REGBYTES(sp)
-  LOAD x13, 8*REGBYTES(sp)
-  LOAD x14, 9*REGBYTES(sp)
-  LOAD x15, 10*REGBYTES(sp)
-  LOAD x16, 11*REGBYTES(sp)
-  LOAD x17, 12*REGBYTES(sp)
-  LOAD x28, 13*REGBYTES(sp)
-  LOAD x29, 14*REGBYTES(sp)
-  LOAD x30, 15*REGBYTES(sp)
-  LOAD x31, 16*REGBYTES(sp)
+  LOAD x1,  0*REGBYTES(sp)
+  LOAD x5,  1*REGBYTES(sp)
+  LOAD x6,  2*REGBYTES(sp)
+  LOAD x7,  3*REGBYTES(sp)
+  LOAD x10, 4*REGBYTES(sp)
+  LOAD x11, 5*REGBYTES(sp)
+  LOAD x12, 6*REGBYTES(sp)
+  LOAD x13, 7*REGBYTES(sp)
+  LOAD x14, 8*REGBYTES(sp)
+  LOAD x15, 9*REGBYTES(sp)
+  LOAD x16, 10*REGBYTES(sp)
+  LOAD x17, 11*REGBYTES(sp)
+  LOAD x28, 12*REGBYTES(sp)
+  LOAD x29, 13*REGBYTES(sp)
+  LOAD x30, 14*REGBYTES(sp)
+  LOAD x31, 15*REGBYTES(sp)
 
-  addi sp, sp, 17*REGBYTES
+  addi sp, sp, 16*REGBYTES
   mret
 .endm
 
@@ -130,11 +130,7 @@ vtrap_entry:
 #synchronous trap
 sync_trap:
   TRAP_ENTRY
-  csrr a0, mcause
-  csrr a1, mepc
-  mv a2, sp
   jal handle_sync_trap
-  csrw mepc, a0
   TRAP_EXIT
 
 #Machine Software Interrupt
