@@ -30,6 +30,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>vectored_interrupts.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/software/vectored_interrupts/vectored_interrupts.c</locationURI>
+		</link>
+		<link>
 			<name>bsp/.DS_Store</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/.DS_Store</locationURI>
