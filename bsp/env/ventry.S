@@ -6,123 +6,54 @@
 #include "encoding.h"
 #include "sifive/bits.h"
 
+#only save caller registers
 .macro TRAP_ENTRY
-  addi sp, sp, -32*REGBYTES
+  addi sp, sp, -18*REGBYTES
 
-  STORE x1, 1*REGBYTES(sp)
-  STORE x2, 2*REGBYTES(sp)
-  STORE x3, 3*REGBYTES(sp)
-  STORE x4, 4*REGBYTES(sp)
-  STORE x5, 5*REGBYTES(sp)
-  STORE x6, 6*REGBYTES(sp)
-  STORE x7, 7*REGBYTES(sp)
-  STORE x8, 8*REGBYTES(sp)
-  STORE x9, 9*REGBYTES(sp)
-  STORE x10, 10*REGBYTES(sp)
-  STORE x11, 11*REGBYTES(sp)
-  STORE x12, 12*REGBYTES(sp)
-  STORE x13, 13*REGBYTES(sp)
-  STORE x14, 14*REGBYTES(sp)
-  STORE x15, 15*REGBYTES(sp)
-  STORE x16, 16*REGBYTES(sp)
-  STORE x17, 17*REGBYTES(sp)
-  STORE x18, 18*REGBYTES(sp)
-  STORE x19, 19*REGBYTES(sp)
-  STORE x20, 20*REGBYTES(sp)
-  STORE x21, 21*REGBYTES(sp)
-  STORE x22, 22*REGBYTES(sp)
-  STORE x23, 23*REGBYTES(sp)
-  STORE x24, 24*REGBYTES(sp)
-  STORE x25, 25*REGBYTES(sp)
-  STORE x26, 26*REGBYTES(sp)
-  STORE x27, 27*REGBYTES(sp)
-  STORE x28, 28*REGBYTES(sp)
-  STORE x29, 29*REGBYTES(sp)
-  STORE x30, 30*REGBYTES(sp)
-  STORE x31, 31*REGBYTES(sp)
+  STORE x1,  1*REGBYTES(sp)
+  STORE x5,  2*REGBYTES(sp)
+  STORE x6,  3*REGBYTES(sp)
+  STORE x7,  4*REGBYTES(sp)
+  STORE x10, 5*REGBYTES(sp)
+  STORE x11, 6*REGBYTES(sp)
+  STORE x12, 7*REGBYTES(sp)
+  STORE x13, 8*REGBYTES(sp)
+  STORE x14, 9*REGBYTES(sp)
+  STORE x15, 10*REGBYTES(sp)
+  STORE x16, 11*REGBYTES(sp)
+  STORE x17, 12*REGBYTES(sp)
+  STORE x18, 13*REGBYTES(sp)
+  STORE x28, 14*REGBYTES(sp)
+  STORE x29, 15*REGBYTES(sp)
+  STORE x30, 16*REGBYTES(sp)
+  STORE x31, 17*REGBYTES(sp)
 .endm
 
+#restore caller registers
 .macro TRAP_EXIT
 # Remain in M-mode after mret
   li t0, MSTATUS_MPP
   csrs mstatus, t0
 
-  LOAD x1, 1*REGBYTES(sp)
-  LOAD x2, 2*REGBYTES(sp)
-  LOAD x3, 3*REGBYTES(sp)
-  LOAD x4, 4*REGBYTES(sp)
-  LOAD x5, 5*REGBYTES(sp)
-  LOAD x6, 6*REGBYTES(sp)
-  LOAD x7, 7*REGBYTES(sp)
-  LOAD x8, 8*REGBYTES(sp)
-  LOAD x9, 9*REGBYTES(sp)
-  LOAD x10, 10*REGBYTES(sp)
-  LOAD x11, 11*REGBYTES(sp)
-  LOAD x12, 12*REGBYTES(sp)
-  LOAD x13, 13*REGBYTES(sp)
-  LOAD x14, 14*REGBYTES(sp)
-  LOAD x15, 15*REGBYTES(sp)
-  LOAD x16, 16*REGBYTES(sp)
-  LOAD x17, 17*REGBYTES(sp)
-  LOAD x18, 18*REGBYTES(sp)
-  LOAD x19, 19*REGBYTES(sp)
-  LOAD x20, 20*REGBYTES(sp)
-  LOAD x21, 21*REGBYTES(sp)
-  LOAD x22, 22*REGBYTES(sp)
-  LOAD x23, 23*REGBYTES(sp)
-  LOAD x24, 24*REGBYTES(sp)
-  LOAD x25, 25*REGBYTES(sp)
-  LOAD x26, 26*REGBYTES(sp)
-  LOAD x27, 27*REGBYTES(sp)
-  LOAD x28, 28*REGBYTES(sp)
-  LOAD x29, 29*REGBYTES(sp)
-  LOAD x30, 30*REGBYTES(sp)
-  LOAD x31, 31*REGBYTES(sp)
+  LOAD x1,  1*REGBYTES(sp)
+  LOAD x5,  2*REGBYTES(sp)
+  LOAD x6,  3*REGBYTES(sp)
+  LOAD x7,  4*REGBYTES(sp)
+  LOAD x10, 5*REGBYTES(sp)
+  LOAD x11, 6*REGBYTES(sp)
+  LOAD x12, 7*REGBYTES(sp)
+  LOAD x13, 8*REGBYTES(sp)
+  LOAD x14, 9*REGBYTES(sp)
+  LOAD x15, 10*REGBYTES(sp)
+  LOAD x16, 11*REGBYTES(sp)
+  LOAD x17, 12*REGBYTES(sp)
+  LOAD x18, 13*REGBYTES(sp)
+  LOAD x28, 14*REGBYTES(sp)
+  LOAD x29, 15*REGBYTES(sp)
+  LOAD x30, 16*REGBYTES(sp)
+  LOAD x31, 17*REGBYTES(sp)
 
-  addi sp, sp, 32*REGBYTES
-  mret
-.endm
-
-
-
-.macro TRAP_ENTRY2
-  addi sp, sp, -14*REGBYTES
-
-  STORE x2, 1*REGBYTES(sp)
-  STORE x8, 2*REGBYTES(sp)
-  STORE x9, 3*REGBYTES(sp)
-  STORE x18, 4*REGBYTES(sp)
-  STORE x19, 5*REGBYTES(sp)
-  STORE x20, 6*REGBYTES(sp)
-  STORE x21, 7*REGBYTES(sp)
-  STORE x22, 8*REGBYTES(sp)
-  STORE x23, 9*REGBYTES(sp)
-  STORE x24, 10*REGBYTES(sp)
-  STORE x25, 11*REGBYTES(sp)
-  STORE x26, 12*REGBYTES(sp)
-  STORE x27, 13*REGBYTES(sp)
-.endm
-
-.macro TRAP_EXIT2
-# Remain in M-mode after mret
-  li t0, MSTATUS_MPP
-  csrs mstatus, t0
-
-  LOAD x3, 1*REGBYTES(sp)
-  LOAD x8, 2*REGBYTES(sp)
-  LOAD x9, 3*REGBYTES(sp)
-  LOAD x18, 4*REGBYTES(sp)
-  LOAD x19, 5*REGBYTES(sp)
-  LOAD x20, 6*REGBYTES(sp)
-  LOAD x21, 7*REGBYTES(sp)
-  LOAD x22, 8*REGBYTES(sp)
-  LOAD x23, 9*REGBYTES(sp)
-  LOAD x24, 10*REGBYTES(sp)
-  LOAD x25, 11*REGBYTES(sp)
-  LOAD x26, 12*REGBYTES(sp)
-  LOAD x27, 13*REGBYTES(sp)
-
-  addi sp, sp, 14*REGBYTES
+  addi sp, sp, 18*REGBYTES
   mret
 .endm
 
@@ -216,15 +147,15 @@ vmsi_Handler:
 
 #Machine Timer Interrupt
 vmti_Handler:
-  TRAP_ENTRY2
+  TRAP_ENTRY
   jal handle_m_time_interrupt
-  TRAP_EXIT2
+  TRAP_EXIT
 
 #Machine External Interrupt
 vmei_Handler:
-  TRAP_ENTRY2
+  TRAP_ENTRY
   jal handle_m_external_interrupt
-  TRAP_EXIT2
+  TRAP_EXIT
 
 #LIP0
 vlip_Handler0:
@@ -258,9 +189,9 @@ vlip_Handler4:
 
 #LIP5
 vlip_Handler5:
-  TRAP_ENTRY2
+  TRAP_ENTRY
   jal handle_local_interrupt5
-  TRAP_EXIT2
+  TRAP_EXIT
 
 #LIP6
 vlip_Handler6:
