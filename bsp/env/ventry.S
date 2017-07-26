@@ -8,7 +8,7 @@
 
 #only save caller registers
 .macro TRAP_ENTRY
-  addi sp, sp, -18*REGBYTES
+  addi sp, sp, -17*REGBYTES
 
   STORE x1,  1*REGBYTES(sp)
   STORE x5,  2*REGBYTES(sp)
@@ -22,11 +22,10 @@
   STORE x15, 10*REGBYTES(sp)
   STORE x16, 11*REGBYTES(sp)
   STORE x17, 12*REGBYTES(sp)
-  STORE x18, 13*REGBYTES(sp)
-  STORE x28, 14*REGBYTES(sp)
-  STORE x29, 15*REGBYTES(sp)
-  STORE x30, 16*REGBYTES(sp)
-  STORE x31, 17*REGBYTES(sp)
+  STORE x28, 13*REGBYTES(sp)
+  STORE x29, 14*REGBYTES(sp)
+  STORE x30, 15*REGBYTES(sp)
+  STORE x31, 16*REGBYTES(sp)
 .endm
 
 #restore caller registers
@@ -47,13 +46,12 @@
   LOAD x15, 10*REGBYTES(sp)
   LOAD x16, 11*REGBYTES(sp)
   LOAD x17, 12*REGBYTES(sp)
-  LOAD x18, 13*REGBYTES(sp)
-  LOAD x28, 14*REGBYTES(sp)
-  LOAD x29, 15*REGBYTES(sp)
-  LOAD x30, 16*REGBYTES(sp)
-  LOAD x31, 17*REGBYTES(sp)
+  LOAD x28, 13*REGBYTES(sp)
+  LOAD x29, 14*REGBYTES(sp)
+  LOAD x30, 15*REGBYTES(sp)
+  LOAD x31, 16*REGBYTES(sp)
 
-  addi sp, sp, 18*REGBYTES
+  addi sp, sp, 17*REGBYTES
   mret
 .endm
 
