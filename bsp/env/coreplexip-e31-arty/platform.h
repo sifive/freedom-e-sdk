@@ -13,6 +13,11 @@
 #define MCAUSE_CAUSE       0x7FFFFFFFFFFFFFFFUL
 #endif
 
+#ifdef VECT_IRQ
+    #define MTVEC_VECTORED     0x01
+#else 
+    #define MTVEC_VECTORED     0x00
+#endif
 #define IRQ_M_LOCAL        16
 #define MIP_MLIP(x)        (1 << (IRQ_M_LOCAL + x))
 

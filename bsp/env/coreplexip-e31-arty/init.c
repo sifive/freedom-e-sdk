@@ -10,8 +10,14 @@
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
 
+#ifndef VECT_IRQ
+  #define TRAP_ENTRY trap_entry
+#else
+  #define TRAP_ENTRY vtrap_entry
+#endif
+
 extern int main(int argc, char** argv);
-extern void trap_entry();
+extern void TRAP_ENTRY();
 
 static unsigned long get_cpu_freq()
 {
@@ -57,6 +63,7 @@ typedef void (*my_interrupt_function_ptr_t) (void);
 extern my_interrupt_function_ptr_t localISR[];
 #endif
 
+#ifndef VECT_IRQ
 uintptr_t handle_trap(uintptr_t mcause, uintptr_t epc)
 {
   if (0){
@@ -81,6 +88,7 @@ uintptr_t handle_trap(uintptr_t mcause, uintptr_t epc)
   }
   return epc;
 }
+#endif 
 
 void _init()
 {
@@ -89,7 +97,8 @@ void _init()
 
   puts("core freq at " STR(CPU_FREQ) " Hz\n");
 
-  write_csr(mtvec, &trap_entry);
+  write_csr(mtvec, ((unsigned long)&TRAP_ENTRY | MTVEC_VECTORED));
+
   #endif
 }
 
