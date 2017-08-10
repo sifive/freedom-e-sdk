@@ -23,6 +23,19 @@ typedef void (*interrupt_function_ptr_t) (void);
 //interrupt handlers
 interrupt_function_ptr_t g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS];
 
+//ecall countdown
+uint32_t ecall_countdown;
+//ecall macro used to store argument in a0
+#define ECALL(arg) ({			\
+	register uintptr_t a0 asm ("a0") = (uintptr_t)(arg);	\
+	asm volatile ("ecall"					\
+		      : "+r" (a0)				\
+		      : 	\
+		      : "memory");				\
+	a0;							\
+})
+
+
 const char * instructions_msg = " \
 \n\
                 SIFIVE, INC.\n\
@@ -33,6 +46,7 @@ the E31/E51 Coreplex. The vector table is defined in      \n\
 bsp/env/ventry.S                                          \n\
 Button 0 is a global external interrupt routed to the PLIC.\n\
 Button 1 is a local interrupt.\n\
+Every 10 seconds, an ECALL is made. \n\
 \n";
 
 void print_instructions() {
@@ -42,11 +56,17 @@ void print_instructions() {
 }
 
 void set_timer() {
+  static uint64_t then = 0;
   
   volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
   volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
-  uint64_t now = *mtime;
-  uint64_t then = now + 1*RTC_FREQ;
+  if(then != 0)  {
+    //next timer irq is 1 second from previous
+    then += 1*RTC_FREQ;
+  } else{ //first time setting the timer
+    uint64_t now = *mtime;
+    then = now + 1*RTC_FREQ;
+  }
   *mtimecmp = then;
 
   set_csr(mie, MIP_MTIP);
@@ -59,6 +79,9 @@ void handle_m_time_interrupt(){
 
   clear_csr(mie, MIP_MTIP);
 
+  //increment ecall_countdown
+  ecall_countdown++;
+
   // Set Green LED
   if(onoff)	{
 	  GPIO_REG(GPIO_OUTPUT_VAL)  |=  (0x1 << GREEN_LED_OFFSET) ;
@@ -67,8 +90,8 @@ void handle_m_time_interrupt(){
 	  GPIO_REG(GPIO_OUTPUT_VAL)  &=  ~((0x1 << GREEN_LED_OFFSET)) ;
 	  onoff=1;
   }
-  set_timer();
 
+  set_timer();
   //re-enable button1 irq
   set_csr(mie, MIP_MLIP(LOCAL_INT_BTN_1));
 
@@ -76,9 +99,30 @@ void handle_m_time_interrupt(){
 
 /*Synchronous Trap Handler*/
 /*called from bsp/env/ventry.s          */
-void handle_sync_trap( ) {
-    write(1, "vUnhandled Trap:\n", 16);
+void handle_sync_trap(uint32_t arg0) {
+  uint32_t exception_code = read_csr(mcause);
+
+  //check for machine mode ecall
+  if(exception_code == CAUSE_MACHINE_ECALL)  {
+    //reset ecall_countdown
+    ecall_countdown = 0;
+
+    //ecall argument is stored in a0 prior to
+    //ECALL instruction.
+    printf("ecall from M-mode: %d\n",arg0);
+    
+    //on exceptions, mepc points to the instruction
+    //which triggered the exception, in order to
+    //return to the next instruction, increment
+    //mepc
+    unsigned long epc = read_csr(mepc);
+    epc += 4; //return to next instruction
+    write_csr(mepc, epc);
+    
+  } else{  
+    printf("vUnhandled Trap:\n");
     _exit(1 + read_csr(mcause));
+  }
 }
 
 /*Entry Point for PLIC Interrupt Handler*/
@@ -186,6 +230,8 @@ void led_init() {
 
 int main(int argc, char **argv)
 {
+  uint32_t ecall_count = 0;
+
   //setup default global interrupt handler
   for (int gisr = 0; gisr < PLIC_NUM_INTERRUPTS; gisr++){
     g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS] = invalid_global_isr;
@@ -197,6 +243,9 @@ int main(int argc, char **argv)
   b0_irq_init();
   b1_irq_init();
 
+  //initialize ecall_countdown
+  ecall_countdown = 0;
+
   // Set up machine timer interrupt.
   set_timer();
 
@@ -207,8 +256,13 @@ int main(int argc, char **argv)
   set_csr(mstatus, MSTATUS_MIE);
 
 
-  while(1){
+  while(1){    
     asm volatile ("wfi");
+    //check if ecall_countdown is 10
+    if(ecall_countdown == 10) {
+      ECALL(ecall_count++);
+    }
+    //otherwise wfi
   }
   
   return 0;
