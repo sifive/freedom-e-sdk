@@ -154,7 +154,11 @@ openocd_builddir := $(builddir)/openocd
 openocd_prefix := $(openocd_builddir)/prefix
 
 RISCV_OPENOCD_PATH ?= $(openocd_prefix)
+ifeq ($(shell uname),Darwin)
+RISCV_OPENOCD ?= DYLD_LIBRARY_PATH=$(RISCV_OPENOCD_PATH)/lib $(RISCV_OPENOCD_PATH)/bin/openocd
+else
 RISCV_OPENOCD ?= $(RISCV_OPENOCD_PATH)/bin/openocd
+endif
 
 .PHONY: openocd
 openocd: $(RISCV_OPENOCD)
