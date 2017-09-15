@@ -49,7 +49,7 @@ https://sifive.com/products/tools
 
 For OpenOCD and/or RISC-V GNU Toolchain,
 download the .tar.gz for your platform, and unpack it to
-your desired location. Then, use the `RISC_PATH` and `RISCV_OPENOCD_PATH`
+your desired location. Then, use the `RISCV_PATH` and `RISCV_OPENOCD_PATH`
 variables when attempting to use the tools:
 
 ```
