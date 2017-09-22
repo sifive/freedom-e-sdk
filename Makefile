@@ -87,7 +87,7 @@ help:
 	@echo "     Launch OpenOCD or GDB seperately. Allows Ctrl-C to halt running"
 	@echo "     programs."
 	@echo ""
-	@echo " dasm [PROGRAM=$(BOARD)]:"
+	@echo " dasm [PROGRAM=$(PROGRAM)]:"
 	@echo "     Generates the dissassembly output of 'objdump -D' to stdout."
 	@echo ""
 	@echo " For more information, visit dev.sifive.com"
