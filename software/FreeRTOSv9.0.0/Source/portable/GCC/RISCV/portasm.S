@@ -92,6 +92,11 @@
 .global vPortEndScheduler
 .global xExitStack
 
+#if USER_MODE_TASKS
+# define	MPP  0
+#else
+# define	MPP 0x1800
+#endif
 
 /* Macro for saving task context */
 .macro portSAVE_CONTEXT
@@ -151,15 +156,15 @@
 
 .endm
 
-/* Saves current return adress (RA) as task program counter */
+/* Saves current returnsadress (RA) as task program counter */
 .macro portSAVE_RA
 	STORE	ra, 32 * REGBYTES(sp)
 
 .endm
 
 /* Macro for restoring task context */
-//.macro portRESTORE_CONTEXT
-portRESTORE_CONTEXT:
+.macro portRESTORE_CONTEXT
+//portRESTORE_CONTEXT:
 	.global	pxCurrentTCB
 	/* Load stack pointer from the current TCB */
 	LOAD	sp, pxCurrentTCB
@@ -167,6 +172,7 @@ portRESTORE_CONTEXT:
 
 	/* Load task program counter */
 	LOAD	t0, 32 * REGBYTES(sp)
+
   	csrw	mepc, t0
 
 	/* Load saved mstatus */
@@ -206,25 +212,43 @@ portRESTORE_CONTEXT:
 	LOAD	x31, 30 * REGBYTES(sp)
 
 	addi	sp, sp, REGBYTES * 33
-	mret
-//.endm
+	//mret
+.endm
+
 
 /* Macro for restoring task context */
 MTIME_INT:
 	portSAVE_CONTEXT
 	portSAVE_EPC
 	jal	vPortSysTickHandler
-	j portRESTORE_CONTEXT
+	portRESTORE_CONTEXT
+	mret
 
 xPortStartScheduler:
 	jal		vPortSetup
-	j portRESTORE_CONTEXT
+	portRESTORE_CONTEXT
+	mret
 
 vPortEndScheduler:
 	ret
 
 vPortYield:
+	//disable interrupts
+	csrci mstatus, 8
+
 	portSAVE_CONTEXT
 	portSAVE_RA
+
+//on a port yield, mpp and mpie need to be
+//set to their correct values and saved
+//onto the stack
+	li 		t0, MPP
+	li 		t1,0x80
+	or 		t0,t1,t0
+	csrw 	mstatus,t0
+
+	STORE	t0, 31 * REGBYTES(sp)
 	jal	vTaskSwitchContext
-	j portRESTORE_CONTEXT
+	portRESTORE_CONTEXT
+
+	mret
