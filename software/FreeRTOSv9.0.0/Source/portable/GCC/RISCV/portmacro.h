@@ -119,14 +119,32 @@ typedef unsigned long UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-extern void vPortYield(); //in portasm.s
+extern void vPortYield(); //in port.c
+extern void vPortYield2(); //in portasm.s
 extern int xPortSetInterruptMask(); //in port.c
 extern void vPortClearInterruptMask( int uxSavedStatusValue ); //in port.c
+
+/*-----------------------------------------------------------*/
+/*System Calls												 */
+/*-----------------------------------------------------------*/
+//ecall macro used to store argument in a3
+#define ECALL(arg) ({			\
+	register uintptr_t a1 asm ("a1") = (uintptr_t)(arg);	\
+	asm volatile ("ecall"					\
+		      : "+r" (a1)				\
+		      : 	\
+		      : "memory");				\
+	a1;							\
+})
+
+#define IRQ_DISABLE 20
+#define IRQ_ENABLE  30
+#define PORT_YIELD  40
 /*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
-#define portYIELD() vPortYield();
+#define portYIELD() ECALL(PORT_YIELD);
 
 
 /* Critical section management. */

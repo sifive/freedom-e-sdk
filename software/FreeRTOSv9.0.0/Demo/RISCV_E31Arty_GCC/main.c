@@ -483,7 +483,9 @@ void b1_ISR( )    {
 
 
 /*Entry Point for Interrupt Handler*/
-uintptr_t handle_interrupt(uintptr_t mcause, uintptr_t epc){
+void handle_interrupt(){
+
+  unsigned long mcause = read_csr(mcause);
 
   /* check if global*/
   if(!((mcause & MCAUSE_CAUSE) == IRQ_M_EXT))   {
@@ -495,16 +497,8 @@ uintptr_t handle_interrupt(uintptr_t mcause, uintptr_t epc){
     PLIC_complete_interrupt(&g_plic, int_num);
   }
 
-  return epc;
 }
-/*-----------------------------------------------------------*/
 
-/* System Call Trap */
-uintptr_t ulSynchTrap(uintptr_t mcause, uintptr_t epc)	{
-	    write(1, "trap\n", 5);
-	    _exit(1 + mcause);
-	  return epc;
-}
 /*-----------------------------------------------------------*/
 
 
@@ -594,6 +588,11 @@ void b1_irq_init()  {
 
 static void prvSetupHardware( void )
 {
+	//enable User Mode to RWX entire address map
+	set_csr(pmpcfg0, 0xF);
+	set_csr(pmpaddr0, 0xFFFFFFFF);
+
+
     interrupts_init();
     led_init();
     b0_irq_init();

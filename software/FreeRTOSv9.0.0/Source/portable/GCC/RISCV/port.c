@@ -89,7 +89,7 @@ variable. */
 UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
 #if USER_MODE_TASKS
-	MSTATUS_INIT = (MSTATUS_MPIE);
+	unsigned long MSTATUS_INIT = (MSTATUS_MPIE);
 #else
 	unsigned long MSTATUS_INIT = (MSTATUS_MPP | MSTATUS_MPIE);
 #endif
@@ -100,9 +100,56 @@ UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
  */
 static void prvTaskExitError( void );
 
+
+/*-----------------------------------------------------------*/
+
+/* System Call Trap */
+//ECALL macro stores argument in a1
+void ulSynchTrap(unsigned long sp, unsigned long arg1)	{
+	unsigned long mcause = read_csr(mcause);
+	switch(mcause)	{
+		//on User and Machine ECALL, handler the request
+		case 8:
+		case 11:
+			if(arg1==IRQ_DISABLE)	{
+				//zero out mstatus.mpie
+				unsigned long disable_interrupts = read_csr(mstatus);
+				disable_interrupts = disable_interrupts & (~0xF0);
+				write_csr(mstatus,disable_interrupts );
+			} else if(arg1==IRQ_ENABLE)	{
+				//set mstatus.mpie
+				unsigned long enable_interrupts = read_csr(mstatus);
+				enable_interrupts = enable_interrupts | (0xF0);
+				write_csr(mstatus,enable_interrupts );
+			} else if(arg1==PORT_YIELD)	{
+				//always yield from machine mode
+				//fix up mepc on sync trap
+				unsigned long epc = read_csr(mepc);
+				write_csr(mepc,epc+4);
+				vPortYield(sp); //never returns
+			}
+
+			break;
+
+		default:
+			write(1, "trap\n", 5);
+			_exit(1 + mcause);
+	}
+
+	//fix mepc before returning
+	unsigned long epc = read_csr(mepc);
+	write_csr(mepc,epc+4);
+}
+
+
 void vPortEnterCritical( void )
 {
-	portDISABLE_INTERRUPTS();
+	#if USER_MODE_TASKS
+		ECALL(IRQ_DISABLE);
+	#else
+		portDISABLE_INTERRUPTS();
+	#endif
+
 	uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
@@ -113,7 +160,11 @@ void vPortExitCritical( void )
 	uxCriticalNesting--;
 	if( uxCriticalNesting == 0 )
 	{
-		portENABLE_INTERRUPTS();
+		#if USER_MODE_TASKS
+			ECALL(IRQ_ENABLE);
+		#else
+			portENABLE_INTERRUPTS();
+		#endif
 	}
 }
 /*-----------------------------------------------------------*/
@@ -160,6 +211,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 	*pxTopOfStack = (portSTACK_TYPE)tp; /* Register thread pointer */
 	pxTopOfStack -= 3;
 	*pxTopOfStack = (portSTACK_TYPE)prvTaskExitError; /* Register ra */
+	pxTopOfStack--;
 
 	return pxTopOfStack;
 }
@@ -182,14 +234,21 @@ void prvTaskExitError( void )
 
 /*Entry Point for Machine Timer Interrupt Handler*/
 void vPortSysTickHandler(){
+	static uint64_t then = 0;
 
 	clear_csr(mie, MIP_MTIP);
+    volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
+    volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
 
-	volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
-	volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
-	uint64_t now = *mtime;
-	uint64_t then = now + (configRTC_CLOCK_HZ / configTICK_RATE_HZ);
+	if(then != 0)  {
+		//next timer irq is 1 second from previous
+		then += (configRTC_CLOCK_HZ / configTICK_RATE_HZ);
+	} else{ //first time setting the timer
+		uint64_t now = *mtime;
+		then = now + (configRTC_CLOCK_HZ / configTICK_RATE_HZ);
+	}
 	*mtimecmp = then;
+
 
 	/* Increment the RTOS tick. */
 	if( xTaskIncrementTick() != pdFALSE )
@@ -204,8 +263,7 @@ void vPortSysTickHandler(){
 
 void vPortSetupTimer()	{
 
-    // Set the machine timer to go off in 3 seconds.
-    // The
+    // Set the machine timer
     volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
     volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
     uint64_t now = *mtime;
@@ -219,11 +277,14 @@ void vPortSetupTimer()	{
 
 
 void vPortSetup()	{
+
 	vPortSetupTimer();
 	uxCriticalNesting = 0;
 	//set_csr(mstatus,MSTATUS_MPIE);
 }
 /*-----------------------------------------------------------*/
+
+
 
 
 

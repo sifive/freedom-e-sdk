@@ -6,13 +6,13 @@
 #include "encoding.h"
 #include "sifive/bits.h"
 
-  .section      .text.entry	
-  .align 2
+  .section      .text.entry
   .global trap_entry
-
 /* Macro for saving task context */
 .macro pushREGFILE
-	addi sp, sp, -32*REGBYTES
+	//give extra space on stack
+	//in case of context switch, mepc and TCB will need to be saved
+	addi sp, sp, -34*REGBYTES
 
 	STORE x1, 1*REGBYTES(sp)
 	STORE x2, 2*REGBYTES(sp)
@@ -46,18 +46,10 @@
 	STORE x30, 30*REGBYTES(sp)
 	STORE x31, 31*REGBYTES(sp)
 
-	csrr a0, mcause
-	csrr a1, mepc
-	mv a2, sp
 .endm
 
 /* Macro for restoring task context */
 .macro popREGFILE
-csrw mepc, a0
-
-  # Remain in M-mode after mret
-  li t0, MSTATUS_MPP
-  csrs mstatus, t0
 
   LOAD x1, 1*REGBYTES(sp)
   LOAD x2, 2*REGBYTES(sp)
@@ -91,11 +83,12 @@ csrw mepc, a0
   LOAD x30, 30*REGBYTES(sp)
   LOAD x31, 31*REGBYTES(sp)
 
-  addi sp, sp, 32*REGBYTES
+  addi sp, sp, 34*REGBYTES
   mret
 .endm
 
 #define INT_MASK 0x7FFFFFFF
+
 
 /* When trap is an interrupt, this function is called */
 interrupt:
@@ -108,7 +101,7 @@ interrupt:
 
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
-	addi	sp, sp, 2*REGBYTES
+	addi	sp, sp, 3*REGBYTES
 
 	/* Interupt not m-time interrupt */
 	pushREGFILE
@@ -119,25 +112,28 @@ interrupt:
 MTIME_IRQ:
 	LOAD    t0, 0x0(sp)
 	LOAD    t1, 1*REGBYTES(sp)
-	addi	sp, sp, 2*REGBYTES
-	j		MTIME_INT
+	addi	sp, sp, 3*REGBYTES
+	j		portMTIME_INT
 	mret
 
-.align 2
+  .align 2
 /* For when a trap is fired */
 trap_entry:
 	/* Check for interrupt */
-	addi	sp, sp, -REGBYTES*2
+	addi	sp, sp, -REGBYTES*3
 	STORE	t0, 0x0(sp)
 	csrr	t0, mcause
-	blt	t0,x0,interrupt
+	blt		t0,x0,interrupt
 	LOAD	t0, 0x0(sp)
-	addi	sp, sp, 2*REGBYTES
+	addi	sp, sp, 3*REGBYTES
 
 	/* synchronous trap*/
 	pushREGFILE
+	mv a0,sp
 	jal ulSynchTrap
 	popREGFILE
+
+
 
 
 .weak handle_interrupt

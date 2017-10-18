@@ -186,7 +186,7 @@ int main(void)
                     ( const char * ) "Rx",
                     /* The size (in words) of the stack that should be created
                     for the task. */
-					700, /* printf requires a much deeper stack*/
+					600, /* printf requires a much deeper stack*/
                     /* A parameter that can be passed into the task.  Not used
                     in this simple demo. */
                     NULL,
@@ -461,28 +461,19 @@ void wake_ISR( )    {
 /*-----------------------------------------------------------*/
 
 /*Entry Point for Interrupt Handler*/
-uintptr_t handle_interrupt(uintptr_t mcause, uintptr_t epc){
+void handle_interrupt(){
 
   /* check if global*/
+  unsigned long mcause = read_csr(mcause);
   if(((mcause & MCAUSE_CAUSE) == IRQ_M_EXT))  {
     plic_source int_num  = PLIC_claim_interrupt(&g_plic);
     g_ext_interrupt_handlers[int_num]();
     PLIC_complete_interrupt(&g_plic, int_num);
   }
 
-  return epc;
 }
+
 /*-----------------------------------------------------------*/
-
-/* System Call Trap */
-uintptr_t ulSynchTrap(uintptr_t mcause, uintptr_t epc)	{
-	    write(1, "trap\n", 5);
-	    _exit(1 + mcause);
-	  return epc;
-}
-/*-----------------------------------------------------------*/
-
-
 //enables interrupt and assigns handler
 void enable_interrupt(uint32_t int_num, uint32_t int_priority, function_ptr_t handler) {
     g_ext_interrupt_handlers[int_num] = handler;
