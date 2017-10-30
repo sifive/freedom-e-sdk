@@ -120,7 +120,6 @@ typedef unsigned long UBaseType_t;
 
 /* Architecture specifics. */
 extern void vPortYield(); //in port.c
-extern void vPortYield2(); //in portasm.s
 extern int xPortSetInterruptMask(); //in port.c
 extern void vPortClearInterruptMask( int uxSavedStatusValue ); //in port.c
 
@@ -129,23 +128,25 @@ extern void vPortClearInterruptMask( int uxSavedStatusValue ); //in port.c
 /*-----------------------------------------------------------*/
 //ecall macro used to store argument in a3
 #define ECALL(arg) ({			\
-	register uintptr_t a1 asm ("a1") = (uintptr_t)(arg);	\
+	register uintptr_t a2 asm ("a2") = (uintptr_t)(arg);	\
 	asm volatile ("ecall"					\
-		      : "+r" (a1)				\
+		      : "+r" (a2)				\
 		      : 	\
 		      : "memory");				\
-	a1;							\
+	a2;							\
 })
 
-#define IRQ_DISABLE 20
-#define IRQ_ENABLE  30
-#define PORT_YIELD  40
+#define IRQ_DISABLE 		20
+#define IRQ_ENABLE  		30
+#define PORT_YIELD  		40
+#define PORT_YIELD_TO_RA    50
 /*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
 #define portYIELD() ECALL(PORT_YIELD);
-
+/* Scheduler utilities. */
+//#define portYIELD_WITHIN_API() ECALL(PORT_YIELD_TO_RA);
 
 /* Critical section management. */
 extern void vPortEnterCritical( void );

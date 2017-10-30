@@ -71,16 +71,23 @@
     1 tab == 4 spaces!
 */
 
+#include "encoding.h"
+#include "sifive/bits.h"
 
-#if __riscv_xlen == 64
-# define STORE    sd
-# define LOAD     ld
-# define REGBYTES 8
-#else
-# define STORE    sw
-# define LOAD     lw
-# define REGBYTES 4
-#endif
+//#if __riscv_xlen == 64
+//# define STORE    sd
+//# define LOAD     ld
+//# define REGBYTES 8
+//#else
+//# define STORE    sw
+//# define LOAD     lw
+//# define REGBYTES 4
+//#endif
+
+#define INT_MASK 0x7FFFFFFF
+
+.section      .text.entry
+.align 4
 
 .global portSAVE_CONTEXT
 .global portRESTORE_CONTEXT
@@ -91,12 +98,10 @@
 .global vTaskIncrementTick
 .global vPortEndScheduler
 .global xExitStack
-
-
+.global trap_entry
 
 /* Macro for saving task context */
-.macro portSAVE_CONTEXT
-	.global	pxCurrentTCB
+.macro pushREGFILE
 	/* make room in stack */
 	addi	sp, sp, -REGBYTES * 34
 
@@ -133,6 +138,11 @@
 	STORE	x30, 20 * REGBYTES(sp)
 	STORE	x31, 31 * REGBYTES(sp)
 	
+.endm
+
+/*saves mstatus and tcb	*/
+.macro portSAVE_CONTEXT
+	.global	pxCurrentTCB
 		/* Store mstatus */
 	csrr	t0, mstatus	//pointer
 	STORE	t0, 32 * REGBYTES(sp)
@@ -140,9 +150,7 @@
 	/* Store current stackpointer in task control block (TCB) */
 	LOAD	t0, pxCurrentTCB	//pointer
 	STORE	sp, 0x0(t0)
-
 .endm
-
 
 
 /* Saves current error program counter (EPC) as task program counter */
@@ -152,30 +160,39 @@
 
 .endm
 
-/* Saves current returnsadress (RA) as task program counter */
+/* Saves current return adress (RA) as task program counter */
 .macro portSAVE_RA
-	STORE	ra, 33 * REGBYTES(sp)
+	LOAD	t0, 1 * REGBYTES(sp)
+	STORE	t0, 33 * REGBYTES(sp)
 
 .endm
 
-/* Macro for restoring task context */
+//not called on a context switch
+.macro portRESTORE_X2
+	LOAD 	x2, 2 * REGBYTES(sp)
+	LOAD 	x3, 3 * REGBYTES(sp)
+ .endm
+
+ /*restore mstatus and tcb	*/
 .macro portRESTORE_CONTEXT
-//portRESTORE_CONTEXT:
 	.global	pxCurrentTCB
 	/* Load stack pointer from the current TCB */
 	LOAD	sp, pxCurrentTCB
 	LOAD	sp, 0x0(sp)
-
 	/* Load task program counter */
 	LOAD	t0, 33 * REGBYTES(sp)
   	csrw	mepc, t0
-
 	/* Load saved mstatus */
 	LOAD	t0, 32 * REGBYTES(sp)
   	csrw	mstatus, t0
+.endm
+
+
+/* Macro for restoring task context */
+.macro popREGFILE
 
 	/* Restore registers,
-	   Skip global pointer because that does not change */
+	Skip global pointer because that does not change */
 	LOAD	x1, 1 * REGBYTES(sp)
 	LOAD	x4, 4 * REGBYTES(sp)
 	LOAD	x5, 5 * REGBYTES(sp)
@@ -207,42 +224,71 @@
 	LOAD	x31, 31 * REGBYTES(sp)
 
 	addi	sp, sp, REGBYTES * 34
-	//mret
 .endm
 
+/* Interrupt entry point */
+trap_entry:
+	/* Check for interrupt */
+	pushREGFILE
+	csrr	a0, mcause
+	blt		a0,zero,interrupt
 
-/* Macro for restoring task context */
-portMTIME_INT:
+	/* synchronous interrupt*/
+	/* pass sp in a1 */
+	mv a1,sp
+	jal ulSynchTrap
+	//portRESTORE_X2
+	popREGFILE
+	mret
+
+/* async interrupt, this function is called */
+interrupt:
+	li      t0,INT_MASK
+	and     a0,a0,t0
+	li      t0, 0x7
+	beq     a0,t0, MTIME_IRQ
+	/* Interupt not m-time interrupt */
+	/* pass the exception code in a0 */
+	jal 	handle_interrupt
+	portRESTORE_X2
+	popREGFILE
+	mret
+
+	/* Interupt is m-time  */
+MTIME_IRQ:
 	portSAVE_CONTEXT
 	portSAVE_EPC
-	jal	vPortSysTickHandler
+	jal		vPortSysTickHandler
 	portRESTORE_CONTEXT
+	popREGFILE
 	mret
 
 xPortStartScheduler:
 	jal		vPortSetup
 	portRESTORE_CONTEXT
+	popREGFILE
 	mret
-
-vPortEndScheduler:
-	ret
 
 
 vPortYield:
-	//adjust stack pointer back to where it was
-	//priro to ulSynchTrap
+/*  adjust stack pointer back to where it was prior to ulSynchTrap  */
 	mv		sp,a0
-	/* Store mstatus */
-	csrr	t0, mstatus	//pointer
-	STORE	t0, 32 * REGBYTES(sp)
-	/* Store current stackpointer in task control block (TCB) */
-	LOAD	t0, pxCurrentTCB	//pointer
-	STORE	sp, 0x0(t0)
-	/* Store mepc */
-	csrr	t0, mepc
-	STORE	t0, 33 * REGBYTES(sp)
-    /* switch context */
-	jal	vTaskSwitchContext
-	portRESTORE_CONTEXT
+	portSAVE_CONTEXT
 
+/* context return point was passed back to this function in a1 */
+	STORE	a1, 33 * REGBYTES(sp)
+    /* switch context */
+	jal		vTaskSwitchContext
+	portRESTORE_CONTEXT
+	popREGFILE
 	mret
+
+vPortEndScheduler:
+1:
+	j		1b
+
+
+.weak handle_interrupt
+handle_interrupt:
+1:
+  j 1b

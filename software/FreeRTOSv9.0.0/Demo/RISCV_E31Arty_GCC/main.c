@@ -429,7 +429,6 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName 
 }
 /*-----------------------------------------------------------*/
 
-extern UBaseType_t uxCriticalNesting;
 void vApplicationIdleHook( void )
 {
 volatile size_t xFreeStackSpace;
@@ -483,9 +482,7 @@ void b1_ISR( )    {
 
 
 /*Entry Point for Interrupt Handler*/
-void handle_interrupt(){
-
-  unsigned long mcause = read_csr(mcause);
+void handle_interrupt(unsigned long mcause){
 
   /* check if global*/
   if(!((mcause & MCAUSE_CAUSE) == IRQ_M_EXT))   {
@@ -585,13 +582,12 @@ void b1_irq_init()  {
 }
 /*-----------------------------------------------------------*/
 
-
+//always runs in Machine Mode
 static void prvSetupHardware( void )
 {
 	//enable User Mode to RWX entire address map
 	set_csr(pmpcfg0, 0xF);
 	set_csr(pmpaddr0, 0xFFFFFFFF);
-
 
     interrupts_init();
     led_init();

@@ -133,9 +133,6 @@ trap_entry:
 	jal ulSynchTrap
 	popREGFILE
 
-
-
-
 .weak handle_interrupt
 handle_interrupt:
 1:

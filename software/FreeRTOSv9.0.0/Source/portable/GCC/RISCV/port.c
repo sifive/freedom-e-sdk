@@ -104,41 +104,43 @@ static void prvTaskExitError( void );
 /*-----------------------------------------------------------*/
 
 /* System Call Trap */
-//ECALL macro stores argument in a1
-void ulSynchTrap(unsigned long sp, unsigned long arg1)	{
-	unsigned long mcause = read_csr(mcause);
+//ECALL macro stores argument in a2
+unsigned long ulSynchTrap(unsigned long mcause, unsigned long sp, unsigned long arg1)	{
+
 	switch(mcause)	{
 		//on User and Machine ECALL, handler the request
 		case 8:
 		case 11:
 			if(arg1==IRQ_DISABLE)	{
 				//zero out mstatus.mpie
-				unsigned long disable_interrupts = read_csr(mstatus);
-				disable_interrupts = disable_interrupts & (~0xF0);
-				write_csr(mstatus,disable_interrupts );
+				clear_csr(mstatus,MSTATUS_MPIE);
+				//fix mepc before returning
+				unsigned long epc = read_csr(mepc);
+				write_csr(mepc,epc+4);
+
 			} else if(arg1==IRQ_ENABLE)	{
 				//set mstatus.mpie
-				unsigned long enable_interrupts = read_csr(mstatus);
-				enable_interrupts = enable_interrupts | (0xF0);
-				write_csr(mstatus,enable_interrupts );
-			} else if(arg1==PORT_YIELD)	{
+				set_csr(mstatus,MSTATUS_MPIE);
+				//fix mepc before returning
+				unsigned long epc = read_csr(mepc);
+				write_csr(mepc,epc+4);
+
+			} else if(arg1==PORT_YIELD)		{
 				//always yield from machine mode
 				//fix up mepc on sync trap
 				unsigned long epc = read_csr(mepc);
-				write_csr(mepc,epc+4);
-				vPortYield(sp); //never returns
+				vPortYield(sp,epc+4); //never returns
+			} else if(arg1==PORT_YIELD_TO_RA)	{
+
+				vPortYield(sp,(*(unsigned long*)(sp+1*sizeof(sp)))); //never returns
 			}
 
 			break;
 
 		default:
 			write(1, "trap\n", 5);
-			_exit(1 + mcause);
+			_exit(mcause);
 	}
-
-	//fix mepc before returning
-	unsigned long epc = read_csr(mepc);
-	write_csr(mepc,epc+4);
 }
 
 
@@ -148,6 +150,7 @@ void vPortEnterCritical( void )
 		ECALL(IRQ_DISABLE);
 	#else
 		portDISABLE_INTERRUPTS();
+		//ECALL(IRQ_DISABLE);
 	#endif
 
 	uxCriticalNesting++;
@@ -164,6 +167,7 @@ void vPortExitCritical( void )
 			ECALL(IRQ_ENABLE);
 		#else
 			portENABLE_INTERRUPTS();
+			//ECALL(IRQ_ENABLE);
 		#endif
 	}
 }
@@ -254,7 +258,6 @@ void vPortSysTickHandler(){
 	if( xTaskIncrementTick() != pdFALSE )
 	{
 		vTaskSwitchContext();
-
 	}
 	set_csr(mie, MIP_MTIP);
 }
@@ -280,7 +283,6 @@ void vPortSetup()	{
 
 	vPortSetupTimer();
 	uxCriticalNesting = 0;
-	//set_csr(mstatus,MSTATUS_MPIE);
 }
 /*-----------------------------------------------------------*/
 
