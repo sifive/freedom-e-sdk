@@ -135,7 +135,7 @@
 	STORE	x27, 27 * REGBYTES(sp)
 	STORE	x28, 28 * REGBYTES(sp)
 	STORE	x29, 29 * REGBYTES(sp)
-	STORE	x30, 20 * REGBYTES(sp)
+	STORE	x30, 30 * REGBYTES(sp)
 	STORE	x31, 31 * REGBYTES(sp)
 	
 .endm
@@ -194,6 +194,7 @@
 	/* Restore registers,
 	Skip global pointer because that does not change */
 	LOAD	x1, 1 * REGBYTES(sp)
+	LOAD 	x3, 3 * REGBYTES(sp)
 	LOAD	x4, 4 * REGBYTES(sp)
 	LOAD	x5, 5 * REGBYTES(sp)
 	LOAD	x6, 6 * REGBYTES(sp)
@@ -237,7 +238,8 @@ trap_entry:
 	/* pass sp in a1 */
 	mv a1,sp
 	jal ulSynchTrap
-	//portRESTORE_X2
+/*  adjust stack pointer back to where it was prior to ulSynchTrap  */
+	mv		sp,a0
 	popREGFILE
 	mret
 

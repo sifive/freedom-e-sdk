@@ -144,9 +144,9 @@ extern void vPortClearInterruptMask( int uxSavedStatusValue ); //in port.c
 
 
 /* Scheduler utilities. */
-#define portYIELD() ECALL(PORT_YIELD);
-/* Scheduler utilities. */
-//#define portYIELD_WITHIN_API() ECALL(PORT_YIELD_TO_RA);
+/* the return after the ECALL is VERY important */
+#define portYIELD() ECALL(PORT_YIELD); return ;
+
 
 /* Critical section management. */
 extern void vPortEnterCritical( void );

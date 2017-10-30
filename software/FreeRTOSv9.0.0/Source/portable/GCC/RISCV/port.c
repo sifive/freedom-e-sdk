@@ -115,15 +115,9 @@ unsigned long ulSynchTrap(unsigned long mcause, unsigned long sp, unsigned long 
 				//zero out mstatus.mpie
 				clear_csr(mstatus,MSTATUS_MPIE);
 				//fix mepc before returning
-				unsigned long epc = read_csr(mepc);
-				write_csr(mepc,epc+4);
-
 			} else if(arg1==IRQ_ENABLE)	{
 				//set mstatus.mpie
 				set_csr(mstatus,MSTATUS_MPIE);
-				//fix mepc before returning
-				unsigned long epc = read_csr(mepc);
-				write_csr(mepc,epc+4);
 
 			} else if(arg1==PORT_YIELD)		{
 				//always yield from machine mode
@@ -141,6 +135,10 @@ unsigned long ulSynchTrap(unsigned long mcause, unsigned long sp, unsigned long 
 			write(1, "trap\n", 5);
 			_exit(mcause);
 	}
+
+	unsigned long epc = read_csr(mepc);
+	write_csr(mepc,epc+4);
+	return sp;
 }
 
 
@@ -150,7 +148,6 @@ void vPortEnterCritical( void )
 		ECALL(IRQ_DISABLE);
 	#else
 		portDISABLE_INTERRUPTS();
-		//ECALL(IRQ_DISABLE);
 	#endif
 
 	uxCriticalNesting++;
@@ -167,9 +164,10 @@ void vPortExitCritical( void )
 			ECALL(IRQ_ENABLE);
 		#else
 			portENABLE_INTERRUPTS();
-			//ECALL(IRQ_ENABLE);
 		#endif
 	}
+
+	return;
 }
 /*-----------------------------------------------------------*/
 
