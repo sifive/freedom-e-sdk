@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "platform.h"
 #include "encoding.h"
@@ -217,11 +218,16 @@ void _init()
 {
   
   #ifndef NO_INIT
+  char freq_string[15];
   use_default_clocks();
   use_pll(0, 0, 1, 31, 1);
   uart_init(115200);
 
-  printf("core freq at %ld Hz\n", get_cpu_freq());
+ uint32_t freq = (uint32_t)get_cpu_freq();
+ itoa(freq,freq_string,10);
+ write(1, "core freq at: ", 14);
+ write(1, freq_string, 9);
+ write(1, "Hz\n",3);
 
   write_csr(mtvec, &trap_entry);
   if (read_csr(misa) & (1 << ('F' - 'A'))) { // if F extension is present

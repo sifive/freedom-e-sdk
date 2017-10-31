@@ -315,7 +315,6 @@ static void prvQueueReceiveTask( void *pvParameters )
         indefinitely provided INCLUDE_vTaskSuspend is set to 1 in
         FreeRTOSConfig.h. */
         xQueueReceive( xQueue, &ulReceivedValue, portMAX_DELAY );
-        //printf("Recieved: %ld\n", ulReceivedValue);
 
         itoa(ulReceivedValue,stringValue, 10);
         write(1,"Recieved: ", 10);
@@ -461,10 +460,9 @@ void wake_ISR( )    {
 /*-----------------------------------------------------------*/
 
 /*Entry Point for Interrupt Handler*/
-void handle_interrupt(){
+void handle_interrupt(unsigned long mcause){
 
   /* check if global*/
-  unsigned long mcause = read_csr(mcause);
   if(((mcause & MCAUSE_CAUSE) == IRQ_M_EXT))  {
     plic_source int_num  = PLIC_claim_interrupt(&g_plic);
     g_ext_interrupt_handlers[int_num]();
