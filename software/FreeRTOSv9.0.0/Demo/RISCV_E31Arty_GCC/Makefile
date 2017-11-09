@@ -17,7 +17,6 @@ DEMO_SRC +=	$(BSP_BASE)/env/$(BOARD)/init.c
 DEMO_SRC +=	$(BSP_BASE)/drivers/plic/plic_driver.c
 DEMO_SRC +=	main.c
 
-DEMO_ASM += entry.S
 DEMO_ASM += start.S
 
 INCLUDES = \
