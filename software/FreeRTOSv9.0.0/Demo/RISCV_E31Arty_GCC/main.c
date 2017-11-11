@@ -318,10 +318,9 @@ static void prvQueueReceiveTask( void *pvParameters )
         FreeRTOSConfig.h. */
         xQueueReceive( xQueue, &ulReceivedValue, portMAX_DELAY );
         itoa(ulReceivedValue,stringValue, 10);
-        write(1,"Recieved: ", 10);
+        write(1,"Received: ", 10);
         write(1,stringValue, 3);
         write(1,"\n",1);
-
 
         /*  To get here something must have been received from the queue, but
         is it the expected value?  If it is, increment the counter. */
@@ -384,6 +383,7 @@ static uint32_t ulCount = 0;
 
     	GPIO_REG(GPIO_OUTPUT_VAL)  ^=   (0x1 << GREEN_LED_OFFSET) ;
     	write(1, "Giving Semaphore\n", 17);
+
     }
 
     /* If xHigherPriorityTaskWoken is pdTRUE then a context switch should
@@ -409,7 +409,8 @@ void vApplicationMallocFailedHook( void )
     internally by FreeRTOS API functions that create tasks, queues, software
     timers, and semaphores.  The size of the FreeRTOS heap is set by the
     configTOTAL_HEAP_SIZE configuration constant in FreeRTOSConfig.h. */
-	write(1,"malloc failed\n", 14);
+    write(1,"malloc failed\n", 14);
+    
     for( ;; );
 }
 /*-----------------------------------------------------------*/
@@ -456,6 +457,7 @@ void b0_ISR( )    {
     
     GPIO_REG(GPIO_OUTPUT_VAL)  ^=   (0x1 << RED_LED_OFFSET) ;
     write(1,"---------->\n",13);
+
     xQueueSendFromISR( xQueue, &ulValueToSend, 0 );
     //clear irq - interrupt pending register is write 1 to clear
     GPIO_REG(GPIO_FALL_IP) |= (1<<BUTTON_0_OFFSET);
@@ -468,6 +470,7 @@ void b1_ISR( )    {
     const uint32_t ulValueToSend = 888UL;
     
     write(1,"~~~~~~~~~~~>\n",13);
+
     xQueueSendFromISR( xQueue, &ulValueToSend, 0 );
 
     //clear irq - interrupt pending register is write 1 to clear
