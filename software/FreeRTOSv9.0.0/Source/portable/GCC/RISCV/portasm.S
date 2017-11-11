@@ -108,7 +108,7 @@
 	/* Save Context */
 	STORE	x1, 1 * REGBYTES(sp)
 	STORE	x2, 2 * REGBYTES(sp)
-	STORE	x3, 3 * REGBYTES(sp)
+	//STORE	x3, 3 * REGBYTES(sp)
 	STORE	x4, 4 * REGBYTES(sp)
 	STORE	x5, 5 * REGBYTES(sp)
 	STORE	x6, 6 * REGBYTES(sp)
@@ -170,7 +170,7 @@
 //not called on a context switch
 .macro portRESTORE_X2
 	LOAD 	x2, 2 * REGBYTES(sp)
-	LOAD 	x3, 3 * REGBYTES(sp)
+	//LOAD 	x3, 3 * REGBYTES(sp)
  .endm
 
  /*restore mstatus and tcb	*/
@@ -194,7 +194,7 @@
 	/* Restore registers,
 	Skip global pointer because that does not change */
 	LOAD	x1, 1 * REGBYTES(sp)
-	LOAD 	x3, 3 * REGBYTES(sp)
+	//LOAD 	x3, 3 * REGBYTES(sp)
 	LOAD	x4, 4 * REGBYTES(sp)
 	LOAD	x5, 5 * REGBYTES(sp)
 	LOAD	x6, 6 * REGBYTES(sp)

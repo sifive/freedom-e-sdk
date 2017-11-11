@@ -114,7 +114,7 @@ unsigned long ulSynchTrap(unsigned long mcause, unsigned long sp, unsigned long 
 			if(arg1==IRQ_DISABLE)	{
 				//zero out mstatus.mpie
 				clear_csr(mstatus,MSTATUS_MPIE);
-				//fix mepc before returning
+
 			} else if(arg1==IRQ_ENABLE)	{
 				//set mstatus.mpie
 				set_csr(mstatus,MSTATUS_MPIE);
@@ -136,6 +136,7 @@ unsigned long ulSynchTrap(unsigned long mcause, unsigned long sp, unsigned long 
 			_exit(mcause);
 	}
 
+	//fix mepc and return
 	unsigned long epc = read_csr(mepc);
 	write_csr(mepc,epc+4);
 	return sp;
@@ -209,9 +210,10 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
 	pxTopOfStack -= 22;
 	*pxTopOfStack = (portSTACK_TYPE)pvParameters;	/* Register a0 */
-	pxTopOfStack -= 6;
-	*pxTopOfStack = (portSTACK_TYPE)tp; /* Register thread pointer */
-	pxTopOfStack -= 3;
+	//pxTopOfStack -= 7;
+	//*pxTopOfStack = (portSTACK_TYPE)tp; /* Register thread pointer */
+	//pxTopOfStack -= 2;
+	pxTopOfStack -=9;
 	*pxTopOfStack = (portSTACK_TYPE)prvTaskExitError; /* Register ra */
 	pxTopOfStack--;
 
