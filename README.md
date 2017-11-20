@@ -103,10 +103,10 @@ execute everyone's favorite benchmark as follows:
   was the VAX 11/780's performance.  In the example below, 729927 / 1757 =
   415 DMIPS.
 - Compute DMIPS/MHz by dividing by the clock rate: in the example below,
-  415 / 260 = 1.60 DMIPS/MHz.
+  415 / 268 = 1.55 DMIPS/MHz.
 
 ```
-core freq at 259830579 Hz
+core freq at 268694323 Hz
 
 Dhrystone Benchmark, Version 2.1 (Language: C)
 
