@@ -96,8 +96,8 @@ Run `make help` for more commands.
 After setting up the software and debug toolchains, you can build and
 execute everyone's favorite benchmark as follows:
 
-- Compile the benchmark with the command `make software PROGRAM=dhrystone`.
-- Run on the HiFive1 board with the command `make upload PROGRAM=dhrystone`.
+- Compile the benchmark with the command `make software BOARD=freedom-e300-hifive1 PROGRAM=dhrystone LINK_TARGET=dhrystone`. Note that a slightly different linker file is used for Dhrystone which stores read only data in DTIM instead of external flash.
+- Run on the HiFive1 board with the command `make upload BOARD=freedom-e300-hifive1 PROGRAM=dhrystone`.
   This will take a few minutes.  Sample output is provided below.
 - Compute DMIPS by dividing the Dhrystones per Second result by 1757, which
   was the VAX 11/780's performance.  In the example below, 729927 / 1757 =
