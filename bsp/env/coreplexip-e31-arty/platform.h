@@ -92,4 +92,8 @@
 
 #include "coreplexip-arty.h"
 
+unsigned long get_cpu_freq(void);
+unsigned long get_timer_freq(void);
+uint64_t get_timer_value(void);
+
 #endif /* _SIFIVE_PLATFORM_H */
