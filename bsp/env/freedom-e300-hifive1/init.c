@@ -218,6 +218,13 @@ void _init()
 {
   
   #ifndef NO_INIT
+
+  GPIO_REG(GPIO_IOF_EN) = 0;
+  GPIO_REG(GPIO_OUTPUT_EN) = 1;
+  GPIO_REG(GPIO_OUTPUT_VAL) = 0;
+  GPIO_REG(GPIO_INPUT_EN) = 0;
+  GPIO_REG(GPIO_PULLUP_EN) = 0xFFFFFFFE;
+  
   use_default_clocks();
   use_pll(0, 0, 1, 31, 1);
   uart_init(115200);
@@ -230,9 +237,33 @@ void _init()
     write_csr(fcsr, 0); // initialize rounding mode, undefined at reset
   }
   #endif
-  
+
+  #ifdef LOWPOWER
+  // Turn off LFROSC
+  PRCI_REG(AON_LFROSC) &= ~ROSC_EN(1); // On AON POWER
+  // Turn off HFROSC
+  PRCI_REG(PRCI_HFROSCCFG) &= ~ROSC_EN(1); // 1.4mA on MOFF POWER
+  // Turn off HFXOSC
+  //  PRCI_REG(PRCI_HFXOSCCFG) &= ~ROSC_EN(1); // Needed for PLL
+
+  PWM0_REG(PWM_CFG) &= ~PWM_CFG_ENALWAYS; // Disable PWM0
+  PWM1_REG(PWM_CFG) &= ~PWM_CFG_ENALWAYS; // Disable PWM1
+  PWM2_REG(PWM_CFG) &= ~PWM_CFG_ENALWAYS; // Disable PWM2
+
+  UART1_REG(UART_REG_TXCTRL) &= ~UART_TXEN; // Disable UART1 TX
+  UART1_REG(UART_REG_TXCTRL) &= ~UART_RXEN; // Disable UART1 RX
+  UART1_REG(UART_REG_DIV) = 0xFFFF; // Highest UART1 Divisor
+
+  PRCI_REG(PRCI_PROCMONCFG) = PROCMON_SEL_PROCMON; // Set process mon output
+  #endif
 }
 
 void _fini()
 {
+  #ifdef LOWPOWER
+  // Turn on LFROSC
+  PRCI_REG(AON_LFROSC) |= ROSC_EN(1);
+  // Turn on HFROSC
+  PRCI_REG(PRCI_HFROSCCFG) |= ROSC_EN(1);  
+  #endif
 }

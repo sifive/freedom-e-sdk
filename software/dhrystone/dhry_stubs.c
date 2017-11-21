@@ -11,5 +11,5 @@ long time(void)
 // set the number of dhrystone iterations
 void __wrap_scanf(const char* fmt, int* n)
 {
-  *n = 100000000;
+  *n = get_cpu_freq()/100;
 }

@@ -81,9 +81,9 @@ main ()
         Str_30          Str_2_Loc;
   REG   int             Run_Index;
   REG   int             Number_Of_Runs;
+  int calctr=0;
 
   /* Initializations */
-
   Next_Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));
   Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));
 
@@ -121,8 +121,14 @@ main ()
     Number_Of_Runs = n;
   }
   printf ("\n");
+  printf ("Execution starts, %d runs through Dhrystone\n\r\n", Number_Of_Runs);
+  printf ("RUN# ");
+  printf ("  CPU Freq   ");
+  printf ("uS/Run ");
+  printf ("Dhry/Sec ");
+  printf ("DMIPS/MHz\n");
 
-  printf ("Execution starts, %d runs through Dhrystone\n", Number_Of_Runs);
+  for(calctr=0;;calctr++) {
 
   /***************/
   /* Start timer */
@@ -133,7 +139,7 @@ main ()
   Begin_Time = (long) time_info.tms_utime;
 #endif
 #ifdef TIME
-  Begin_Time = time ( (long *) 0);
+  Begin_Time = get_timer_value();
 #endif
 
   for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
@@ -191,12 +197,12 @@ main ()
   End_Time = (long) time_info.tms_utime;
 #endif
 #ifdef TIME
-  End_Time = time ( (long *) 0);
+  End_Time = get_timer_value();
 #endif
 
-  printf ("Execution ends\n");
-  printf ("\n");
-  printf ("Final values of the variables used in the benchmark:\n");
+  //  printf ("Execution ends\n");
+  //  printf ("\n");
+  /*  printf ("Final values of the variables used in the benchmark:\n");
   printf ("\n");
   printf ("Int_Glob:            %d\n", Int_Glob);
   printf ("        should be:   %d\n", 5);
@@ -246,7 +252,7 @@ main ()
   printf ("Str_2_Loc:           %s\n", Str_2_Loc);
   printf ("        should be:   DHRYSTONE PROGRAM, 2'ND STRING\n");
   printf ("\n");
-
+  */
   User_Time = End_Time - Begin_Time;
 
   if (User_Time < Too_Small_Time)
@@ -258,22 +264,25 @@ main ()
   else
   {
 #ifdef TIME
-    Microseconds = (float) User_Time * Mic_secs_Per_Second 
+    Microseconds = (float) User_Time * 1e6 / (float) get_timer_freq()
                         / (float) Number_Of_Runs;
-    Dhrystones_Per_Second = (float) Number_Of_Runs / (float) User_Time;
+    Dhrystones_Per_Second = 1e6/Microseconds;
 #else
     Microseconds = (float) User_Time * Mic_secs_Per_Second 
                         / ((float) HZ * ((float) Number_Of_Runs));
     Dhrystones_Per_Second = ((float) HZ * (float) Number_Of_Runs)
                         / (float) User_Time;
 #endif
-    printf ("Microseconds for one run through Dhrystone: ");
-    printf ("%6.1f \n", Microseconds);
-    printf ("Dhrystones per Second:                      ");
-    printf ("%6.1f \n", Dhrystones_Per_Second);
-    printf ("\n");
+    float DMIPS = Dhrystones_Per_Second/1757;
+    float CPU_Freq = (float)get_cpu_freq() / 1e6;
+    float DMIPS_Per_MHz = DMIPS/CPU_Freq;
+    printf ("%3d: ", calctr );
+    printf ("  %6.1f MHz ", CPU_Freq);
+    printf ("  %6.2f ", Microseconds);
+    printf (" %6.1f ", Dhrystones_Per_Second);
+    printf ("   %6.2f\r\n", DMIPS_Per_MHz);
   }
-  
+  }
 }
 
 
