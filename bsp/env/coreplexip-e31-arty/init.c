@@ -19,7 +19,7 @@
 extern int main(int argc, char** argv);
 extern void TRAP_ENTRY();
 
-static unsigned long get_cpu_freq()
+unsigned long get_cpu_freq()
 {
   return CPU_FREQ;
 }
