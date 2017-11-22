@@ -25,11 +25,20 @@
 import visa
 import pyvisa
 import time
+import os
 
 rm = visa.ResourceManager('@py')
 for myinst in rm.list_resources():
   inst = rm.open_resource(myinst)
   print (myinst)
+
+  hifive = os.open("/dev/ttyUSB1",os.O_RDWR)
+  if ( not hifive ):
+    print ("Problem opening hifive1")
+
+# flush buffer if needed.
+  os.write(hifive, "F")
+  os.read(hifive,999)
 
   inst.read_termination="\n"
   inst.write_termination="\n"
@@ -49,13 +58,22 @@ for myinst in rm.list_resources():
   inst.write("APPLY CH3,1.62V,400mA ")
 
   inst.write("OUTPUT ON ")
-  
-  for psup in range(-10,11):
-    vsup=1.8*(1.0+(psup/100.0))
-    inst.write("APPLY CH1,"+str(vsup)+"V,400mA ")
-    inst.write("APPLY CH2,"+str(vsup*3.3/1.8)+"V,400mA ")
-    inst.write("APPLY CH3,"+str(vsup)+"V,400mA ")
-    print(inst.query('MEAS:VOLT? ALL')+", "+inst.query('MEAS:CURR? ALL'))
+
+  for pfreq in range(25,325,25):
+      for psup in range(-10,11):
+        os.write(hifive, "0")
+        time.sleep(0.2)
+        os.write(hifive, str(pfreq)+"000000\n")
+        time.sleep(0.2)        
+        os.read(hifive,999)
+        time.sleep(0.2)        
+        os.write(hifive, "F")
+        rfreq=os.read(hifive,999).strip()
+        vsup=1.8*(1.0+(psup/100.0))
+        inst.write("APPLY CH1,"+str(vsup)+"V,400mA ")
+        inst.write("APPLY CH2,"+str(vsup*3.3/1.8)+"V,400mA ")
+        inst.write("APPLY CH3,"+str(vsup)+"V,400mA ")
+        print(str(rfreq)+inst.query('MEAS:VOLT? ALL')+", "+inst.query('MEAS:CURR? ALL'))
   
   
 #  inst.write("OUTPUT OFF ")

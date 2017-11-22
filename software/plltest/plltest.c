@@ -64,42 +64,52 @@ int main()
 
     case '1':
       setpll(100000000);
+      print_cpu_freq();
       break;
 
     case '2':
       setpll(200000000);
+      print_cpu_freq();
       break;
       
     case '3':
       setpll(300000000);
+      print_cpu_freq();
       break;
 
     case '4':
       setpll(320000000);
+      print_cpu_freq();
       break;
 
     case '5':
       setpll(250000000);
+      print_cpu_freq();
       break;
 
     case '6':
       setpll(150000000);
+      print_cpu_freq();
       break;
 
     case '7':
       setpll(75000000);
+      print_cpu_freq();
       break;
 
     case '8':
       setpll(50000000);
+      print_cpu_freq();
       break;
 
     case '9':
       setpll(25000000);
+      print_cpu_freq();
       break;
 
     case '0':
       setpll(10000000);
+      print_cpu_freq();
       break;
 
     case '?':
@@ -319,9 +329,6 @@ int main()
   }
       
       
-
-
-
 
   //  printf("Press Key to select HROSC.\n");
   //  wait_for_keypress();

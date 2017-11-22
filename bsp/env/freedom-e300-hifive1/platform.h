@@ -127,7 +127,9 @@
 #include "hifive1.h"
 
 unsigned long get_cpu_freq(void);
+unsigned long ugetc(int blocking);
 unsigned long get_timer_freq(void);
 uint64_t get_timer_value(void);
+int setpll(unsigned long int freq);
 
 #endif /* _SIFIVE_PLATFORM_H */

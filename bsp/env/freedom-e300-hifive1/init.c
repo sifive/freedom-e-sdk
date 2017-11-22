@@ -5,6 +5,10 @@
 #include "platform.h"
 #include "encoding.h"
 
+#define BAUDRATE 115200
+
+unsigned long int gCPU_FREQ=0;
+
 extern int main(int argc, char** argv);
 extern void trap_entry();
 
@@ -138,6 +142,19 @@ static void use_default_clocks()
   use_hfrosc(4, 16);
 }
 
+unsigned long mtime_lou(void)
+{
+  return *(volatile unsigned long *)(CLINT_CTRL_ADDR + CLINT_MTIME);
+}
+
+// Wait ms
+int wait_ms(int wtime)
+{
+  uint32_t now = mtime_lou();
+  while (mtime_lou() - now < wtime*33) ;
+}
+
+
 static unsigned long __attribute__((noinline)) measure_cpu_freq(size_t n)
 {
   unsigned long start_mtime, delta_mtime;
@@ -161,18 +178,54 @@ static unsigned long __attribute__((noinline)) measure_cpu_freq(size_t n)
          + ((delta_mcycle % delta_mtime) * mtime_freq) / delta_mtime;
 }
 
+unsigned long __attribute__((noinline)) cpu_freq(size_t n)
+{
+  // NB = unsigned long is only big enough for about n=50.
+  unsigned long start_mtime, delta_mtime;
+  unsigned long mtime_freq = 32768;
+
+  wait_ms(20);
+
+  // Don't start measuring until we see an mtime tick
+  unsigned long tmp = mtime_lou();
+  do {
+    start_mtime = mtime_lou();
+  } while (start_mtime == tmp);
+
+  unsigned long start_mcycle = read_csr(mcycle);
+
+  do {
+    delta_mtime = mtime_lou() - start_mtime;
+  } while (delta_mtime < n);
+
+  unsigned long delta_mcycle = read_csr(mcycle) - start_mcycle;
+
+  return (delta_mcycle * mtime_freq / delta_mtime)
+    + ((delta_mcycle % delta_mtime) * mtime_freq) / delta_mtime;
+}
+
 unsigned long get_cpu_freq()
 {
-  static uint32_t cpu_freq;
-
-  if (!cpu_freq) {
-    // warm up I$
-    measure_cpu_freq(1);
-    // measure for real
-    cpu_freq = measure_cpu_freq(10);
+  if (!gCPU_FREQ) {
+    gCPU_FREQ = cpu_freq(10);
   }
+  return gCPU_FREQ;
+}
 
-  return cpu_freq;
+unsigned long ugetc(int blocking)
+{
+  unsigned long pc=UART0_REG(UART_REG_RXFIFO);
+  while (blocking && ( pc & 0x80000000 )) pc=UART0_REG(UART_REG_RXFIFO);
+  return pc;
+}
+
+void uart_set(size_t baud_rate)
+{
+  GPIO_REG(GPIO_IOF_SEL) &= ~IOF0_UART0_MASK;
+  GPIO_REG(GPIO_IOF_EN) |= IOF0_UART0_MASK;
+  UART0_REG(UART_REG_DIV) = cpu_freq(10) / baud_rate - 1;
+  UART0_REG(UART_REG_TXCTRL) |= UART_TXEN;
+  wait_ms(100);
 }
 
 static void uart_init(size_t baud_rate)
@@ -214,6 +267,88 @@ uintptr_t handle_trap(uintptr_t mcause, uintptr_t epc)
   return epc;
 }
 
+int setpllbits(int pll_r, int pll_f, int pll_q)
+{
+  // Turn on Crystal Oscillator and wait for it to spin up
+  if( !(PRCI_REG(PRCI_HFXOSCCFG) & ROSC_EN(1)) ) {
+    PRCI_REG(PRCI_HFXOSCCFG) |= ROSC_EN(1);
+    wait_ms(100);
+  }
+
+  // Switch Clocking to Crystal Osc.
+  PRCI_REG(PRCI_PLLCFG) |= PLL_BYPASS(1);
+  wait_ms(50);
+
+  // Switch PLL clocking to Crystal Osc.
+  PRCI_REG(PRCI_PLLCFG) |= PLL_REFSEL(1);
+  // Make sure PLL is selected.
+  PRCI_REG(PRCI_PLLCFG) |= PLL_SEL(1);
+
+  // Write PLL values with constant Q
+  PRCI_REG(PRCI_PLLCFG) = (PRCI_REG(PRCI_PLLCFG) & 0xFFFF0000) + PLL_R(pll_r) + PLL_F(pll_f) + PLL_Q(2);
+  wait_ms(50); // wait to lose lock
+
+  // Wait for lock, but no more than 100ms.
+  if ( PRCI_REG(PRCI_PLLCFG) & PLL_LOCK(1) ) wait_ms(100);
+
+  // Un-bypass the PLL.
+  PRCI_REG(PRCI_PLLCFG) &= ~PLL_BYPASS(1);
+  wait_ms(50);
+
+  // Write PLL Q Value
+  // Unbypassing the PLL at high frequency causes instability
+  PRCI_REG(PRCI_PLLCFG) = (PRCI_REG(PRCI_PLLCFG) & 0xFFFF0000) + PLL_R(pll_r) + PLL_F(pll_f) + PLL_Q(pll_q);
+  wait_ms(50);
+
+}
+
+
+int setpll(unsigned long int freq)
+{
+
+  // When operating from 16MHz crystal,
+  // PLL can divide by (2,3,4)*(2,4,8)
+  //  Max divide is 32
+  //  Min divide is 4
+  // PLL can multiply by 2-128
+
+  int pll_r=PRCI_REG(PRCI_PLLCFG)/PLL_R(1)&0x03;
+  int pll_f=PRCI_REG(PRCI_PLLCFG)/PLL_F(1)&0x3F;
+  int pll_q=PRCI_REG(PRCI_PLLCFG)/PLL_Q(1)&0x03;
+
+  // Determine Multiplication Factor based on 16MHz Crystal/32
+  // 500kHz steps
+  int ffactor=freq/500000;
+  pll_r=3;
+  pll_q=3;
+
+  if(ffactor > 128){ pll_r--; ffactor=ffactor*3/4; }
+  if(ffactor > 128){ pll_r--; ffactor=ffactor*2/3; }  
+  if(ffactor > 128){ pll_q--; ffactor/=2; }
+  if(ffactor > 128){ pll_q--; ffactor/=2; }
+  pll_f=ffactor/2-1;
+  // Limit VCO frequency to 768MHz
+  if(ffactor > 128 ||
+     16/(pll_r+1)*(pll_f+1)*2 > 768){ pll_q--; ffactor/=2; }
+  pll_f=ffactor/2-1;
+
+  printf("PLL FREF / R * F / Q ==> REF / %d * %d / %d\n", pll_r+1, 2*(pll_f+1), 1 << pll_q);
+  printf("PLL FIREF= 6 < %d < 12 MHz, FVCO= 384 < %d < 768 MHz\n",  16/(pll_r+1), 16/(pll_r+1)*(pll_f+1)*2);
+
+  wait_ms(10);
+
+  setpllbits(pll_r, pll_f, pll_q);
+  //use_pll(0,0,pll_r,pll_f,pll_q);
+
+  wait_ms(100);
+  
+  gCPU_FREQ=cpu_freq(10);
+
+  // Re-set the printer thing
+  uart_set(BAUDRATE);
+}
+
+
 void _init()
 {
   
@@ -227,7 +362,7 @@ void _init()
   
   use_default_clocks();
   use_pll(0, 0, 1, 31, 1);
-  uart_init(115200);
+  uart_init(BAUDRATE);
 
   printf("core freq at %d Hz\n", get_cpu_freq());
 
