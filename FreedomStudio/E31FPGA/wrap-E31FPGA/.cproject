@@ -5,9 +5,9 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnumcueclipse.managedbuild.cross.riscv.config.lib.debug.1605886310" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/wrap-E51FPGA"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/wrap-E51FPGA/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="wrap-E51FPGA" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/wrap-E31FPGA"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/wrap-E31FPGA/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="wrap-E31FPGA" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -23,7 +23,7 @@
 				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="" id="ilg.gnumcueclipse.managedbuild.cross.riscv.config.lib.debug.1605886310" name="Debug" parent="ilg.gnumcueclipse.managedbuild.cross.riscv.config.lib.debug">
 					<folderInfo id="ilg.gnumcueclipse.managedbuild.cross.riscv.config.lib.debug.1605886310." name="/" resourcePath="">
 						<toolChain id="ilg.gnumcueclipse.managedbuild.cross.riscv.toolchain.lib.debug.2048025188" name="RISC-V Cross GCC" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.toolchain.lib.debug">
-							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.level.819596380" name="Optimization Level" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.level" useByScannerDiscovery="true" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.level.none" valueType="enumerated"/>
+							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.level.819596380" name="Optimization Level" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.level" useByScannerDiscovery="true" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.level.more" valueType="enumerated"/>
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.messagelength.530791296" name="Message length (-fmessage-length=0)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.messagelength" useByScannerDiscovery="true" value="false" valueType="boolean"/>
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.signedchar.1286796403" name="'char' is signed (-fsigned-char)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.signedchar" useByScannerDiscovery="true" value="false" valueType="boolean"/>
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.functionsections.896631514" name="Function sections (-ffunction-sections)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.optimization.functionsections" useByScannerDiscovery="true" value="false" valueType="boolean"/>
@@ -49,7 +49,7 @@
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.target.abi.integer.1947169168" name="Integer ABI" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.target.abi.integer" useByScannerDiscovery="false" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.abi.integer.ilp32" valueType="enumerated"/>
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.target.codemodel.1938916358" name="Code model" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.target.codemodel" useByScannerDiscovery="false" value="ilg.gnumcueclipse.managedbuild.cross.riscv.option.target.codemodel.any" valueType="enumerated"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnumcueclipse.managedbuild.cross.riscv.targetPlatform.699758630" isAbstract="false" osList="all" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.targetPlatform"/>
-							<builder buildPath="${workspace_loc:/wrap-E51FPGA}/Debug" id="ilg.gnumcueclipse.managedbuild.cross.riscv.builder.1315668301" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.builder"/>
+							<builder buildPath="${workspace_loc:/wrap-E31FPGA}/Debug" id="ilg.gnumcueclipse.managedbuild.cross.riscv.builder.1315668301" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.builder"/>
 							<tool id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.591864289" name="GNU RISC-V Cross Assembler" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler">
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.usepreprocessor.1857953841" name="Use preprocessor" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.usepreprocessor" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.input.624389828" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.input"/>
@@ -58,8 +58,8 @@
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths.1859797200" name="Include paths (-I)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
 									<listOptionValue builtIn="false" value="../bsp/include"/>
 									<listOptionValue builtIn="false" value="../bsp/env"/>
-									<listOptionValue builtIn="false" value="../bsp/env/coreplexip-e51-arty"/>
-									<listOptionValue builtIn="false" value="../../../../bsp/env/coreplexip-e51-arty"/>
+									<listOptionValue builtIn="false" value="../bsp/env/coreplexip-e31-arty"/>
+									<listOptionValue builtIn="false" value="../../../../bsp/env/coreplexip-e31-arty"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/include"/>
 								</option>
@@ -96,9 +96,9 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnumcueclipse.managedbuild.cross.riscv.config.lib.release.1481618207" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/wrap-E51FPGA"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/wrap-E51FPGA/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="wrap-E51FPGA" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/wrap-E31FPGA"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/wrap-E31FPGA/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="wrap-E31FPGA" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -134,7 +134,7 @@
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.addtools.createflash.1427569836" name="Create flash image" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.addtools.createflash" value="true" valueType="boolean"/>
 							<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.addtools.printsize.526661695" name="Print size" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.addtools.printsize" value="true" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnumcueclipse.managedbuild.cross.riscv.targetPlatform.1319613729" isAbstract="false" osList="all" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.targetPlatform"/>
-							<builder buildPath="${workspace_loc:/wrap-E51FPGA}/Release" id="ilg.gnumcueclipse.managedbuild.cross.riscv.builder.1658545344" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.builder"/>
+							<builder buildPath="${workspace_loc:/wrap-E31FPGA}/Release" id="ilg.gnumcueclipse.managedbuild.cross.riscv.builder.1658545344" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.builder"/>
 							<tool id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.27516243" name="GNU RISC-V Cross Assembler" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler">
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.usepreprocessor.678880548" name="Use preprocessor" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.usepreprocessor" value="true" valueType="boolean"/>
 								<inputType id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.input.2056399714" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.assembler.input"/>
@@ -169,7 +169,7 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="wrap-E51FPGA.ilg.gnumcueclipse.managedbuild.cross.riscv.target.lib.109943252" name="Static Library" projectType="ilg.gnumcueclipse.managedbuild.cross.riscv.target.lib"/>
+		<project id="wrap-E31FPGA.ilg.gnumcueclipse.managedbuild.cross.riscv.target.lib.109943252" name="Static Library" projectType="ilg.gnumcueclipse.managedbuild.cross.riscv.target.lib"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
@@ -183,10 +183,10 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/wrap-E51FPGA"/>
+			<resource resourceType="PROJECT" workspacePath="/wrap-E31FPGA"/>
 		</configuration>
 		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/wrap-E51FPGA"/>
+			<resource resourceType="PROJECT" workspacePath="/wrap-E31FPGA"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>

@@ -65,19 +65,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/_exit.c</locationURI>
 		</link>
 		<link>
-			<name>sys/_exit.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/_exit.o</locationURI>
-		</link>
-		<link>
 			<name>sys/close.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/close.c</locationURI>
-		</link>
-		<link>
-			<name>sys/close.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/close.o</locationURI>
 		</link>
 		<link>
 			<name>sys/execve.c</name>
@@ -85,19 +75,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/execve.c</locationURI>
 		</link>
 		<link>
-			<name>sys/execve.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/execve.o</locationURI>
-		</link>
-		<link>
 			<name>sys/fork.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/fork.c</locationURI>
-		</link>
-		<link>
-			<name>sys/fork.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/fork.o</locationURI>
 		</link>
 		<link>
 			<name>sys/fstat.c</name>
@@ -105,19 +85,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/fstat.c</locationURI>
 		</link>
 		<link>
-			<name>sys/fstat.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/fstat.o</locationURI>
-		</link>
-		<link>
 			<name>sys/getpid.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/getpid.c</locationURI>
-		</link>
-		<link>
-			<name>sys/getpid.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/getpid.o</locationURI>
 		</link>
 		<link>
 			<name>sys/isatty.c</name>
@@ -125,19 +95,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/isatty.c</locationURI>
 		</link>
 		<link>
-			<name>sys/isatty.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/isatty.o</locationURI>
-		</link>
-		<link>
 			<name>sys/kill.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/kill.c</locationURI>
-		</link>
-		<link>
-			<name>sys/kill.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/kill.o</locationURI>
 		</link>
 		<link>
 			<name>sys/link.c</name>
@@ -145,19 +105,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/link.c</locationURI>
 		</link>
 		<link>
-			<name>sys/link.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/link.o</locationURI>
-		</link>
-		<link>
 			<name>sys/lseek.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/lseek.c</locationURI>
-		</link>
-		<link>
-			<name>sys/lseek.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/lseek.o</locationURI>
 		</link>
 		<link>
 			<name>sys/open.c</name>
@@ -165,14 +115,14 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/open.c</locationURI>
 		</link>
 		<link>
-			<name>sys/open.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/open.o</locationURI>
-		</link>
-		<link>
 			<name>sys/openat.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/openat.c</locationURI>
+		</link>
+		<link>
+			<name>sys/puts.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/puts.c</locationURI>
 		</link>
 		<link>
 			<name>sys/read.c</name>
@@ -180,29 +130,14 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/read.c</locationURI>
 		</link>
 		<link>
-			<name>sys/read.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/read.o</locationURI>
-		</link>
-		<link>
 			<name>sys/sbrk.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/sbrk.c</locationURI>
 		</link>
 		<link>
-			<name>sys/sbrk.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/sbrk.o</locationURI>
-		</link>
-		<link>
 			<name>sys/stat.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/stat.c</locationURI>
-		</link>
-		<link>
-			<name>sys/stat.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/stat.o</locationURI>
 		</link>
 		<link>
 			<name>sys/stub.h</name>
@@ -215,19 +150,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/times.c</locationURI>
 		</link>
 		<link>
-			<name>sys/times.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/times.o</locationURI>
-		</link>
-		<link>
 			<name>sys/unlink.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/unlink.c</locationURI>
-		</link>
-		<link>
-			<name>sys/unlink.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/unlink.o</locationURI>
 		</link>
 		<link>
 			<name>sys/wait.c</name>
@@ -235,19 +160,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/wait.c</locationURI>
 		</link>
 		<link>
-			<name>sys/wait.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/wait.o</locationURI>
-		</link>
-		<link>
 			<name>sys/write.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/write.c</locationURI>
-		</link>
-		<link>
-			<name>sys/write.o</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/write.o</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
