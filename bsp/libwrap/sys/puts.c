@@ -7,6 +7,7 @@
 
 #include "platform.h"
 #include "stub.h"
+#include "weak_under_alias.h"
 
 int __wrap_puts(const char *s)
 {
@@ -24,3 +25,4 @@ int __wrap_puts(const char *s)
 
   return 0;
 }
+weak_under_alias(puts);
