@@ -2,8 +2,9 @@
 
 #include <unistd.h>
 #include "platform.h"
+#include "weak_under_alias.h"
 
-void __wrap__exit(int code)
+void __wrap_exit(int code)
 {
   const char message[] = "\nProgam has exited with code:";
 
@@ -13,3 +14,4 @@ void __wrap__exit(int code)
 
   for (;;);
 }
+weak_under_alias(exit);
