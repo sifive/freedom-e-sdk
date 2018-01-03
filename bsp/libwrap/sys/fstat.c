@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include "stub.h"
+#include "weak_under_alias.h"
 
 int __wrap_fstat(int fd, struct stat* st)
 {
@@ -14,3 +15,4 @@ int __wrap_fstat(int fd, struct stat* st)
 
   return _stub(EBADF);
 }
+weak_under_alias(fstat);

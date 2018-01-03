@@ -7,6 +7,7 @@
 
 #include "platform.h"
 #include "stub.h"
+#include "weak_under_alias.h"
 
 ssize_t __wrap_write(int fd, const void* ptr, size_t len)
 {
@@ -27,3 +28,4 @@ ssize_t __wrap_write(int fd, const void* ptr, size_t len)
 
   return _stub(EBADF);
 }
+weak_under_alias(write);
