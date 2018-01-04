@@ -52,10 +52,6 @@
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env/coreplexip-e51-arty"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
-									<listOptionValue builtIn="false" value="../bsp/drivers"/>
-									<listOptionValue builtIn="false" value="../bsp/env"/>
-									<listOptionValue builtIn="false" value="../bsp/env/coreplexip-e51-arty"/>
-									<listOptionValue builtIn="false" value="../bsp/include"/>
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.other.1801720442" name="Other assembler flags" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.other" useByScannerDiscovery="false" value="-c" valueType="string"/>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.asmlisting.452480405" name="Generate assembler listing (-Wa,-adhlns=&quot;$@.lst&quot;)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.assembler.asmlisting" useByScannerDiscovery="false" value="true" valueType="boolean"/>
@@ -66,10 +62,6 @@
 									<listOptionValue builtIn="false" value="VECT_IRQ"/>
 								</option>
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths.798701398" name="Include paths (-I)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
-									<listOptionValue builtIn="false" value="../bsp/drivers"/>
-									<listOptionValue builtIn="false" value="../bsp/env"/>
-									<listOptionValue builtIn="false" value="../bsp/env/coreplexip-e51-arty"/>
-									<listOptionValue builtIn="false" value="../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env/coreplexip-e51-arty"/>
