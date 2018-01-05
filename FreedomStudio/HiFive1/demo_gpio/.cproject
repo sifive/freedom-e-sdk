@@ -58,10 +58,6 @@
 							</tool>
 							<tool id="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.c.compiler.1632260763" name="GNU RISC-V Cross C Compiler" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.tool.c.compiler">
 								<option id="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths.1464742435" name="Include paths (-I)" superClass="ilg.gnumcueclipse.managedbuild.cross.riscv.option.c.compiler.include.paths" useByScannerDiscovery="true" valueType="includePath">
-									<listOptionValue builtIn="false" value="../bsp/drivers"/>
-									<listOptionValue builtIn="false" value="../bsp/env"/>
-									<listOptionValue builtIn="false" value="../bsp/env/freedom-e300-hifive1"/>
-									<listOptionValue builtIn="false" value="../bsp/include"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/drivers"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env"/>
 									<listOptionValue builtIn="false" value="../../../../bsp/env/freedom-e300-hifive1"/>
