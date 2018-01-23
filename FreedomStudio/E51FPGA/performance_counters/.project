@@ -35,11 +35,6 @@
 			<locationURI>PARENT-3-PROJECT_LOC/software/performance_counters/performance_counters.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/drivers</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -60,11 +55,6 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>bsp/drivers/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/drivers/fe300prci</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -73,11 +63,6 @@
 			<name>bsp/drivers/plic</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/.DS_Store</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/coreplexip-arty.h</name>
@@ -110,19 +95,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/start.S</locationURI>
 		</link>
 		<link>
-			<name>bsp/include/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/include/sifive</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/.DS_Store</locationURI>
 		</link>
 		<link>
 			<name>bsp/libwrap/misc</name>
@@ -210,29 +185,14 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/smp.h</locationURI>
 		</link>
 		<link>
-			<name>bsp/libwrap/misc/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/misc/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/libwrap/misc/write_hex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/misc/write_hex.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/libwrap/stdlib/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/stdlib/.DS_Store</locationURI>
-		</link>
-		<link>
 			<name>bsp/libwrap/stdlib/malloc.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/stdlib/malloc.c</locationURI>
-		</link>
-		<link>
-			<name>bsp/libwrap/sys/.DS_Store</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/libwrap/sys/.DS_Store</locationURI>
 		</link>
 		<link>
 			<name>bsp/libwrap/sys/_exit.c</name>
