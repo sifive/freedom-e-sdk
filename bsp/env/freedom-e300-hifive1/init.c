@@ -6,6 +6,9 @@
 #include "encoding.h"
 
 #define BAUDRATE 115200
+#define OTP_CONTENTS_HFROSC_TRIM  2043
+#define OTP_CONTENTS_LFROSC_TRIM  2042
+#define OTP_CONTENTS_STAMP        2041
 
 unsigned long int gCPU_FREQ=0;
 
@@ -140,6 +143,11 @@ static void use_default_clocks()
 
   // Use HFROSC
   use_hfrosc(4, 16);
+}
+
+unsigned long get_otp_stamp()
+{
+   return *((volatile uint32_t*)OTP_MEM_ADDR + OTP_CONTENTS_STAMP);
 }
 
 unsigned long mtime_lou(void)

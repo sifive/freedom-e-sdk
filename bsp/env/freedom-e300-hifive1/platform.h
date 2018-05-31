@@ -129,6 +129,7 @@
 unsigned long get_cpu_freq(void);
 unsigned long ugetc(int blocking);
 unsigned long get_timer_freq(void);
+unsigned long get_otp_stamp(void);
 uint64_t get_timer_value(void);
 int setpll(unsigned long int freq);
 

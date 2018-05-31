@@ -30,8 +30,8 @@
 
 /* Fields */
 
-#define SPI_SCK_POL             0x1
-#define SPI_SCK_PHA             0x2
+#define SPI_SCK_PHA             0x1
+#define SPI_SCK_POL             0x2
 
 #define SPI_FMT_PROTO(x)        ((x) & 0x3)
 #define SPI_FMT_ENDIAN(x)       (((x) & 0x1) << 2)

@@ -1,6 +1,7 @@
 /* See LICENSE of license details. */
 
 #include <stddef.h>
+#include "weak_under_alias.h"
 
 void *__wrap_sbrk(ptrdiff_t incr)
 {
@@ -14,3 +15,4 @@ void *__wrap_sbrk(ptrdiff_t incr)
   curbrk += incr;
   return curbrk - incr;
 }
+weak_under_alias(sbrk);

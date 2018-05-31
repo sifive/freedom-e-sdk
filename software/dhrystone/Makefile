@@ -20,6 +20,8 @@ XLEN ?= 32
 CFLAGS := -O3 -fno-common  -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mexplicit-relocs -DNOENUM -DNO_INIT -DLOWPOWER -falign-functions=4 -falign-jumps=4
 #CFLAGS := -O3 -fno-common  -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mexplicit-relocs -DNOENUM -DNO_INIT -falign-functions=4 -falign-jumps=4 
 
+# Below is in origin master
+#CFLAGS := -O3 -fno-common  -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mexplicit-relocs -DNOENUM -falign-functions=4
 
 LDFLAGS := -Wl,--wrap=scanf -Wl,--wrap=printf  -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=medany
 
