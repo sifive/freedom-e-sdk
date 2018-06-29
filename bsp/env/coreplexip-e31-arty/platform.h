@@ -7,10 +7,10 @@
 
 #if __riscv_xlen == 32
 #define MCAUSE_INT         0x80000000UL
-#define MCAUSE_CAUSE       0x7FFFFFFFUL
+#define MCAUSE_CAUSE       0x000003FFUL
 #else
 #define MCAUSE_INT         0x8000000000000000UL
-#define MCAUSE_CAUSE       0x7FFFFFFFFFFFFFFFUL
+#define MCAUSE_CAUSE       0x00000000000003FFUL
 #endif
 
 #ifdef VECT_IRQ
@@ -18,6 +18,7 @@
 #else 
     #define MTVEC_VECTORED     0x00
 #endif
+#define MTVEC_CLIC             0x02
 #define IRQ_M_LOCAL        16
 #define MIP_MLIP(x)        (1 << (IRQ_M_LOCAL + x))
 
