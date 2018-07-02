@@ -31,6 +31,9 @@ const char * instructions_msg = " \
  E21 Core IP Eval Kit 'clic_vectored' demo.\n\
  This demo uses buttons 0, 1, and 2 on the\n\
  Arty board to trigger vectored clic interrupts.\n\
+ The higher the button number, the higher the\n\
+ interupt priority. Hold two buttons down at\n\
+ the same time to see priorities in action.\n\
 \n\
 \n";
 
@@ -59,6 +62,7 @@ void button_0_isr(void) {
 
 void button_0_setup(void) {
   clic_install_handler(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0), button_0_isr);
+  clic_set_intcfg(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0), 1<<4);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
 }
 
@@ -74,6 +78,7 @@ void button_1_isr(void) {
 
 void button_1_setup(void) {
   clic_install_handler(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1), button_1_isr);
+  clic_set_intcfg(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1), 2<<4);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1));
 }
 
@@ -89,6 +94,7 @@ void button_2_isr(void) {
 
 void button_2_setup(void) {
   clic_install_handler(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2), button_2_isr);
+  clic_set_intcfg(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2), 3<<4);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2));
 }
 
@@ -110,7 +116,10 @@ int main(int argc, char **argv)
             (interrupt_function_ptr_t*)localISR,
             default_handler,
             CLIC_NUM_INTERRUPTS,
-            CLIC_NUM_CONFIG_BITS);
+            CLIC_CONFIG_BITS);
+
+  //use all 4 config bits for levels
+  clic_set_cliccfg(&clic, CLIC_CONFIG_BITS);
 
   //initialize gpio and buttons.
   //each button registers an interrupt handler
