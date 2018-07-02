@@ -25,7 +25,7 @@ INCLUDES += -I$(PLATFORM_DIR)
 TOOL_DIR = $(BSP_BASE)/../toolchain/bin
 
 LDFLAGS += -T $(LINKER_SCRIPT) -nostartfiles
-LDFLAGS += -L$(ENV_DIR)
+LDFLAGS += -L$(ENV_DIR) --specs=nano.specs
 
 ASM_OBJS := $(ASM_SRCS:.S=.o)
 C_OBJS := $(C_SRCS:.c=.o)
