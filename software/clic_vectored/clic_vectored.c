@@ -44,14 +44,14 @@ void print_instructions() {
 
 }
 
-void button_0_isr(void)__attribute__((interrupt("SiFive-CLIC-preemptible")));
+void button_0_isr(void) __attribute__((interrupt));
 void button_0_isr(void) {
   // Toggle Red LED
+  	  
   const char button_0_msg[] = "Button 0 was pressed. Toggle Red.\n";
   write (STDOUT_FILENO, button_0_msg, strlen(button_0_msg));  
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << RED_LED_OFFSET);
   clic_clear_pending(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
-  clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
 }
 
 void button_0_setup(void) {

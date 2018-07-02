@@ -46,7 +46,8 @@ static void uart_init(size_t baud_rate)
 typedef void (*interrupt_function_ptr_t) (void);
 interrupt_function_ptr_t localISR[CLIC_NUM_INTERRUPTS] __attribute__((aligned(64)));
 
-void trap_entry(void) __attribute__((interrupt("SiFive-CLIC-preemptible"), aligned(64)));
+
+void trap_entry(void) __attribute__((interrupt, aligned(64)));
 void trap_entry(void)
 {
   unsigned long mcause = read_csr(mcause);
@@ -54,13 +55,13 @@ void trap_entry(void)
   if (mcause & MCAUSE_INT)  {
     localISR[mcause & MCAUSE_CAUSE] ();
   } else {
-    while(1);
+    while(1); 
   }
 }
 
 #ifdef CLIC_DIRECT
 #else
-void default_handler(void)__attribute__((interrupt("SiFive-CLIC-preemptible")));;
+void default_handler(void)__attribute__((interrupt));;
 #endif
 void default_handler(void)
 {
@@ -76,9 +77,11 @@ void _init()
   puts("core freq at " STR(CPU_FREQ) " Hz\n");
 
 //initialize vector table
-  for(int i=0;i++;i<CLIC_NUM_INTERRUPTS)  {
-    localISR[i] = &default_handler;
+  int i=0;
+  while(i<CLIC_NUM_INTERRUPTS)	{
+    localISR[i++] = default_handler;
   }
+  
   write_csr(mtvt, localISR);
 
 #ifdef CLIC_DIRECT
