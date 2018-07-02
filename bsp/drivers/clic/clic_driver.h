@@ -26,10 +26,10 @@ void clic_enable_interrupt (clic_instance_t * this_clic, uint32_t source);
 void clic_disable_interrupt (clic_instance_t * this_clic, uint32_t source);
 void clic_set_pending(clic_instance_t * this_clic, uint32_t source);
 void clic_clear_pending(clic_instance_t * this_clic, uint32_t source);
-void clic_set_level (clic_instance_t * this_clic, uint32_t source, uint32_t priority);
-void clic_get_level (clic_instance_t * this_clic, uint32_t source, uint32_t priority);
-void clic_set_priority (clic_instance_t * this_clic, uint32_t source, uint32_t priority);
-void clic_get_priority (clic_instance_t * this_clic, uint32_t source, uint32_t priority);
+void clic_set_intcfg (clic_instance_t * this_clic, uint32_t source, uint32_t intcfg);
+uint8_t clic_get_intcfg (clic_instance_t * this_clic, uint32_t source);
+void clic_set_cliccfg (clic_instance_t * this_clic, uint32_t cfg);
+uint8_t clic_get_cliccfg  (clic_instance_t * this_clic);
 
 __END_DECLS
 

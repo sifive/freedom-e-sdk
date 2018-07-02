@@ -67,22 +67,20 @@ void clic_clear_pending(clic_instance_t * this_clic, uint32_t source){
   *(volatile uint8_t*)(this_clic->hart_addr+CLIC_INTIP+source) = 0;
 }
 
-//should return max level set. if level set doesn't match requested, check nlbits
-void clic_set_level (clic_instance_t * this_clic, uint32_t source, uint32_t level){
-  
+void clic_set_intcfg (clic_instance_t * this_clic, uint32_t source, uint32_t intcfg){
+  *(volatile uint8_t*)(this_clic->hart_addr+CLIC_INTCFG+source) = intcfg;
 }
 
-void clic_get_level (clic_instance_t * this_clic, uint32_t source, uint32_t level){
-
+uint8_t clic_get_intcfg  (clic_instance_t * this_clic, uint32_t source){
+  return *(volatile uint8_t*)(this_clic->hart_addr+CLIC_INTCFG+source);
 }
 
-void clic_set_priority (clic_instance_t * this_clic, uint32_t source, uint32_t priority){
-
+void clic_set_cliccfg (clic_instance_t * this_clic, uint32_t cfg){
+  *(volatile uint8_t*)(this_clic->hart_addr+CLIC_CFG) = cfg;
 }
 
-void clic_get_priority (clic_instance_t * this_clic, uint32_t source, uint32_t priority){
-
-
+uint8_t clic_get_cliccfg  (clic_instance_t * this_clic){
+  return *(volatile uint8_t*)(this_clic->hart_addr+CLIC_CFG);
 }
 
 
