@@ -98,6 +98,21 @@ void button_2_setup(void) {
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2));
 }
 
+/*Entry Point for Machine Software Interrupt Handler*/
+uint32_t COUNT;
+void msi_isr()__attribute((interrupt));
+void msi_isr() {
+  //clear the  SW interrupt
+  CLINT_REG(CLINT_MSIP) = 0;
+   COUNT++;
+}
+
+void msi_setup(void)  {
+  clic_install_handler(&clic, MSIPID, msi_isr);
+  clic_set_intcfg(&clic, MSIPID, 1<<4);
+  clic_enable_interrupt(&clic, MSIPID);
+}
+
 void config_gpio()  {
   // Configure LEDs as outputs.
   GPIO_REG(GPIO_INPUT_EN)    &= ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET) | (0x1 << BLUE_LED_OFFSET)) ;
@@ -127,13 +142,18 @@ int main(int argc, char **argv)
   button_0_setup();
   button_1_setup();
   button_2_setup();
+  msi_setup();
 
   // Enable all global interrupts
   set_csr(mstatus, MSTATUS_MIE);
-
-
   print_instructions();
-  while(1);
+
+   while(1)  {
+    wait_ms(10000);
+    printf("Count=%d\n", COUNT);
+    //Trigger a SW interrupt
+    CLINT_REG(CLINT_MSIP) = 1;
+  }
 
   return 0;
 
