@@ -83,6 +83,81 @@ uint8_t clic_get_cliccfg  (clic_instance_t * this_clic){
   return *(volatile uint8_t*)(this_clic->hart_addr+CLIC_CFG);
 }
 
+//sets an interrupt level based encoding of nmbits, nlbits
+uint8_t clic_set_int_level( clic_instance_t * this_clic, uint32_t source, uint8_t level) {
+  //extract nlbits
+  uint8_t nlbits = clic_get_cliccfg(this_clic);
+  nlbits = (nlbits >>1) & 0x7;
 
+  //shift level right to mask off unused bits
+  level = level>>((this_clic->num_config_bits)-nlbits); //plus this_clic->nmbits which is always 0 for now.
+  //shift level into correct bit position
+  level = level << (8-((this_clic->num_config_bits)-nlbits));
+ 
+  //write to clicintcfg
+  uint8_t current_intcfg = clic_get_intcfg(this_clic, source);
+  clic_set_intcfg(this_clic, source, (current_intcfg | level));
+
+  return level;
+}
+
+//gets an interrupt level based encoding of nmbits, nlbits
+uint8_t clic_get_int_level( clic_instance_t * this_clic, uint32_t source) {
+  uint8_t level;
+  level = clic_get_intcfg(this_clic, source);
+
+  //extract nlbits
+  uint8_t nlbits = clic_get_cliccfg(this_clic);
+  nlbits = (nlbits >>1) & 0x7;
+
+  //shift level
+  level = level >> (8-(this_clic->num_config_bits));
+
+  //shift level right to mask off priority bits
+  level = level>>((this_clic->num_config_bits)-nlbits); //this_clic->nmbits which is always 0 for now.
+
+  return level;
+}
+
+//sets an interrupt priority based encoding of nmbits, nlbits
+uint8_t clic_set_int_priority( clic_instance_t * this_clic, uint32_t source, uint8_t priority) {
+  //priority bits = num_config_bits - nlbits
+  //extract nlbits
+  uint8_t nlbits = clic_get_cliccfg(this_clic);
+  nlbits = (nlbits >>1) & 0x7;
+
+  uint8_t priority_bits = this_clic->num_config_bits-nlbits;
+  if(priority_bits = 0) {
+    //no bits to set
+    return 0;
+  }
+  //mask off unused bits
+  priority = priority >> (8-priority_bits);
+  //shift into the correct bit position
+  priority = priority << (8-(this_clic->num_config_bits));
+
+  //write to clicintcfg
+  uint8_t current_intcfg = clic_get_intcfg(this_clic, source);
+  clic_set_intcfg(this_clic, source, (current_intcfg | priority));
+  return current_intcfg;
+}
+
+//gets an interrupt priority based encoding of nmbits, nlbits
+uint8_t clic_get_int_priority( clic_instance_t * this_clic, uint32_t source) {
+  uint8_t priority;
+  priority = clic_get_intcfg(this_clic, source);
+
+  //extract nlbits
+  uint8_t nlbits = clic_get_cliccfg(this_clic);
+  nlbits = (nlbits >>1) & 0x7;
+
+  //shift left to mask off level bits
+  priority = priority << nlbits;
+
+  //shift priority
+  priority = priority >> (8-((this_clic->num_config_bits)+nlbits));
+
+ return priority;
+}
 
 

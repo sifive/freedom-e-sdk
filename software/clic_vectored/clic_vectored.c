@@ -53,7 +53,8 @@ void wait_ms(uint64_t ms) {
 void button_0_isr(void) __attribute__((interrupt));
 void button_0_isr(void) {
   // Toggle Red LED
-  printf("Button 0 was pressed. Toggle Red.\n");
+  uint8_t level = clic_get_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
+  printf("Button 0 was pressed, interrupt level %d. Toggle Red.\n", level);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << RED_LED_OFFSET);
   wait_ms(500);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
@@ -62,14 +63,15 @@ void button_0_isr(void) {
 
 void button_0_setup(void) {
   clic_install_handler(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0), button_0_isr);
-  clic_set_intcfg(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0), 1<<4);
+  clic_set_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0), 1);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
 }
 
 void button_1_isr(void) __attribute__((interrupt));
 void button_1_isr(void) {
   // Toggle Red LED
-  printf("Button 1 was pressed. Toggle Blue.\n");
+  uint8_t level = clic_get_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1));
+  printf("Button 1 was pressed, interrupt level %d. Toggle Blue.\n", level);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << BLUE_LED_OFFSET);
   wait_ms(500);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1));
@@ -78,14 +80,15 @@ void button_1_isr(void) {
 
 void button_1_setup(void) {
   clic_install_handler(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1), button_1_isr);
-  clic_set_intcfg(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1), 2<<4);
+  clic_set_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1), 2);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1));
 }
 
 void button_2_isr(void) __attribute__((interrupt));
 void button_2_isr(void) {
   // Toggle Red LED
-  printf("Button 2 was pressed. Toggle Green.\n");
+  uint8_t level = clic_get_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2));
+  printf("Button 2 was pressed, interrupt level %d. Toggle Green.\n", level);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << GREEN_LED_OFFSET);
   wait_ms(500);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2));
@@ -94,7 +97,7 @@ void button_2_isr(void) {
 
 void button_2_setup(void) {
   clic_install_handler(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2), button_2_isr);
-  clic_set_intcfg(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2), 3<<4);
+  clic_set_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2), 3);
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2));
 }
 
@@ -104,12 +107,12 @@ void msi_isr()__attribute((interrupt));
 void msi_isr() {
   //clear the  SW interrupt
   CLINT_REG(CLINT_MSIP) = 0;
-   COUNT++;
+  COUNT++;
 }
 
 void msi_setup(void)  {
   clic_install_handler(&clic, MSIPID, msi_isr);
-  clic_set_intcfg(&clic, MSIPID, 1<<4);
+  clic_set_int_level(&clic, MSIPID, 1);
   clic_enable_interrupt(&clic, MSIPID);
 }
 
@@ -133,8 +136,8 @@ int main(int argc, char **argv)
             CLIC_NUM_INTERRUPTS,
             CLIC_CONFIG_BITS);
 
-  //use all 4 config bits for levels
-  clic_set_cliccfg(&clic, CLIC_CONFIG_BITS);
+  //use all 4 config bits for levels, no shv
+  clic_set_cliccfg(&clic, ((CLIC_CONFIG_BITS<<1)|0));
 
   //initialize gpio and buttons.
   //each button registers an interrupt handler
