@@ -92,7 +92,7 @@ uint8_t clic_set_int_level( clic_instance_t * this_clic, uint32_t source, uint8_
   //shift level right to mask off unused bits
   level = level>>((this_clic->num_config_bits)-nlbits); //plus this_clic->nmbits which is always 0 for now.
   //shift level into correct bit position
-  level = level << (8-((this_clic->num_config_bits)-nlbits));
+  level = level << (8-this_clic->num_config_bits) + (this_clic->num_config_bits - nlbits);
  
   //write to clicintcfg
   uint8_t current_intcfg = clic_get_intcfg(this_clic, source);
@@ -114,7 +114,7 @@ uint8_t clic_get_int_level( clic_instance_t * this_clic, uint32_t source) {
   level = level >> (8-(this_clic->num_config_bits));
 
   //shift level right to mask off priority bits
-  level = level>>((this_clic->num_config_bits)-nlbits); //this_clic->nmbits which is always 0 for now.
+  level = level>>(this_clic->num_config_bits-nlbits); //this_clic->nmbits which is always 0 for now.
 
   return level;
 }
