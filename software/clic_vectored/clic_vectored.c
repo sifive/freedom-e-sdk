@@ -100,17 +100,17 @@ void button_2_setup(void) {
 
 /*Entry Point for Machine Software Interrupt Handler*/
 uint32_t COUNT;
-void msi_isr()__attribute((interrupt));
-void msi_isr() {
+void csip_isr()__attribute((interrupt));
+void csip_isr() {
   //clear the  SW interrupt
-  CLINT_REG(CLINT_MSIP) = 0;
+  clic_clear_pending(&clic, CSIPID);
   COUNT++;
 }
 
-void msi_setup(void)  {
-  clic_install_handler(&clic, MSIPID, msi_isr);
-  clic_set_int_level(&clic, MSIPID, 1);
-  clic_enable_interrupt(&clic, MSIPID);
+void csip_setup(void)  {
+  clic_install_handler(&clic, CSIPID, csip_isr);
+  clic_set_int_level(&clic, CSIPID, 1);
+  clic_enable_interrupt(&clic, CSIPID);
 }
 
 void config_gpio()  {
@@ -142,7 +142,7 @@ int main(int argc, char **argv)
   button_0_setup();
   button_1_setup();
   button_2_setup();
-  msi_setup();
+  csip_setup();
 
   // Enable all global interrupts
   set_csr(mstatus, MSTATUS_MIE);
@@ -152,7 +152,7 @@ int main(int argc, char **argv)
     wait_ms(10000);
     printf("Count=%d\n", COUNT);
     //Trigger a SW interrupt
-    CLINT_REG(CLINT_MSIP) = 1;
+    clic_set_pending(&clic, CSIPID);
   }
 
   return 0;
