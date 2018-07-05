@@ -1,0 +1,86 @@
+/* Copyright 2018 SiFive, Inc */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+/* This code executes before _start, which is contained inside the C library.
+ * In embedded systems we want to ensure that _enter, which contains the first
+ * code to be executed, can be loaded at a specific address.  To enable this
+ * feature we provide the '.text.mee.init.enter' section, which is
+ * defined to have the first address being where execution should start. */
+.section .text.mee.init.enter
+.global _enter
+_enter:
+    .cfi_startproc
+
+    /* Inform the debugger that there is nowhere to backtrace past _enter. */
+    .cfi_undefined ra
+
+    /* The absolute first thing that must happen is configuring the global
+     * pointer register, which must be done with relaxation disabled because
+     * it's not valid to obtain the address of any symbol without GP
+     * configured.  The C environment might go ahead and do this again, but
+     * that's safe as it's a fixed register. */
+.option push
+.option norelax
+    la gp, __global_pointer$
+.option pop
+
+    /* Set up a simple trap vector to catch anything that goes wrong early in
+     * the boot process. */
+    la t0, early_trap_vector
+    csrw mtvec, t0
+
+    /* There may be pre-initialization routines inside the MBI code that run in
+     * C, so here we set up a C environment.  First we set up a stack pointer,
+     * which is left as a weak reference in order to allow initialization
+     * routines that do not need a stack to be set up to transparently be
+     * called. */
+    .weak __mee_stack_pointer
+    la sp, __mee_stack_pointer
+
+    /* Check for an initialization routine and call it if one exists, otherwise
+     * just skip over the call entirely.   Note that __mee_initialize isn't
+     * actually a full C function, as it doesn't end up with the .bss or .data
+     * segments having been initialized.  This is done to avoid putting a
+     * burden on systems that can be initialized without having a C environment
+     * set up. */
+    .weak __mee_before_start
+    la ra, __mee_before_start
+    beqz ra, 1f
+    jalr ra
+1:
+
+    /* At this point we can enter the C runtime's startup file.  The arguments
+     * to this function are designed to match those provided to the SEE, just
+     * so we don't have to write another ABI. */
+    csrr a0, mhartid
+    li a1, 0
+    .weak __mee_before_main
+    la a2, __mee_before_main
+    call _start
+
+    /* If we've made it back here then there's probably something wrong.  We
+     * allow the MEE to register a handler here. */
+    .weak __mee_after_main
+    la ra, __mee_after_main
+    beqz ra, 1f
+    jalr ra
+1:
+
+    /* If that handler returns then there's not a whole lot we can do.  Just
+     * try to make some noise. */
+     la t0, 1f
+     csrw mtvec, t0
+1:
+     lw t1, 0(x0)
+     j 1b
+
+    .cfi_endproc
+
+/* For sanity's sake we set up an early trap vector that just does nothing.  If
+ * you end up here then there's a bug in the early boot code somewhere. */
+.section .text.mee.init.trapvec
+.align 2
+early_trap_vector:
+    .cfi_startproc
+    j early_trap_vector
+    .cfi_endproc
