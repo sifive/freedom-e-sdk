@@ -28,13 +28,48 @@ clic_instance_t clic;
 const char * instructions_msg = " \
 \n\
               SiFive, Inc\n\
- E21 Core IP Eval Kit 'clic_vectored' demo.\n\
- This demo uses buttons 0, 1, and 2 on the\n\
- Arty board to trigger vectored clic interrupts.\n\
- The higher the button number, the higher the\n\
- interupt priority. Hold two buttons down at\n\
- the same time to see priorities in action.\n\
 \n\
+         5555555555555555555555555\n\
+        5555                   5555\n\
+       5555                     5555\n\
+      5555                       5555\n\
+     5555       5555555555555555555555\n\
+    5555       555555555555555555555555\n\
+   5555                             5555\n\
+  5555                               5555\n\
+ 5555                                 5555\n\
+5555555555555555555555555555          55555\n\
+ 55555           555555555           55555\n\
+   55555           55555           55555\n\
+     55555           5           55555\n\
+       55555                   55555\n\
+         55555               55555\n\
+           55555           55555\n\
+             55555       55555\n\
+               55555   55555\n\
+                 555555555\n\
+                   55555\n\
+                     5\n\
+\n\
+E2 Core IP Eval Kit 'clic_vectored' demo.\n\
+This demo uses buttons 0, 1, and 2 on the\n\
+Arty board to trigger vectored clic interrupts.\n\
+The higher the button number, the higher the\n\
+interupt priority. Button 0's handler runs for\n\
+10 seconds, button 1's for 5, and button 2's for 1.\n\
+Preemption is enabled so that higher priority\n\
+interrupts can be triggered while in low priority\n\
+handlers. The demo also uses the CLIC's software\n\
+interrupt to pend a lower priority interrupt from\n\
+button 2's handler.\n\
+\n\
+Note the buttons are wired directly into the local\n\
+interrupts, so a given interrupt will stay asserted\n\
+as long as the button is being pushed.\n\
+\n\
+This demo works for both the E20 and E21 FPGA\n\
+as long as CLIC_CONFIG_BITS matches the desired\n\
+core.\n\
 \n";
 
 void print_instructions() {
@@ -50,13 +85,13 @@ void wait_ms(uint64_t ms) {
   while(*mtime<then);
 }
 
-void button_0_isr(void) __attribute__((interrupt));
+void button_0_isr(void) __attribute__((interrupt("SiFive-CLIC-preemptible")));
 void button_0_isr(void) {
   // Toggle Red LED
   uint8_t level = clic_get_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
   printf("Button 0 was pressed, interrupt level %d. Toggle Red.\n", level);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << RED_LED_OFFSET);
-  wait_ms(500);
+  wait_ms(10000);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << RED_LED_OFFSET);
 }
 
@@ -66,13 +101,13 @@ void button_0_setup(void) {
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_0));
 }
 
-void button_1_isr(void) __attribute__((interrupt));
+void button_1_isr(void) __attribute__((interrupt("SiFive-CLIC-preemptible")));
 void button_1_isr(void) {
   // Toggle Red LED
   uint8_t level = clic_get_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1));
   printf("Button 1 was pressed, interrupt level %d. Toggle Blue.\n", level);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << BLUE_LED_OFFSET);
-  wait_ms(500);
+  wait_ms(5000);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << BLUE_LED_OFFSET);
 }
 
@@ -82,13 +117,15 @@ void button_1_setup(void) {
   clic_enable_interrupt(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_1));
 }
 
-void button_2_isr(void) __attribute__((interrupt));
+void button_2_isr(void) __attribute__((interrupt("SiFive-CLIC-preemptible")));
 void button_2_isr(void) {
   // Toggle Red LED
   uint8_t level = clic_get_int_level(&clic, (LOCALINTIDBASE + LOCAL_INT_BTN_2));
-  printf("Button 2 was pressed, interrupt level %d. Toggle Green.\n", level);
+  printf("Button 2 was pressed, interrupt level %d. Pending CSIPID and toggle Green.\n", level);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << GREEN_LED_OFFSET);
-  wait_ms(500);
+  //pend a software interrupt
+  clic_set_pending(&clic, CSIPID);
+  wait_ms(1000);
   GPIO_REG(GPIO_OUTPUT_VAL) = GPIO_REG(GPIO_OUTPUT_VAL) ^ (0x1 << GREEN_LED_OFFSET);
 }
 
@@ -103,7 +140,7 @@ uint32_t COUNT;
 void csip_isr()__attribute((interrupt));
 void csip_isr() {
   //clear the  SW interrupt
-  clic_clear_pending(&clic, CSIPID);
+  CLIC0_REG8(CLIC_INTIP + CSIPID) = 0;
   COUNT++;
 }
 
