@@ -79,7 +79,12 @@
 #define NUM_GPIO 16
 
 #define CLIC_NUM_INTERRUPTS 28 + 16
-#define CLIC_CONFIG_BITS 4
+
+#ifdef E20
+   #define CLIC_CONFIG_BITS 2
+#else
+   #define CLIC_CONFIG_BITS 4
+#endif
 
 #define HAS_BOARD_BUTTONS
 
