@@ -21,6 +21,7 @@
 
 #include "sifive/const.h"
 #include "sifive/devices/gpio.h"
+#include "sifive/devices/clint.h"
 #include "sifive/devices/clic.h"
 #include "sifive/devices/pwm.h"
 #include "sifive/devices/spi.h"
