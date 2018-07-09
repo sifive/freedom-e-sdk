@@ -6,8 +6,28 @@ AC_INIT([freedom-mee], [m4_esyscmd_s([git describe --always])], [palmer@sifive.c
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AM_MAINTAINER_MODE([enable])
 
-# Looks up the key toolchain programs that are used when building the MBI,
-# such as the C compiler.
+
+# This library is actually an integral part of the toolchain build process on
+# MEE toolchains as it's necessary to link any program.  To prevent this from
+# causing every autoconf test failing we instead place some weak symbols in
+# confdefs.h to trick the toolchain into linking.
+#
+#AC_CANONICAL_HOST -- for now don't canonicalize the host because the *-mee
+#                     tuples aren't upstream in config.*
+case "${host_alias}" in
+*-mee)
+    AS_ECHO("long mee_segment_stack_end __attribute__((weak));") >> confdefs.h
+    AS_ECHO("long mee_segment_data_source_start __attribute__((weak));") >> confdefs.h
+    AS_ECHO("long mee_segment_data_source_end __attribute__((weak));") >> confdefs.h
+    AS_ECHO("long mee_segment_data_target_start __attribute__((weak));") >> confdefs.h
+    AS_ECHO("long mee_segment_data_target_end __attribute__((weak));") >> confdefs.h
+    AS_ECHO("long mee_segment_bss_target_start __attribute__((weak));") >> confdefs.h
+    AS_ECHO("long mee_segment_bss_target_end __attribute__((weak));") >> confdefs.h
+    AS_ECHO("void mee_shutdown(void) __attribute__((weak)); void mee_shutdown(void) {}") >> confdefs.h
+    ;;
+esac
+
+# Probe for tools that we need in order to build.
 AC_PROG_CC
 AC_PROG_RANLIB
 AM_PROG_AS
@@ -22,6 +42,63 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],[
 # error "A RISC-V compiler is required to build the Freedom MBI"
 #endif
 ])], [], [AC_MSG_FAILURE([The C compiler doesn't define __riscv, which means it's probably not a RISC-V compiler.  You should specify something like --host=riscv64-sifive-elf when building this, as it will only work on RISC-V systems.])])
+
+# Allows users to specify some device tree information.
+AC_ARG_WITH([machine-name],
+    [AS_HELP_STRING([--with-machine-name=NAME], [Install this machine with a particular name])],
+    [],
+    [with_machine_name="no"]
+)
+
+AS_IF([test "x$with_machine_name" != "xno"],
+    [AC_SUBST([MACHINE_NAME], "$with_machine_name")],
+    [AC_MSG_FAILURE([--with-machine-name is required])]
+)
+
+AC_ARG_WITH([machine-dts],
+    [AS_HELP_STRING([--with-machine-dts=PATH], [The full path to the device tree])],
+    [],
+    [with_machine_dts="no"]
+)
+
+AS_IF([test "x$with_machine_dts" != "xno"],
+    [AC_SUBST([MACHINE_DTS], "$with_machine_dts")],
+    [AC_MSG_FAILURE([--with-machine-dts is required])]
+)
+
+# Allows users to specify a path to DTC
+AC_ARG_WITH([dtc],
+    [AS_HELP_STRING([--with-dtc=PATH], [Use the given path to the device tree compiler])],
+    [],
+    [with_dtc=check]
+)
+
+AC_ARG_VAR(DTC, [The absolute path to dtc])
+AS_IF([test "x$with_dtc" == "xcheck"],
+    [AC_PATH_PROG(DTC, dtc, [no])],
+    [DTC="$with_dtc"]
+)
+AS_IF([test "x$DTC" != "xno"],
+    [AC_SUBST([DTC], "$DTC")],
+    [AC_MSG_ERROR([Unable to find dtc, either place it in PATH or try the --with-dtc argument.])]
+)
+
+# Allows users to specify a path to freedom-mee_header-generator, which generates 
+AC_ARG_WITH([mee-header-generator],
+    [AS_HELP_STRING([--with-mee-header-generator=PATH], [Use the given path to freedom-mee_header-generator])],
+    [],
+    [with_mee_header_generator=check]
+)
+
+AC_ARG_VAR(MEE_HEADER_GENERATOR, [The absolute path of the freedom-mee_header-generator])
+AS_IF([test "x$with_mee_header_generator" == "xcheck"],
+    [AC_PATH_PROG(MEE_HEADER_GENERATOR, freedom-mee_header-generator, [no])],
+    [MEE_HEADER_GENERATOR=$with_mee_header_generator]
+)
+AS_IF([test "x$MEE_HEADER_GENERATOR" != "xno"],
+    [AC_SUBST([MEE_HEADER_GENERATOR], "$MEE_HEADER_GENERATOR")],
+    [AC_MSG_ERROR([Unable to find freedom-mee_header-generator, either place it in PATH or try the --with-mee-header-generator argument.])]
+)
 
 # Generates the remainder of the build system.
 AC_CONFIG_FILES([Makefile])
