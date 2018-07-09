@@ -8,6 +8,11 @@
  * UART on a system. */
 int mee_tty_putc(unsigned char c)
 {
+    if (c == '\n') {
+        int out = mee_uart_putc(__MEE_DT_UART_0_HANDLE, '\r');
+        if (out != 0)
+            return out;
+    }
     return mee_uart_putc(__MEE_DT_UART_0_HANDLE, c);
 }
 #else
