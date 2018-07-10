@@ -3,19 +3,6 @@
 
 #include <mee/tty.h>
 
-unsigned char stack[512];
-
-/* The tests need to run without a C library so we set up an extremely minimal
- * C runtime -- in this case it's so minimal that we actually don't rely on
- * anything but the stack pointer! */
-asm(
-".global _start\n"
-"_start:\n"
-"    la sp, stack + 512\n"
-"    andi sp, sp, -16\n"
-"    call main\n"
-);
-
 void main() {
     mee_tty_putc('H');
     mee_tty_putc('e');

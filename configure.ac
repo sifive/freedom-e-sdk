@@ -83,7 +83,8 @@ AS_IF([test "x$DTC" != "xno"],
     [AC_MSG_ERROR([Unable to find dtc, either place it in PATH or try the --with-dtc argument.])]
 )
 
-# Allows users to specify a path to freedom-mee_header-generator, which generates 
+# Allows users to specify a path to freedom-mee_header-generator, which
+# generates MEE paramaterization headers from the device tree.
 AC_ARG_WITH([mee-header-generator],
     [AS_HELP_STRING([--with-mee-header-generator=PATH], [Use the given path to freedom-mee_header-generator])],
     [],
@@ -98,6 +99,26 @@ AS_IF([test "x$with_mee_header_generator" == "xcheck"],
 AS_IF([test "x$MEE_HEADER_GENERATOR" != "xno"],
     [AC_SUBST([MEE_HEADER_GENERATOR], "$MEE_HEADER_GENERATOR")],
     [AC_MSG_ERROR([Unable to find freedom-mee_header-generator, either place it in PATH or try the --with-mee-header-generator argument.])]
+)
+
+# Allows users to specify a path to freedom-ldscript-generator, which generates
+# linker scripts that are more suitable for embedded development than the
+# default linker script is.  This allows the tests to link using the actual
+# linker script.
+AC_ARG_WITH([ldscript-generator],
+    [AS_HELP_STRING([--with-ldscript-generator=PATH], [Use the given path to freedom-ldscript-generator])],
+    [],
+    [with_ldscript_generator=check]
+)
+
+AC_ARG_VAR(LDSCRIPT_GENERATOR, [The absolute path of the freedom-ldscript-generator])
+AS_IF([test "x$with_ldscript_generator" == "xcheck"],
+    [AC_PATH_PROG(LDSCRIPT_GENERATOR, freedom-ldscript-generator, [no])],
+    [LDSCRIPT_GENERATOR=$with_ldscript_generator]
+)
+AS_IF([test "x$LDSCRIPT_GENERATOR" != "xno"],
+    [AC_SUBST([LDSCRIPT_GENERATOR], "$LDSCRIPT_GENERATOR")],
+    [AC_MSG_ERROR([Unable to find freedom-ldscript-generator, either place it in PATH or try the --with-ldscript-generator argument.])]
 )
 
 # Generates the remainder of the build system.

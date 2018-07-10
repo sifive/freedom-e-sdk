@@ -1,10 +1,19 @@
 # Copyright 2018 SiFive, Inc
 # SPDX-License-Identifier: Apache-2.0
 
+# Every C compilation depends on the machine header.
+%.o: mee/machine/@MACHINE_NAME@.h
+
+# Every test depends on the generated linker script.
+$(check_PROGRAMS): mee-@MACHINE_NAME@.lds
+
+# Every test depends on the freshly-compiled library.
+$(check_PROGRAMS): libmee-@MACHINE_NAME@.a
+
 # Install some MEE-specific headers, one of which is automatically generated.
 # The files that aren't automatically generated are the same for all machines.
 nobase_include_HEADERS = \
-	mee/machines/@MACHINE_NAME@.h \
+	mee/machine/@MACHINE_NAME@.h \
 	mee/drivers/sifive,uart0.h \
 	mee/tty.h
 
@@ -16,7 +25,7 @@ nobase_include_HEADERS = \
 machine.dtb: @DTC@ @MACHINE_DTS@
 	$< $(filter %.dts,$^) -o $@ -O dtb -I dts
 
-mee/machines/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ machine.dtb
+mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ machine.dtb
 	@mkdir -p $(dir $@)
 	$< --dtb $(filter %.dtb,$^) --output $@
 
@@ -25,14 +34,19 @@ mee/machines/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ machine.dtb
 # uses to select the target machine that this MEE implementation points at.
 lib_LIBRARIES = libmee-@MACHINE_NAME@.a
 
-libmee_@MACHINE_NAME@_a_CFLAGS = -include mee/machines/@MACHINE_NAME@.h
+libmee_@MACHINE_NAME@_a_CFLAGS = -mmee-machine=@MACHINE_NAME@
 
 libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/fixed-clock.c \
 	src/drivers/sifive,uart0.c \
 	src/before_main.c \
 	src/tty.c \
+	src/shutdown.c \
 	src/entry.S
+
+# Generates a linker script that's more reasonable
+mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ machine.dtb
+	$< --dtb $(filter %.dtb,$^) --linker $@
 
 # Quash an automake warning.
 check_PROGRAMS =
@@ -41,9 +55,5 @@ check_PROGRAMS =
 # print to the serial terminal.
 check_PROGRAMS += hello
 hello_SOURCES   = test/hello.c
-hello_CFLAGS    = -include mee/machines/@MACHINE_NAME@.h
-hello_LDFLAGS   = -nostdlib -nostartfiles
-hello_LDADD     = libmee-@MACHINE_NAME@.a
-
-# Every C compilation depends on the machine header.
-%.o: mee/machines/@MACHINE_NAME@.h
+hello_CFLAGS    = -mmee-machine=@MACHINE_NAME@
+hello_LDFLAGS   = -L.
