@@ -15,3 +15,8 @@
 .dirstamp
 .deps
 /hello
+/mee/machines
+/machine.dtb
+*.lds
+*.dtb
+/mee/machine
