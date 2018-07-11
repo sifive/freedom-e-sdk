@@ -1,8 +1,11 @@
 # Copyright 2018 SiFive, Inc
 # SPDX-License-Identifier: Apache-2.0
 
-# Every C compilation depends on the machine header.
-%.o: mee/machine/@MACHINE_NAME@.h
+# Every C compilation depends on the machine header.  This is a bit of a hack:
+# instead of enforcing the dependency on the .o we pretend that the C file
+# itself depends on the header.  This is the only way I could figure out that
+# would satisfy the dependency inside automake.
+%.c: mee/machine/@MACHINE_NAME@.h
 
 # Every test depends on the generated linker script.
 $(check_PROGRAMS): mee-@MACHINE_NAME@.lds
