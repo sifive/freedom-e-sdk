@@ -20,3 +20,5 @@
 *.lds
 *.dtb
 /mee/machine
+*.map
+*.mk

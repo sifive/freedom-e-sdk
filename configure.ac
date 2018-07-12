@@ -120,6 +120,25 @@ AS_IF([test "x$LDSCRIPT_GENERATOR" != "xno"],
     [AC_MSG_ERROR([Unable to find freedom-ldscript-generator, either place it in PATH or try the --with-ldscript-generator argument.])]
 )
 
+# Allows users to specify a path to freedom-makeattributes-generator, which
+# generates makefile fragments that help set up the various CFLAGS that are
+# required to target a machine.
+AC_ARG_WITH([makeattributes-generator],
+    [AS_HELP_STRING([--with-makeattributes-generator=PATH], [Use the given path to freedom-makeattributes-generator])],
+    [],
+    [with_makeattributes_generator=check]
+)
+
+AC_ARG_VAR(MAKEATTRIBUTES_GENERATOR, [The absolute path of the freedom-makeattributes-generator])
+AS_IF([test "x$with_makeattributes_generator" == "xcheck"],
+    [AC_PATH_PROG(MAKEATTRIBUTES_GENERATOR, freedom-makeattributes-generator, [no])],
+    [MAKEATTRIBUTES_GENERATOR=$with_makeattributes_generator]
+)
+AS_IF([test "x$MAKEATTRIBUTES_GENERATOR" != "xno"],
+    [AC_SUBST([MAKEATTRIBUTES_GENERATOR], "$MAKEATTRIBUTES_GENERATOR")],
+    [AC_MSG_ERROR([Unable to find freedom-makeattributes-generator, either place it in PATH or try the --with-makeattributes-generator argument.])]
+)
+
 # Generates the remainder of the build system.
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
