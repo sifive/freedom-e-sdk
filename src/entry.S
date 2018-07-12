@@ -84,3 +84,16 @@ early_trap_vector:
     .cfi_startproc
     j early_trap_vector
     .cfi_endproc
+
+/* The GCC port might not emit a __register_frame_info symbol, which eventually
+ * results in a weak undefined reference that eventually causes crash when it
+ * is dereference early in boot.  We really shouldn't need to put this here,
+ * but to deal with what I think is probably a bug in the linker script I'm
+ * going to leave this in for now.  At least it's fairly cheap :) */
+.weak __register_frame_info
+.global __register_frame_info
+.section .text.mee.init.__register_frame_info
+__register_frame_info:
+    .cfi_startproc
+    ret
+    .cfi_endproc
