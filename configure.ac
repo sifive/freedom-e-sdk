@@ -6,7 +6,6 @@ AC_INIT([freedom-mee], [m4_esyscmd_s([./scripts/git-version])], [palmer@sifive.c
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AM_MAINTAINER_MODE([enable])
 
-
 # This library is actually an integral part of the toolchain build process on
 # MEE toolchains as it's necessary to link any program.  To prevent this from
 # causing every autoconf test failing we instead place some weak symbols in
