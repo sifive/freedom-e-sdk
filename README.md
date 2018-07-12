@@ -21,7 +21,7 @@ portable programs can be written.  Since this is machine-mode software
 the degree of portability is very limited, but nontheless some about of
 portability can reasonably be achieved.  Specifically, that means
 
-* The existance of devices can be staticly probed.
+* The existence of devices can be statically probed.
 * Devices exist behind a well-defined API that abstracts away their
   physical addresses.
 
@@ -63,7 +63,7 @@ function -- for example, there may not be a stack.
 Many special sections are utilized by this MEE implementation in order
 to allow compact code to be generated while still providing API
 guarntees.  These sections are all named such that standard linker
-scripts will produce the correct answer, albiet at some performance or
+scripts will produce the correct answer, albeit at some performance or
 code size cost.  A list of interesting sections is described below:
 
 * `.text.mee.nop`: Every sub-section in here will consist of exactly the
