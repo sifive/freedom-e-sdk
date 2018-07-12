@@ -25,10 +25,10 @@ nobase_include_HEADERS = \
 # automatically get the relevant definitions.  This is a two-step process:
 # first a DTB is built, and then the DTB is converted to a header file using an
 # external tool.
-machine.dtb: @DTC@ @MACHINE_DTS@
+@MACHINE_NAME@.dtb: @DTC@ @MACHINE_DTS@
 	$< $(filter %.dts,$^) -o $@ -O dtb -I dts
 
-mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ machine.dtb
+mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ @MACHINE_NAME@.dtb
 	@mkdir -p $(dir $@)
 	$< --dtb $(filter %.dtb,$^) --output $@
 
@@ -48,7 +48,7 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/entry.S
 
 # Generates a linker script that's more reasonable
-mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ machine.dtb
+mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
 	$< --dtb $(filter %.dtb,$^) --linker $@
 
 # Quash an automake warning.
