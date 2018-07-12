@@ -1,6 +1,6 @@
 [submodule "openocd"]
 	path = openocd
-	url = https://github.com/sifive/openocd.git
+	url = https://github.com/sifive/riscv-openocd.git
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
-	url = https://github.com/riscv/riscv-gnu-toolchain.git
+	url = https://github.com/sifive/riscv-gnu-toolchain.git
