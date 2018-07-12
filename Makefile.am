@@ -47,7 +47,8 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/shutdown.c \
 	src/entry.S
 
-# Generates a linker script that's more reasonable
+# Generates a linker script that's more reasonable that whatever GCC's default
+# is.
 mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
 	$< --dtb $(filter %.dtb,$^) --linker $@
 
