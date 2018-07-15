@@ -6,6 +6,8 @@
 # itself depends on the header.  This is the only way I could figure out that
 # would satisfy the dependency inside automake.
 %.c: mee/machine/@MACHINE_NAME@.h
+%.S: mee/machine/@MACHINE_NAME@.h
+%.o: mee/machine/@MACHINE_NAME@.h
 
 # Every test depends on the generated linker script.
 $(check_PROGRAMS): mee-@MACHINE_NAME@.lds
@@ -30,8 +32,18 @@ mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
 # The files that aren't automatically generated are the same for all machines.
 nobase_include_HEADERS = \
 	mee/machine/@MACHINE_NAME@.h \
+	mee/drivers/fixed-clock.h \
 	mee/drivers/sifive,uart0.h \
-	mee/tty.h
+	mee/drivers/sifive,fe310-g000,hfrosc.h \
+	mee/drivers/sifive,fe310-g000,hfxosc.h \
+	mee/drivers/sifive,fe310-g000,pll.h \
+	mee/drivers/sifive,fe310-g000,prci.h \
+	mee/compiler.h \
+	mee/clock.h \
+	mee/io.h \
+	mee/shutdown.h \
+	mee/tty.h \
+	mee/uart.h
 
 # Builds the machine-specific MEE header file, which paramaterizes the MEE for
 # one specific machine.  This is automatically picked up by GCC so users
@@ -58,6 +70,10 @@ libmee_@MACHINE_NAME@_a_CCASFLAGS = $(libmee_@MACHINE_NAME@_a_CFLAGS) -DASSEMBLY
 libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/fixed-clock.c \
 	src/drivers/sifive,uart0.c \
+	src/drivers/sifive,fe310-g000,hfrosc.c \
+	src/drivers/sifive,fe310-g000,hfxosc.c \
+	src/drivers/sifive,fe310-g000,prci.c \
+	src/drivers/sifive,fe310-g000,pll.c \
 	src/before_main.c \
 	src/tty.c \
 	src/shutdown.c \
