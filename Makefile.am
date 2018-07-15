@@ -53,7 +53,7 @@ lib_LIBRARIES = libmee-@MACHINE_NAME@.a
 libmee_@MACHINE_NAME@_a_CFLAGS  = -mmee-machine=@MACHINE_NAME@
 libmee_@MACHINE_NAME@_a_CFLAGS += -ffunction-sections -fdata-sections
 libmee_@MACHINE_NAME@_a_CFLAGS += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
-libmee_@MACHINE_NAME@_a_CCASFLAGS = $(libmee_@MACHINE_NAME@_a_CFLAGS)
+libmee_@MACHINE_NAME@_a_CCASFLAGS = $(libmee_@MACHINE_NAME@_a_CFLAGS) -DASSEMBLY
 
 libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/fixed-clock.c \
