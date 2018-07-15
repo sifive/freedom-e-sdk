@@ -5,6 +5,11 @@
 	#size-cells = <1>;
 	compatible = "SiFive,FE310G-dev", "fe310-dev", "sifive-dev";
 	model = "SiFive,FE310G";
+
+	chosen {
+		stdout-path = "/soc/serial@10013000:115200";
+	};
+
 	L17: cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
