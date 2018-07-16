@@ -13,6 +13,19 @@ $(check_PROGRAMS): mee-@MACHINE_NAME@.lds
 # Every test depends on the freshly-compiled library.
 $(check_PROGRAMS): libmee-@MACHINE_NAME@.a
 
+# Generates a linker script that's more reasonable that whatever GCC's default
+# is.
+mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
+	$< --dtb $(filter %.dtb,$^) --linker $@
+
+# In order to generate code that's actually compatible with a machine we must
+# pass the march and mabi arguments to GCC that coorespond to the hardware.
+# This is handled by generating a makefile fragment, including it, and then
+# adding those argument to CFLAGS.
+-include @MACHINE_NAME@.mk
+@MACHINE_NAME@.mk: @MAKEATTRIBUTES_GENERATOR@ @MACHINE_NAME@.dtb
+	$< --dtb $(filter %.dtb,$^) --output $@
+
 # Install some MEE-specific headers, one of which is automatically generated.
 # The files that aren't automatically generated are the same for all machines.
 nobase_include_HEADERS = \
@@ -25,10 +38,10 @@ nobase_include_HEADERS = \
 # automatically get the relevant definitions.  This is a two-step process:
 # first a DTB is built, and then the DTB is converted to a header file using an
 # external tool.
-machine.dtb: @DTC@ @MACHINE_DTS@
+@MACHINE_NAME@.dtb: @DTC@ @MACHINE_DTS@
 	$< $(filter %.dts,$^) -o $@ -O dtb -I dts
 
-mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ machine.dtb
+mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ @MACHINE_NAME@.dtb
 	@mkdir -p $(dir $@)
 	$< --dtb $(filter %.dtb,$^) --output $@
 
@@ -37,7 +50,10 @@ mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ machine.dtb
 # uses to select the target machine that this MEE implementation points at.
 lib_LIBRARIES = libmee-@MACHINE_NAME@.a
 
-libmee_@MACHINE_NAME@_a_CFLAGS = -mmee-machine=@MACHINE_NAME@
+libmee_@MACHINE_NAME@_a_CFLAGS  = -mmee-machine=@MACHINE_NAME@
+libmee_@MACHINE_NAME@_a_CFLAGS += -ffunction-sections -fdata-sections
+libmee_@MACHINE_NAME@_a_CFLAGS += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+libmee_@MACHINE_NAME@_a_CCASFLAGS = $(libmee_@MACHINE_NAME@_a_CFLAGS)
 
 libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/fixed-clock.c \
@@ -47,10 +63,6 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/shutdown.c \
 	src/entry.S
 
-# Generates a linker script that's more reasonable
-mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ machine.dtb
-	$< --dtb $(filter %.dtb,$^) --linker $@
-
 # Quash an automake warning.
 check_PROGRAMS =
 
@@ -59,4 +71,12 @@ check_PROGRAMS =
 check_PROGRAMS += hello
 hello_SOURCES   = test/hello.c
 hello_CFLAGS    = -mmee-machine=@MACHINE_NAME@
-hello_LDFLAGS   = -L.
+hello_CFLAGS   += -ffunction-sections -fdata-sections
+hello_CFLAGS   += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+hello_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=hello.map
+
+# Extra clean targets
+clean-local:
+	-rm -rf @MACHINE_NAME@.mk
+	-rm -rf mee/machine/@MACHINE_NAME@.h @MACHINE_NAME@.dtb
+	-rm -rf hello.map
