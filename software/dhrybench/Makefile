@@ -1,0 +1,33 @@
+TARGET := dhrybench
+
+ASM_SRCS := 
+C_SRCS := dhry_printf.c
+HEADERS := dhry.h
+
+DHRY_SRCS := dhry_1.c dhry_2.c
+DHRY_CFLAGS := -O3 -DTIME -fno-inline -fno-builtin-printf -Wno-implicit -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI)
+
+# The below allows inlining of all functions which is not strictly legal
+#DHRY_CFLAGS := -O3 -DTIME -fno-builtin-printf -Wno-implicit -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI)
+
+XLEN ?= 32
+
+# align-jumps is good for 1.52 vs 1.50 DMIPS/MHz
+# align-loops makes things *worse*
+# align-functions is good for 1.52 vs 1.48
+# unroll-loops makes things *worse*
+
+CFLAGS := -O3 -fno-common  -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mexplicit-relocs -DNOENUM -DNO_INIT -DLOWPOWER -falign-functions=4 -falign-jumps=4
+#CFLAGS := -O3 -fno-common  -mcmodel=medany -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mexplicit-relocs -DNOENUM -DNO_INIT -falign-functions=4 -falign-jumps=4 
+
+
+LDFLAGS := -Wl,--wrap=scanf -Wl,--wrap=printf  -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=medany
+
+DHRY_OBJS := $(patsubst %.c,%.o,$(DHRY_SRCS))
+LINK_OBJS := $(DHRY_OBJS)
+
+BSP_BASE = ../../bsp
+include $(BSP_BASE)/env/common.mk
+
+$(DHRY_OBJS): %.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) $(DHRY_CFLAGS) -c -o $@ $<
