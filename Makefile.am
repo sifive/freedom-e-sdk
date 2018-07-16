@@ -96,5 +96,5 @@ hello_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=hello.map
 # Extra clean targets
 clean-local:
 	-rm -rf @MACHINE_NAME@.mk
-	-rm -rf mee/machine/@MACHINE_NAME@.h @MACHINE_NAME@.dtb
+	-rm -rf mee/machine/@MACHINE_NAME@.h @MACHINE_NAME@.dtb mee-@MACHINE_NAME@.lds
 	-rm -rf hello.map
