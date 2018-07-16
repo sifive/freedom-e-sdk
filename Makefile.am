@@ -84,17 +84,33 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 # Quash an automake warning.
 check_PROGRAMS =
 
+# The simplest possible pair of tests: one that passes and one that fails
+check_PROGRAMS       += return_pass
+return_pass_SOURCES   = test/return_pass.c
+return_pass_CFLAGS    = -mmee-machine=@MACHINE_NAME@
+return_pass_CFLAGS   += -ffunction-sections -fdata-sections
+return_pass_CFLAGS   += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+return_pass_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=return_pass.map
+
+check_PROGRAMS       += return_fail
+return_fail_SOURCES   = test/return_fail.c
+return_fail_CFLAGS    = -mmee-machine=@MACHINE_NAME@
+return_fail_CFLAGS   += -ffunction-sections -fdata-sections
+return_fail_CFLAGS   += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+return_fail_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=return_fail.map
+
 # A simple "Hello, World!" program that directly uses the MEE interface to
 # print to the serial terminal.
-check_PROGRAMS += hello
-hello_SOURCES   = test/hello.c
-hello_CFLAGS    = -mmee-machine=@MACHINE_NAME@
-hello_CFLAGS   += -ffunction-sections -fdata-sections
-hello_CFLAGS   += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
-hello_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=hello.map
+check_PROGRAMS       += hello
+hello_SOURCES         = test/hello.c
+hello_CFLAGS          = -mmee-machine=@MACHINE_NAME@
+hello_CFLAGS         += -ffunction-sections -fdata-sections
+hello_CFLAGS         += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+hello_LDFLAGS         = -L. -Wl,--gc-sections -Wl,-Map=hello.map
 
 # Extra clean targets
 clean-local:
 	-rm -rf @MACHINE_NAME@.mk
 	-rm -rf mee/machine/@MACHINE_NAME@.h @MACHINE_NAME@.dtb mee-@MACHINE_NAME@.lds
+	-rm -rf return_pass.map return_fail.map
 	-rm -rf hello.map
