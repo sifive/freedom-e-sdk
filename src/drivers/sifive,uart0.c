@@ -24,15 +24,14 @@
 
 int __mee_driver_sifive_uart0_putc(struct mee_uart *uart, unsigned char c)
 {
-    while (UART_REGW(UART_REG_TXFIFO) & 0x80000000) {}
+    while ((UART_REGW(UART_REG_TXFIFO) & 0x80000000) != 0) { }
     UART_REGW(UART_REG_TXFIFO) = c;
-    MEE_IO_FENCE(o, i);
     return 0;
 }
 
 int __mee_driver_sifive_uart0_getc(struct mee_uart *uart, unsigned char *c)
 {
-    while (UART_REGB(UART_REG_RXCNT) == 0) {}
+    while ((UART_REGW(UART_REG_RXFIFO) & 0x80000000) == 0) { }
     *c = UART_REGW(UART_REG_RXFIFO);
     return 0;
 }
