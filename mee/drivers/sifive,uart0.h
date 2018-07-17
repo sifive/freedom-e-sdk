@@ -4,6 +4,7 @@
 #ifndef MEE__DRIVERS__SIFIVE_UART0_H
 #define MEE__DRIVERS__SIFIVE_UART0_H
 
+#include <mee/drivers/sifive,gpio0.h>
 #include <mee/clock.h>
 #include <mee/compiler.h>
 #include <mee/io.h>
@@ -35,6 +36,9 @@ struct __mee_driver_sifive_uart0 {
     const unsigned long control_base;
     const unsigned long control_size;
     unsigned long baud_rate;
+    struct __mee_driver_sifive_gpio0 *pinmux;
+    const unsigned long pinmux_output_selector;
+    const unsigned long pinmux_source_selector;
 };
 
 
