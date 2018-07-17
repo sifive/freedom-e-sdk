@@ -24,7 +24,7 @@ MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_fe310_g000_prci) = {
 
 struct __mee_driver_sifive_fe310_g000_prci {
     const struct __mee_driver_vtable_sifive_fe310_g000_prci *vtable;
-    const mee_io_u32 *base;
+    const long base;
     const long size;
 };
 
