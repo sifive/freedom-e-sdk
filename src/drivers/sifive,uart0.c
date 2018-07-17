@@ -57,8 +57,10 @@ static void rate_change_callback(void *priv)
     mee_uart_set_baud_rate(&uart->uart, uart->baud_rate);
 }
 
-void __mee_driver_sifive_uart0_init(struct __mee_driver_sifive_uart0 *uart)
+void __mee_driver_sifive_uart0_init(struct mee_uart *guart, int baud_rate)
 {
+    struct __mee_driver_sifive_uart0 *uart = (void *)(guart);
+
     mee_clock_register_rate_change_callback(uart->clock, &rate_change_callback, uart);
     mee_uart_set_baud_rate(&(uart->uart), uart->baud_rate);
 }
