@@ -45,9 +45,15 @@ int __mee_driver_sifive_uart0_get_baud_rate(struct mee_uart *guart)
 int __mee_driver_sifive_uart0_set_baud_rate(struct mee_uart *guart, int baud_rate)
 {
     struct __mee_driver_sifive_uart0 *uart = (void *)guart;
-    long clock_rate = uart->clock->vtable->get_rate_hz(uart->clock);
-    UART_REGW(UART_REG_DIV) = (clock_rate / 2) / baud_rate - 1;
-    UART_REGW(UART_REG_TXCTRL) |= UART_TXEN;
+
+    uart->baud_rate = baud_rate;
+
+    if (uart->clock != NULL) {
+        long clock_rate = uart->clock->vtable->get_rate_hz(uart->clock);
+        UART_REGW(UART_REG_DIV) = clock_rate / baud_rate - 1;
+        UART_REGW(UART_REG_TXCTRL) |= UART_TXEN;
+    }
+    return 0;
 }
 
 static void rate_change_callback(void *priv)
@@ -61,5 +67,14 @@ void __mee_driver_sifive_uart0_init(struct mee_uart *guart, int baud_rate)
     struct __mee_driver_sifive_uart0 *uart = (void *)(guart);
 
     mee_clock_register_rate_change_callback(uart->clock, &rate_change_callback, uart);
-    mee_uart_set_baud_rate(&(uart->uart), uart->baud_rate);
+
+    mee_uart_set_baud_rate(&(uart->uart), baud_rate);
+
+    if (uart->pinmux != NULL) {
+        uart->pinmux->vtable->enable_io(
+            uart->pinmux,
+            uart->pinmux_output_selector,
+            uart->pinmux_source_selector
+        );
+    }
 }
