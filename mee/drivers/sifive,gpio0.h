@@ -4,6 +4,8 @@
 #ifndef MEE__DRIVERS__SIFIVE_GPIO0_H
 #define MEE__DRIVERS__SIFIVE_GPIO0_H
 
+#include <mee/compiler.h>
+
 struct __mee_driver_sifive_gpio0;
 
 long __mee_driver_sifive_gpio0_enable_io(const struct __mee_driver_sifive_gpio0 *, long source, long dest);
