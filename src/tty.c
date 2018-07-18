@@ -15,6 +15,16 @@ int mee_tty_putc(unsigned char c)
     }
     return mee_uart_putc(__MEE_DT_STDOUT_UART_HANDLE, c);
 }
+
+#ifndef __MEE_DT_STDOUT_UART_BAUD
+#define __MEE_DT_STDOUT_UART_BAUD 115200
+#endif
+
+static void mee_tty_init(void) __attribute__((constructor));
+static void mee_tty_init(void)
+{
+    mee_uart_init(__MEE_DT_STDOUT_UART_HANDLE, __MEE_DT_STDOUT_UART_BAUD);
+}
 #else
 /* This implementation of putc doesn't actually do anything, it's just there to
  * provide a shim that eats all the characters so we can ensure that everything

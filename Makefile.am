@@ -37,6 +37,7 @@ nobase_include_HEADERS = \
 	mee/drivers/sifive,fe310-g000,hfxosc.h \
 	mee/drivers/sifive,fe310-g000,pll.h \
 	mee/drivers/sifive,fe310-g000,prci.h \
+	mee/drivers/sifive,gpio0.h \
 	mee/drivers/sifive,uart0.h \
 	mee/drivers/sifive,test0.h \
 	mee/compiler.h \
@@ -75,6 +76,7 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/sifive,fe310-g000,prci.c \
 	src/drivers/sifive,fe310-g000,pll.c \
 	src/drivers/sifive,test0.c \
+	src/drivers/sifive,gpio0.c \
 	src/drivers/sifive,uart0.c \
 	src/before_main.c \
 	src/tty.c \
