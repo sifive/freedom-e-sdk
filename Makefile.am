@@ -17,6 +17,8 @@ $(check_PROGRAMS): libmee-@MACHINE_NAME@.a
 
 # Generates a linker script that's more reasonable that whatever GCC's default
 # is.
+ldsdir = $(libdir)
+lds_DATA = mee-@MACHINE_NAME@.lds
 mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
 	$< --dtb $(filter %.dtb,$^) --linker $@
 
