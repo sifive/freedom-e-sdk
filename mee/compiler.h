@@ -8,7 +8,7 @@
     asm(".weak " #type);                                  \
     const struct type type                                \
 
-#define MEE_GET_FIELD(reg, mask)                        \
+#define __MEE_GET_FIELD(reg, mask)                        \
     (((reg) & (mask)) / ((mask) & ~((mask) << 1)))
 
 static inline long abs(long val)
