@@ -146,7 +146,7 @@ static void mee_sifive_fe310_g000_pll_init(void) {
 #endif /* __MEE_DT_SIFIVE_FE310_G000__PLL_HANDLE */
 
 void __mee_driver_sifive_fe310_g000_pll_init(struct __mee_driver_sifive_fe310_g000_pll *pll) {
-    mee_io_u32 *pllcfg = (mee_io_u32 *) (pll->config_base->base + pll->config_offset);
+    __mee_io_u32 *pllcfg = (__mee_io_u32 *) (pll->config_base->base + pll->config_offset);
 
     /* If the PLL clock has had a pre_rate_change_callback configured, call it */
     if(pll->clock.pre_rate_change_callback != NULL)
@@ -240,7 +240,7 @@ static int find_closest_config(long ref_hz, long rate)
 }
 
 /* Configure the PLL and wait for it to lock */
-static void configure_pll(mee_io_u32 *pllcfg, mee_io_u32 *plloutdiv, struct pll_config_t *config)
+static void configure_pll(__mee_io_u32 *pllcfg, __mee_io_u32 *plloutdiv, struct pll_config_t *config)
 {
     __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_R);
     __MEE_ACCESS_ONCE(pllcfg) |= PLL_R_SHIFT(config->r);
@@ -276,8 +276,8 @@ static void configure_pll(mee_io_u32 *pllcfg, mee_io_u32 *plloutdiv, struct pll_
 long __mee_driver_sifive_fe310_g000_pll_set_rate_hz(struct mee_clock *clock, long rate)
 {
     struct __mee_driver_sifive_fe310_g000_pll *clk = (void *)clock;
-    mee_io_u32 *pllcfg = (mee_io_u32 *) (clk->config_base->base + clk->config_offset);
-    mee_io_u32 *plloutdiv = (mee_io_u32 *) (clk->divider_base->base + clk->divider_offset);
+    __mee_io_u32 *pllcfg = (__mee_io_u32 *) (clk->config_base->base + clk->config_offset);
+    __mee_io_u32 *plloutdiv = (__mee_io_u32 *) (clk->divider_base->base + clk->divider_offset);
 
     /* We can't modify the PLL if coreclk is driven by it, so switch it off */
     if (__MEE_ACCESS_ONCE(pllcfg) & PLL_SEL)

@@ -12,11 +12,11 @@
 
 /* Types that explicitly describe an address as being used for memory-mapped
  * IO.  These should only be accessed via __MEE_ACCESS_ONCE. */
-typedef unsigned char  mee_io_u8;
-typedef unsigned short mee_io_u16;
-typedef unsigned int   mee_io_u32;
+typedef unsigned char  __mee_io_u8;
+typedef unsigned short __mee_io_u16;
+typedef unsigned int   __mee_io_u32;
 #if __riscv_xlen >= 64
-typedef unsigned long  mee_io_u64;
+typedef unsigned long  __mee_io_u64;
 #endif
 
 #endif

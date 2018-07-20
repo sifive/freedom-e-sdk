@@ -30,8 +30,8 @@
 #define UART_TXWM               (1 <<  0)
 
 #define UART_REG(offset)   (((unsigned long)(((struct __mee_driver_sifive_uart0 *)(uart))->control_base) + offset))
-#define UART_REGB(offset)  (__MEE_ACCESS_ONCE((mee_io_u8  *)UART_REG(offset)))
-#define UART_REGW(offset)  (__MEE_ACCESS_ONCE((mee_io_u32 *)UART_REG(offset)))
+#define UART_REGB(offset)  (__MEE_ACCESS_ONCE((__mee_io_u8  *)UART_REG(offset)))
+#define UART_REGW(offset)  (__MEE_ACCESS_ONCE((__mee_io_u32 *)UART_REG(offset)))
 
 int __mee_driver_sifive_uart0_putc(struct mee_uart *uart, unsigned char c)
 {
