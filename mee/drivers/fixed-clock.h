@@ -16,7 +16,7 @@ struct __mee_driver_vtable_fixed_clock {
 long __mee_driver_fixed_clock_get_rate_hz(const struct mee_clock *gclk);
 long __mee_driver_fixed_clock_set_rate_hz(struct mee_clock *gclk, long target_hz);
 
-MEE_DECLARE_VTABLE(__mee_driver_vtable_fixed_clock) = {
+__MEE_DECLARE_VTABLE(__mee_driver_vtable_fixed_clock) = {
     .clock.get_rate_hz = __mee_driver_fixed_clock_get_rate_hz,
     .clock.set_rate_hz = __mee_driver_fixed_clock_set_rate_hz,
 };

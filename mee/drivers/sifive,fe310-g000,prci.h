@@ -17,7 +17,7 @@ struct __mee_driver_vtable_sifive_fe310_g000_prci {
     long (*set_reg)(const struct __mee_driver_sifive_fe310_g000_prci *, long offset, long value);
 };
 
-MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_fe310_g000_prci) = {
+__MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_fe310_g000_prci) = {
     .get_reg = __mee_driver_sifive_fe310_g000_prci_get_reg,
     .set_reg = __mee_driver_sifive_fe310_g000_prci_set_reg,
 };

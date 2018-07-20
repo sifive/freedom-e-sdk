@@ -15,7 +15,7 @@ struct __mee_driver_sifive_test0;
 
 void __mee_driver_sifive_test0_exit(const struct __mee_shutdown *test, int code) __attribute__((noreturn));
 
-MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_test0) = {
+__MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_test0) = {
     .shutdown.exit       = &__mee_driver_sifive_test0_exit,
 };
 

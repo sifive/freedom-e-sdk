@@ -22,7 +22,7 @@ int __mee_driver_sifive_uart0_getc(struct mee_uart *uart, unsigned char *c);
 int __mee_driver_sifive_uart0_get_baud_rate(struct mee_uart *guart);
 int __mee_driver_sifive_uart0_set_baud_rate(struct mee_uart *guart, int baud_rate);
 
-MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_uart0) = {
+__MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_uart0) = {
     .uart.init          = __mee_driver_sifive_uart0_init,
     .uart.putc          = __mee_driver_sifive_uart0_putc,
     .uart.getc          = __mee_driver_sifive_uart0_getc,
