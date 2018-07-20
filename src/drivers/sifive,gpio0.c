@@ -9,6 +9,6 @@
 
 long __mee_driver_sifive_gpio0_enable_io(const struct __mee_driver_sifive_gpio0 *gpio, long source, long dest)
 {
-    MEE_ACCESS_ONCE((mee_io_u32 *)(gpio->base + GPIO_IOF_SEL)) &= ~source;
-    MEE_ACCESS_ONCE((mee_io_u32 *)(gpio->base + GPIO_IOF_EN))  |= dest;
+    __MEE_ACCESS_ONCE((mee_io_u32 *)(gpio->base + GPIO_IOF_SEL)) &= ~source;
+    __MEE_ACCESS_ONCE((mee_io_u32 *)(gpio->base + GPIO_IOF_EN))  |= dest;
 }
