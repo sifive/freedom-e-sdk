@@ -8,7 +8,7 @@
 #define __MEE_ACCESS_ONCE(x) (*(typeof(*x) volatile *)(x))
 
 /* Allows users to specify arbitrary fences. */
-#define MEE_IO_FENCE(pred, succ) __asm__ volatile ("fence " #pred "," #succ ::: "memory");
+#define __MEE_IO_FENCE(pred, succ) __asm__ volatile ("fence " #pred "," #succ ::: "memory");
 
 /* Types that explicitly describe an address as being used for memory-mapped
  * IO.  These should only be accessed via __MEE_ACCESS_ONCE. */
