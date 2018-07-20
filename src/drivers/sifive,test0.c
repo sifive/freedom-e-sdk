@@ -7,7 +7,7 @@
 
 #define FINISHER_OFFSET 0
 
-void __mee_driver_sifive_test0_exit(const struct mee_shutdown *sd, int code)
+void __mee_driver_sifive_test0_exit(const struct __mee_shutdown *sd, int code)
 {
     const struct __mee_driver_sifive_test0 *test = (void *)sd;
     uint32_t out = (code << 16) + (code == 0 ? 0x5555 : 0x3333);

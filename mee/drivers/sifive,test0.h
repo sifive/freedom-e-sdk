@@ -8,19 +8,19 @@
 #include <mee/shutdown.h>
 
 struct __mee_driver_vtable_sifive_test0 {
-    const struct mee_shutdown_vtable shutdown;
+    const struct __mee_shutdown_vtable shutdown;
 };
 
 struct __mee_driver_sifive_test0;
 
-void __mee_driver_sifive_test0_exit(const struct mee_shutdown *test, int code) __attribute__((noreturn));
+void __mee_driver_sifive_test0_exit(const struct __mee_shutdown *test, int code) __attribute__((noreturn));
 
 MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_test0) = {
     .shutdown.exit       = &__mee_driver_sifive_test0_exit,
 };
 
 struct __mee_driver_sifive_test0 {
-    struct mee_shutdown shutdown;
+    struct __mee_shutdown shutdown;
     const struct __mee_driver_vtable_sifive_test0 *vtable;
     const unsigned long base;
     const unsigned long size;
