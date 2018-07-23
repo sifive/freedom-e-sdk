@@ -11,4 +11,9 @@
 #define MEE_GET_FIELD(reg, mask)                        \
     (((reg) & (mask)) / ((mask) & ~((mask) << 1)))
 
+static inline long abs(long val)
+{
+    return (val >= 0 ? val : val * -1);
+}
+
 #endif
