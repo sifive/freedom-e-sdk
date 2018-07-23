@@ -114,6 +114,13 @@ hello_CFLAGS         += -ffunction-sections -fdata-sections
 hello_CFLAGS         += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
 hello_LDFLAGS         = -L. -Wl,--gc-sections -Wl,-Map=hello.map
 
+check_PROGRAMS       += pll_set_hz
+pll_set_hz_SOURCES    = test/pll_set_hz.c
+pll_set_hz_CFLAGS     = -mmee-machine=@MACHINE_NAME@
+pll_set_hz_CFLAGS    += -ffunction-sections -fdata-sections
+pll_set_hz_CFLAGS    += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+pll_set_hz_LDFLAGS    = -L. -Wl,--gc-sections -Wl,-Map=pll_set_hz.map
+
 # Extra clean targets
 clean-local:
 	-rm -rf @MACHINE_NAME@.mk
