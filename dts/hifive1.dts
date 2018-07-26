@@ -72,6 +72,7 @@
                         clock-names = "pllref", "pllsel0";
                         reg = <&prci 0x8 &prci 0xc>;
                         reg-names = "config", "divider";
+                        clock-frequency = <256000000>;
                 };
 
                 lfroscin: clock@5 {

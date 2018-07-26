@@ -10,10 +10,8 @@
 void main() {
     struct mee_clock * pll = __ME_DT_SIFIVE_FE310_G000_PLL_HANDLE;
 
-    /* Set PLL to start running off PLL clock */
-    mee_clock_set_rate_hz(pll, 16000000);
-
     printf("Test harness for FE310-G000 PLL Set Frequency\n\n");
+    printf("Boot frequency is: %ld\n", mee_clock_get_rate_hz(pll));
 
     for(long requested = PLL_MIN_OUT; requested <= PLL_MAX_OUT; requested += 16000000)
     {

@@ -134,6 +134,42 @@ static long get_pll_config_freq(long pll_input_rate, struct pll_config_t *config
     return pll_input_rate * config->multiplier / config->divisor;
 }
 
+#ifdef __MEE_DT_SIFIVE_FE310_G000_PLL_HANDLE
+
+static void mee_sifive_fe310_g000_pll_init(void) __attribute__((constructor));
+static void mee_sifive_fe310_g000_pll_init(void) {
+    /* If the PLL init_rate is zero, don't initialize the PLL */
+    if(__MEE_DT_SIFIVE_FE310_G000_PLL_HANDLE->init_rate != 0)
+        __mee_driver_sifive_fe310_g000_pll_init(__MEE_DT_SIFIVE_FE310_G000_PLL_HANDLE);
+}
+
+#endif /* __MEE_DT_SIFIVE_FE310_G000__PLL_HANDLE */
+
+void __mee_driver_sifive_fe310_g000_pll_init(struct __mee_driver_sifive_fe310_g000_pll *pll) {
+    mee_io_u32 *pllcfg = (mee_io_u32 *) (pll->config_base->base + pll->config_offset);
+
+    /* If the PLL clock has had a pre_rate_change_callback configured, call it */
+    if(pll->clock.pre_rate_change_callback != NULL)
+        pll->clock.pre_rate_change_callback(pll->clock.pre_rate_change_callback_priv);
+
+    /* If we're running off of the PLL, switch off before we start configuring it*/
+    if((MEE_ACCESS_ONCE(pllcfg) & PLL_SEL) == 0)
+        MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_SEL);
+
+    /* Make sure we're running off of the external oscillator for stability */
+    if(pll->pllref != NULL)
+        MEE_ACCESS_ONCE(pllcfg) |= PLL_REFSEL;
+
+    /* Configure the PLL to run at the requested init frequency.
+     * Using the vtable instead of the user API because we want to control
+     * when the callbacks occur. */
+    pll->vtable->clock.set_rate_hz(&(pll->clock), pll->init_rate);
+
+    /* If the PLL clock has had a rate_change_callback configured, call it */
+    if(pll->clock.post_rate_change_callback != NULL)
+        pll->clock.post_rate_change_callback(pll->clock.post_rate_change_callback_priv);
+}
+
 long __mee_driver_sifive_fe310_g000_pll_get_rate_hz(const struct mee_clock *clock)
 {
     struct __mee_driver_sifive_fe310_g000_pll *clk = (void *)clock;
