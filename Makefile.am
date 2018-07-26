@@ -80,7 +80,6 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/sifive,test0.c \
 	src/drivers/sifive,gpio0.c \
 	src/drivers/sifive,uart0.c \
-	src/before_main.c \
 	src/clock.c \
 	src/tty.c \
 	src/shutdown.c \

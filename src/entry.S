@@ -54,8 +54,7 @@ _enter:
      * so we don't have to write another ABI. */
     csrr a0, mhartid
     li a1, 0
-    .weak __mee_before_main
-    la a2, __mee_before_main
+    li a2, 0
     call _start
 
     /* If we've made it back here then there's probably something wrong.  We
