@@ -14,8 +14,8 @@ struct mee_shutdown {
     const struct mee_shutdown_vtable *vtable;
 };
 
-static inline void mee_shutdown_exit(const struct mee_shutdown *sd, int code) __attribute__((noreturn));
-static inline void mee_shutdown_exit(const struct mee_shutdown *sd, int code) { sd->vtable->exit(sd, code); }
+inline void mee_shutdown_exit(const struct mee_shutdown *sd, int code) __attribute__((noreturn));
+inline void mee_shutdown_exit(const struct mee_shutdown *sd, int code) { sd->vtable->exit(sd, code); }
 
 /* The public MEE shutdown interface, which allows us to turn off the machine
  * when posible. */
