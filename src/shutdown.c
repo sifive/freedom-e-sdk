@@ -3,6 +3,8 @@
 
 #include <mee/shutdown.h>
 
+extern inline void mee_shutdown_exit(const struct mee_shutdown *sd, int code);
+
 #if defined(__MEE_DT_SHUTDOWN_HANDLE)
 void mee_shutdown(int code)
 {
