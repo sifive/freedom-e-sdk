@@ -80,7 +80,6 @@ libmee_@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/sifive,test0.c \
 	src/drivers/sifive,gpio0.c \
 	src/drivers/sifive,uart0.c \
-	src/before_main.c \
 	src/clock.c \
 	src/tty.c \
 	src/shutdown.c \
@@ -113,6 +112,13 @@ hello_CFLAGS          = -mmee-machine=@MACHINE_NAME@
 hello_CFLAGS         += -ffunction-sections -fdata-sections
 hello_CFLAGS         += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
 hello_LDFLAGS         = -L. -Wl,--gc-sections -Wl,-Map=hello.map
+
+check_PROGRAMS       += pll_set_hz
+pll_set_hz_SOURCES    = test/pll_set_hz.c
+pll_set_hz_CFLAGS     = -mmee-machine=@MACHINE_NAME@
+pll_set_hz_CFLAGS    += -ffunction-sections -fdata-sections
+pll_set_hz_CFLAGS    += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+pll_set_hz_LDFLAGS    = -L. -Wl,--gc-sections -Wl,-Map=pll_set_hz.map
 
 # Extra clean targets
 clean-local:

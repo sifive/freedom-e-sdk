@@ -51,7 +51,8 @@ The MEE follows the standard RISC-V bootloader ABI when calling
 * `a1` contains a pointer to the machine description.  The MEE always
   sets this to NULL, as machines are described staticly.
 * `a2` contains a callback that should be called from within the child
-  environment after it has initialized itself.
+  environment after it has initialized itself.  The MEE always sets this
+  to NULL, as initialization is performed using constructors.
 
 This can be described as a the C function `void _start(long hartid,
 unsigned char *dtb, void (*after_init)(void))'.  Note that the MEE does

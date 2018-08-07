@@ -15,6 +15,7 @@
 .dirstamp
 .deps
 /hello
+/pll_set_hz
 /mee/machines
 /machine.dtb
 *.lds
