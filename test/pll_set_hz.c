@@ -8,6 +8,7 @@
 #define PLL_MAX_OUT 320000000
 
 void main() {
+#ifdef __MEE_DT_SIFIVE_FE310_G000_PLL_HANDLE
     struct mee_clock * pll = __ME_DT_SIFIVE_FE310_G000_PLL_HANDLE;
 
     printf("Test harness for FE310-G000 PLL Set Frequency\n\n");
@@ -24,4 +25,7 @@ void main() {
     }
 
     printf("--- Complete ---\n");
+#else
+    printf("Unable to run fe310-g000 PLL test case as there is no PLL\n");
+#endif
 }

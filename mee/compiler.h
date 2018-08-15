@@ -4,11 +4,11 @@
 #ifndef MEE__COMPILER_H
 #define MEE__COMPILER_H
 
-#define MEE_DECLARE_VTABLE(type)                        \
-    asm(".weak " #type);                                \
-    const struct type type                              \
+#define __MEE_DECLARE_VTABLE(type)                        \
+    asm(".weak " #type);                                  \
+    const struct type type                                \
 
-#define MEE_GET_FIELD(reg, mask)                        \
+#define __MEE_GET_FIELD(reg, mask)                        \
     (((reg) & (mask)) / ((mask) & ~((mask) << 1)))
 
 static inline long abs(long val)

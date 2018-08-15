@@ -18,7 +18,7 @@ struct __mee_driver_vtable_sifive_fe310_g000_pll {
     struct __mee_clock_vtable clock;
 };
 
-MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_fe310_g000_pll) = {
+__MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_fe310_g000_pll) = {
     .init = __mee_driver_sifive_fe310_g000_pll_init,
     .clock.get_rate_hz = __mee_driver_sifive_fe310_g000_pll_get_rate_hz,
     .clock.set_rate_hz = __mee_driver_sifive_fe310_g000_pll_set_rate_hz,

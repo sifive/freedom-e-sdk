@@ -146,19 +146,19 @@ static void mee_sifive_fe310_g000_pll_init(void) {
 #endif /* __MEE_DT_SIFIVE_FE310_G000__PLL_HANDLE */
 
 void __mee_driver_sifive_fe310_g000_pll_init(struct __mee_driver_sifive_fe310_g000_pll *pll) {
-    mee_io_u32 *pllcfg = (mee_io_u32 *) (pll->config_base->base + pll->config_offset);
+    __mee_io_u32 *pllcfg = (__mee_io_u32 *) (pll->config_base->base + pll->config_offset);
 
     /* If the PLL clock has had a pre_rate_change_callback configured, call it */
     if(pll->clock.pre_rate_change_callback != NULL)
         pll->clock.pre_rate_change_callback(pll->clock.pre_rate_change_callback_priv);
 
     /* If we're running off of the PLL, switch off before we start configuring it*/
-    if((MEE_ACCESS_ONCE(pllcfg) & PLL_SEL) == 0)
-        MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_SEL);
+    if((__MEE_ACCESS_ONCE(pllcfg) & PLL_SEL) == 0)
+        __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_SEL);
 
     /* Make sure we're running off of the external oscillator for stability */
     if(pll->pllref != NULL)
-        MEE_ACCESS_ONCE(pllcfg) |= PLL_REFSEL;
+        __MEE_ACCESS_ONCE(pllcfg) |= PLL_REFSEL;
 
     /* Configure the PLL to run at the requested init frequency.
      * Using the vtable instead of the user API because we want to control
@@ -178,33 +178,33 @@ long __mee_driver_sifive_fe310_g000_pll_get_rate_hz(const struct mee_clock *cloc
 
     /* At the end of the PLL there's one big mux: it either selects the HFROSC
      * (bypassing the PLL entirely) or uses the PLL. */
-    if (MEE_GET_FIELD(cfg, PLL_SEL) == 0)
+    if (__MEE_GET_FIELD(cfg, PLL_SEL) == 0)
         return mee_clock_get_rate_hz(clk->pllsel0);
 
     /* There's a clock mux before the PLL that selects between the HFROSC adn
      * the HFXOSC as the PLL's input clock. */
-    long ref_hz = mee_clock_get_rate_hz(MEE_GET_FIELD(cfg, PLL_REFSEL) ? clk->pllref : clk->pllsel0);
+    long ref_hz = mee_clock_get_rate_hz(__MEE_GET_FIELD(cfg, PLL_REFSEL) ? clk->pllref : clk->pllsel0);
 
     /* It's possible to bypass the PLL, which is an internal bpyass.  This
      * still obays the PLL's input clock mu. */
-    if (MEE_GET_FIELD(cfg, PLL_BYPASS))
+    if (__MEE_GET_FIELD(cfg, PLL_BYPASS))
         return ref_hz;
 
     /* Logically the PLL is a three stage div-mul-div. */
-    long div_r = MEE_GET_FIELD(cfg, PLL_R) + 1;
-    long mul_f = 2 * (MEE_GET_FIELD(cfg, PLL_F) + 1);
-    if (MEE_GET_FIELD(cfg, PLL_Q) == 0)
+    long div_r = __MEE_GET_FIELD(cfg, PLL_R) + 1;
+    long mul_f = 2 * (__MEE_GET_FIELD(cfg, PLL_F) + 1);
+    if (__MEE_GET_FIELD(cfg, PLL_Q) == 0)
         return -1;
-    long div_q = 1 << MEE_GET_FIELD(cfg, PLL_Q);
+    long div_q = 1 << __MEE_GET_FIELD(cfg, PLL_Q);
 
     /* In addition to the dividers inherent in the PLL, there's an additional
      * clock divider that lives after the PLL and lets us pick a more
      * interesting range of frequencies. */
     long pllout = (((ref_hz / div_r) * mul_f) / div_q);
-    if (MEE_GET_FIELD(div, DIV_1))
+    if (__MEE_GET_FIELD(div, DIV_1))
         return pllout;
 
-    return pllout / (2 * (MEE_GET_FIELD(div, DIV_DIV) + 1));
+    return pllout / (2 * (__MEE_GET_FIELD(div, DIV_DIV) + 1));
 }
 
 /* Find a valid configuration for the PLL which is closest to the desired
@@ -240,57 +240,57 @@ static int find_closest_config(long ref_hz, long rate)
 }
 
 /* Configure the PLL and wait for it to lock */
-static void configure_pll(mee_io_u32 *pllcfg, mee_io_u32 *plloutdiv, struct pll_config_t *config)
+static void configure_pll(__mee_io_u32 *pllcfg, __mee_io_u32 *plloutdiv, struct pll_config_t *config)
 {
-    MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_R);
-    MEE_ACCESS_ONCE(pllcfg) |= PLL_R_SHIFT(config->r);
+    __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_R);
+    __MEE_ACCESS_ONCE(pllcfg) |= PLL_R_SHIFT(config->r);
 
-    MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_F);
-    MEE_ACCESS_ONCE(pllcfg) |= PLL_F_SHIFT(config->f);
+    __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_F);
+    __MEE_ACCESS_ONCE(pllcfg) |= PLL_F_SHIFT(config->f);
 
-    MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_Q);
-    MEE_ACCESS_ONCE(pllcfg) |= PLL_Q_SHIFT(config->q);
+    __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_Q);
+    __MEE_ACCESS_ONCE(pllcfg) |= PLL_Q_SHIFT(config->q);
 
     if(config->d < 0)
     {
         /* disable final divider */
-        MEE_ACCESS_ONCE(plloutdiv) |= DIV_1;
+        __MEE_ACCESS_ONCE(plloutdiv) |= DIV_1;
 
-        MEE_ACCESS_ONCE(plloutdiv) &= ~(DIV_DIV);
-        MEE_ACCESS_ONCE(plloutdiv) |= PLL_DIV_SHIFT(1);
+        __MEE_ACCESS_ONCE(plloutdiv) &= ~(DIV_DIV);
+        __MEE_ACCESS_ONCE(plloutdiv) |= PLL_DIV_SHIFT(1);
     }
     else
     {
-        MEE_ACCESS_ONCE(plloutdiv) &= ~(DIV_1);
+        __MEE_ACCESS_ONCE(plloutdiv) &= ~(DIV_1);
 
-        MEE_ACCESS_ONCE(plloutdiv) &= ~(DIV_DIV);
-        MEE_ACCESS_ONCE(plloutdiv) |= PLL_DIV_SHIFT(config->d);
+        __MEE_ACCESS_ONCE(plloutdiv) &= ~(DIV_DIV);
+        __MEE_ACCESS_ONCE(plloutdiv) |= PLL_DIV_SHIFT(config->d);
     }
 
-    MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_BYPASS);
+    __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_BYPASS);
 
     /* Wait for PLL to lock */
-    while((MEE_ACCESS_ONCE(pllcfg) & PLL_LOCK) == 0) ;
+    while((__MEE_ACCESS_ONCE(pllcfg) & PLL_LOCK) == 0) ;
 }
 
 long __mee_driver_sifive_fe310_g000_pll_set_rate_hz(struct mee_clock *clock, long rate)
 {
     struct __mee_driver_sifive_fe310_g000_pll *clk = (void *)clock;
-    mee_io_u32 *pllcfg = (mee_io_u32 *) (clk->config_base->base + clk->config_offset);
-    mee_io_u32 *plloutdiv = (mee_io_u32 *) (clk->divider_base->base + clk->divider_offset);
+    __mee_io_u32 *pllcfg = (__mee_io_u32 *) (clk->config_base->base + clk->config_offset);
+    __mee_io_u32 *plloutdiv = (__mee_io_u32 *) (clk->divider_base->base + clk->divider_offset);
 
     /* We can't modify the PLL if coreclk is driven by it, so switch it off */
-    if (MEE_ACCESS_ONCE(pllcfg) & PLL_SEL)
-        MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_SEL);
+    if (__MEE_ACCESS_ONCE(pllcfg) & PLL_SEL)
+        __MEE_ACCESS_ONCE(pllcfg) &= ~(PLL_SEL);
 
     /* There's a clock mux before the PLL that selects between the HFROSC and
      * the HFXOSC as the PLL's input clock. */
-    long ref_hz = mee_clock_get_rate_hz(MEE_ACCESS_ONCE(pllcfg) & PLL_REFSEL ? clk->pllref : clk->pllsel0);
+    long ref_hz = mee_clock_get_rate_hz(__MEE_ACCESS_ONCE(pllcfg) & PLL_REFSEL ? clk->pllref : clk->pllsel0);
 
     /* if the desired rate is within 75%-125% of the input clock, bypass the PLL */
     if((ref_hz * 3 / 4) <= rate && (ref_hz * 5 / 4) >= rate)
     {
-        MEE_ACCESS_ONCE(pllcfg) |= PLL_BYPASS;
+        __MEE_ACCESS_ONCE(pllcfg) |= PLL_BYPASS;
     }
     else
     {
@@ -302,12 +302,12 @@ long __mee_driver_sifive_fe310_g000_pll_set_rate_hz(struct mee_clock *clock, lon
         else
         {
             /* unable to find a valid configuration */
-            MEE_ACCESS_ONCE(pllcfg) |= PLL_BYPASS;
+            __MEE_ACCESS_ONCE(pllcfg) |= PLL_BYPASS;
         }
     }
 
     /* Enable the PLL */
-    MEE_ACCESS_ONCE(pllcfg) |= PLL_SEL;
+    __MEE_ACCESS_ONCE(pllcfg) |= PLL_SEL;
 
     return __mee_driver_sifive_fe310_g000_pll_get_rate_hz(clock);
 }

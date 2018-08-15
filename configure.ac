@@ -139,6 +139,24 @@ AS_IF([test "x$MAKEATTRIBUTES_GENERATOR" != "xno"],
     [AC_MSG_ERROR([Unable to find freedom-makeattributes-generator, either place it in PATH or try the --with-makeattributes-generator argument.])]
 )
 
+# Allows users to specify a path to freedom-mee_specs-generator, which
+# generates GCC spec files to control the compilation of MEE based targets.
+AC_ARG_WITH([mee_specs-generator],
+    [AS_HELP_STRING([--with-mee_specs-generator=PATH], [Use the given path to freedom-mee_specs-generator])],
+    [],
+    [with_mee_specs_generator=check]
+)
+
+AC_ARG_VAR(SPECS_GENERATOR, [The absolute path of the freedom-mee_specs-generator])
+AS_IF([test "x$with_mee_specs_generator" == "xcheck"],
+    [AC_PATH_PROG(SPECS_GENERATOR, freedom-mee_specs-generator, [no])],
+    [SPECS_GENERATOR=$with_mee_specs_generator]
+)
+AS_IF([test "x$SPECS_GENERATOR" != "xno"],
+    [AC_SUBST([SPECS_GENERATOR], "$SPECS_GENERATOR")],
+    [AC_MSG_ERROR([Unable to find freedom-mee_specs-generator, either place it in PATH or try the --with-mee_specs-generator argument.])]
+)
+
 # Generates the remainder of the build system.
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

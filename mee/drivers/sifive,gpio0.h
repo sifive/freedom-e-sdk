@@ -14,7 +14,7 @@ struct __mee_driver_vtable_sifive_gpio0 {
     long (*enable_io)(const struct __mee_driver_sifive_gpio0 *, long source, long dest);
 };
 
-MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_gpio0) = {
+__MEE_DECLARE_VTABLE(__mee_driver_vtable_sifive_gpio0) = {
     .enable_io = __mee_driver_sifive_gpio0_enable_io,
 };
 
