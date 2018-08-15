@@ -8,19 +8,38 @@
 %.c: mee/machine/@MACHINE_NAME@.h
 %.S: mee/machine/@MACHINE_NAME@.h
 %.o: mee/machine/@MACHINE_NAME@.h
+%.c: riscv__menv__mee.specs
+%.S: riscv__menv__mee.specs
+%.o: riscv__menv__mee.specs
+%.c: riscv__mmachine__@MACHINE_NAME@.specs
+%.S: riscv__mmachine__@MACHINE_NAME@.specs
+%.o: riscv__mmachine__@MACHINE_NAME@.specs
 
 # Every test depends on the generated linker script.
-$(check_PROGRAMS): mee-@MACHINE_NAME@.lds
+$(check_PROGRAMS): riscv__mmachine__@MACHINE_NAME@.lds
 
 # Every test depends on the freshly-compiled library.
-$(check_PROGRAMS): libmee-@MACHINE_NAME@.a
+$(check_PROGRAMS): libriscv__mmachine__@MACHINE_NAME@.a
 
 # Generates a linker script that's more reasonable that whatever GCC's default
 # is.
 ldsdir = $(libdir)
-lds_DATA = mee-@MACHINE_NAME@.lds
-mee-@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
+lds_DATA = riscv__mmachine__@MACHINE_NAME@.lds
+riscv__mmachine__@MACHINE_NAME@.lds: @LDSCRIPT_GENERATOR@ @MACHINE_NAME@.dtb
 	$< --dtb $(filter %.dtb,$^) --linker $@
+
+# Generates a SPEC file that sets a reasonable set of default options for this
+# build.
+specdir = $(libdir)
+spec_DATA =
+
+spec_DATA += riscv__mmachine__@MACHINE_NAME@.specs
+riscv__mmachine__@MACHINE_NAME@.specs: @SPECS_GENERATOR@ @MACHINE_NAME@.dtb
+	$< --dtb $(filter %.dtb,$^) --specs $@ --prefix @prefix@ --machine @MACHINE_NAME@
+
+spec_DATA += riscv__menv__mee.specs
+riscv__menv__mee.specs: riscv__menv__mee.specs.in
+	cat $^ > $@
 
 # In order to generate code that's actually compatible with a machine we must
 # pass the march and mabi arguments to GCC that coorespond to the hardware.
@@ -45,6 +64,7 @@ nobase_include_HEADERS = \
 	mee/compiler.h \
 	mee/clock.h \
 	mee/io.h \
+	mee/machine.h \
 	mee/shutdown.h \
 	mee/tty.h \
 	mee/uart.h
@@ -64,14 +84,12 @@ mee/machine/@MACHINE_NAME@.h: @MEE_HEADER_GENERATOR@ @MACHINE_NAME@.dtb
 # Everything in here is compiled into a single library, which contains all the
 # source files in the project.  It's named for one specific machine, which GCC
 # uses to select the target machine that this MEE implementation points at.
-lib_LIBRARIES = libmee-@MACHINE_NAME@.a
+lib_LIBRARIES = libriscv__mmachine__@MACHINE_NAME@.a
 
-libmee_@MACHINE_NAME@_a_CFLAGS  = -mmee-machine=@MACHINE_NAME@
-libmee_@MACHINE_NAME@_a_CFLAGS += -ffunction-sections -fdata-sections
-libmee_@MACHINE_NAME@_a_CFLAGS += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
-libmee_@MACHINE_NAME@_a_CCASFLAGS = $(libmee_@MACHINE_NAME@_a_CFLAGS) -DASSEMBLY
+libriscv__mmachine__@MACHINE_NAME@_a_CFLAGS  = -menv=mee -mmachine=@MACHINE_NAME@
+libriscv__mmachine__@MACHINE_NAME@_a_CCASFLAGS = -menv=mee -mmachine=@MACHINE_NAME@
 
-libmee_@MACHINE_NAME@_a_SOURCES = \
+libriscv__mmachine__@MACHINE_NAME@_a_SOURCES = \
 	src/drivers/fixed-clock.c \
 	src/drivers/sifive,fe310-g000,hfrosc.c \
 	src/drivers/sifive,fe310-g000,hfxosc.c \
@@ -92,37 +110,28 @@ check_PROGRAMS =
 # The simplest possible pair of tests: one that passes and one that fails
 check_PROGRAMS       += return_pass
 return_pass_SOURCES   = test/return_pass.c
-return_pass_CFLAGS    = -mmee-machine=@MACHINE_NAME@
-return_pass_CFLAGS   += -ffunction-sections -fdata-sections
-return_pass_CFLAGS   += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+return_pass_CFLAGS    = -menv=mee -mmachine=@MACHINE_NAME@
 return_pass_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=return_pass.map
 
 check_PROGRAMS       += return_fail
 return_fail_SOURCES   = test/return_fail.c
-return_fail_CFLAGS    = -mmee-machine=@MACHINE_NAME@
-return_fail_CFLAGS   += -ffunction-sections -fdata-sections
-return_fail_CFLAGS   += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+return_fail_CFLAGS    = -menv=mee -mmachine=@MACHINE_NAME@
 return_fail_LDFLAGS   = -L. -Wl,--gc-sections -Wl,-Map=return_fail.map
 
 # A simple "Hello, World!" program that directly uses the MEE interface to
 # print to the serial terminal.
 check_PROGRAMS       += hello
 hello_SOURCES         = test/hello.c
-hello_CFLAGS          = -mmee-machine=@MACHINE_NAME@
-hello_CFLAGS         += -ffunction-sections -fdata-sections
-hello_CFLAGS         += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+hello_CFLAGS          = -menv=mee -mmachine=@MACHINE_NAME@
 hello_LDFLAGS         = -L. -Wl,--gc-sections -Wl,-Map=hello.map
 
 check_PROGRAMS       += pll_set_hz
 pll_set_hz_SOURCES    = test/pll_set_hz.c
-pll_set_hz_CFLAGS     = -mmee-machine=@MACHINE_NAME@
-pll_set_hz_CFLAGS    += -ffunction-sections -fdata-sections
-pll_set_hz_CFLAGS    += -march=$(FRAMEWORK_BOARD_DTS_MARCH) -mabi=$(FRAMEWORK_BOARD_DTS_MABI)
+pll_set_hz_CFLAGS     = -menv=mee -mmachine=@MACHINE_NAME@
 pll_set_hz_LDFLAGS    = -L. -Wl,--gc-sections -Wl,-Map=pll_set_hz.map
 
 # Extra clean targets
 clean-local:
 	-rm -rf @MACHINE_NAME@.mk
 	-rm -rf mee/machine/@MACHINE_NAME@.h @MACHINE_NAME@.dtb mee-@MACHINE_NAME@.lds
-	-rm -rf return_pass.map return_fail.map
-	-rm -rf hello.map
+	-rm -rf *.map *.specs

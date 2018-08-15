@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 
 #include <mee/uart.h>
+#include <mee/machine.h>
 
 #if defined(__MEE_DT_STDOUT_UART_HANDLE)
 /* This implementation serves as a small shim that interfaces with the first

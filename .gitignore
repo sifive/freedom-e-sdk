@@ -25,3 +25,4 @@
 *.mk
 /return_pass
 /return_fail
+*.specs
