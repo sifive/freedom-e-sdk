@@ -85,14 +85,14 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreplexip-arty.h</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-arty.h</locationURI>
-		</link>
-		<link>
 			<name>bsp/env/coreip-e2-arty</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>bsp/env/coreplexip-arty.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreplexip-arty.h</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/encoding.h</name>
@@ -140,16 +140,6 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/fe300prci/fe300prci_driver.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreip-e2-arty/tim-split.lds</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/tim-split.lds</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/coreip-e2-arty/tim.lds</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/tim.lds</locationURI>
-		</link>
-		<link>
 			<name>bsp/env/coreip-e2-arty/flash.lds</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/flash.lds</locationURI>
@@ -170,14 +160,19 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/platform.h</locationURI>
 		</link>
 		<link>
-			<name>bsp/env/coreip-e2-arty/scratchpad.lds</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/scratchpad.lds</locationURI>
-		</link>
-		<link>
 			<name>bsp/env/coreip-e2-arty/settings.mk</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/settings.mk</locationURI>
+		</link>
+		<link>
+			<name>bsp/env/coreip-e2-arty/tim-split.lds</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/tim-split.lds</locationURI>
+		</link>
+		<link>
+			<name>bsp/env/coreip-e2-arty/tim.lds</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/tim.lds</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive/bits.h</name>
@@ -328,6 +323,11 @@
 			<name>bsp/include/sifive/devices/aon.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/devices/aon.h</locationURI>
+		</link>
+		<link>
+			<name>bsp/include/sifive/devices/clic.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/devices/clic.h</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive/devices/clint.h</name>

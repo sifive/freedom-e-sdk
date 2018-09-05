@@ -120,14 +120,9 @@
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/clic/clic_driver.c</locationURI>
 		</link>
 		<link>
-			<name>bsp/drivers/clic/plic_driver.h</name>
+			<name>bsp/drivers/clic/clic_driver.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/drivers/clic/clic_driver.h</locationURI>
-		</link>
-		<link>
-			<name>bsp/env/coreip-e2-arty/dhrystone.lds</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/bsp/env/coreip-e2-arty/dhrystone.lds</locationURI>
 		</link>
 		<link>
 			<name>bsp/env/coreip-e2-arty/flash.lds</name>
@@ -313,6 +308,11 @@
 			<name>bsp/include/sifive/devices/aon.h</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/devices/aon.h</locationURI>
+		</link>
+		<link>
+			<name>bsp/include/sifive/devices/clic.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/bsp/include/sifive/devices/clic.h</locationURI>
 		</link>
 		<link>
 			<name>bsp/include/sifive/devices/clint.h</name>
