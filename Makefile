@@ -68,7 +68,7 @@ help:
 	@echo "  SiFive Freedom E Software Development Kit "
 	@echo "  Makefile targets:"
 	@echo ""
-	@echo " tools [BOARD = $(BOARD)]:"
+	@echo " tools [BOARD=$(BOARD)]:"
 	@echo "    Install compilation & debugging tools to target your desired board."
 	@echo ""
 	@echo " toolchain-clean:"
