@@ -30,7 +30,7 @@ void clic_init (
   this_clic->num_config_bits= num_config_bits;
 
   //initialize vector table
-  for(int i=0;i++;i<num_irq)  {
+  for(int i=0;i<num_irq;i++)  {
     this_clic->vect_table[i] = default_handler;
   }
 
