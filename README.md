@@ -4,8 +4,6 @@ This repository, maintained by SiFive, Inc, makes it easy to get started develop
 
 ### Contents ###
 
-* RISC-V Software Toolchain 
-* RISC-V Debugging Toolchain
 * Board Support Packages for FE310 and Development Kits
 * A Few Example Programs
 
@@ -24,33 +22,15 @@ cd freedom-e-sdk
 make help
 ```
 
-#### Building Tools from Source ####
+#### Install the RISC-V Toolchain ####
 
-Ubuntu packages needed:
+The RISC-V GNU Toolchain and OpenOCD are available from the SiFive Website at
 
-	$ sudo apt-get install autoconf automake libmpc-dev libmpfr-dev libgmp-dev gawk bison flex texinfo libtool libusb-1.0-0-dev make g++ pkg-config libexpat1-dev zlib1g-dev  
+https://www.sifive.com/boards
 
-Next, build the tools:
-
-```
-cd freedom-e-sdk
-make tools [BOARD=freedom-e300-hifive1]
-```
-
-If your machine has enough resources, you can speed up the build process by adding `-j n` to `make`, where `n` is the number of processors of your build system.
-
-
-#### Using Pre-Built Binary Tools ####
-
-If you would like to avoid compiling the tools from source, they are
-available as pre-built binaries from
-
-https://www.sifive.com/products/tools
-
-For OpenOCD and/or RISC-V GNU Toolchain,
-download the .tar.gz for your platform, and unpack it to
-your desired location. Then, use the `RISCV_PATH` and `RISCV_OPENOCD_PATH`
-variables when attempting to use the tools:
+For OpenOCD and/or RISC-V GNU Toolchain, download the .tar.gz for your platform,
+and unpack it to your desired location. Then, use the `RISCV_PATH` and
+`RISCV_OPENOCD_PATH` variables when attempting to use the tools:
 
 ```
 cp openocd-<date>-<platform>.tar.gz /my/desired/location/
