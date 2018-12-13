@@ -1,0 +1,3 @@
+[submodule "software/hello"]
+	path = software/hello
+	url = https://github.com/sifive/example-hello.git
