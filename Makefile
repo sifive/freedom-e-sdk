@@ -192,16 +192,41 @@ mee_install: mee
 	$(MAKE) -C $(MEE_SOURCE_PATH) install
 
 #############################################################
+# This Section is for elf2hex Compliation
+#############################################################
+scripts/elf2hex/build/Makefile: scripts/elf2hex/configure
+	@rm -rf $(dir $@)
+	@mkdir -p $(dir $@)
+	cd $(dir $@); \
+		$(abspath $<) \
+		--prefix=$(abspath $(dir $<))/install \
+		--target=$(CROSS_COMPILE)
+
+scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex: scripts/elf2hex/build/Makefile
+	$(MAKE) -C $(dir $<) install
+	touch -c $@
+
+.PHONY: clean-elf2hex
+clean-elf2hex:
+	rm -rf scripts/elf2hex/build scripts/elf2hex/install
+clean: clean-elf2hex
+
+#############################################################
 # This Section is for Software Compilation
 #############################################################
 PROGRAM_ELF = software/$(PROGRAM)/$(PROGRAM)
+PROGRAM_HEX = software/$(PROGRAM)/$(PROGRAM).hex
 
 ifeq ($(BSP),mee)
 .PHONY: software
 software: $(PROGRAM_ELF)
 
+ifneq ($(COREIP_MEM_WIDTH),)
+software: $(PROGRAM_HEX)
+endif
+
 $(PROGRAM_ELF): \
-		$(shell find $(abspath $(dir $(PROGRAM_ELF))) -type f) \
+		$(addprefix software/$(PROGRAM)/,$(shell git -C software/$(PROGRAM) ls-files)) \
 		$(MEE_BSP_PATH)/install/lib/libmee.a \
 		$(MEE_BSP_PATH)/install/lib/libmee-gloss.a \
 		$(MEE_BSP_PATH)/mee.lds
@@ -213,6 +238,11 @@ $(PROGRAM_ELF): \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
 		LDLIBS="-Wl,--start-group -lc -lmee -lmee-gloss -Wl,--end-group"
 	touch -c $@
+
+$(PROGRAM_HEX): \
+		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
+		$(PROGRAM_ELF)
+	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
 
 .PHONY: clean-software
 clean-software:

@@ -1,4 +1,3 @@
-#write_config_file
-
 RISCV_ARCH=rv64imac
 RISCV_ABI=lp64
+COREIP_HEX_WIDTH=32
