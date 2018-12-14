@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+unset elf
+unset cfg
+unset openocd
+unset gdb
+while [[ "$1" != "" ]]
+do
+    case "$1"
+    in
+    --elf)                 elf="$2";     shift 2;;
+    --openocd)             openocd="$2"; shift 2;;
+    --openocd-config)      cfg="$2";     shift 2;;
+    --gdb)                 gdb="$2";     shift 2;;
+    *) echo "$0: Unknown argument $1";   exit 1;;
+    esac
+done
+
+if [[ "$elf" == "" ]]
+then
+    echo "$0: --elf is required" >&2
+    exit 1
+fi
+
+export GDB_PORT=3333
+
+$openocd -f $cfg &
+
+$gdb $elf -ex "set remotetimeout 240" -ex "target extended-remote localhost:${GDB_PORT}"
+
+kill %1
