@@ -4,3 +4,6 @@
 [submodule "freedom-mee"]
 	path = freedom-mee
 	url = https://github.com/sifive/freedom-mee.git
+[submodule "scripts/elf2hex"]
+	path = scripts/elf2hex
+	url = ../elf2hex
