@@ -29,6 +29,7 @@
 #include <mee/drivers/sifive,gpio0.h>
 #include <mee/drivers/sifive,uart0.h>
 #include <mee/drivers/sifive,local-external-interrupts0.h>
+#include <mee/drivers/sifive,spi0.h>
 /* From cpu@0 */
 asm (".weak __mee_dt_cpu_0");
 struct __mee_driver_cpu __mee_dt_cpu_0;
@@ -85,6 +86,14 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_10012000;
 asm (".weak __mee_dt_serial_10013000");
 struct __mee_driver_sifive_uart0 __mee_dt_serial_10013000;
 
+/* From spi@10014000 */
+asm (".weak __mee_dt_spi_10014000");
+struct __mee_driver_sifive_spi0 __mee_dt_spi_10014000;
+
+/* From spi@10024000 */
+asm (".weak __mee_dt_spi_10024000");
+struct __mee_driver_sifive_spi0 __mee_dt_spi_10024000;
+
 /* From cpu@0 */
 struct __mee_driver_cpu __mee_dt_cpu_0 = {
     .vtable = &__mee_driver_vtable_cpu,
@@ -135,7 +144,7 @@ struct __mee_driver_riscv_cpu_intc __mee_dt_interrupt_controller = {
 /* From clint@2000000 */
 struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
     .vtable = &__mee_driver_vtable_riscv_clint0,
-    .clint.vtable = &__mee_driver_vtable_riscv_clint0.clint_vtable,
+    .controller.vtable = &__mee_driver_vtable_riscv_clint0.clint_vtable,
     .control_base = 33554432UL,
     .control_size = 65536UL,
     .init_done = 0,
@@ -146,9 +155,9 @@ struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
 };
 
 /* From clint@2000000 */
-#define __MEE_DT_RISCV_CLINT0_HANDLE (&__mee_dt_clint_2000000.clint)
+#define __MEE_DT_RISCV_CLINT0_HANDLE (&__mee_dt_clint_2000000.controller)
 
-#define __MEE_DT_CLINT_2000000_HANDLE (&__mee_dt_clint_2000000.clint)
+#define __MEE_DT_CLINT_2000000_HANDLE (&__mee_dt_clint_2000000.controller)
 
 /* From local_external_interrupts_0 */
 struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_interrupts_0 = {
@@ -184,7 +193,7 @@ struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_in
 /* From interrupt_controller@c000000 */
 struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
     .vtable = &__mee_driver_vtable_riscv_plic0,
-    .plic0.vtable = &__mee_driver_vtable_riscv_plic0.controller_vtable,
+    .controller.vtable = &__mee_driver_vtable_riscv_plic0.plic_vtable,
     .init_done = 0,
 /* From interrupt_controller */
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
@@ -197,9 +206,9 @@ struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
 };
 
 /* From interrupt_controller@c000000 */
-#define __MEE_DT_RISCV_PLIC0_HANDLE (&__mee_dt_interrupt_controller_c000000.plic0)
+#define __MEE_DT_RISCV_PLIC0_HANDLE (&__mee_dt_interrupt_controller_c000000.controller)
 
-#define __MEE_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__mee_dt_interrupt_controller_c000000.plic0)
+#define __MEE_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__mee_dt_interrupt_controller_c000000.controller)
 
 /* From clock@4 */
 struct __mee_driver_sifive_fe310_g000_pll __mee_dt_clock_4 = {
@@ -258,7 +267,7 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_10012000 = {
     .base = 268509184UL,
     .size = 4096UL,
 /* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
     .num_interrupts = MEE_MAX_GPIO_INTERRUPTS,
     .interrupt_lines[0] = 7,
     .interrupt_lines[1] = 8,
@@ -291,9 +300,37 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_10013000 = {
     .pinmux_output_selector = 196608UL,
     .pinmux_source_selector = 196608UL,
 /* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
     .num_interrupts = MEE_MAX_UART_INTERRUPTS,
     .interrupt_line = 5UL,
+};
+
+/* From spi@10014000 */
+struct __mee_driver_sifive_spi0 __mee_dt_spi_10014000 = {
+    .vtable = &__mee_driver_vtable_sifive_spi0,
+    .spi.vtable = &__mee_driver_vtable_sifive_spi0.spi,
+    .control_base = 268517376UL,
+    .control_size = 4096UL,
+/* From clock@4 */
+    .clock = &__mee_dt_clock_4.clock,
+/* From gpio@10012000 */
+    .pinmux = &__mee_dt_gpio_10012000,
+    .pinmux_output_selector = 0UL,
+    .pinmux_source_selector = 0UL,
+};
+
+/* From spi@10024000 */
+struct __mee_driver_sifive_spi0 __mee_dt_spi_10024000 = {
+    .vtable = &__mee_driver_vtable_sifive_spi0,
+    .spi.vtable = &__mee_driver_vtable_sifive_spi0.spi,
+    .control_base = 268582912UL,
+    .control_size = 4096UL,
+/* From clock@4 */
+    .clock = &__mee_dt_clock_4.clock,
+/* From gpio@10012000 */
+    .pinmux = &__mee_dt_gpio_10012000,
+    .pinmux_output_selector = 60UL,
+    .pinmux_source_selector = 60UL,
 };
 
 /* From serial@10013000 */
@@ -324,6 +361,13 @@ struct __mee_driver_sifive_gpio_button *__mee_button_table[] = {
 asm (".weak __mee_switch_table");
 struct __mee_driver_sifive_gpio_switch *__mee_switch_table[] = {
 					NULL };
+#define __MEE_DT_MAX_SPIS 2
+
+asm (".weak __mee_spi_table");
+struct __mee_driver_sifive_spi0 *__mee_spi_table[] = {
+					&__mee_dt_spi_10014000,
+					&__mee_dt_spi_10024000,
+};
 #endif /*MEE__MACHINE__SIFIVE_HIFIVE1__MEE_H*/
 
 #endif/*ASSEMBLY*/

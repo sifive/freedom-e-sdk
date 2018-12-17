@@ -8,7 +8,7 @@
 
         chosen {
                 stdout-path = "/soc/serial@10013000:115200";
-                mee,entry = <&sip0 0x400000>;
+                mee,entry = <&spi0 0x400000>;
         };
 
         cpus {
@@ -22,7 +22,7 @@
                         i-cache-block-size = <64>;
                         i-cache-sets = <128>;
                         i-cache-size = <16384>;
-                        next-level-cache = <&sip0>;
+                        next-level-cache = <&spi0>;
                         reg = <0>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
@@ -170,12 +170,23 @@
                         clocks = <&hfclk>;
                         pinmux = <&gpio0 0x30000 0x30000>;
                 };
-                sip0: spi@10014000 {
+                spi0: spi@10014000 {
                         compatible = "sifive,spi0";
                         interrupt-parent = <&plic>;
                         interrupts = <6>;
                         reg = <0x10014000 0x1000 0x20000000 0x20000000>;
                         reg-names = "control", "mem";
+                        clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x00000 0x00000>;
+                };
+                spi1: spi@10024000 {
+                        compatible = "sifive,spi0";
+                        interrupt-parent = <&plic>;
+                        interrupts = <7>;
+                        reg = <0x10024000 0x1000 0x20000000 0x20000000>;
+                        reg-names = "control", "mem";
+                        clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x0003C 0x0003C>;
                 };
         };
 };
