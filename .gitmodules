@@ -25,3 +25,6 @@
 [submodule "software/return-pass"]
 	path = software/return-pass
 	url = https://github.com/sifive/example-return-pass.git
+[submodule "software/example-spi"]
+	path = software/example-spi
+	url = https://github.com/sifive/example-spi.git
