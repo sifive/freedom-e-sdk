@@ -231,6 +231,7 @@ $(PROGRAM_ELF): \
 		$(MEE_BSP_PATH)/install/lib/libmee-gloss.a \
 		$(MEE_BSP_PATH)/mee.lds
 	$(MAKE) -C $(dir $@) $(notdir $@) \
+		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
 		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g" \
