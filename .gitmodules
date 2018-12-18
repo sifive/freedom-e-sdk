@@ -7,3 +7,6 @@
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
 	url = ../elf2hex
+[submodule "software/software-interrupt"]
+	path = software/software-interrupt
+	url = git@github.com:sifive/example-software-interrupt.git

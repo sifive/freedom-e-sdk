@@ -121,7 +121,7 @@
                         riscv,ndev = <26>;
                 };
                 global-external-interrupts {
-                        compatile = "sifive,global-external-interrupts0";
+                        compatible = "sifive,global-external-interrupts0";
                         interrupt-parent = <&plic>;
                         interrupts = <1 2 3 4>;
                 };
