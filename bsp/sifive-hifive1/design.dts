@@ -26,7 +26,6 @@
                         reg = <0>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
-                        sifive,itim = <&itim>;
                         status = "okay";
                         timebase-frequency = <1000000>;
                         hlic: interrupt-controller {
@@ -145,11 +144,6 @@
                 dtim: dtim@80000000 {
                         compatible = "sifive,dtim0";
                         reg = <0x80000000 0x4000>;
-                        reg-names = "mem";
-                };
-                itim: itim@8000000 {
-                        compatible = "sifive,itim0";
-                        reg = <0x8000000 0x4000>;
                         reg-names = "mem";
                 };
 
