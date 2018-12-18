@@ -1,2 +1,2 @@
 # example-software-interrupt
-Add a simple "Software Interrupt" example
+A simple "Software Interrupt" example using mee-interrupts APIs for registration and stroking timer ticks.
