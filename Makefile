@@ -237,7 +237,7 @@ $(PROGRAM_ELF): \
 		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g" \
 		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g" \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
-		LDLIBS="-Wl,--start-group -lc -lmee -lmee-gloss -Wl,--end-group"
+		LDLIBS="-Wl,--start-group -lc -lgcc -lmee -lmee-gloss -Wl,--end-group"
 	touch -c $@
 
 $(PROGRAM_HEX): \
