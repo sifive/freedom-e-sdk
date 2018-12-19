@@ -7,3 +7,6 @@
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
 	url = ../elf2hex
+[submodule "software/example-itim"]
+	path = software/example-itim
+	url = https://github.com/sifive/example-itim.git
