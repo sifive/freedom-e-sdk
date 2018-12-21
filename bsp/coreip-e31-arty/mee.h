@@ -81,8 +81,8 @@ struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
     .clint.vtable = &__mee_driver_vtable_riscv_clint0.clint_vtable,
     .control_base = 33554432UL,
     .control_size = 65536UL,
-    .next_time_irq = 0,
     .init_done = 0,
+    .num_interrupts = MEE_MAX_CLINT_INTERRUPTS,
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
     .interrupt_lines[0] = 3,
     .interrupt_lines[1] = 7,
@@ -108,8 +108,6 @@ struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
     .interrupt_controller = 1,
 };
 
-#define __MEE_DT_RISCV_PLIC0_NUM_INTRS 26
-
 /* From interrupt_controller@c000000 */
 #define __MEE_DT_RISCV_PLIC0_HANDLE (&__mee_dt_interrupt_controller_c000000.plic0)
 
@@ -122,6 +120,7 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_20002000 = {
     .size = 4096UL,
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .num_interrupts = MEE_MAX_GPIO_INTERRUPTS,
     .interrupt_lines[0] = 7,
     .interrupt_lines[1] = 8,
     .interrupt_lines[2] = 9,
@@ -150,6 +149,7 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000 = {
     .pinmux = NULL,
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .num_interrupts = MEE_MAX_UART_INTERRUPTS,
     .interrupt_line = 5UL,
 };
 
