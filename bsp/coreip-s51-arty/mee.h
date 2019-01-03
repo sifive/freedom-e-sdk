@@ -27,6 +27,7 @@
 #include <mee/drivers/fixed-clock.h>
 #include <mee/drivers/sifive,gpio0.h>
 #include <mee/drivers/sifive,uart0.h>
+#include <mee/pmp.h>
 #include <mee/drivers/sifive,local-external-interrupts0.h>
 #include <mee/drivers/sifive,global-external-interrupts0.h>
 #include <mee/drivers/sifive,gpio-leds.h>
@@ -68,6 +69,9 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_20002000;
 /* From serial@20000000 */
 asm (".weak __mee_dt_serial_20000000");
 struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000;
+
+asm (".weak __mee_dt_pmp_0");
+struct mee_pmp __mee_dt_pmp_0;
 
 /* From led@0red */
 asm (".weak __mee_dt_led_0red");
@@ -400,6 +404,13 @@ struct __mee_driver_sifive_gpio_switch __mee_dt_switch_3 = {
     .interrupt_line = 3UL,
     .label = "SW3",
 };
+
+/* From pmp@0 */
+struct mee_pmp __mee_dt_pmp_0 = {
+    .num_regions = 8UL,
+};
+
+#define __MEE_DT_PMP_HANDLE (&__mee_dt_pmp_0)
 
 /* From teststatus@4000 */
 struct __mee_driver_sifive_test0 __mee_dt_teststatus_4000 = {
