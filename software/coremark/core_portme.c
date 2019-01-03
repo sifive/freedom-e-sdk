@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "coremark.h"
-#include "platform.h"
-#include "encoding.h"
+//#include "platform.h"
+//#include "encoding.h"
 
 #if VALIDATION_RUN
 	volatile ee_s32 seed1_volatile=0x3415;

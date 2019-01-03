@@ -237,7 +237,9 @@ $(PROGRAM_ELF): \
 		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=medany -g -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
 		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
-		LDLIBS="-Wl,--start-group -lc -lgcc -lmee -lmee-gloss -Wl,--end-group"
+		LDLIBS="-Wl,--start-group -lc -lgcc -lmee -lmee-gloss -Wl,--end-group" \
+		RISCV_ARCH=$(RISCV_ARCH) \
+		RISCV_ABI=$(RISCV_ABI)
 	touch -c $@
 
 $(PROGRAM_HEX): \
