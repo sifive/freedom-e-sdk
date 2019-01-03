@@ -40,6 +40,11 @@
 		#size-cells = <1>;
 		compatible = "SiFive,FE310G-soc", "fe310-soc", "sifive-soc", "simple-bus";
 		ranges;
+		hfclk: clock@0 {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <32500000>;
+		};
 		L1: clint@2000000 {
 			compatible = "riscv,clint0";
 			interrupts-extended = <&L3 3 &L3 7>;
@@ -105,6 +110,7 @@
 			interrupts = <5>;
 			reg = <0x20000000 0x1000>;
 			reg-names = "control";
+			clocks = <&hfclk>;
 		};
 		L12: spi@20004000 {
 			compatible = "sifive,spi0";
