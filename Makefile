@@ -158,7 +158,7 @@ $(MEE_BSP_PATH)/build/Makefile:
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
-		CFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g" \
+		CFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany" \
 		$(abspath $(MEE_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(abspath $(MEE_BSP_PATH)/install) \
@@ -234,8 +234,8 @@ $(PROGRAM_ELF): \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
-		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
-		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
+		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=medany -g -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
+		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
 		LDLIBS="-Wl,--start-group -lc -lgcc -lmee -lmee-gloss -Wl,--end-group"
 	touch -c $@
