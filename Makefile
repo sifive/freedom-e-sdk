@@ -131,15 +131,19 @@ RISCV_GXX     := $(CROSS_COMPILE)-g++
 RISCV_OBJDUMP := $(CROSS_COMPILE)-objdump
 RISCV_GDB     := $(CROSS_COMPILE)-gdb
 RISCV_AR      := $(CROSS_COMPILE)-ar
-RISCV_OPENOCD := openocd
 else
 RISCV_GCC     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gcc)
 RISCV_GXX     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-g++)
 RISCV_OBJDUMP := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-objdump)
 RISCV_GDB     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gdb)
 RISCV_AR      := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-ar)
-RISCV_OPENOCD := $(abspath $(RISCV_PATH)/bin/openocd)
 PATH          := $(abspath $(RISCV_PATH)/bin):$(PATH)
+endif
+
+ifeq ($(RISCV_OPENOCD_PATH),)
+RISCV_OPENOCD := openocd
+else
+RISCV_OPENOCD := $(abspath $(RISCV_OPENOCD_PATH)/bin/openocd)
 endif
 
 #############################################################
