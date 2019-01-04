@@ -9,7 +9,7 @@ DTB_FILENAME=temp.dtb
 HEADER_FILENAME=mee.h
 LDSCRIPT_FILENAME=mee.lds
 
-TARGET_LIST="$(ls coreip* -d) "
+TARGET_LIST="$(ls -d coreip*) "
 TARGET_LIST+="sifive-hifive1 freedom-e310-arty "
 
 update_target() {
