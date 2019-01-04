@@ -1,11 +1,40 @@
-# README #
+# SiFive Freedom E SDK README #
 
-This repository, maintained by SiFive, Inc, makes it easy to get started developing software for the Freedom E RISC-V platform. 
+This repository, maintained by SiFive Inc, makes it easy to get started developing
+software for the Freedom E and Freedom S Embedded RISC-V Platforms. 
 
 ### Contents ###
 
-* Board Support Packages for FE310 and Development Kits
+#### Freedom Metal Compatibility Library ####
+
+* Board Support Packages for
+  - SiFive HiFive 1 (sifive-hifive1)
+  - SiFive Freedom E310 Arty (freedom-e310-arty)
+  - SiFive CoreIP (e.g. coreip-e31)
+  - SiFive CoreIP Arty FPGA Evaluation targets (e.g. coreip-e31-arty)
 * A Few Example Programs
+  - Example programs targeting the Freedom Metal compatibility library can be identified
+    as submodules within the software/ directory, rather than being maintained in-tree
+    like the legacy examples are.
+
+#### (Deprecated) Legacy Freedom E SDK Library ####
+
+As we transition to supporting SiFive targets and examples with the new Freedom Metal
+compatibility library, the legacy Freedom E SDK libraries and examples are still available
+within this repository.
+
+* Board Support Packages for
+  - SiFive HiFive 1 (freedom-e300-hifive1)
+  - SiFive Freedom E310 Arty (freedom-e300-arty)
+  - SiFive CoreIP Arty FPGA Evaluation Targets (e.g. coreplexip-e31-arty)
+  - Additional legacy targets are contained within the bsp/env/ directory.
+* A Few Example Programs
+  - Example programs targeting the legacy Freedom E SDK can be identified as being tracked
+    within this repository in the software/ directory, rathre than being maintained
+    out-of-tree like the Freedom Metal examples are.
+
+Legacy examples can be built using the same commands as the Freedom Metal examples and simply
+omitting the `BSP=mee` argument or substituting it with `BSP=legacy`.
 
 ### Setting up the SDK ###
 
@@ -13,6 +42,12 @@ First, clone this repository:
 
 ```
 git clone --recursive https://github.com/sifive/freedom-e-sdk.git
+```
+
+If at first you omit the `--recursive` option, you can update submodules using the command:
+
+```
+git submodule update --init --recursive
 ```
 
 To see Makefile options:
@@ -52,19 +87,36 @@ git pull origin master
 git submodule update --init --recursive
 ```
 
-If you would like to recompile the entire toolchain after performing the above:
-
-```
-make uninstall
-make tools
-```
 ### Using the Tools ###
+
+#### Building an Example ####
 
 To compile a bare-metal RISC-V program:
 
 ```
 cd freedom-e-sdk
-make software [PROGRAM=demo_gpio] [BOARD=freedom-e300-hifive1]
+make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] software
+```
+
+#### Uploading to the Target Board ####
+
+```
+cd freedom-e-sdk
+make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] upload
+```
+
+#### Debugging a Target Program ####
+
+```
+cd freedom-e-sdk
+make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] debug
+```
+
+#### Cleaning a Target Program Build Directory ####
+
+```
+cd freedom-e-sdk
+make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] clean
 ```
 
 Run `make help` for more commands.
