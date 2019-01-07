@@ -12,7 +12,9 @@ PHDRS
 {
 	flash PT_LOAD;
 	ram_init PT_LOAD;
+	itim_init PT_LOAD;
 	ram PT_NULL;
+	itim PT_NULL;
 }
 
 SECTIONS
@@ -115,6 +117,30 @@ SECTIONS
 		KEEP (*(SORT(.dtors.*)))
 		KEEP (*(.dtors))
 	} >flash AT>flash :flash
+
+
+	.litimalign 		:
+	{
+		. = ALIGN(4);
+		PROVIDE( mee_segment_itim_source_start = . );
+	} >flash AT>flash :flash
+
+
+	.ditimalign 		:
+	{
+		. = ALIGN(4);
+		PROVIDE( mee_segment_itim_target_start = . );
+	} >ram AT>flash :ram_init
+
+
+	.itim 		:
+	{
+		*(.itim .itim.*)
+	} >flash AT>flash :flash
+
+
+	. = ALIGN(8);
+	PROVIDE( mee_segment_itim_target_end = . );
 
 
 	.lalign 		:
