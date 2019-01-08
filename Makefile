@@ -1,5 +1,5 @@
 timer-interrupt: timer-interrupt.c
 
 clean:
-	rm -f timer-interrupt.c
+	rm -f timer-interrupt timer-interrupt.hex
 
