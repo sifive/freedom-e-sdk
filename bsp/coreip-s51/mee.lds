@@ -4,7 +4,6 @@ ENTRY(_enter)
 
 MEMORY
 {
-	itim (wx!rai) : ORIGIN = 0x8000000, LENGTH = 0x4000
 	ram (wxa!ri) : ORIGIN = 0x20000000, LENGTH = 0x4000000
 }
 
@@ -12,9 +11,7 @@ PHDRS
 {
 	flash PT_LOAD;
 	ram_init PT_LOAD;
-	itim_init PT_LOAD;
 	ram PT_LOAD;
-	itim PT_LOAD;
 }
 
 SECTIONS
@@ -117,30 +114,6 @@ SECTIONS
 		KEEP (*(SORT(.dtors.*)))
 		KEEP (*(.dtors))
 	} >ram AT>ram :ram
-
-
-	.litimalign 		:
-	{
-		. = ALIGN(4);
-		PROVIDE( mee_segment_itim_source_start = . );
-	} >ram AT>ram :ram
-
-
-	.ditimalign 		:
-	{
-		. = ALIGN(4);
-		PROVIDE( mee_segment_itim_target_start = . );
-	} >itim AT>ram :itim_init
-
-
-	.itim 		:
-	{
-		*(.itim .itim.*)
-	} >itim AT>ram :itim_init
-
-
-	. = ALIGN(8);
-	PROVIDE( mee_segment_itim_target_end = . );
 
 
 	.lalign 		:
