@@ -1,0 +1,15 @@
+asm_main
+dhrystone
+i2c_demo
+performance_counters
+clic_vectored
+double_tap_dontboot
+led_fade
+smp
+coremark
+vectored_interrupts
+coreplexip_welcome
+global_interrupts
+local_interrupts
+watchdog
+demo_gpio
