@@ -26,12 +26,21 @@ PROGRAM ?= demo_gpio
 LINK_TARGET ?= flash
 GDB_PORT ?= 3333
 
+PROGRAM_WHITELIST ?= software/legacy_software
+
 else # MEE
 BSP_SUBDIR ?= 
 PROGRAM ?= hello
 BOARD ?= sifive-hifive1
 
+PROGRAM_WHITELIST ?= software/mee_software
+
 endif # $(BSP)
+
+# Check if the requested program can be built with the requested BSP
+ifeq ($(shell grep $(PROGRAM) $(PROGRAM_WHITELIST)),)
+$(error $(PROGRAM) cannot be built with BSP=$(BSP))
+endif
 
 # Variables the user probably shouldn't override.
 #############################################################
