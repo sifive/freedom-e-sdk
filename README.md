@@ -119,6 +119,12 @@ cd freedom-e-sdk
 make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] clean
 ```
 
+#### Duplicate an Example Program ####
+
+```
+make BSP=mee [PROGRAM=hello] OUTPUT_NAME=my-example-name duplicate
+```
+
 Run `make help` for more commands.
 
 ### Benchmarking ###
