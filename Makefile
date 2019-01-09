@@ -107,13 +107,16 @@ help:
 	@echo " examples BSP=mee [BOARD=$(BOARD)]"
 	@echo "     Build all the examples for the given board."
 	@echo ""
-	@echo " clean [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo " clean BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
 	@echo "    Clean compiled objects for a specified "
 	@echo "    software program."
 	@echo ""
-	@echo " upload [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo " upload BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
 	@echo "    on-board Flash."
+	@echo ""
+	@echo " duplicate BSP=mee [PROGRAM=$(PROGRAM)] OUTPUT_NAME=my-example-name"
+	@echo "    Duplicate an example program"
 	@echo ""
 	@echo " run_openocd [BOARD=$(BOARD)]:"
 	@echo " run_gdb     [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
@@ -262,6 +265,10 @@ $(PROGRAM_HEX): \
 clean-software:
 	$(MAKE) -C $(dir $(PROGRAM_ELF)) clean
 clean: clean-software
+
+duplicate: scripts/duplicate-example.sh
+	$< --example $(PROGRAM) --out $(OUTPUT_NAME)
+	echo $(OUTPUT_NAME) >> $(PROGRAM_WHITELIST)
 
 else
 PROGRAM_DIR=$(dir $(PROGRAM_ELF))
