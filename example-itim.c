@@ -14,11 +14,12 @@ int main(void)
 	int x = 2;
 	int y = run_in_itim(x);
 
-	printf("Value returned from itim: %d\n", y);
-
 	if(y != 4) {
+		puts("ITIM test failed\n");
 		return 1;
 	}
+
+	puts("ITIM test passed\n");
 
 	return 0;
 }
