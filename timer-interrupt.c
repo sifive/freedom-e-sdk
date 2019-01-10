@@ -5,7 +5,7 @@ int intr_count;
 
 void timer_handler (int id, void *data) {
     intr_count++;
-    mee_cpu_set_mtime((struct mee_cpu *)data, 0xffff);
+    mee_cpu_set_mtimecmp((struct mee_cpu *)data, 0xffff);
 }
 
 int main (void)
@@ -47,7 +47,7 @@ int main (void)
     }
 
     intr_count = 0;
-    mee_cpu_set_mtime(cpu0, 0);
+    mee_cpu_set_mtimecmp(cpu0, 0);
     if (mee_interrupt_enable(tmr_intr, tmr_id) == -1) {
         return 5;
     }   
