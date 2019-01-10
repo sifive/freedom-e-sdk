@@ -13,3 +13,6 @@
 [submodule "software/software-interrupt"]
 	path = software/software-interrupt
 	url = git@github.com:sifive/example-software-interrupt.git
+[submodule "software/timer-interrupt"]
+	path = software/timer-interrupt
+	url = git@github.com:sifive/example-timer-interrupt.git
