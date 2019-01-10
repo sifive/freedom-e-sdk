@@ -15,7 +15,7 @@ ASM_SRCS += $(ENV_DIR)/start.S
 ASM_SRCS += $(ENV_DIR)/entry.S
 C_SRCS += $(PLATFORM_DIR)/init.c
 
-LINKER_SCRIPT := $(PLATFORM_DIR)/$(LINK_TARGET).lds
+LINKER_SCRIPT ?= $(PLATFORM_DIR)/$(LINK_TARGET).lds
 
 INCLUDES += -I$(BSP_BASE)/include
 INCLUDES += -I$(BSP_BASE)/drivers/
