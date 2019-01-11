@@ -213,22 +213,18 @@ int main (void)
     }
     if (mee_interrupt_enable(but1_ic, but1_irq) == -1) {
         printf("BTN1 interrupt enable failed\n");
-    printf("BTN1 enable failed\n");
         return 5;
     }
     if (mee_interrupt_enable(but2_ic, but2_irq) == -1) {
         printf("BTN2 interrupt enable failed\n");
-    printf("BTN2 enable failed\n");
         return 5;
     }
     if (mee_interrupt_enable(but3_ic, but3_irq) == -1) {
         printf("BTN3 interrupt enable failed\n");
-    printf("BTN3 enable failed\n");
         return 5;
     }
     if (mee_interrupt_enable(swch3_ic, swch3_irq) == -1) {
         printf("SW3 interrupt enable failed\n");
-    printf("SW3 enable failed\n");
         return 5;
     }
     // Lastly CPU interrupt
