@@ -1,4 +1,4 @@
 hello: hello.c
 
 clean::
-	rm -f hello
+	rm -f hello hello.hex
