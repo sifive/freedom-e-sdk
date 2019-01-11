@@ -33,6 +33,9 @@ BOARD ?= sifive-hifive1
 
 endif # $(BSP)
 
+BOARD_ROOT ?= $(abspath .)
+PROGRAM_ROOT ?= $(abspath .)
+
 # Variables the user probably shouldn't override.
 #############################################################
 # BSP Loading
@@ -40,7 +43,7 @@ endif # $(BSP)
 
 # Finds the directory in which this BSP is located, ensuring that there is
 # exactly one.
-board_dir := $(wildcard bsp/$(BSP_SUBDIR)/$(BOARD))
+board_dir := $(wildcard $(BOARD_ROOT)/bsp/$(BSP_SUBDIR)/$(BOARD))
 ifeq ($(words $(board_dir)),0)
 $(error Unable to find BSP for $(BOARD), expected to find either "bsp/$(BOARD)" or "bsp-addons/$(BOARD)")
 endif
@@ -151,7 +154,7 @@ endif
 #############################################################
 ifeq ($(BSP),mee)
 MEE_SOURCE_PATH	  ?= freedom-mee
-MEE_BSP_PATH       = bsp/$(BOARD)
+MEE_BSP_PATH       = $(BOARD_ROOT)/bsp/$(BOARD)
 MEE_LDSCRIPT	   = $(MEE_BSP_PATH)/mee.lds
 MEE_HEADER	   = $(MEE_BSP_PATH)/mee.h
 
@@ -218,8 +221,8 @@ clean: clean-elf2hex
 #############################################################
 # This Section is for Software Compilation
 #############################################################
-PROGRAM_ELF = software/$(PROGRAM)/$(PROGRAM)
-PROGRAM_HEX = software/$(PROGRAM)/$(PROGRAM).hex
+PROGRAM_ELF = $(PROGRAM_ROOT)/software/$(PROGRAM)/$(PROGRAM)
+PROGRAM_HEX = $(PROGRAM_ROOT)/software/$(PROGRAM)/$(PROGRAM).hex
 
 ifeq ($(BSP),mee)
 .PHONY: software
@@ -230,7 +233,7 @@ software: $(PROGRAM_HEX)
 endif
 
 $(PROGRAM_ELF): \
-		$(addprefix software/$(PROGRAM)/,$(shell git -C software/$(PROGRAM) ls-files)) \
+		$(addprefix $(PROGRAM_ROOT)/software/$(PROGRAM)/,$(shell git -C $(PROGRAM_ROOT)/software/$(PROGRAM) ls-files)) \
 		$(MEE_BSP_PATH)/install/lib/libmee.a \
 		$(MEE_BSP_PATH)/install/lib/libmee-gloss.a \
 		$(MEE_BSP_PATH)/mee.lds
