@@ -172,6 +172,7 @@ struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
 struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_interrupts_0 = {
     .vtable = &__mee_driver_vtable_sifive_local_external_interrupts0,
     .irc.vtable = &__mee_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
+    .init_done = 0,
 /* From interrupt_controller */
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
     .num_interrupts = MEE_MAX_LOCAL_EXT_INTERRUPTS,
@@ -222,6 +223,7 @@ struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
 struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_interrupts = {
     .vtable = &__mee_driver_vtable_sifive_global_external_interrupts0,
     .irc.vtable = &__mee_driver_vtable_sifive_global_external_interrupts0.global0_vtable,
+    .init_done = 0,
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
     .num_interrupts = MEE_MAX_GLOBAL_EXT_INTERRUPTS,
@@ -280,6 +282,7 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000 = {
 /* From led@0red */
 struct __mee_driver_sifive_gpio_led __mee_dt_led_0red = {
     .vtable = &__mee_driver_vtable_sifive_led,
+    .led.vtable = &__mee_driver_vtable_sifive_led.led_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 0UL,
@@ -289,6 +292,7 @@ struct __mee_driver_sifive_gpio_led __mee_dt_led_0red = {
 /* From led@0green */
 struct __mee_driver_sifive_gpio_led __mee_dt_led_0green = {
     .vtable = &__mee_driver_vtable_sifive_led,
+    .led.vtable = &__mee_driver_vtable_sifive_led.led_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 1UL,
@@ -298,6 +302,7 @@ struct __mee_driver_sifive_gpio_led __mee_dt_led_0green = {
 /* From led@0blue */
 struct __mee_driver_sifive_gpio_led __mee_dt_led_0blue = {
     .vtable = &__mee_driver_vtable_sifive_led,
+    .led.vtable = &__mee_driver_vtable_sifive_led.led_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 2UL,
@@ -307,6 +312,7 @@ struct __mee_driver_sifive_gpio_led __mee_dt_led_0blue = {
 /* From button@0 */
 struct __mee_driver_sifive_gpio_button __mee_dt_button_0 = {
     .vtable = &__mee_driver_vtable_sifive_button,
+    .button.vtable = &__mee_driver_vtable_sifive_button.button_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 4UL,
@@ -319,6 +325,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_0 = {
 /* From button@1 */
 struct __mee_driver_sifive_gpio_button __mee_dt_button_1 = {
     .vtable = &__mee_driver_vtable_sifive_button,
+    .button.vtable = &__mee_driver_vtable_sifive_button.button_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 5UL,
@@ -331,6 +338,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_1 = {
 /* From button@2 */
 struct __mee_driver_sifive_gpio_button __mee_dt_button_2 = {
     .vtable = &__mee_driver_vtable_sifive_button,
+    .button.vtable = &__mee_driver_vtable_sifive_button.button_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 6UL,
@@ -343,6 +351,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_2 = {
 /* From button@3 */
 struct __mee_driver_sifive_gpio_button __mee_dt_button_3 = {
     .vtable = &__mee_driver_vtable_sifive_button,
+    .button.vtable = &__mee_driver_vtable_sifive_button.button_vtable,
 /* From gpio@20002000 */
     .gpio = &__mee_dt_gpio_20002000,
     .pin = 7UL,
@@ -355,6 +364,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_3 = {
 /* From switch@0 */
 struct __mee_driver_sifive_gpio_switch __mee_dt_switch_0 = {
     .vtable = &__mee_driver_vtable_sifive_switch,
+    .flip.vtable = &__mee_driver_vtable_sifive_switch.switch_vtable,
 /* From global_external_interrupts */
     .interrupt_parent = &__mee_dt_global_external_interrupts.irc,
     .interrupt_line = 0UL,
@@ -364,6 +374,7 @@ struct __mee_driver_sifive_gpio_switch __mee_dt_switch_0 = {
 /* From switch@1 */
 struct __mee_driver_sifive_gpio_switch __mee_dt_switch_1 = {
     .vtable = &__mee_driver_vtable_sifive_switch,
+    .flip.vtable = &__mee_driver_vtable_sifive_switch.switch_vtable,
 /* From global_external_interrupts */
     .interrupt_parent = &__mee_dt_global_external_interrupts.irc,
     .interrupt_line = 1UL,
@@ -373,6 +384,7 @@ struct __mee_driver_sifive_gpio_switch __mee_dt_switch_1 = {
 /* From switch@2 */
 struct __mee_driver_sifive_gpio_switch __mee_dt_switch_2 = {
     .vtable = &__mee_driver_vtable_sifive_switch,
+    .flip.vtable = &__mee_driver_vtable_sifive_switch.switch_vtable,
 /* From global_external_interrupts */
     .interrupt_parent = &__mee_dt_global_external_interrupts.irc,
     .interrupt_line = 2UL,
@@ -382,6 +394,7 @@ struct __mee_driver_sifive_gpio_switch __mee_dt_switch_2 = {
 /* From switch@3 */
 struct __mee_driver_sifive_gpio_switch __mee_dt_switch_3 = {
     .vtable = &__mee_driver_vtable_sifive_switch,
+    .flip.vtable = &__mee_driver_vtable_sifive_switch.switch_vtable,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
     .interrupt_line = 3UL,

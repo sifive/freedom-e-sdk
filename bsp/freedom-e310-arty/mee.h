@@ -112,6 +112,7 @@ struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
 struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_interrupts_0 = {
     .vtable = &__mee_driver_vtable_sifive_local_external_interrupts0,
     .irc.vtable = &__mee_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
+    .init_done = 0,
 /* From interrupt_controller */
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
     .num_interrupts = MEE_MAX_LOCAL_EXT_INTERRUPTS,
