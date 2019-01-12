@@ -1,0 +1,113 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "SiFive,FE240G-dev", "fe240-dev", "sifive-dev";
+	model = "SiFive,FE240G";
+	L17: aliases {
+		serial0 = &L10;
+	};
+	L16: cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		L3: cpu@0 {
+			clock-frequency = <0>;
+			compatible = "sifive,caboose0", "riscv";
+			device_type = "cpu";
+			reg = <0x0>;
+			riscv,isa = "rv32imafc";
+			status = "okay";
+			timebase-frequency = <1000000>;
+			L2: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+	L15: soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "SiFive,FE240G-soc", "fe240-soc", "sifive-soc", "simple-bus";
+		ranges;
+		L0: debug-controller@0 {
+			compatible = "sifive,debug-013", "riscv,debug-013";
+			interrupts-extended = <&L2 65535>;
+			reg = <0x0 0x1000>;
+			reg-names = "control";
+		};
+		L9: error-device@3000 {
+			compatible = "sifive,error0";
+			reg = <0x3000 0x1000>;
+			reg-names = "mem";
+		};
+		L7: global-external-interrupts {
+			interrupt-parent = <&L1>;
+			interrupts = <0 1 2 3>;
+		};
+		L12: gpio@20002000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			compatible = "sifive,gpio0";
+			gpio-controller;
+			interrupt-controller;
+			interrupt-parent = <&L1>;
+			interrupts = <6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21>;
+			reg = <0x20002000 0x1000>;
+			reg-names = "control";
+		};
+		L1: interrupt-controller@2000000 {
+			#interrupt-cells = <1>;
+			compatible = "sifive,clic0";
+			interrupt-controller;
+			interrupts-extended = <&L2 3 &L2 7 &L2 11>;
+			reg = <0x2000000 0x1000000>;
+			reg-names = "control";
+			sifive,numints = <143>;
+			sifive,numlevels = <16>;
+		};
+		L8: local-external-interrupts-0 {
+			interrupt-parent = <&L1>;
+			interrupts = <26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152>;
+		};
+		L13: pwm@20005000 {
+			compatible = "sifive,pwm0";
+			interrupt-parent = <&L1>;
+			interrupts = <22 23 24 25>;
+			reg = <0x20005000 0x1000>;
+			reg-names = "control";
+		};
+		L10: serial@20000000 {
+			compatible = "sifive,uart0";
+			interrupt-parent = <&L1>;
+			interrupts = <4>;
+			reg = <0x20000000 0x1000>;
+			reg-names = "control";
+		};
+		L11: spi@20004000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			compatible = "sifive,spi0";
+			interrupt-parent = <&L1>;
+			interrupts = <5>;
+			reg = <0x20004000 0x1000 0x40000000 0x20000000>;
+			reg-names = "control", "mem";
+		};
+		L5: sys-sram@80000000 {
+			compatible = "sifive,sram0";
+			reg = <0x80000000 0x8000>;
+			reg-names = "mem";
+		};
+		L6: sys-sram@80008000 {
+			compatible = "sifive,sram0";
+			reg = <0x80008000 0x8000>;
+			reg-names = "mem";
+		};
+		L4: teststatus@4000 {
+			compatible = "sifive,test0";
+			reg = <0x4000 0x1000>;
+			reg-names = "control";
+		};
+	};
+};
