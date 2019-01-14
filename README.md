@@ -75,6 +75,8 @@ of Freedom E SDK.
     - Demonstrates how to register a handler for and trigger a timer interrupt
   - local-interrupt
     - Demonstrates how to register a handler for and trigger a local interrupt
+  - example-pmp
+    - Demonstrates how to configure a Physical Memory Protection (PMP) region
 
 #### (Deprecated) Legacy Freedom E SDK Library ####
 
