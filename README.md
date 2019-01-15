@@ -1,21 +1,80 @@
 # SiFive Freedom E SDK README #
 
 This repository, maintained by SiFive Inc, makes it easy to get started developing
-software for the Freedom E and Freedom S Embedded RISC-V Platforms. 
+software for the Freedom E and Freedom S Embedded RISC-V Platforms. This SDK
+is intended to work on any target supported by SiFive's distributions of the
+RISC-V GNU Toolchain.
+
+### Under Construction ###
+
+This repository is currently under construction as we transition from the
+legacy Freedom E SDK API to the new Freedom Metal Compatibility Library.
+
+#### What is Freedom Metal? ###
+
+[Freedom Metal](https://github.com/sifive/freedom-metal) ([Documentation](https://github.com/sifive/freedom-metal/blob/master/doc/mee-spec.md))
+is a library developed by SiFive for writing portable software for all of SiFive's
+RISC-V IP, RISC-V FPGA evaluation images, and development boards. Programs written
+against the Freedom Metal API are intended to build and run for all SiFive RISC-V
+targets. This makes Freedom Metal suitable for writing portable tests, bare metal
+application programming, and as a hardware abstraction layer for porting
+operating systems to RISC-V.
+
+Consumers of E SDK should also be aware that as we make this transition,
+we are still making refinements to the API provided by Freedom Metal. As such,
+**the Freedom Metal API should be considered in beta** until we tag a stable release
+of Freedom E SDK.
 
 ### Contents ###
 
 #### Freedom Metal Compatibility Library ####
 
-* Board Support Packages for
-  - SiFive HiFive 1 (sifive-hifive1)
-  - SiFive Freedom E310 Arty (freedom-e310-arty)
-  - SiFive CoreIP (e.g. coreip-e31)
-  - SiFive CoreIP Arty FPGA Evaluation targets (e.g. coreip-e31-arty)
-* A Few Example Programs
-  - Example programs targeting the Freedom Metal compatibility library can be identified
-    as submodules within the software/ directory, rather than being maintained in-tree
-    like the legacy examples are.
+* Board Support Packages (found under `bsp/`)
+  - Supported Targets:
+    - [SiFive HiFive 1](https://www.sifive.com/boards/hifive1)
+      - sifive-hifive1
+    - [SiFive Freedom E310 Arty](https://github.com/sifive/freedom)
+      - freedom-e310-arty
+    - SiFive CoreIP
+      - coreip-e31
+      - coreip-s51
+    - SiFive CoreIP Arty FPGA Evaluation targets
+      - coreip-e31-arty
+      - coreip-s51-arty
+  - The board support files for the Freedom Metal library are located entirely
+    within a single target directory in `bsp/<target>/`. For example, the HiFive 1
+    board support files for Freedom Metal are entirely within `bsp/sifive-hifive1/`
+    and consist of the following:
+    * design.dts
+      - The DeviceTree description of the target. This file is used to parameterize
+        the Freedom Metal library to the target device. It is included as reference
+        so that users of Freedom Metal are aware of what features and peripherals
+        are available on the target.
+    * mee.h
+      - The Freedom Metal machine header which is used internally to Freedom Metal
+        to instantiate structures to support the target device.
+    * mee.lds
+      - The linker script for the target device.
+    * openocd.cfg (for development board and FPGA targets)
+      - Used to configure OpenOCD for flashing and debugging the target device.
+    * settings.mk
+      - Used to set `-march` and `-mabi` arguments to the RISC-V GNU Toolchain.
+* A Few Example Programs (found under `software/`)
+  - hello
+    - Prints "Hello, World!" to stdout, if a serial device is present on the target.
+  - return-pass
+    - Returns status code 0 indicating program success.
+  - return-fail
+    - Returns status code 1 indicating program failure.
+  - example-itim
+    - Demonstrates how to statically link application code into the Instruction
+      Tightly Integrated Memory (ITIM) if an ITIM is present on the target.
+  - software-interrupt
+    - Demonstrates how to register a handler for and trigger a software interrupt
+  - timer-interrupt
+    - Demonstrates how to register a handler for and trigger a timer interrupt
+  - local-interrupt
+    - Demonstrates how to register a handler for and trigger a local interrupt
 
 #### (Deprecated) Legacy Freedom E SDK Library ####
 
@@ -23,41 +82,60 @@ As we transition to supporting SiFive targets and examples with the new Freedom 
 compatibility library, the legacy Freedom E SDK libraries and examples are still available
 within this repository.
 
-* Board Support Packages for
-  - SiFive HiFive 1 (freedom-e300-hifive1)
-  - SiFive Freedom E310 Arty (freedom-e300-arty)
-  - SiFive CoreIP Arty FPGA Evaluation Targets (e.g. coreplexip-e31-arty)
-  - Additional legacy targets are contained within the bsp/env/ directory.
+As we port legacy example programs to the new Freedom Metal API, we will remove
+the legacy version of the examples from this repository.
+
+* Board Support Packages (found under `bsp/env`)
+  - Supported Targets:
+    - SiFive HiFive 1
+      - freedom-e300-hifive1
+    - SiFive Freedom E310 Arty
+      - freedom-e300-arty
+    - SiFive CoreIP Arty FPGA Evaluation Targets (e.g. coreplexip-e31-arty)
+      - coreip-e2-arty
+      - coreplexip-e31-arty
+      - coreplexip-e51-arty
+  - The Legacy board support files are located as follows:
+    * `bsp/env/`
+      - Holds board-specific files for the Legacy API
+    * `bsp/drivers/`
+      - Holds legacy device drivers for the PLIC, CLIC, and PRCI
+    * `bsp/include`
+      - Holds legacy header files for the Legacy API
+    * `bsp/libwrap`
+      - Holds wrappers around libc for the Legacy API
 * A Few Example Programs
-  - Example programs targeting the legacy Freedom E SDK can be identified as being tracked
-    within this repository in the software/ directory, rathre than being maintained
-    out-of-tree like the Freedom Metal examples are.
+  - asm\_main
+  - clic\_vectored
+  - coremark
+  - coreplexip\_welcome
+  - demo\_gpio
+  - dhrystone
+  - double\_tap\_dontboot
+  - global\_interrupts
+  - i2c\_demo
+  - led\_fade
+  - local\_interrupts
+  - performance\_counters
+  - smp
+  - vectored\_interrupts
+  - watchdog
 
 Legacy examples can be built using the same commands as the Freedom Metal examples and simply
 omitting the `BSP=mee` argument or substituting it with `BSP=legacy`.
 
 ### Setting up the SDK ###
 
-First, clone this repository:
+#### Prerequisites ####
 
-```
-git clone --recursive https://github.com/sifive/freedom-e-sdk.git
-```
+To use this SDK, you will need the following software available on your machine:
 
-If at first you omit the `--recursive` option, you can update submodules using the command:
+* GNU Make
+* Git
+* RISC-V GNU Toolchain
+* RISC-V OpenOCD (for use with development board and FPGA targets)
 
-```
-git submodule update --init --recursive
-```
-
-To see Makefile options:
-
-```
-cd freedom-e-sdk
-make help
-```
-
-#### Install the RISC-V Toolchain ####
+##### Install the RISC-V Toolchain and OpenOCD #####
 
 The RISC-V GNU Toolchain and OpenOCD are available from the SiFive Website at
 
@@ -77,51 +155,93 @@ export RISCV_OPENOCD_PATH=/my/desired/location/openocd
 export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
 ```
 
+#### Cloning the Repository ####
+
+This repository can be cloned by running the following commands:
+
+```
+git clone --recursive https://github.com/sifive/freedom-e-sdk.git
+cd freedom-e-sdk
+```
+
+The `--recursive` option is required to clone the git submodules included in the
+repository. If at first you omit the `--recursive` option, you can achieve
+the same effect by updating submodules using the command:
+
+```
+git submodule update --init --recursive
+```
+
 ### Updating your SDK ###
 
 If you'd like to update your SDK to the latest version:
 
 ```
-cd freedom-e-sdk
 git pull origin master
 git submodule update --init --recursive
 ```
 
 ### Using the Tools ###
 
+To ease the transition for consumers of the Legacy SDK, we've namespaced
+the new Freedom Metal examples behind the environment variable `BSP`. To use the
+Freedom Metal examples, you may `export BSP=mee` in your shell environment, or simply
+pass `BSP=mee` as an argument to your `make` invocations as you see in the following
+example commands.
+
 #### Building an Example ####
 
 To compile a bare-metal RISC-V program:
 
 ```
-cd freedom-e-sdk
 make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] software
+```
+
+The square brackets in the above command indicate optional parameters for the
+Make invocation. As you can see, the default values of these parameters tell
+the build script to build the `hello` example for the `sifive-hifive1` target.
+If, for example, you wished to build the `timer-interrupt` example for the S51
+Arty FPGA Evaluation target, you would instead run the command
+
+```
+make BSP=mee PROGRAM=timer-interrupt BOARD=coreip-s51-arty software
+```
+
+#### Building a Legacy Example ####
+
+The legacy examples can still be built by omitting `BSP=mee` or by substituting
+`BSP=legacy`. For example, to build the legacy `demo_gpio` application for
+HiFive 1, run:
+
+```
+make PROGRAM=demo_gpio BOARD=freedom-e300-hifive1 software
 ```
 
 #### Uploading to the Target Board ####
 
 ```
-cd freedom-e-sdk
 make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] upload
 ```
 
 #### Debugging a Target Program ####
 
 ```
-cd freedom-e-sdk
 make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] debug
 ```
 
 #### Cleaning a Target Program Build Directory ####
 
 ```
-cd freedom-e-sdk
 make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] clean
 ```
 
 Run `make help` for more commands.
 
 ### Benchmarking ###
+
+The Dhrystone and CoreMark benchmarks are still only supported by the Legacy
+Freedom E SDK. When we port the benchmarks to Freedom Metal, we will update
+this section to describe the updated build steps.
 
 #### Dhrystone ####
 
