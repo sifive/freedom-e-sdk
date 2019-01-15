@@ -153,7 +153,7 @@ struct __mee_driver_riscv_cpu_intc __mee_dt_interrupt_controller = {
 /* From clint@2000000 */
 struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
     .vtable = &__mee_driver_vtable_riscv_clint0,
-    .clint.vtable = &__mee_driver_vtable_riscv_clint0.clint_vtable,
+    .controller.vtable = &__mee_driver_vtable_riscv_clint0.clint_vtable,
     .control_base = 33554432UL,
     .control_size = 65536UL,
     .init_done = 0,
@@ -164,9 +164,9 @@ struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
 };
 
 /* From clint@2000000 */
-#define __MEE_DT_RISCV_CLINT0_HANDLE (&__mee_dt_clint_2000000.clint)
+#define __MEE_DT_RISCV_CLINT0_HANDLE (&__mee_dt_clint_2000000.controller)
 
-#define __MEE_DT_CLINT_2000000_HANDLE (&__mee_dt_clint_2000000.clint)
+#define __MEE_DT_CLINT_2000000_HANDLE (&__mee_dt_clint_2000000.controller)
 
 /* From local_external_interrupts_0 */
 struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_interrupts_0 = {
@@ -202,7 +202,7 @@ struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_in
 /* From interrupt_controller@c000000 */
 struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
     .vtable = &__mee_driver_vtable_riscv_plic0,
-    .plic0.vtable = &__mee_driver_vtable_riscv_plic0.controller_vtable,
+    .controller.vtable = &__mee_driver_vtable_riscv_plic0.plic_vtable,
     .init_done = 0,
 /* From interrupt_controller */
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
@@ -215,9 +215,9 @@ struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
 };
 
 /* From interrupt_controller@c000000 */
-#define __MEE_DT_RISCV_PLIC0_HANDLE (&__mee_dt_interrupt_controller_c000000.plic0)
+#define __MEE_DT_RISCV_PLIC0_HANDLE (&__mee_dt_interrupt_controller_c000000.controller)
 
-#define __MEE_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__mee_dt_interrupt_controller_c000000.plic0)
+#define __MEE_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__mee_dt_interrupt_controller_c000000.controller)
 
 /* From global_external_interrupts */
 struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_interrupts = {
@@ -225,7 +225,7 @@ struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_
     .irc.vtable = &__mee_driver_vtable_sifive_global_external_interrupts0.global0_vtable,
     .init_done = 0,
 /* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
     .num_interrupts = MEE_MAX_GLOBAL_EXT_INTERRUPTS,
     .interrupt_lines[0] = 1,
     .interrupt_lines[1] = 2,
@@ -244,7 +244,7 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_20002000 = {
     .base = 536879104UL,
     .size = 4096UL,
 /* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
     .num_interrupts = MEE_MAX_GPIO_INTERRUPTS,
     .interrupt_lines[0] = 7,
     .interrupt_lines[1] = 8,
@@ -274,7 +274,7 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000 = {
     .clock = &__mee_dt_clock_0.clock,
     .pinmux = NULL,
 /* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.plic0,
+    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
     .num_interrupts = MEE_MAX_UART_INTERRUPTS,
     .interrupt_line = 5UL,
 };
