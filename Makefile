@@ -92,6 +92,11 @@ help:
 	@echo " debug BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
 	@echo "    Launch OpenOCD and attach GDB to the running program."
 	@echo ""
+	@echo " standalone BSP=mee STANDALONE_DEST=/path/to/desired/location"
+	@echo "            [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo "    Export a program for a single target into a standalone"
+	@echo "    project directory at STANDALONE_DEST."
+	@echo ""
 	@echo " For more information, read the accompanying README.md"
 
 .PHONY: clean
