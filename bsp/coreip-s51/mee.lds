@@ -20,6 +20,7 @@ PHDRS
 SECTIONS
 {
 	__stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
+	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x400;
 
 
 	.init 		:
@@ -199,16 +200,23 @@ SECTIONS
 	PROVIDE( _end = . );
 	PROVIDE( end = . );
 	PROVIDE( mee_segment_bss_target_end = . );
-	PROVIDE( mee_segment_heap_target_start = . );
 
 
 	.stack :
 	{
-		. = ALIGN(8);
-		. += __stack_size;
+		PROVIDE(mee_segment_stack_begin = .);
+		. = __stack_size;
 		PROVIDE( _sp = . );
-		PROVIDE( _heap_end = . );
 		PROVIDE(mee_segment_stack_end = .);
+	} >ram AT>ram :ram
+
+
+	.heap :
+	{
+		PROVIDE( mee_segment_heap_target_start = . );
+		. = __heap_size;
+		PROVIDE( mee_segment_heap_target_end = . );
+		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram
 
 
