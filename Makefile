@@ -2,9 +2,6 @@
 # Configuration
 #############################################################
 
-# Allow users to select a different cross compiler.
-CROSS_COMPILE ?= riscv64-unknown-elf
-
 # Allows users to create Makefile.local or ../Makefile.project with
 # configuration variables, so they don't have to be set on the command-line
 # every time.
@@ -14,9 +11,8 @@ $(info Obtaining additional make variables from $(extra_configs))
 include $(extra_configs)
 endif
 
-# Default target
-
-# legacy for old e-sdk or mee
+# Select Legacy BSP or Freedom Metal BSP
+# Allowed values are 'legacy' and 'mee'
 BSP ?= legacy
 
 ifeq ($(BSP),legacy)
@@ -27,6 +23,7 @@ LINK_TARGET ?= flash
 GDB_PORT ?= 3333
 
 else # MEE
+BSP = mee
 BSP_SUBDIR ?= 
 PROGRAM ?= hello
 BOARD ?= sifive-hifive1
@@ -36,52 +33,38 @@ endif # $(BSP)
 BOARD_ROOT ?= $(abspath .)
 PROGRAM_ROOT ?= $(abspath .)
 
-# Variables the user probably shouldn't override.
+SRC_DIR = $(PROGRAM_ROOT)/software/$(PROGRAM)
+
+PROGRAM_ELF = $(SRC_DIR)/$(PROGRAM)
+PROGRAM_HEX = $(SRC_DIR)/$(PROGRAM).hex
+
 #############################################################
 # BSP Loading
 #############################################################
 
 # Finds the directory in which this BSP is located, ensuring that there is
 # exactly one.
-board_dir := $(wildcard $(BOARD_ROOT)/bsp/$(BSP_SUBDIR)/$(BOARD))
-ifeq ($(words $(board_dir)),0)
+BSP_DIR := $(wildcard $(BOARD_ROOT)/bsp/$(BSP_SUBDIR)/$(BOARD))
+ifeq ($(words $(BSP_DIR)),0)
 $(error Unable to find BSP for $(BOARD), expected to find either "bsp/$(BOARD)" or "bsp-addons/$(BOARD)")
 endif
-ifneq ($(words $(board_dir)),1)
-$(error Found multiple BSPs for $(BOARD): "$(board_dir)")
+ifneq ($(words $(BSP_DIR)),1)
+$(error Found multiple BSPs for $(BOARD): "$(BSP_DIR)")
 endif
 
-ifeq ($(BSP), mee)
+#############################################################
+# Standalone Script Include
+#############################################################
 
-include $(board_dir)/settings.mk
+# The standalone script is included here because it needs $(SRC_DIR) and
+# $(BSP_DIR) to be set.
+#
+# The standalone Makefile handles the following tasks:
+#  - Including $(BSP_DIR)/settings.mk and validating RISCV_ARCH, RISCV_ABI
+#  - Setting the toolchain path with CROSS_COMPILE and RISCV_PATH
+#  - Providing the software and $(PROGRAM_ELF) Make targets for the MEE
 
-else
-
-# There must be a settings makefile fragment in the BSP's board directory.
-ifeq ($(wildcard $(board_dir)/settings.mk),)
-$(error Unable to find BSP for $(BOARD), expected to find $(board_dir)/settings.mk)
-endif
-
-include $(board_dir)/settings.mk
-
-ifeq ($(RISCV_ARCH),)
-$(error $(board_dir)/board.mk must set RISCV_ARCH, the RISC-V ISA string to target)
-endif
-
-ifeq ($(RISCV_ABI),)
-$(error $(board_dir)/board.mk must set RISCV_ABI, the ABI to target)
-endif
-
-endif
-
-# Determines the XLEN from the toolchain tuple
-ifeq ($(patsubst rv32%,rv32,$(RISCV_ARCH)),rv32)
-RISCV_XLEN := 32
-else ifeq ($(patsubst rv64%,rv64,$(RISCV_ARCH)),rv64)
-RISCV_XLEN := 64
-else
-$(error Unable to determine XLEN from $(RISCV_ARCH))
-endif
+include scripts/standalone.mk
 
 #############################################################
 # Prints help message
@@ -109,36 +92,32 @@ help:
 	@echo " debug BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
 	@echo "    Launch OpenOCD and attach GDB to the running program."
 	@echo ""
+	@echo " standalone BSP=mee STANDALONE_DEST=/path/to/desired/location"
+	@echo "            [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo "    Export a program for a single target into a standalone"
+	@echo "    project directory at STANDALONE_DEST."
+	@echo ""
 	@echo " For more information, read the accompanying README.md"
 
 .PHONY: clean
 clean:
 
 #############################################################
-# This section is for tool configuration
+# Enumerate MEE BSPs and Programs
 #############################################################
 
-# If users don't specify RISCV_PATH then assume that the tools will just be in
-# their path.
-ifeq ($(RISCV_PATH),)
-RISCV_GCC     := $(CROSS_COMPILE)-gcc
-RISCV_GXX     := $(CROSS_COMPILE)-g++
-RISCV_OBJDUMP := $(CROSS_COMPILE)-objdump
-RISCV_GDB     := $(CROSS_COMPILE)-gdb
-RISCV_AR      := $(CROSS_COMPILE)-ar
-else
-RISCV_GCC     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gcc)
-RISCV_GXX     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-g++)
-RISCV_OBJDUMP := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-objdump)
-RISCV_GDB     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gdb)
-RISCV_AR      := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-ar)
-PATH          := $(abspath $(RISCV_PATH)/bin):$(PATH)
-endif
+ifeq ($(BSP),mee)
 
-ifeq ($(RISCV_OPENOCD_PATH),)
-RISCV_OPENOCD := openocd
-else
-RISCV_OPENOCD := $(abspath $(RISCV_OPENOCD_PATH)/bin/openocd)
+# MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
+EXCLUDE_BOARD_DIRS = drivers env include libwrap update-targets.sh
+list-boards:
+	@echo $(sort $(filter-out $(EXCLUDE_BOARD_DIRS),$(notdir $(wildcard bsp/*))))
+
+
+# MEE programs are any submodules in the software folder
+list-programs:
+	@echo $(shell grep -o '= software/.*$$' .gitmodules | sed -r 's/.*\///')
+
 endif
 
 #############################################################
@@ -146,21 +125,20 @@ endif
 #############################################################
 ifeq ($(BSP),mee)
 MEE_SOURCE_PATH	  ?= freedom-mee
-MEE_BSP_PATH       = $(BOARD_ROOT)/bsp/$(BOARD)
-MEE_LDSCRIPT	   = $(MEE_BSP_PATH)/mee.lds
-MEE_HEADER	   = $(MEE_BSP_PATH)/mee.h
+MEE_LDSCRIPT	   = $(BSP_DIR)/mee.lds
+MEE_HEADER	   = $(BSP_DIR)/mee.h
 
 .PHONY: mee
-mee: $(MEE_BSP_PATH)/install/stamp
+mee: $(BSP_DIR)/install/stamp
 
-$(MEE_BSP_PATH)/build/Makefile:
+$(BSP_DIR)/build/Makefile:
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
 		CFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany" \
 		$(abspath $(MEE_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
-		--prefix=$(abspath $(MEE_BSP_PATH)/install) \
+		--prefix=$(abspath $(BSP_DIR)/install) \
 		--with-preconfigured \
 		--with-machine-name=$(BOARD) \
 		--with-machine-header=$(abspath $(MEE_HEADER)) \
@@ -168,22 +146,22 @@ $(MEE_BSP_PATH)/build/Makefile:
 		--with-builtin-libgloss
 	touch -c $@
 
-$(MEE_BSP_PATH)/install/stamp: $(MEE_BSP_PATH)/build/Makefile
-	$(MAKE) -C $(abspath $(MEE_BSP_PATH)/build) install
+$(BSP_DIR)/install/stamp: $(BSP_DIR)/build/Makefile
+	$(MAKE) -C $(abspath $(BSP_DIR)/build) install
 	date > $@
 
-$(MEE_BSP_PATH)/install/lib/libriscv%.a: $(MEE_BSP_PATH)/install/stamp ;@:
+$(BSP_DIR)/install/lib/libriscv%.a: $(BSP_DIR)/install/stamp ;@:
 
-$(MEE_BSP_PATH)/install/lib/libmee.a: $(MEE_BSP_PATH)/install/lib/libriscv__mmachine__$(BOARD).a
+$(BSP_DIR)/install/lib/libmee.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(BOARD).a
 	cp $< $@
 
-$(MEE_BSP_PATH)/install/lib/libmee-gloss.a: $(MEE_BSP_PATH)/install/lib/libriscv__menv__mee.a
+$(BSP_DIR)/install/lib/libmee-gloss.a: $(BSP_DIR)/install/lib/libriscv__menv__mee.a
 	cp $< $@
 
 .PHONY: clean-mee
 clean-mee:
-	rm -rf $(MEE_BSP_PATH)/install
-	rm -rf $(MEE_BSP_PATH)/build
+	rm -rf $(BSP_DIR)/install
+	rm -rf $(BSP_DIR)/build
 clean: clean-mee
 endif
 
@@ -191,7 +169,7 @@ mee_install: mee
 	$(MAKE) -C $(MEE_SOURCE_PATH) install
 
 #############################################################
-# This Section is for elf2hex Compliation
+# elf2hex
 #############################################################
 scripts/elf2hex/build/Makefile: scripts/elf2hex/configure
 	@rm -rf $(dir $@)
@@ -211,45 +189,59 @@ clean-elf2hex:
 clean: clean-elf2hex
 
 #############################################################
-# This Section is for Software Compilation
+# Standalone Project Export
 #############################################################
-PROGRAM_ELF = $(PROGRAM_ROOT)/software/$(PROGRAM)/$(PROGRAM)
-PROGRAM_HEX = $(PROGRAM_ROOT)/software/$(PROGRAM)/$(PROGRAM).hex
 
 ifeq ($(BSP),mee)
-.PHONY: software
-software: $(PROGRAM_ELF)
+ifeq ($(STANDALONE_DEST),)
+standalone:
+	$(error Please provide STANDALONE_DEST to create a standalone project)
+else
 
-ifneq ($(COREIP_MEM_WIDTH),)
-software: $(PROGRAM_HEX)
+$(STANDALONE_DEST):
+$(STANDALONE_DEST)/%:
+	mkdir -p $@
+
+standalone: \
+		$(STANDALONE_DEST) \
+		$(STANDALONE_DEST)/bsp \
+		$(STANDALONE_DEST)/src \
+		$(BSP_DIR)/install/lib/libmee.a \
+		$(BSP_DIR)/install/lib/libmee-gloss.a \
+		$(SRC_DIR) \
+		scripts/standalone.mk
+	# We have to use $(shell ls ...) here instead of $(wildcard) so that we
+	# pick up $(BSP_DIR)/install
+	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
+
+	$(MAKE) -C $(SRC_DIR) clean
+	cp -r $(SRC_DIR)/* $</src/
+
+	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+	cat scripts/standalone.mk >> $</Makefile
+endif
 endif
 
-$(PROGRAM_ELF): \
-		$(addprefix $(PROGRAM_ROOT)/software/$(PROGRAM)/,$(shell git -C $(PROGRAM_ROOT)/software/$(PROGRAM) ls-files)) \
-		$(MEE_BSP_PATH)/install/lib/libmee.a \
-		$(MEE_BSP_PATH)/install/lib/libmee-gloss.a \
-		$(MEE_BSP_PATH)/mee.lds
-	$(MAKE) -C $(dir $@) $(notdir $@) \
-		AR=$(RISCV_AR) \
-		CC=$(RISCV_GCC) \
-		CXX=$(RISCV_GXX) \
-		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=medany -g -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
-		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(MEE_BSP_PATH)/install/include/)" \
-		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
-		LDLIBS="-Wl,--start-group -lc -lgcc -lmee -lmee-gloss -Wl,--end-group"
-	touch -c $@
+#############################################################
+# MEE Software Compilation
+#############################################################
 
+# Generation of $(PROGRAM_ELF) is handled by scripts/standalone.mk
+# In this top level Makefile, just describe how to turn the elf into
+# $(PROGRAM_HEX)
+
+ifeq ($(BSP),mee)
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+endif
 
-.PHONY: clean-software
-clean-software:
-	$(MAKE) -C $(dir $(PROGRAM_ELF)) clean
-clean: clean-software
+#############################################################
+# Legacy Software Compilation
+#############################################################
 
-else
+ifeq ($(BSP),legacy)
 PROGRAM_DIR=$(dir $(PROGRAM_ELF))
 
 .PHONY: software_clean
@@ -266,15 +258,18 @@ dasm: software $(RISCV_OBJDUMP)
 endif
 
 #############################################################
-# This Section is for uploading a program to SPI Flash
+# Upload and Debug
 #############################################################
 ifeq ($(BSP),mee)
+
 upload: $(PROGRAM_ELF)
 	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(BOARD)/openocd.cfg
 
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(BOARD)/openocd.cfg
-else
+
+else # BSP != mee
+
 OPENOCDCFG ?= bsp/env/$(BOARD)/openocd.cfg
 OPENOCDARGS += -f $(OPENOCDCFG)
 
@@ -293,7 +288,6 @@ upload:
 	$(RISCV_OPENOCD) $(OPENOCDARGS) & \
 	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDB_UPLOAD_ARGS) $(GDB_UPLOAD_CMDS) && \
 	echo "Successfully uploaded '$(PROGRAM)' to $(BOARD)."
-endif
 
 #############################################################
 # This Section is for launching the debugger
@@ -307,3 +301,5 @@ GDBCMDS += -ex "target extended-remote localhost:$(GDB_PORT)"
 
 run_gdb:
 	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDBARGS) $(GDBCMDS)
+
+endif # BSP == mee
