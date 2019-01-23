@@ -203,6 +203,8 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
+# We have to use $$(shell ls ...) in this recipe instead of $$(wildcard) so that we
+# pick up $$(BSP_DIR)/install
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -211,8 +213,6 @@ standalone: \
 		$(BSP_DIR)/install/lib/libmee-gloss.a \
 		$(SRC_DIR) \
 		scripts/standalone.mk
-	# We have to use $(shell ls ...) here instead of $(wildcard) so that we
-	# pick up $(BSP_DIR)/install
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	$(MAKE) -C $(SRC_DIR) clean
