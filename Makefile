@@ -139,6 +139,7 @@ $(BSP_DIR)/build/Makefile:
 		$(abspath $(MEE_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(abspath $(BSP_DIR)/install) \
+		--disable-maintainer-mode \
 		--with-preconfigured \
 		--with-machine-name=$(BOARD) \
 		--with-machine-header=$(abspath $(MEE_HEADER)) \
