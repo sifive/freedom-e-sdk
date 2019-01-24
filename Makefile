@@ -108,15 +108,27 @@ clean:
 
 ifeq ($(BSP),mee)
 
-# MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
 EXCLUDE_BOARD_DIRS = drivers env include libwrap update-targets.sh
+
+# MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
 list-boards:
-	@echo $(sort $(filter-out $(EXCLUDE_BOARD_DIRS),$(notdir $(wildcard bsp/*))))
+	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_BOARD_DIRS),$(notdir $(wildcard bsp/*))))
 
 
 # MEE programs are any submodules in the software folder
 list-programs:
-	@echo $(shell grep -o '= software/.*$$' .gitmodules | sed -r 's/.*\///')
+	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed -r 's/.*\///')
+
+
+# List all available MEE boards and programs in a form that Freedom Studio 
+# knows how to parse.  Do not change the format or fixed text of the output
+# without consulting the Freedom Studio dev team.
+# MEE programs are any submodules in the software folder
+# MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
+list-options:
+	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed -r 's/.*\///')
+	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_BOARD_DIRS),$(notdir $(wildcard bsp/*))))
+	@echo done
 
 endif
 
