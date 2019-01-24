@@ -111,9 +111,9 @@ clean:
 # Freedom Studio dev team.
 #############################################################
 ifeq ($(BSP),mee)
-EXCLUDE_BOARD_DIRS = drivers env include libwrap update-targets.sh
 
 # MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
+EXCLUDE_BOARD_DIRS = drivers env include libwrap update-targets.sh
 list-boards:
 	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_BOARD_DIRS),$(notdir $(wildcard bsp/*))))
 
