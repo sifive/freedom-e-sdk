@@ -23,8 +23,8 @@ int main (void)
 
     timeval = 0;
     timebase = 0;
-    mee_cpu_get_timer(cpu0, 0, &timeval);
-    mee_cpu_get_timebase(cpu0, &timebase);
+    timeval = mee_cpu_get_timer(cpu0);
+    timebase = mee_cpu_get_timebase(cpu0);
     if ((timeval == 0) || (timebase == 0)) {
        return 2;
     }
