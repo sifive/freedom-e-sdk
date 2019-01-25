@@ -12,7 +12,7 @@ legacy Freedom E SDK API to the new Freedom Metal Compatibility Library.
 
 #### What is Freedom Metal? ###
 
-[Freedom Metal](https://github.com/sifive/freedom-metal) ([Documentation](https://github.com/sifive/freedom-metal/blob/master/doc/mee-spec.md))
+[Freedom Metal](https://github.com/sifive/freedom-metal) ([Documentation](https://sifive.github.io/freedom-metal-docs/index.html))
 is a library developed by SiFive for writing portable software for all of SiFive's
 RISC-V IP, RISC-V FPGA evaluation images, and development boards. Programs written
 against the Freedom Metal API are intended to build and run for all SiFive RISC-V
