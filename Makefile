@@ -267,6 +267,14 @@ endif
 #############################################################
 # Upload and Debug
 #############################################################
+
+ifneq ($(RISCV_OPENOCD_PATH),)
+RISCV_OPENOCD=$(RISCV_OPENOCD_PATH)/bin/openocd
+else
+#if RISCV_OPENOCD_PATH is not set, just look on the PATH
+RISCV_OPENOCD=openocd
+endif
+
 ifeq ($(BSP),mee)
 
 upload: $(PROGRAM_ELF)
