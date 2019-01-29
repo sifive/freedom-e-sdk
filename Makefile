@@ -119,10 +119,9 @@ list-boards:
 
 # MEE programs are any submodules in the software folder
 list-programs:
-	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed -r 's/.*\///')
+	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
 
 list-options: list-programs list-boards
-	@echo done
 
 endif
 
