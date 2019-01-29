@@ -1,0 +1,5 @@
+# Fix github-linguist detection of language usage
+
+*.c linguist-language=C
+*.h linguist-language=C
+
