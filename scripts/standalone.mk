@@ -83,9 +83,9 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
-		$(BSP_DIR)/install/lib/libmee.a \
-		$(BSP_DIR)/install/lib/libmee-gloss.a \
-		$(BSP_DIR)/mee.lds
+		$(BSP_DIR)/install/lib/libmetal.a \
+		$(BSP_DIR)/install/lib/libmetal-gloss.a \
+		$(BSP_DIR)/metal.lds
 	$(MAKE) -C $(dir $@) $(notdir $@) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
@@ -93,7 +93,7 @@ $(PROGRAM_ELF): \
 		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/)" \
 		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/)" \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
-		LDLIBS="-Wl,--start-group -lc -lgcc -lmee -lmee-gloss -Wl,--end-group"
+		LDLIBS="-Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group"
 	touch -c $@
 
 .PHONY: clean-software

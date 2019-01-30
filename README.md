@@ -50,10 +50,10 @@ of Freedom E SDK.
         the Freedom Metal library to the target device. It is included as reference
         so that users of Freedom Metal are aware of what features and peripherals
         are available on the target.
-    * mee.h
+    * metal.h
       - The Freedom Metal machine header which is used internally to Freedom Metal
         to instantiate structures to support the target device.
-    * mee.lds
+    * metal.lds
       - The linker script for the target device.
     * openocd.cfg (for development board and FPGA targets)
       - Used to configure OpenOCD for flashing and debugging the target device.
@@ -124,7 +124,7 @@ the legacy version of the examples from this repository.
   - watchdog
 
 Legacy examples can be built using the same commands as the Freedom Metal examples and simply
-omitting the `BSP=mee` argument or substituting it with `BSP=legacy`.
+omitting the `BSP=metal` argument or substituting it with `BSP=legacy`.
 
 ### Setting up the SDK ###
 
@@ -187,8 +187,8 @@ git submodule update --init --recursive
 
 To ease the transition for consumers of the Legacy SDK, we've namespaced
 the new Freedom Metal examples behind the environment variable `BSP`. To use the
-Freedom Metal examples, you may `export BSP=mee` in your shell environment, or simply
-pass `BSP=mee` as an argument to your `make` invocations as you see in the following
+Freedom Metal examples, you may `export BSP=metal` in your shell environment, or simply
+pass `BSP=metal` as an argument to your `make` invocations as you see in the following
 example commands.
 
 #### Building an Example ####
@@ -196,7 +196,7 @@ example commands.
 To compile a bare-metal RISC-V program:
 
 ```
-make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] software
+make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] software
 ```
 
 The square brackets in the above command indicate optional parameters for the
@@ -206,12 +206,12 @@ If, for example, you wished to build the `timer-interrupt` example for the S51
 Arty FPGA Evaluation target, you would instead run the command
 
 ```
-make BSP=mee PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
+make BSP=metal PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
 ```
 
 #### Building a Legacy Example ####
 
-The legacy examples can still be built by omitting `BSP=mee` or by substituting
+The legacy examples can still be built by omitting `BSP=metal` or by substituting
 `BSP=legacy`. For example, to build the legacy `demo_gpio` application for
 HiFive 1, run:
 
@@ -222,19 +222,19 @@ make PROGRAM=demo_gpio TARGET=freedom-e300-hifive1 software
 #### Uploading to the Target Board ####
 
 ```
-make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] upload
+make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] upload
 ```
 
 #### Debugging a Target Program ####
 
 ```
-make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] debug
+make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] debug
 ```
 
 #### Cleaning a Target Program Build Directory ####
 
 ```
-make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] clean
+make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] clean
 ```
 
 #### Create a Standalone Project ####
@@ -247,7 +247,7 @@ Legacy Freedom E SDK.
 `STANDALONE_DEST` is a required argument to provide the desired project location.
 
 ```
-make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] STANDALONE_DEST=/path/to/desired/location standalone
+make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] STANDALONE_DEST=/path/to/desired/location standalone
 ```
 
 Run `make help` for more commands.
