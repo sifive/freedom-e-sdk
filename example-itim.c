@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-#include <mee/itim.h>
+#include <metal/itim.h>
 
 __attribute__ ((noinline))
-MEE_PLACE_IN_ITIM
+METAL_PLACE_IN_ITIM
 int run_in_itim(int x)
 {
 	return x * x;
