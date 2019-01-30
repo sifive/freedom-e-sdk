@@ -5,7 +5,6 @@ ENTRY(_enter)
 MEMORY
 {
 	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x10000
-	itim (wx!rai) : ORIGIN = 0x8000000, LENGTH = 0x4000
 	flash (rxai!w) : ORIGIN = 0x40400000, LENGTH = 0x20000000
 }
 
@@ -26,7 +25,7 @@ SECTIONS
 
 	.init 		:
 	{
-		KEEP (*(.text.mee.init.enter))
+		KEEP (*(.text.metal.init.enter))
 		KEEP (*(SORT_NONE(.init)))
 	} >flash AT>flash :flash
 
@@ -36,6 +35,7 @@ SECTIONS
 		*(.text.unlikely .text.unlikely.*)
 		*(.text.startup .text.startup.*)
 		*(.text .text.*)
+		*(.itim .itim.*)
 		*(.gnu.linkonce.t.*)
 	} >flash AT>flash :flash
 
@@ -124,39 +124,38 @@ SECTIONS
 	.litimalign 		:
 	{
 		. = ALIGN(4);
-		PROVIDE( mee_segment_itim_source_start = . );
+		PROVIDE( metal_segment_itim_source_start = . );
 	} >flash AT>flash :flash
 
 
 	.ditimalign 		:
 	{
 		. = ALIGN(4);
-		PROVIDE( mee_segment_itim_target_start = . );
-	} >itim AT>flash :itim_init
+		PROVIDE( metal_segment_itim_target_start = . );
+	} >ram AT>flash :ram_init
 
 
 	.itim 		:
 	{
-		*(.itim .itim.*)
-	} >itim AT>flash :itim_init
+	} >flash AT>flash :flash
 
 
 	. = ALIGN(8);
-	PROVIDE( mee_segment_itim_target_end = . );
+	PROVIDE( metal_segment_itim_target_end = . );
 
 
 	.lalign 		:
 	{
 		. = ALIGN(4);
 		PROVIDE( _data_lma = . );
-		PROVIDE( mee_segment_data_source_start = . );
+		PROVIDE( metal_segment_data_source_start = . );
 	} >flash AT>flash :flash
 
 
 	.dalign 		:
 	{
 		. = ALIGN(4);
-		PROVIDE( mee_segment_data_target_start = . );
+		PROVIDE( metal_segment_data_target_start = . );
 	} >ram AT>flash :ram_init
 
 
@@ -180,10 +179,10 @@ SECTIONS
 	. = ALIGN(4);
 	PROVIDE( _edata = . );
 	PROVIDE( edata = . );
-	PROVIDE( mee_segment_data_target_end = . );
+	PROVIDE( metal_segment_data_target_end = . );
 	PROVIDE( _fbss = . );
 	PROVIDE( __bss_start = . );
-	PROVIDE( mee_segment_bss_target_start = . );
+	PROVIDE( metal_segment_bss_target_start = . );
 
 
 	.bss 		:
@@ -200,24 +199,24 @@ SECTIONS
 	. = ALIGN(8);
 	PROVIDE( _end = . );
 	PROVIDE( end = . );
-	PROVIDE( mee_segment_bss_target_end = . );
+	PROVIDE( metal_segment_bss_target_end = . );
 
 
 	.stack :
 	{
-		PROVIDE(mee_segment_stack_begin = .);
+		PROVIDE(metal_segment_stack_begin = .);
 		. = __stack_size;
 		PROVIDE( _sp = . );
-		PROVIDE(mee_segment_stack_end = .);
+		PROVIDE(metal_segment_stack_end = .);
 	} >ram AT>ram :ram
 
 
 	.heap :
 	{
-		PROVIDE( mee_segment_heap_target_start = . );
+		PROVIDE( metal_segment_heap_target_start = . );
 		. = __heap_size;
 		. = __heap_size == 0 ? 0 : ORIGIN(ram) + LENGTH(ram);
-		PROVIDE( mee_segment_heap_target_end = . );
+		PROVIDE( metal_segment_heap_target_end = . );
 		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram
 

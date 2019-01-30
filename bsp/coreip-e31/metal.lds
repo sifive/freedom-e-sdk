@@ -25,7 +25,7 @@ SECTIONS
 
 	.init 		:
 	{
-		KEEP (*(.text.mee.init.enter))
+		KEEP (*(.text.metal.init.enter))
 		KEEP (*(SORT_NONE(.init)))
 	} >ram AT>ram :ram
 
@@ -123,14 +123,14 @@ SECTIONS
 	.litimalign 		:
 	{
 		. = ALIGN(4);
-		PROVIDE( mee_segment_itim_source_start = . );
+		PROVIDE( metal_segment_itim_source_start = . );
 	} >ram AT>ram :ram
 
 
 	.ditimalign 		:
 	{
 		. = ALIGN(4);
-		PROVIDE( mee_segment_itim_target_start = . );
+		PROVIDE( metal_segment_itim_target_start = . );
 	} >itim AT>ram :itim_init
 
 
@@ -141,21 +141,21 @@ SECTIONS
 
 
 	. = ALIGN(8);
-	PROVIDE( mee_segment_itim_target_end = . );
+	PROVIDE( metal_segment_itim_target_end = . );
 
 
 	.lalign 		:
 	{
 		. = ALIGN(4);
 		PROVIDE( _data_lma = . );
-		PROVIDE( mee_segment_data_source_start = . );
+		PROVIDE( metal_segment_data_source_start = . );
 	} >ram AT>ram :ram
 
 
 	.dalign 		:
 	{
 		. = ALIGN(4);
-		PROVIDE( mee_segment_data_target_start = . );
+		PROVIDE( metal_segment_data_target_start = . );
 	} >ram AT>ram :ram_init
 
 
@@ -179,10 +179,10 @@ SECTIONS
 	. = ALIGN(4);
 	PROVIDE( _edata = . );
 	PROVIDE( edata = . );
-	PROVIDE( mee_segment_data_target_end = . );
+	PROVIDE( metal_segment_data_target_end = . );
 	PROVIDE( _fbss = . );
 	PROVIDE( __bss_start = . );
-	PROVIDE( mee_segment_bss_target_start = . );
+	PROVIDE( metal_segment_bss_target_start = . );
 
 
 	.bss 		:
@@ -199,23 +199,23 @@ SECTIONS
 	. = ALIGN(8);
 	PROVIDE( _end = . );
 	PROVIDE( end = . );
-	PROVIDE( mee_segment_bss_target_end = . );
+	PROVIDE( metal_segment_bss_target_end = . );
 
 
 	.stack :
 	{
-		PROVIDE(mee_segment_stack_begin = .);
+		PROVIDE(metal_segment_stack_begin = .);
 		. = __stack_size;
 		PROVIDE( _sp = . );
-		PROVIDE(mee_segment_stack_end = .);
+		PROVIDE(metal_segment_stack_end = .);
 	} >ram AT>ram :ram
 
 
 	.heap :
 	{
-		PROVIDE( mee_segment_heap_target_start = . );
+		PROVIDE( metal_segment_heap_target_start = . );
 		. = __heap_size;
-		PROVIDE( mee_segment_heap_target_end = . );
+		PROVIDE( metal_segment_heap_target_end = . );
 		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram
 

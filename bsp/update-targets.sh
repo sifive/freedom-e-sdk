@@ -56,13 +56,13 @@ else
 fi
 
 DTC=dtc
-MEE_HEADER_GENERATOR=freedom-mee_header-generator
+MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=freedom-ldscript-generator
 
 DTS_FILENAME=design.dts
 DTB_FILENAME=temp.dtb
-HEADER_FILENAME=mee.h
-LDSCRIPT_FILENAME=mee.lds
+HEADER_FILENAME=metal.h
+LDSCRIPT_FILENAME=metal.lds
 
 update_target() {
     TARGET=$1
