@@ -13,7 +13,7 @@ SRC_DIR ?= $(abspath src)
 
 # There must be a settings makefile fragment in the BSP's board directory.
 ifeq ($(wildcard $(BSP_DIR)/settings.mk),)
-$(error Unable to find BSP for $(BOARD), expected to find $(BSP_DIR)/settings.mk)
+$(error Unable to find BSP for $(TARGET), expected to find $(BSP_DIR)/settings.mk)
 endif
 
 # Include the BSP settings

@@ -15,9 +15,14 @@ endif
 # Allowed values are 'legacy' and 'mee'
 BSP ?= legacy
 
+# Use BOARD as a synonym for TARGET
+ifneq ($(BOARD),)
+TARGET ?= $(BOARD)
+endif
+
 ifeq ($(BSP),legacy)
 BSP_SUBDIR ?= env
-BOARD ?= freedom-e300-hifive1
+TARGET ?= freedom-e300-hifive1
 PROGRAM ?= demo_gpio
 LINK_TARGET ?= flash
 GDB_PORT ?= 3333
@@ -26,11 +31,11 @@ else # MEE
 BSP = mee
 BSP_SUBDIR ?= 
 PROGRAM ?= hello
-BOARD ?= sifive-hifive1
+TARGET ?= sifive-hifive1
 
 endif # $(BSP)
 
-BOARD_ROOT ?= $(abspath .)
+TARGET_ROOT ?= $(abspath .)
 PROGRAM_ROOT ?= $(abspath .)
 
 SRC_DIR = $(PROGRAM_ROOT)/software/$(PROGRAM)
@@ -44,12 +49,12 @@ PROGRAM_HEX = $(SRC_DIR)/$(PROGRAM).hex
 
 # Finds the directory in which this BSP is located, ensuring that there is
 # exactly one.
-BSP_DIR := $(wildcard $(BOARD_ROOT)/bsp/$(BSP_SUBDIR)/$(BOARD))
+BSP_DIR := $(wildcard $(TARGET_ROOT)/bsp/$(BSP_SUBDIR)/$(TARGET))
 ifeq ($(words $(BSP_DIR)),0)
-$(error Unable to find BSP for $(BOARD), expected to find either "bsp/$(BOARD)" or "bsp-addons/$(BOARD)")
+$(error Unable to find BSP for $(TARGET), expected to find either "bsp/$(TARGET)" or "bsp-addons/$(TARGET)")
 endif
 ifneq ($(words $(BSP_DIR)),1)
-$(error Found multiple BSPs for $(BOARD): "$(BSP_DIR)")
+$(error Found multiple BSPs for $(TARGET): "$(BSP_DIR)")
 endif
 
 #############################################################
@@ -74,26 +79,26 @@ help:
 	@echo " SiFive Freedom E Software Development Kit "
 	@echo " Makefile targets:"
 	@echo ""
-	@echo " software BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo " software BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
 	@echo ""
-	@echo " mee BSP=mee [BOARD=$(BOARD)]"
-	@echo "    Build the MEE library for BOARD"
+	@echo " mee BSP=mee [TARGET=$(TARGET)]"
+	@echo "    Build the MEE library for TARGET"
 	@echo ""
-	@echo " clean BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo " clean BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Clean compiled objects for a specified "
 	@echo "    software program."
 	@echo ""
-	@echo " upload BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo " upload BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
 	@echo "    on-board Flash."
 	@echo ""
-	@echo " debug BSP=mee [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo " debug BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Launch OpenOCD and attach GDB to the running program."
 	@echo ""
 	@echo " standalone BSP=mee STANDALONE_DEST=/path/to/desired/location"
-	@echo "            [PROGRAM=$(PROGRAM) BOARD=$(BOARD)]:"
+	@echo "            [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Export a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
 	@echo ""
@@ -113,20 +118,20 @@ clean:
 ifeq ($(BSP),mee)
 
 # MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
-EXCLUDE_BOARD_DIRS = drivers env include libwrap update-targets.sh
-list-boards:
-	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_BOARD_DIRS),$(notdir $(wildcard bsp/*))))
+EXCLUDE_TARGET_DIRS = drivers env include libwrap update-targets.sh
+list-targets:
+	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_TARGET_DIRS),$(notdir $(wildcard bsp/*))))
 
 # MEE programs are any submodules in the software folder
 list-programs:
 	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
 
-list-options: list-programs list-boards
+list-options: list-programs list-targets
 
 endif
 
 #############################################################
-# Compiles an instance of the MEE targeted at $(BOARD)
+# Compiles an instance of the MEE targeted at $(TARGET)
 #############################################################
 ifeq ($(BSP),mee)
 MEE_SOURCE_PATH	  ?= freedom-mee
@@ -146,7 +151,7 @@ $(BSP_DIR)/build/Makefile:
 		--prefix=$(abspath $(BSP_DIR)/install) \
 		--disable-maintainer-mode \
 		--with-preconfigured \
-		--with-machine-name=$(BOARD) \
+		--with-machine-name=$(TARGET) \
 		--with-machine-header=$(abspath $(MEE_HEADER)) \
 		--with-machine-ldscript=$(abspath $(MEE_LDSCRIPT)) \
 		--with-builtin-libgloss
@@ -158,7 +163,7 @@ $(BSP_DIR)/install/stamp: $(BSP_DIR)/build/Makefile
 
 $(BSP_DIR)/install/lib/libriscv%.a: $(BSP_DIR)/install/stamp ;@:
 
-$(BSP_DIR)/install/lib/libmee.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(BOARD).a
+$(BSP_DIR)/install/lib/libmee.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(TARGET).a
 	cp $< $@
 
 $(BSP_DIR)/install/lib/libmee-gloss.a: $(BSP_DIR)/install/lib/libriscv__menv__mee.a
@@ -253,11 +258,11 @@ PROGRAM_DIR=$(dir $(PROGRAM_ELF))
 .PHONY: software_clean
 clean: software_clean
 software_clean:
-	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) LINK_TARGET=$(LINK_TARGET) clean
+	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) TARGET=$(TARGET) LINK_TARGET=$(LINK_TARGET) clean
 
 .PHONY: software
 software: software_clean
-	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) BOARD=$(BOARD) LINK_TARGET=$(LINK_TARGET)
+	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) TARGET=$(TARGET) LINK_TARGET=$(LINK_TARGET)
 
 dasm: software $(RISCV_OBJDUMP)
 	$(RISCV_OBJDUMP) -D $(PROGRAM_ELF)
@@ -277,14 +282,14 @@ endif
 ifeq ($(BSP),mee)
 
 upload: $(PROGRAM_ELF)
-	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(BOARD)/openocd.cfg
+	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 
 debug: $(PROGRAM_ELF)
-	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(BOARD)/openocd.cfg
+	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 
 else # BSP != mee
 
-OPENOCDCFG ?= bsp/env/$(BOARD)/openocd.cfg
+OPENOCDCFG ?= bsp/env/$(TARGET)/openocd.cfg
 OPENOCDARGS += -f $(OPENOCDCFG)
 
 GDB_UPLOAD_ARGS ?= --batch
@@ -301,7 +306,7 @@ GDB_UPLOAD_CMDS += -ex "quit"
 upload:
 	$(RISCV_OPENOCD) $(OPENOCDARGS) & \
 	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDB_UPLOAD_ARGS) $(GDB_UPLOAD_CMDS) && \
-	echo "Successfully uploaded '$(PROGRAM)' to $(BOARD)."
+	echo "Successfully uploaded '$(PROGRAM)' to $(TARGET)."
 
 #############################################################
 # This Section is for launching the debugger
