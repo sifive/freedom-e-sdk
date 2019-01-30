@@ -196,7 +196,7 @@ example commands.
 To compile a bare-metal RISC-V program:
 
 ```
-make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] software
+make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] software
 ```
 
 The square brackets in the above command indicate optional parameters for the
@@ -206,7 +206,7 @@ If, for example, you wished to build the `timer-interrupt` example for the S51
 Arty FPGA Evaluation target, you would instead run the command
 
 ```
-make BSP=mee PROGRAM=timer-interrupt BOARD=coreip-s51-arty software
+make BSP=mee PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
 ```
 
 #### Building a Legacy Example ####
@@ -216,38 +216,38 @@ The legacy examples can still be built by omitting `BSP=mee` or by substituting
 HiFive 1, run:
 
 ```
-make PROGRAM=demo_gpio BOARD=freedom-e300-hifive1 software
+make PROGRAM=demo_gpio TARGET=freedom-e300-hifive1 software
 ```
 
 #### Uploading to the Target Board ####
 
 ```
-make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] upload
+make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] upload
 ```
 
 #### Debugging a Target Program ####
 
 ```
-make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] debug
+make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] debug
 ```
 
 #### Cleaning a Target Program Build Directory ####
 
 ```
-make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] clean
+make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] clean
 ```
 
 #### Create a Standalone Project ####
 
 You can export a program to a standalone project directory using the `standalone`
-target. The resulting project will be locked to a specific target `BOARD`. Note
+target. The resulting project will be locked to a specific `TARGET`. Note
 that this functionality is only supported for Freedom Metal programs, not the
 Legacy Freedom E SDK.
 
 `STANDALONE_DEST` is a required argument to provide the desired project location.
 
 ```
-make BSP=mee [PROGRAM=hello] [BOARD=sifive-hifive1] STANDALONE_DEST=/path/to/desired/location standalone
+make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] STANDALONE_DEST=/path/to/desired/location standalone
 ```
 
 Run `make help` for more commands.
@@ -263,8 +263,8 @@ this section to describe the updated build steps.
 After setting up the software and debug toolchains, you can build and
 execute everyone's favorite benchmark as follows:
 
-- Compile the benchmark with the command `make software BOARD=freedom-e300-hifive1 PROGRAM=dhrystone LINK_TARGET=dhrystone`. Note that a slightly different linker file is used for Dhrystone which stores read only data in DTIM instead of external flash.
-- Run on the HiFive1 board with the command `make upload BOARD=freedom-e300-hifive1 PROGRAM=dhrystone`.
+- Compile the benchmark with the command `make software TARGET=freedom-e300-hifive1 PROGRAM=dhrystone LINK_TARGET=dhrystone`. Note that a slightly different linker file is used for Dhrystone which stores read only data in DTIM instead of external flash.
+- Run on the HiFive1 board with the command `make upload TARGET=freedom-e300-hifive1 PROGRAM=dhrystone`.
   This will take a few minutes.  Sample output is provided below.
 - Compute DMIPS by dividing the Dhrystones per Second result by 1757, which
   was the VAX 11/780's performance.  In the example below, 729927 / 1757 =
