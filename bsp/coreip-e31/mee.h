@@ -18,6 +18,7 @@
 #include <mee/drivers/riscv,cpu.h>
 #include <mee/drivers/riscv,clint0.h>
 #include <mee/drivers/riscv,plic0.h>
+#include <mee/pmp.h>
 #include <mee/drivers/sifive,local-external-interrupts0.h>
 #include <mee/drivers/sifive,global-external-interrupts0.h>
 #include <mee/drivers/sifive,test0.h>
@@ -44,6 +45,9 @@ struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_in
 /* From global_external_interrupts */
 asm (".weak __mee_dt_global_external_interrupts");
 struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_interrupts;
+
+asm (".weak __mee_dt_pmp_0");
+struct mee_pmp __mee_dt_pmp_0;
 
 /* From teststatus@4000 */
 asm (".weak __mee_dt_teststatus_4000");
@@ -285,6 +289,13 @@ struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_
 #define __MEE_DT_SIFIVE_GLOBAL_EXINTR0_HANDLE (&__mee_dt_global_external_interrupts.irc)
 
 #define __MEE_DT_GLOBAL_EXTERNAL_INTERRUPTS_HANDLE (&__mee_dt_global_external_interrupts.irc)
+
+/* From pmp@0 */
+struct mee_pmp __mee_dt_pmp_0 = {
+    .num_regions = 8UL,
+};
+
+#define __MEE_DT_PMP_HANDLE (&__mee_dt_pmp_0)
 
 /* From teststatus@4000 */
 struct __mee_driver_sifive_test0 __mee_dt_teststatus_4000 = {

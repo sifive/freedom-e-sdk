@@ -33,6 +33,10 @@
 		#size-cells = <1>;
 		compatible = "SiFive,FE310G-soc", "fe310-soc", "sifive-soc", "simple-bus";
 		ranges;
+		pmp: pmp@0 {
+			compatible = "riscv,pmp";
+			regions = <8>;
+		};
 		L12: ahb-periph-port@20000000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
