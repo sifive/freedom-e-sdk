@@ -1,9 +1,9 @@
 [submodule "software/hello"]
 	path = software/hello
 	url = https://github.com/sifive/example-hello.git
-[submodule "freedom-mee"]
-	path = freedom-mee
-	url = https://github.com/sifive/freedom-mee.git
+[submodule "freedom-metal"]
+	path = freedom-metal
+	url = https://github.com/sifive/freedom-metal.git
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
 	url = ../elf2hex
