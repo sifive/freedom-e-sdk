@@ -7,7 +7,6 @@ $0: BSP Generator for the SiFive Freedom E SDK
     --target-name              Specify bsp target name.
     --sdk-path=*               The path to the freedom-e-sdk clone directory, public or private.
     --target-dts=*.dts         The path to the target device tree that will be used.
-    --ipdelivery-tgz=*.tar.gz  The path to the ipdelivery that will be used.
 EOF
 }
 
@@ -82,7 +81,6 @@ update_target() {
     echo ""
 }
 
-echo $PWD
 for TARGET in $TARGET_LIST
 do
     update_target $TARGET
