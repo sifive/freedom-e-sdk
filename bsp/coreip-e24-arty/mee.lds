@@ -4,7 +4,7 @@ ENTRY(_enter)
 
 MEMORY
 {
-	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x8000
+	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x10000
 	flash (rxai!w) : ORIGIN = 0x40400000, LENGTH = 0x20000000
 }
 
@@ -19,7 +19,8 @@ PHDRS
 
 SECTIONS
 {
-	__stack_size = DEFINED(__stack_size) ? __stack_size : 0x800;
+	__stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
+	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x400;
 
 
 	.init 		:
@@ -199,16 +200,24 @@ SECTIONS
 	PROVIDE( _end = . );
 	PROVIDE( end = . );
 	PROVIDE( mee_segment_bss_target_end = . );
-	PROVIDE( mee_segment_heap_target_start = . );
 
 
-	.stack ORIGIN(ram) + LENGTH(ram) - __stack_size :
+	.stack :
 	{
-		PROVIDE( mee_segment_heap_target_end = . );
-		PROVIDE( _heap_end = . );
+		PROVIDE(mee_segment_stack_begin = .);
 		. = __stack_size;
 		PROVIDE( _sp = . );
 		PROVIDE(mee_segment_stack_end = .);
+	} >ram AT>ram :ram
+
+
+	.heap :
+	{
+		PROVIDE( mee_segment_heap_target_start = . );
+		. = __heap_size;
+		. = __heap_size == 0 ? 0 : ORIGIN(ram) + LENGTH(ram);
+		PROVIDE( mee_segment_heap_target_end = . );
+		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram
 
 

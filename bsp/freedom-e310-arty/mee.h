@@ -3,6 +3,10 @@
 #ifndef FREEDOM_E310_ARTY__MEE_H
 #define FREEDOM_E310_ARTY__MEE_H
 
+#ifdef __MEE_MACHINE_MACROS
+#endif
+
+#ifndef __MEE_MACHINE_MACROS
 #define __MEE_CLINT_2000000_INTERRUPTS 		2
 #define MEE_MAX_CLINT_INTERRUPTS	 __MEE_CLINT_2000000_INTERRUPTS
 
@@ -16,7 +20,7 @@
 #define MEE_MAX_GPIO_INTERRUPTS	 __MEE_GPIO_10012000_INTERRUPTS
 
 #define __MEE_SERIAL_10013000_INTERRUPTS 		1
-#define MEE_MAX_UART_INTERRUPTS	 __MEE_SERIAL_10013000_INTERRUPTS
+#define MEE_MAX_UART_INTERRUPTS 		 1
 
 #include <mee/drivers/riscv,cpu.h>
 #include <mee/drivers/riscv,clint0.h>
@@ -231,6 +235,8 @@ struct __mee_driver_sifive_gpio_button *__mee_button_table[] = {
 asm (".weak __mee_switch_table");
 struct __mee_driver_sifive_gpio_switch *__mee_switch_table[] = {
 					NULL };
+#endif
+
 #endif /*MEE__MACHINE__FREEDOM_E310_ARTY__MEE_H*/
 
 #endif/*ASSEMBLY*/

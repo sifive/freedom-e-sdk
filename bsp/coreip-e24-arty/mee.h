@@ -3,8 +3,16 @@
 #ifndef COREIP_E24_ARTY__MEE_H
 #define COREIP_E24_ARTY__MEE_H
 
+#ifdef __MEE_MACHINE_MACROS
+#define __MEE_CLIC_SUBINTERRUPTS 169
+
+#endif
+
+#ifndef __MEE_MACHINE_MACROS
 #define __MEE_INTERRUPT_CONTROLLER_2000000_INTERRUPTS 		3
 #define MEE_MAX_CLIC_INTERRUPTS	 __MEE_INTERRUPT_CONTROLLER_2000000_INTERRUPTS
+
+#define __MEE_CLIC_SUBINTERRUPTS 169
 
 #define __MEE_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS 		127
 #define MEE_MAX_LOCAL_EXT_INTERRUPTS	 __MEE_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS
@@ -16,7 +24,7 @@
 #define MEE_MAX_GPIO_INTERRUPTS	 __MEE_GPIO_20002000_INTERRUPTS
 
 #define __MEE_SERIAL_20000000_INTERRUPTS 		1
-#define MEE_MAX_UART_INTERRUPTS	 __MEE_SERIAL_20000000_INTERRUPTS
+#define MEE_MAX_UART_INTERRUPTS 		 1
 
 #include <mee/drivers/riscv,cpu.h>
 #include <mee/drivers/sifive,clic0.h>
@@ -153,9 +161,9 @@ struct __mee_driver_sifive_clic0 __mee_dt_interrupt_controller_2000000 = {
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
     .interrupt_lines[0] = 3,
     .interrupt_lines[1] = 7,
-    .interrupt_parent = &__mee_dt_interrupt_controller.controller,
-    .interrupt_lines[0] = 11,
-    .num_subinterrupts = 143UL,
+    .interrupt_lines[2] = 11,
+    .num_subinterrupts = 169UL,
+    .num_intbits = 4UL,
     .max_levels = 16UL,
     .interrupt_controller = 1,
 };
@@ -315,10 +323,10 @@ struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_
 /* From interrupt_controller@2000000 */
     .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_GLOBAL_EXT_INTERRUPTS,
-    .interrupt_lines[0] = 0,
-    .interrupt_lines[1] = 1,
-    .interrupt_lines[2] = 2,
-    .interrupt_lines[3] = 3,
+    .interrupt_lines[0] = 22,
+    .interrupt_lines[1] = 23,
+    .interrupt_lines[2] = 24,
+    .interrupt_lines[3] = 25,
 };
 
 /* From global_external_interrupts */
@@ -334,22 +342,22 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_20002000 = {
 /* From interrupt_controller@2000000 */
     .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_GPIO_INTERRUPTS,
-    .interrupt_lines[0] = 6,
-    .interrupt_lines[1] = 7,
-    .interrupt_lines[2] = 8,
-    .interrupt_lines[3] = 9,
-    .interrupt_lines[4] = 10,
-    .interrupt_lines[5] = 11,
-    .interrupt_lines[6] = 12,
-    .interrupt_lines[7] = 13,
-    .interrupt_lines[8] = 14,
-    .interrupt_lines[9] = 15,
-    .interrupt_lines[10] = 16,
-    .interrupt_lines[11] = 17,
-    .interrupt_lines[12] = 18,
-    .interrupt_lines[13] = 19,
-    .interrupt_lines[14] = 20,
-    .interrupt_lines[15] = 21,
+    .interrupt_lines[0] = 0,
+    .interrupt_lines[1] = 1,
+    .interrupt_lines[2] = 2,
+    .interrupt_lines[3] = 3,
+    .interrupt_lines[4] = 4,
+    .interrupt_lines[5] = 5,
+    .interrupt_lines[6] = 6,
+    .interrupt_lines[7] = 7,
+    .interrupt_lines[8] = 8,
+    .interrupt_lines[9] = 9,
+    .interrupt_lines[10] = 10,
+    .interrupt_lines[11] = 11,
+    .interrupt_lines[12] = 12,
+    .interrupt_lines[13] = 13,
+    .interrupt_lines[14] = 14,
+    .interrupt_lines[15] = 15,
 };
 
 /* From serial@20000000 */
@@ -364,7 +372,7 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000 = {
 /* From interrupt_controller@2000000 */
     .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_UART_INTERRUPTS,
-    .interrupt_line = 4UL,
+    .interrupt_line = 16UL,
 };
 
 /* From led@0red */
@@ -406,7 +414,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_0 = {
     .pin = 4UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 4UL,
+    .interrupt_line = 9UL,
     .label = "BTN0",
 };
 
@@ -419,7 +427,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_1 = {
     .pin = 5UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 5UL,
+    .interrupt_line = 10UL,
     .label = "BTN1",
 };
 
@@ -432,7 +440,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_2 = {
     .pin = 6UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 6UL,
+    .interrupt_line = 11UL,
     .label = "BTN2",
 };
 
@@ -445,7 +453,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_3 = {
     .pin = 7UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 7UL,
+    .interrupt_line = 12UL,
     .label = "BTN3",
 };
 
@@ -485,7 +493,7 @@ struct __mee_driver_sifive_gpio_switch __mee_dt_switch_3 = {
     .flip.vtable = &__mee_driver_vtable_sifive_switch.switch_vtable,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 3UL,
+    .interrupt_line = 8UL,
     .label = "SW3",
 };
 
@@ -540,6 +548,8 @@ struct __mee_driver_sifive_gpio_switch *__mee_switch_table[] = {
 					&__mee_dt_switch_1,
 					&__mee_dt_switch_2,
 					&__mee_dt_switch_3};
+
+#endif
 
 #endif /*MEE__MACHINE__COREIP_E24_ARTY__MEE_H*/
 
