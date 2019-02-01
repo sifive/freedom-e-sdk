@@ -3,6 +3,14 @@
 #ifndef COREIP_S51_ARTY__MEE_H
 #define COREIP_S51_ARTY__MEE_H
 
+#ifdef __MEE_MACHINE_MACROS
+/* To Satisfy libmetal build */
+#ifndef __MEE_CLIC_SUBINTERRUPTS
+#define __MEE_CLIC_SUBINTERRUPTS 0
+#endif
+#endif
+
+#ifndef __MEE_MACHINE_MACROS
 #define __MEE_CLINT_2000000_INTERRUPTS 		2
 #define MEE_MAX_CLINT_INTERRUPTS	 __MEE_CLINT_2000000_INTERRUPTS
 
@@ -19,7 +27,7 @@
 #define MEE_MAX_GPIO_INTERRUPTS	 __MEE_GPIO_20002000_INTERRUPTS
 
 #define __MEE_SERIAL_20000000_INTERRUPTS 		1
-#define MEE_MAX_UART_INTERRUPTS	 __MEE_SERIAL_20000000_INTERRUPTS
+#define MEE_MAX_UART_INTERRUPTS 		 1
 
 #include <mee/drivers/riscv,cpu.h>
 #include <mee/drivers/riscv,clint0.h>
@@ -463,6 +471,8 @@ struct __mee_driver_sifive_gpio_switch *__mee_switch_table[] = {
 					&__mee_dt_switch_1,
 					&__mee_dt_switch_2,
 					&__mee_dt_switch_3};
+
+#endif
 
 #endif /*MEE__MACHINE__COREIP_S51_ARTY__MEE_H*/
 

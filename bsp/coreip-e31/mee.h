@@ -3,6 +3,14 @@
 #ifndef COREIP_E31__MEE_H
 #define COREIP_E31__MEE_H
 
+#ifdef __MEE_MACHINE_MACROS
+/* To Satisfy libmetal build */
+#ifndef __MEE_CLIC_SUBINTERRUPTS
+#define __MEE_CLIC_SUBINTERRUPTS 0
+#endif
+#endif
+
+#ifndef __MEE_MACHINE_MACROS
 #define __MEE_CLINT_2000000_INTERRUPTS 		2
 #define MEE_MAX_CLINT_INTERRUPTS	 __MEE_CLINT_2000000_INTERRUPTS
 
@@ -331,6 +339,8 @@ struct __mee_driver_sifive_gpio_button *__mee_button_table[] = {
 asm (".weak __mee_switch_table");
 struct __mee_driver_sifive_gpio_switch *__mee_switch_table[] = {
 					NULL };
+#endif
+
 #endif /*MEE__MACHINE__COREIP_E31__MEE_H*/
 
 #endif/*ASSEMBLY*/

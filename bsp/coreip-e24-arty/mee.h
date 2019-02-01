@@ -1,9 +1,11 @@
 #ifndef ASSEMBLY
 
-#ifndef COREIP_E31_ARTY__MEE_H
-#define COREIP_E31_ARTY__MEE_H
+#ifndef COREIP_E24_ARTY__MEE_H
+#define COREIP_E24_ARTY__MEE_H
 
 #ifdef __MEE_MACHINE_MACROS
+#define __MEE_CLIC_SUBINTERRUPTS 169
+
 /* To Satisfy libmetal build */
 #ifndef __MEE_CLIC_SUBINTERRUPTS
 #define __MEE_CLIC_SUBINTERRUPTS 0
@@ -11,13 +13,12 @@
 #endif
 
 #ifndef __MEE_MACHINE_MACROS
-#define __MEE_CLINT_2000000_INTERRUPTS 		2
-#define MEE_MAX_CLINT_INTERRUPTS	 __MEE_CLINT_2000000_INTERRUPTS
+#define __MEE_INTERRUPT_CONTROLLER_2000000_INTERRUPTS 		3
+#define MEE_MAX_CLIC_INTERRUPTS	 __MEE_INTERRUPT_CONTROLLER_2000000_INTERRUPTS
 
-#define __MEE_INTERRUPT_CONTROLLER_C000000_INTERRUPTS 		1
-#define MEE_MAX_PLIC_INTERRUPTS	 __MEE_INTERRUPT_CONTROLLER_C000000_INTERRUPTS
+#define __MEE_CLIC_SUBINTERRUPTS 169
 
-#define __MEE_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS 		16
+#define __MEE_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS 		127
 #define MEE_MAX_LOCAL_EXT_INTERRUPTS	 __MEE_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS
 
 #define __MEE_GLOBAL_EXTERNAL_INTERRUPTS_INTERRUPTS 		4
@@ -30,12 +31,10 @@
 #define MEE_MAX_UART_INTERRUPTS 		 1
 
 #include <mee/drivers/riscv,cpu.h>
-#include <mee/drivers/riscv,clint0.h>
-#include <mee/drivers/riscv,plic0.h>
+#include <mee/drivers/sifive,clic0.h>
 #include <mee/drivers/fixed-clock.h>
 #include <mee/drivers/sifive,gpio0.h>
 #include <mee/drivers/sifive,uart0.h>
-#include <mee/pmp.h>
 #include <mee/drivers/sifive,local-external-interrupts0.h>
 #include <mee/drivers/sifive,global-external-interrupts0.h>
 #include <mee/drivers/sifive,gpio-leds.h>
@@ -46,13 +45,9 @@
 asm (".weak __mee_dt_cpu_0");
 struct __mee_driver_cpu __mee_dt_cpu_0;
 
-/* From clint@2000000 */
-asm (".weak __mee_dt_clint_2000000");
-struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000;
-
-/* From interrupt_controller@c000000 */
-asm (".weak __mee_dt_interrupt_controller_c000000");
-struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000;
+/* From interrupt_controller@2000000 */
+asm (".weak __mee_dt_interrupt_controller_2000000");
+struct __mee_driver_sifive_clic0 __mee_dt_interrupt_controller_2000000;
 
 /* From interrupt_controller */
 asm (".weak __mee_dt_interrupt_controller");
@@ -77,9 +72,6 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_20002000;
 /* From serial@20000000 */
 asm (".weak __mee_dt_serial_20000000");
 struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000;
-
-asm (".weak __mee_dt_pmp_0");
-struct mee_pmp __mee_dt_pmp_0;
 
 /* From led@0red */
 asm (".weak __mee_dt_led_0red");
@@ -162,48 +154,164 @@ struct __mee_driver_riscv_cpu_intc __mee_dt_interrupt_controller = {
 
 #define __MEE_DT_INTERRUPT_CONTROLLER_HANDLE (&__mee_dt_interrupt_controller.controller)
 
-/* From clint@2000000 */
-struct __mee_driver_riscv_clint0 __mee_dt_clint_2000000 = {
-    .vtable = &__mee_driver_vtable_riscv_clint0,
-    .controller.vtable = &__mee_driver_vtable_riscv_clint0.clint_vtable,
+/* From interrupt_controller@2000000 */
+struct __mee_driver_sifive_clic0 __mee_dt_interrupt_controller_2000000 = {
+    .vtable = &__mee_driver_vtable_sifive_clic0,
+    .controller.vtable = &__mee_driver_vtable_sifive_clic0.clic_vtable,
     .control_base = 33554432UL,
-    .control_size = 65536UL,
+    .control_size = 16777216UL,
     .init_done = 0,
-    .num_interrupts = MEE_MAX_CLINT_INTERRUPTS,
+    .num_interrupts = MEE_MAX_CLIC_INTERRUPTS,
     .interrupt_parent = &__mee_dt_interrupt_controller.controller,
     .interrupt_lines[0] = 3,
     .interrupt_lines[1] = 7,
+    .interrupt_lines[2] = 11,
+    .num_subinterrupts = 169UL,
+    .num_intbits = 4UL,
+    .max_levels = 16UL,
+    .interrupt_controller = 1,
 };
 
-/* From clint@2000000 */
-#define __MEE_DT_RISCV_CLINT0_HANDLE (&__mee_dt_clint_2000000.controller)
+/* From interrupt_controller@2000000 */
+#define __MEE_DT_SIFIVE_CLIC0_HANDLE (&__mee_dt_interrupt_controller_2000000.controller)
 
-#define __MEE_DT_CLINT_2000000_HANDLE (&__mee_dt_clint_2000000.controller)
+#define __MEE_DT_INTERRUPT_CONTROLLER_2000000_HANDLE (&__mee_dt_interrupt_controller_2000000.controller)
 
 /* From local_external_interrupts_0 */
 struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_interrupts_0 = {
     .vtable = &__mee_driver_vtable_sifive_local_external_interrupts0,
     .irc.vtable = &__mee_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
     .init_done = 0,
-/* From interrupt_controller */
-    .interrupt_parent = &__mee_dt_interrupt_controller.controller,
+/* From interrupt_controller@2000000 */
+    .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_LOCAL_EXT_INTERRUPTS,
-    .interrupt_lines[0] = 16,
-    .interrupt_lines[1] = 17,
-    .interrupt_lines[2] = 18,
-    .interrupt_lines[3] = 19,
-    .interrupt_lines[4] = 20,
-    .interrupt_lines[5] = 21,
-    .interrupt_lines[6] = 22,
-    .interrupt_lines[7] = 23,
-    .interrupt_lines[8] = 24,
-    .interrupt_lines[9] = 25,
-    .interrupt_lines[10] = 26,
-    .interrupt_lines[11] = 27,
-    .interrupt_lines[12] = 28,
-    .interrupt_lines[13] = 29,
-    .interrupt_lines[14] = 30,
-    .interrupt_lines[15] = 31,
+    .interrupt_lines[0] = 26,
+    .interrupt_lines[1] = 27,
+    .interrupt_lines[2] = 28,
+    .interrupt_lines[3] = 29,
+    .interrupt_lines[4] = 30,
+    .interrupt_lines[5] = 31,
+    .interrupt_lines[6] = 32,
+    .interrupt_lines[7] = 33,
+    .interrupt_lines[8] = 34,
+    .interrupt_lines[9] = 35,
+    .interrupt_lines[10] = 36,
+    .interrupt_lines[11] = 37,
+    .interrupt_lines[12] = 38,
+    .interrupt_lines[13] = 39,
+    .interrupt_lines[14] = 40,
+    .interrupt_lines[15] = 41,
+    .interrupt_lines[16] = 42,
+    .interrupt_lines[17] = 43,
+    .interrupt_lines[18] = 44,
+    .interrupt_lines[19] = 45,
+    .interrupt_lines[20] = 46,
+    .interrupt_lines[21] = 47,
+    .interrupt_lines[22] = 48,
+    .interrupt_lines[23] = 49,
+    .interrupt_lines[24] = 50,
+    .interrupt_lines[25] = 51,
+    .interrupt_lines[26] = 52,
+    .interrupt_lines[27] = 53,
+    .interrupt_lines[28] = 54,
+    .interrupt_lines[29] = 55,
+    .interrupt_lines[30] = 56,
+    .interrupt_lines[31] = 57,
+    .interrupt_lines[32] = 58,
+    .interrupt_lines[33] = 59,
+    .interrupt_lines[34] = 60,
+    .interrupt_lines[35] = 61,
+    .interrupt_lines[36] = 62,
+    .interrupt_lines[37] = 63,
+    .interrupt_lines[38] = 64,
+    .interrupt_lines[39] = 65,
+    .interrupt_lines[40] = 66,
+    .interrupt_lines[41] = 67,
+    .interrupt_lines[42] = 68,
+    .interrupt_lines[43] = 69,
+    .interrupt_lines[44] = 70,
+    .interrupt_lines[45] = 71,
+    .interrupt_lines[46] = 72,
+    .interrupt_lines[47] = 73,
+    .interrupt_lines[48] = 74,
+    .interrupt_lines[49] = 75,
+    .interrupt_lines[50] = 76,
+    .interrupt_lines[51] = 77,
+    .interrupt_lines[52] = 78,
+    .interrupt_lines[53] = 79,
+    .interrupt_lines[54] = 80,
+    .interrupt_lines[55] = 81,
+    .interrupt_lines[56] = 82,
+    .interrupt_lines[57] = 83,
+    .interrupt_lines[58] = 84,
+    .interrupt_lines[59] = 85,
+    .interrupt_lines[60] = 86,
+    .interrupt_lines[61] = 87,
+    .interrupt_lines[62] = 88,
+    .interrupt_lines[63] = 89,
+    .interrupt_lines[64] = 90,
+    .interrupt_lines[65] = 91,
+    .interrupt_lines[66] = 92,
+    .interrupt_lines[67] = 93,
+    .interrupt_lines[68] = 94,
+    .interrupt_lines[69] = 95,
+    .interrupt_lines[70] = 96,
+    .interrupt_lines[71] = 97,
+    .interrupt_lines[72] = 98,
+    .interrupt_lines[73] = 99,
+    .interrupt_lines[74] = 100,
+    .interrupt_lines[75] = 101,
+    .interrupt_lines[76] = 102,
+    .interrupt_lines[77] = 103,
+    .interrupt_lines[78] = 104,
+    .interrupt_lines[79] = 105,
+    .interrupt_lines[80] = 106,
+    .interrupt_lines[81] = 107,
+    .interrupt_lines[82] = 108,
+    .interrupt_lines[83] = 109,
+    .interrupt_lines[84] = 110,
+    .interrupt_lines[85] = 111,
+    .interrupt_lines[86] = 112,
+    .interrupt_lines[87] = 113,
+    .interrupt_lines[88] = 114,
+    .interrupt_lines[89] = 115,
+    .interrupt_lines[90] = 116,
+    .interrupt_lines[91] = 117,
+    .interrupt_lines[92] = 118,
+    .interrupt_lines[93] = 119,
+    .interrupt_lines[94] = 120,
+    .interrupt_lines[95] = 121,
+    .interrupt_lines[96] = 122,
+    .interrupt_lines[97] = 123,
+    .interrupt_lines[98] = 124,
+    .interrupt_lines[99] = 125,
+    .interrupt_lines[100] = 126,
+    .interrupt_lines[101] = 127,
+    .interrupt_lines[102] = 128,
+    .interrupt_lines[103] = 129,
+    .interrupt_lines[104] = 130,
+    .interrupt_lines[105] = 131,
+    .interrupt_lines[106] = 132,
+    .interrupt_lines[107] = 133,
+    .interrupt_lines[108] = 134,
+    .interrupt_lines[109] = 135,
+    .interrupt_lines[110] = 136,
+    .interrupt_lines[111] = 137,
+    .interrupt_lines[112] = 138,
+    .interrupt_lines[113] = 139,
+    .interrupt_lines[114] = 140,
+    .interrupt_lines[115] = 141,
+    .interrupt_lines[116] = 142,
+    .interrupt_lines[117] = 143,
+    .interrupt_lines[118] = 144,
+    .interrupt_lines[119] = 145,
+    .interrupt_lines[120] = 146,
+    .interrupt_lines[121] = 147,
+    .interrupt_lines[122] = 148,
+    .interrupt_lines[123] = 149,
+    .interrupt_lines[124] = 150,
+    .interrupt_lines[125] = 151,
+    .interrupt_lines[126] = 152,
 };
 
 /* From local_external_interrupts_0 */
@@ -211,38 +319,18 @@ struct __mee_driver_sifive_local_external_interrupts0 __mee_dt_local_external_in
 
 #define __MEE_DT_LOCAL_EXTERNAL_INTERRUPTS_0_HANDLE (&__mee_dt_local_external_interrupts_0.irc)
 
-/* From interrupt_controller@c000000 */
-struct __mee_driver_riscv_plic0 __mee_dt_interrupt_controller_c000000 = {
-    .vtable = &__mee_driver_vtable_riscv_plic0,
-    .controller.vtable = &__mee_driver_vtable_riscv_plic0.plic_vtable,
-    .init_done = 0,
-/* From interrupt_controller */
-    .interrupt_parent = &__mee_dt_interrupt_controller.controller,
-    .interrupt_line = 11UL,
-    .control_base = 201326592UL,
-    .control_size = 67108864UL,
-    .max_priority = 7UL,
-    .num_interrupts = 26UL,
-    .interrupt_controller = 1,
-};
-
-/* From interrupt_controller@c000000 */
-#define __MEE_DT_RISCV_PLIC0_HANDLE (&__mee_dt_interrupt_controller_c000000.controller)
-
-#define __MEE_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__mee_dt_interrupt_controller_c000000.controller)
-
 /* From global_external_interrupts */
 struct __mee_driver_sifive_global_external_interrupts0 __mee_dt_global_external_interrupts = {
     .vtable = &__mee_driver_vtable_sifive_global_external_interrupts0,
     .irc.vtable = &__mee_driver_vtable_sifive_global_external_interrupts0.global0_vtable,
     .init_done = 0,
-/* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
+/* From interrupt_controller@2000000 */
+    .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_GLOBAL_EXT_INTERRUPTS,
-    .interrupt_lines[0] = 1,
-    .interrupt_lines[1] = 2,
-    .interrupt_lines[2] = 3,
-    .interrupt_lines[3] = 4,
+    .interrupt_lines[0] = 22,
+    .interrupt_lines[1] = 23,
+    .interrupt_lines[2] = 24,
+    .interrupt_lines[3] = 25,
 };
 
 /* From global_external_interrupts */
@@ -255,25 +343,25 @@ struct __mee_driver_sifive_gpio0 __mee_dt_gpio_20002000 = {
     .vtable = &__mee_driver_vtable_sifive_gpio0,
     .base = 536879104UL,
     .size = 4096UL,
-/* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
+/* From interrupt_controller@2000000 */
+    .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_GPIO_INTERRUPTS,
-    .interrupt_lines[0] = 7,
-    .interrupt_lines[1] = 8,
-    .interrupt_lines[2] = 9,
-    .interrupt_lines[3] = 10,
-    .interrupt_lines[4] = 11,
-    .interrupt_lines[5] = 12,
-    .interrupt_lines[6] = 13,
-    .interrupt_lines[7] = 14,
-    .interrupt_lines[8] = 15,
-    .interrupt_lines[9] = 16,
-    .interrupt_lines[10] = 17,
-    .interrupt_lines[11] = 18,
-    .interrupt_lines[12] = 19,
-    .interrupt_lines[13] = 20,
-    .interrupt_lines[14] = 21,
-    .interrupt_lines[15] = 22,
+    .interrupt_lines[0] = 0,
+    .interrupt_lines[1] = 1,
+    .interrupt_lines[2] = 2,
+    .interrupt_lines[3] = 3,
+    .interrupt_lines[4] = 4,
+    .interrupt_lines[5] = 5,
+    .interrupt_lines[6] = 6,
+    .interrupt_lines[7] = 7,
+    .interrupt_lines[8] = 8,
+    .interrupt_lines[9] = 9,
+    .interrupt_lines[10] = 10,
+    .interrupt_lines[11] = 11,
+    .interrupt_lines[12] = 12,
+    .interrupt_lines[13] = 13,
+    .interrupt_lines[14] = 14,
+    .interrupt_lines[15] = 15,
 };
 
 /* From serial@20000000 */
@@ -285,10 +373,10 @@ struct __mee_driver_sifive_uart0 __mee_dt_serial_20000000 = {
 /* From clock@0 */
     .clock = &__mee_dt_clock_0.clock,
     .pinmux = NULL,
-/* From interrupt_controller@c000000 */
-    .interrupt_parent = &__mee_dt_interrupt_controller_c000000.controller,
+/* From interrupt_controller@2000000 */
+    .interrupt_parent = &__mee_dt_interrupt_controller_2000000.controller,
     .num_interrupts = MEE_MAX_UART_INTERRUPTS,
-    .interrupt_line = 5UL,
+    .interrupt_line = 16UL,
 };
 
 /* From led@0red */
@@ -330,7 +418,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_0 = {
     .pin = 4UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 4UL,
+    .interrupt_line = 9UL,
     .label = "BTN0",
 };
 
@@ -343,7 +431,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_1 = {
     .pin = 5UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 5UL,
+    .interrupt_line = 10UL,
     .label = "BTN1",
 };
 
@@ -356,7 +444,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_2 = {
     .pin = 6UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 6UL,
+    .interrupt_line = 11UL,
     .label = "BTN2",
 };
 
@@ -369,7 +457,7 @@ struct __mee_driver_sifive_gpio_button __mee_dt_button_3 = {
     .pin = 7UL,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 7UL,
+    .interrupt_line = 12UL,
     .label = "BTN3",
 };
 
@@ -409,16 +497,9 @@ struct __mee_driver_sifive_gpio_switch __mee_dt_switch_3 = {
     .flip.vtable = &__mee_driver_vtable_sifive_switch.switch_vtable,
 /* From local_external_interrupts_0 */
     .interrupt_parent = &__mee_dt_local_external_interrupts_0.irc,
-    .interrupt_line = 3UL,
+    .interrupt_line = 8UL,
     .label = "SW3",
 };
-
-/* From pmp@0 */
-struct mee_pmp __mee_dt_pmp_0 = {
-    .num_regions = 8UL,
-};
-
-#define __MEE_DT_PMP_HANDLE (&__mee_dt_pmp_0)
 
 /* From teststatus@4000 */
 struct __mee_driver_sifive_test0 __mee_dt_teststatus_4000 = {
@@ -474,6 +555,6 @@ struct __mee_driver_sifive_gpio_switch *__mee_switch_table[] = {
 
 #endif
 
-#endif /*MEE__MACHINE__COREIP_E31_ARTY__MEE_H*/
+#endif /*MEE__MACHINE__COREIP_E24_ARTY__MEE_H*/
 
 #endif/*ASSEMBLY*/
