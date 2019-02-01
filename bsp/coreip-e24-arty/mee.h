@@ -6,6 +6,10 @@
 #ifdef __MEE_MACHINE_MACROS
 #define __MEE_CLIC_SUBINTERRUPTS 169
 
+/* To Satisfy libmetal build */
+#ifndef __MEE_CLIC_SUBINTERRUPTS
+#define __MEE_CLIC_SUBINTERRUPTS 0
+#endif
 #endif
 
 #ifndef __MEE_MACHINE_MACROS
