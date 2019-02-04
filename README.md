@@ -1,2 +1,2 @@
 # example-timer-interrupt
-A simple "Timer Interrupt" example using mee-interrupts APIs for registration and stroking machine cycle.
+A simple "Timer Interrupt" example using metal-interrupts APIs for registration and stroking machine cycle.
