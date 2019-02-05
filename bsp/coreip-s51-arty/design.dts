@@ -8,7 +8,7 @@
 
         chosen {
                 stdout-path = "/soc/serial@20000000:115200";
-                mee,entry = <&L12 0x400000>;
+                metal,entry = <&L12 0x400000>;
         };
 
 	L17: cpus {

@@ -12,7 +12,7 @@ include $(extra_configs)
 endif
 
 # Select Legacy BSP or Freedom Metal BSP
-# Allowed values are 'legacy' and 'mee'
+# Allowed values are 'legacy' and 'metal'
 BSP ?= legacy
 
 # Use BOARD as a synonym for TARGET
@@ -28,7 +28,7 @@ LINK_TARGET ?= flash
 GDB_PORT ?= 3333
 
 else # MEE
-BSP = mee
+override BSP = metal
 BSP_SUBDIR ?= 
 PROGRAM ?= hello
 TARGET ?= sifive-hifive1
@@ -79,25 +79,25 @@ help:
 	@echo " SiFive Freedom E Software Development Kit "
 	@echo " Makefile targets:"
 	@echo ""
-	@echo " software BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " software BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
 	@echo ""
-	@echo " mee BSP=mee [TARGET=$(TARGET)]"
+	@echo " metal BSP=metal [TARGET=$(TARGET)]"
 	@echo "    Build the MEE library for TARGET"
 	@echo ""
-	@echo " clean BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " clean BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Clean compiled objects for a specified "
 	@echo "    software program."
 	@echo ""
-	@echo " upload BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " upload BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
 	@echo "    on-board Flash."
 	@echo ""
-	@echo " debug BSP=mee [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " debug BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Launch OpenOCD and attach GDB to the running program."
 	@echo ""
-	@echo " standalone BSP=mee STANDALONE_DEST=/path/to/desired/location"
+	@echo " standalone BSP=metal STANDALONE_DEST=/path/to/desired/location"
 	@echo "            [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Export a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
@@ -115,7 +115,7 @@ clean:
 # format or fixed text of the output without consulting the 
 # Freedom Studio dev team.
 #############################################################
-ifeq ($(BSP),mee)
+ifeq ($(BSP),metal)
 
 # MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
 EXCLUDE_TARGET_DIRS = drivers env include libwrap update-targets.sh
@@ -133,13 +133,13 @@ endif
 #############################################################
 # Compiles an instance of the MEE targeted at $(TARGET)
 #############################################################
-ifeq ($(BSP),mee)
-MEE_SOURCE_PATH	  ?= freedom-mee
-MEE_LDSCRIPT	   = $(BSP_DIR)/mee.lds
-MEE_HEADER	   = $(BSP_DIR)/mee.h
+ifeq ($(BSP),metal)
+MEE_SOURCE_PATH	  ?= freedom-metal
+MEE_LDSCRIPT	   = $(BSP_DIR)/metal.lds
+MEE_HEADER	   = $(BSP_DIR)/metal.h
 
-.PHONY: mee
-mee: $(BSP_DIR)/install/stamp
+.PHONY: metal
+metal: $(BSP_DIR)/install/stamp
 
 $(BSP_DIR)/build/Makefile:
 	@rm -rf $(dir $@)
@@ -163,20 +163,20 @@ $(BSP_DIR)/install/stamp: $(BSP_DIR)/build/Makefile
 
 $(BSP_DIR)/install/lib/libriscv%.a: $(BSP_DIR)/install/stamp ;@:
 
-$(BSP_DIR)/install/lib/libmee.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(TARGET).a
+$(BSP_DIR)/install/lib/libmetal.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(TARGET).a
 	cp $< $@
 
-$(BSP_DIR)/install/lib/libmee-gloss.a: $(BSP_DIR)/install/lib/libriscv__menv__mee.a
+$(BSP_DIR)/install/lib/libmetal-gloss.a: $(BSP_DIR)/install/lib/libriscv__menv__metal.a
 	cp $< $@
 
-.PHONY: clean-mee
-clean-mee:
+.PHONY: clean-metal
+clean-metal:
 	rm -rf $(BSP_DIR)/install
 	rm -rf $(BSP_DIR)/build
-clean: clean-mee
+clean: clean-metal
 endif
 
-mee_install: mee
+metal_install: metal
 	$(MAKE) -C $(MEE_SOURCE_PATH) install
 
 #############################################################
@@ -203,7 +203,7 @@ clean: clean-elf2hex
 # Standalone Project Export
 #############################################################
 
-ifeq ($(BSP),mee)
+ifeq ($(BSP),metal)
 ifeq ($(STANDALONE_DEST),)
 standalone:
 	$(error Please provide STANDALONE_DEST to create a standalone project)
@@ -219,8 +219,8 @@ standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
 		$(STANDALONE_DEST)/src \
-		$(BSP_DIR)/install/lib/libmee.a \
-		$(BSP_DIR)/install/lib/libmee-gloss.a \
+		$(BSP_DIR)/install/lib/libmetal.a \
+		$(BSP_DIR)/install/lib/libmetal-gloss.a \
 		$(SRC_DIR) \
 		scripts/standalone.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
@@ -241,7 +241,7 @@ endif
 # In this top level Makefile, just describe how to turn the elf into
 # $(PROGRAM_HEX)
 
-ifeq ($(BSP),mee)
+ifeq ($(BSP),metal)
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
@@ -279,7 +279,7 @@ else
 RISCV_OPENOCD=openocd
 endif
 
-ifeq ($(BSP),mee)
+ifeq ($(BSP),metal)
 
 upload: $(PROGRAM_ELF)
 	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
@@ -287,7 +287,7 @@ upload: $(PROGRAM_ELF)
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 
-else # BSP != mee
+else # BSP != metal
 
 OPENOCDCFG ?= bsp/env/$(TARGET)/openocd.cfg
 OPENOCDARGS += -f $(OPENOCDCFG)
@@ -321,4 +321,4 @@ GDBCMDS += -ex "target extended-remote localhost:$(GDB_PORT)"
 run_gdb:
 	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDBARGS) $(GDBCMDS)
 
-endif # BSP == mee
+endif # BSP == metal
