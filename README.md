@@ -5,6 +5,8 @@ software for the Freedom E and Freedom S Embedded RISC-V Platforms. This SDK
 is intended to work on any target supported by SiFive's distributions of the
 RISC-V GNU Toolchain.
 
+[Documentation for Freedom E SDK is available here](https://sifive.github.io/freedom-e-sdk-docs/index.html)
+
 ### Under Construction ###
 
 This repository is currently under construction as we transition from the
