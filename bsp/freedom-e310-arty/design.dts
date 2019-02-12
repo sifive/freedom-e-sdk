@@ -29,6 +29,7 @@
                         sifive,itim = <&itim>;
                         status = "okay";
                         timebase-frequency = <1000000>;
+                        hardware-exec-breakpoint-count = <4>;
                         hlic: interrupt-controller {
                                 #interrupt-cells = <1>;
                                 compatible = "riscv,cpu-intc";
