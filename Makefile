@@ -171,8 +171,30 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
-# We have to use $$(shell ls ...) in this recipe instead of $$(wildcard) so that we
-# pick up $$(BSP_DIR)/install
+ifneq ($(INCLUDE_METAL_SOURCES),)
+
+standalone: \
+		$(STANDALONE_DEST) \
+		$(STANDALONE_DEST)/bsp \
+		$(STANDALONE_DEST)/src \
+		$(SRC_DIR) \
+		freedom-metal \
+		scripts/standalone.mk \
+		scripts/libmetal.mk
+	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
+
+	cp -r freedom-metal $</
+
+	find $</freedom-metal -name ".git*" | xargs rm
+
+	$(MAKE) -C $(SRC_DIR) clean
+	cp -r $(SRC_DIR)/* $</src/
+
+	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+	cat scripts/standalone.mk >> $</Makefile
+	cat scripts/libmetal.mk >> $</Makefile
+
+else
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -188,6 +210,7 @@ standalone: \
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
+endif
 endif
 endif
 
