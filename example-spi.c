@@ -1,18 +1,18 @@
 #include <stdio.h>
 
-#include <mee/spi.h>
+#include <metal/spi.h>
 
 int main() {
-	printf("MEE SPI Driver Demo\n");
+	printf("METAL SPI Driver Demo\n");
 
-	struct mee_spi *spi;
+	struct metal_spi *spi;
 
 	/* Get SPI 1 */
-	spi = mee_spi_get_device(1);
+	spi = metal_spi_get_device(1);
 
 	/* Fallback to SPI 0 */
 	if(spi == NULL) {
-		spi = mee_spi_get_device(0);
+		spi = metal_spi_get_device(0);
 	}
 
 	if(spi == NULL) {
@@ -21,11 +21,11 @@ int main() {
 	}
 
 	/* Initialize the SPI device to 100_000 baud */
-	mee_spi_init(spi, 100000);
+	metal_spi_init(spi, 100000);
 
 	/* CPOL = 0, CPHA = 0, MSB-first, CS active low */
-	struct mee_spi_config config = {
-		.protocol = MEE_SPI_SINGLE,
+	struct metal_spi_config config = {
+		.protocol = METAL_SPI_SINGLE,
 		.polarity = 0,
 		.phase = 0,
 		.little_endian = 0,
@@ -37,7 +37,7 @@ int main() {
 	char tx_buf[3] = {0x55, 0xAA, 0xA5};
 	char rx_buf[3] = {0};
 
-	mee_spi_transfer(spi, &config, 3, tx_buf, rx_buf);
+	metal_spi_transfer(spi, &config, 3, tx_buf, rx_buf);
 
 	return 0;
 }
