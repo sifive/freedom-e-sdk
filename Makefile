@@ -98,7 +98,8 @@ help:
 	@echo "    Launch OpenOCD and attach GDB to the running program."
 	@echo ""
 	@echo " standalone BSP=metal STANDALONE_DEST=/path/to/desired/location"
-	@echo "            [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo "            [INCLUDE_METAL_SOURCES=1] [PROGRAM=$(PROGRAM)]"
+	@echo "            [TARGET=$(TARGET)]:"
 	@echo "    Export a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
 	@echo ""
@@ -131,53 +132,11 @@ list-options: list-programs list-targets
 endif
 
 #############################################################
-# Compiles an instance of the MEE targeted at $(TARGET)
+# Import rules to build Freedom Metal
 #############################################################
 ifeq ($(BSP),metal)
-MEE_SOURCE_PATH	  ?= freedom-metal
-MEE_LDSCRIPT	   = $(BSP_DIR)/metal.lds
-MEE_HEADER	   = $(BSP_DIR)/metal.h
-
-.PHONY: metal
-metal: $(BSP_DIR)/install/stamp
-
-$(BSP_DIR)/build/Makefile:
-	@rm -rf $(dir $@)
-	@mkdir -p $(dir $@)
-	cd $(dir $@) && \
-		CFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany" \
-		$(abspath $(MEE_SOURCE_PATH)/configure) \
-		--host=$(CROSS_COMPILE) \
-		--prefix=$(abspath $(BSP_DIR)/install) \
-		--disable-maintainer-mode \
-		--with-preconfigured \
-		--with-machine-name=$(TARGET) \
-		--with-machine-header=$(abspath $(MEE_HEADER)) \
-		--with-machine-ldscript=$(abspath $(MEE_LDSCRIPT)) \
-		--with-builtin-libgloss
-	touch -c $@
-
-$(BSP_DIR)/install/stamp: $(BSP_DIR)/build/Makefile
-	$(MAKE) -C $(abspath $(BSP_DIR)/build) install
-	date > $@
-
-$(BSP_DIR)/install/lib/libriscv%.a: $(BSP_DIR)/install/stamp ;@:
-
-$(BSP_DIR)/install/lib/libmetal.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(TARGET).a
-	cp $< $@
-
-$(BSP_DIR)/install/lib/libmetal-gloss.a: $(BSP_DIR)/install/lib/libriscv__menv__metal.a
-	cp $< $@
-
-.PHONY: clean-metal
-clean-metal:
-	rm -rf $(BSP_DIR)/install
-	rm -rf $(BSP_DIR)/build
-clean: clean-metal
+include scripts/libmetal.mk
 endif
-
-metal_install: metal
-	$(MAKE) -C $(MEE_SOURCE_PATH) install
 
 #############################################################
 # elf2hex
@@ -213,8 +172,30 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
-# We have to use $$(shell ls ...) in this recipe instead of $$(wildcard) so that we
-# pick up $$(BSP_DIR)/install
+ifneq ($(INCLUDE_METAL_SOURCES),)
+
+standalone: \
+		$(STANDALONE_DEST) \
+		$(STANDALONE_DEST)/bsp \
+		$(STANDALONE_DEST)/src \
+		$(SRC_DIR) \
+		freedom-metal \
+		scripts/standalone.mk \
+		scripts/libmetal.mk
+	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
+
+	cp -r freedom-metal $</
+
+	find $</freedom-metal -name ".git*" | xargs rm
+
+	$(MAKE) -C $(SRC_DIR) clean
+	cp -r $(SRC_DIR)/* $</src/
+
+	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+	cat scripts/standalone.mk >> $</Makefile
+	cat scripts/libmetal.mk >> $</Makefile
+
+else
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -230,6 +211,7 @@ standalone: \
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
+endif
 endif
 endif
 
