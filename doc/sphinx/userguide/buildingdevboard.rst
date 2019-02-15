@@ -23,6 +23,13 @@ Arty FPGA Evaluation target, you would instead run the command
 Uploading to the Target Board
 -----------------------------
 
+Uploading a program to the target development or FPGA board depends on having both
+the RISC-V GNU Toolchain and RISC-V OpenOCD installed on your development system.
+See :doc:`installing` for more information on installing OpenOCD.
+
+With the toolchain and OpenOCD installed, uploading a program is as simple as plugging
+the development board into your computer and running the following command:
+
 .. code-block:: bash
 
    make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] upload
@@ -30,12 +37,24 @@ Uploading to the Target Board
 Debugging a Target Program
 --------------------------
 
+Debugging a program on a target development or FPGA board depends on having both
+the RISC-V GNU Toolchain and RISC-V OpenOCD installed on your development system.
+See :doc:`installing` for more information on installing OpenOCD.
+
+Debugging with Freedom E SDK also assumes that the program has already been uploaded to
+the target board.
+
+With the toolchain and OpenOCD installed, debugging a program is as simple as plugging
+the development board into your computer and running the following command:
+
 .. code-block:: bash
 
    make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] debug
 
 Cleaning a Target Program Build Directory
 -----------------------------------------
+
+The ``clean`` target can be used to restore a target program's directory to a clean state.
 
 .. code-block:: bash
 

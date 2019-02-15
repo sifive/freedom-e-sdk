@@ -23,6 +23,8 @@ Core IP target, you would instead run the command
 Cleaning a Target Program Build Directory
 -----------------------------------------
 
+The ``clean`` target can be used to restore a target program's directory to a clean state.
+
 .. code-block:: bash
 
    make BSP=mee [PROGRAM=hello] [TARGET=coreip-e31] clean

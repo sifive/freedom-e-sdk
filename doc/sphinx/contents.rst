@@ -22,6 +22,7 @@ Freedom E SDK comes packaged with the following board support packages under the
 
 - SiFive CoreIP Arty FPGA Evaluation targets
 
+  - coreip-e24-arty
   - coreip-e31-arty
   - coreip-s51-arty
 
@@ -107,3 +108,6 @@ The example programs can be found under the ``software/`` directory.
 
   - Demonstrates how to configure a Physical Memory Protection (PMP) region
 
+- example-spi
+
+  - Demonstrates how to use the SPI API to transfer bytes to a peripheral
