@@ -34,3 +34,6 @@
 [submodule "software/example-spi"]
 	path = software/example-spi
 	url = https://github.com/sifive/example-spi.git
+[submodule "software/empty"]
+	path = software/empty
+	url = https://github.com/sifive/example-empty.git
