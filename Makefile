@@ -224,6 +224,8 @@ endif
 # $(PROGRAM_HEX)
 
 ifeq ($(BSP),metal)
+.PHONY: software-hex
+software-hex: $(PROGRAM_HEX)
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)

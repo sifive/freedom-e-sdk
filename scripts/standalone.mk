@@ -74,6 +74,8 @@ all: software
 
 .PHONY: software
 software: $(PROGRAM_ELF)
+.PHONY: software-elf
+software-elf: $(PROGRAM_ELF)
 
 ifneq ($(COREIP_MEM_WIDTH),)
 software: $(PROGRAM_HEX)
