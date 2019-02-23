@@ -92,10 +92,10 @@ $(PROGRAM_ELF): \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
-		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/)" \
-		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/)" \
-		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
-		LDLIBS="-Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group"
+		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(CFLAGS)" \
+		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(CXXFLAGS)" \
+		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^)) $(LDFLAGS)" \
+		LDLIBS="-Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group $(LDLIBS)"
 	touch -c $@
 
 .PHONY: clean-software
