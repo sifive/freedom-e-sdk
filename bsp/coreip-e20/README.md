@@ -4,4 +4,3 @@ This core target is suitable with Verilog RTL for verification and running appli
 
 - 1 hart with RV32IMC core
 - 4 hardware breakpoints
-- Physical Mempory Protectin with 4 regions

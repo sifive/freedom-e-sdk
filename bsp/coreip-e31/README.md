@@ -4,6 +4,6 @@ This core target is suitable with Verilog RTL for verification and running appli
 
 - 1 hart with RV32IMAC core
 - 4 hardware breakpoints
-- Physical Mempory Protectin with 8 regions
+- Physical Memory Protection with 8 regions
 - 16 local interrupts signal that can be connected to off core complex devices
 - Up to 127 PLIC interrupt signals that can be connected to off core complex devices, with 7 priority levels
