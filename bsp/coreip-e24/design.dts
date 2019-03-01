@@ -3,8 +3,8 @@
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
-	compatible = "SiFive,FE210G-dev", "fe210-dev", "sifive-dev";
-	model = "SiFive,FE210G";
+	compatible = "SiFive,FE240G-dev", "fe240-dev", "sifive-dev";
+	model = "SiFive,FE240G";
 	L14: cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -13,7 +13,7 @@
 			compatible = "sifive,caboose0", "riscv";
 			device_type = "cpu";
 			reg = <0x0>;
-			riscv,isa = "rv32imac";
+			riscv,isa = "rv32imafc";
 			status = "okay";
 			timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -27,7 +27,7 @@
 	L13: soc {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "SiFive,FE210G-soc", "fe210-soc", "sifive-soc", "simple-bus";
+		compatible = "SiFive,FE240G-soc", "fe240-soc", "sifive-soc", "simple-bus";
 		ranges;
  		pmp: pmp@0 {
  			compatible = "riscv,pmp";
@@ -54,6 +54,7 @@
 		L0: error-device@3000 {
 			compatible = "sifive,error0";
 			reg = <0x3000 0x1000>;
+			reg-names = "mem";
 		};
 		L1: interrupt-controller@2000000 {
 			#interrupt-cells = <1>;
@@ -64,7 +65,7 @@
 			reg-names = "control";
 			sifive,numints = <143>;
 			sifive,numlevels = <16>;
-                        sifive,numintbits = <2>;
+                        sifive,numintbits = <4>;
 		};
 		L9: local-external-interrupts-0 {
                         compatible = "sifive,local-external-interrupts0";
@@ -86,11 +87,11 @@
 			reg = <0x4000 0x1000>;
 			reg-names = "control";
 		};
- 		test_memory: testram@20000000 {
- 			compatible = "sifive,testram0";
- 			reg = <0x20000000 0x8000000>;
- 			reg-names = "mem";
- 			word-size-bytes = <4>;
-		};
+                test_memory: testram@20000000 {
+                        compatible = "sifive,testram0";
+                        reg = <0x20000000 0x8000000>;
+                        reg-names = "mem";
+                        word-size-bytes = <4>;
+                };
 	};
 };
