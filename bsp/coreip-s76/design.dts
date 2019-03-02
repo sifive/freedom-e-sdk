@@ -40,10 +40,6 @@
 		#size-cells = <2>;
 		compatible = "SiFive,FS760G-soc", "fs710-soc", "sifive-soc", "simple-bus";
 		ranges;
-                pmp: pmp@0 {
-                        compatible = "riscv,pmp";
-                        regions = <8>;
-                };
 		L11: axi4-periph-port@20000000 {
 			#address-cells = <2>;
 			#size-cells = <2>;
