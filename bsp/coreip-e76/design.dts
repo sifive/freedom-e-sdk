@@ -1,0 +1,96 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "SiFive,FE710G-dev", "fe710-dev", "sifive-dev";
+	model = "SiFive,FE710G";
+	L15: cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		L6: cpu@0 {
+			clock-frequency = <0>;
+			compatible = "sifive,bullet0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <128>;
+			d-cache-size = <32768>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <128>;
+			i-cache-size = <32768>;
+			next-level-cache = <&L9>;
+			reg = <0x0>;
+			riscv,isa = "rv32imafc";
+			status = "okay";
+			timebase-frequency = <1000000>;
+                        hardware-exec-breakpoint-count = <4>;
+			L4: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+	L9: memory@80000000 {
+		device_type = "memory";
+		reg = <0x80000000 0x20000000>;
+	};
+	L14: soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "SiFive,FE710G-soc", "fe710-soc", "sifive-soc", "simple-bus";
+		ranges;
+                pmp: pmp@0 {
+                        compatible = "riscv,pmp";
+                        regions = <8>;
+                };
+		L11: axi4-periph-port@20000000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			compatible = "sifive,axi4-periph-port", "sifive,axi4-port", "sifive,periph-port", "simple-bus";
+			ranges = <0x20000000 0x20000000 0x20000000>;
+		};
+		L10: axi4-sys-port@40000000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			compatible = "sifive,axi4-sys-port", "sifive,axi4-port", "sifive,sys-port", "simple-bus";
+			ranges = <0x40000000 0x40000000 0x20000000>;
+		};
+		L2: clint@2000000 {
+			compatible = "riscv,clint0";
+			interrupts-extended = <&L4 3 &L4 7>;
+			reg = <0x2000000 0x10000>;
+			reg-names = "control";
+		};
+		L3: debug-controller@0 {
+			compatible = "sifive,debug-013", "riscv,debug-013";
+			interrupts-extended = <&L4 65535>;
+			reg = <0x0 0x1000>;
+			reg-names = "control";
+		};
+		L0: error-device@3000 {
+			compatible = "sifive,error0";
+			reg = <0x3000 0x1000>;
+		};
+		L8: global-external-interrupts {
+                        compatible = "sifive,global-external-interrupts0";
+			interrupt-parent = <&L1>;
+			interrupts = <1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127>;
+		};
+		L1: interrupt-controller@c000000 {
+			#interrupt-cells = <1>;
+			compatible = "riscv,plic0";
+			interrupt-controller;
+			interrupts-extended = <&L4 11>;
+			reg = <0xc000000 0x4000000>;
+			reg-names = "control";
+			riscv,max-priority = <7>;
+			riscv,ndev = <127>;
+		};
+		L7: teststatus@4000 {
+			compatible = "sifive,test0";
+			reg = <0x4000 0x1000>;
+			reg-names = "control";
+		};
+	};
+};

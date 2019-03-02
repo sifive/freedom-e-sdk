@@ -8,4 +8,4 @@ This core target is suitable with Verilog RTL for verification and running appli
 - 4 hardware breakpoints
 - Physical Memory Protection with 8 regions
 - 16 local interrupts signal that can be connected to off core complex devices
-- Up to 255 PLIC interrupt signals that can be connected to off core complex devices, with 7 priority levels
+- Up to 127 PLIC interrupt signals that can be connected to off core complex devices, with 7 priority levels
