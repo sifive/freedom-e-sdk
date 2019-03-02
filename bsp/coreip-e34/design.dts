@@ -1,10 +1,10 @@
 /dts-v1/;
 
 / {
-	#address-cells = <2>;
-	#size-cells = <2>;
-	compatible = "SiFive,FS510G-dev", "fs510-dev", "sifive-dev";
-	model = "SiFive,FS510G";
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "SiFive,FE340G-dev", "fe340-dev", "sifive-dev";
+	model = "SiFive,FE340G";
 	L15: cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -16,7 +16,7 @@
 			i-cache-sets = <128>;
 			i-cache-size = <16384>;
 			reg = <0x0>;
-			riscv,isa = "rv64imac";
+			riscv,isa = "rv32imafc";
 			sifive,dtim = <&L6>;
 			sifive,itim = <&L5>;
 			status = "okay";
@@ -30,46 +30,46 @@
 		};
 	};
 	L14: soc {
-		#address-cells = <2>;
-		#size-cells = <2>;
-		compatible = "SiFive,FS510G-soc", "fs510-soc", "sifive-soc", "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "SiFive,FE340G-soc", "fe340-soc", "sifive-soc", "simple-bus";
 		ranges;
-		pmp: pmp@0 {
-			compatible = "riscv,pmp";
-			regions = <8>;
+                pmp: pmp@0 {
+                        compatible = "riscv,pmp";
+                        regions = <8>;
+                };
+		L12: ahb-periph-port@20000000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			compatible = "sifive,ahb-periph-port", "sifive,ahb-port", "sifive,periph-port", "simple-bus";
+			ranges = <0x20000000 0x20000000 0x20000000>;
 		};
-		L12: axi4-periph-port@20000000 {
-			#address-cells = <2>;
-			#size-cells = <2>;
-			compatible = "sifive,axi4-periph-port", "sifive,axi4-port", "sifive,periph-port", "simple-bus";
-			ranges = <0x0 0x20000000 0x0 0x20000000 0x0 0x20000000 0x1 0x0 0x1 0x0 0xf 0x0>;
-		};
-		L11: axi4-sys-port@40000000 {
-			#address-cells = <2>;
-			#size-cells = <2>;
-			compatible = "sifive,axi4-sys-port", "sifive,axi4-port", "sifive,sys-port", "simple-bus";
-			ranges = <0x0 0x40000000 0x0 0x40000000 0x0 0x20000000 0x10 0x0 0x10 0x0 0xf0 0x0>;
+		L11: ahb-sys-port@40000000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			compatible = "sifive,ahb-sys-port", "sifive,ahb-port", "sifive,sys-port", "simple-bus";
+			ranges = <0x40000000 0x40000000 0x20000000>;
 		};
 		L2: clint@2000000 {
 			compatible = "riscv,clint0";
 			interrupts-extended = <&L4 3 &L4 7>;
-			reg = <0x0 0x2000000 0x0 0x10000>;
+			reg = <0x2000000 0x10000>;
 			reg-names = "control";
 		};
 		L3: debug-controller@0 {
 			compatible = "sifive,debug-013", "riscv,debug-013";
 			interrupts-extended = <&L4 65535>;
-			reg = <0x0 0x0 0x0 0x1000>;
+			reg = <0x0 0x1000>;
 			reg-names = "control";
 		};
 		L6: dtim@80000000 {
 			compatible = "sifive,dtim0";
-			reg = <0x0 0x80000000 0x0 0x10000>;
+			reg = <0x80000000 0x10000>;
 			reg-names = "mem";
 		};
 		L0: error-device@3000 {
 			compatible = "sifive,error0";
-			reg = <0x0 0x3000 0x0 0x1000>;
+			reg = <0x3000 0x1000>;
 		};
 		L9: global-external-interrupts {
                         compatible = "sifive,global-external-interrupts0";
@@ -81,14 +81,14 @@
 			compatible = "riscv,plic0";
 			interrupt-controller;
 			interrupts-extended = <&L4 11>;
-			reg = <0x0 0xc000000 0x0 0x4000000>;
+			reg = <0xc000000 0x4000000>;
 			reg-names = "control";
 			riscv,max-priority = <7>;
 			riscv,ndev = <127>;
 		};
 		L5: itim@8000000 {
 			compatible = "sifive,itim0";
-			reg = <0x0 0x8000000 0x0 0x4000>;
+			reg = <0x8000000 0x4000>;
 			reg-names = "mem";
 		};
 		L10: local-external-interrupts-0 {
@@ -98,14 +98,14 @@
 		};
 		L8: teststatus@4000 {
 			compatible = "sifive,test0";
-			reg = <0x0 0x4000 0x0 0x1000>;
+			reg = <0x4000 0x1000>;
 			reg-names = "control";
 		};
-		test_memory: testram@20000000 {
-			compatible = "sifive,testram0";
-			reg = <0x0 0x20000000 0x0 0x4000000>;
-			reg-names = "mem";
-			word-size-bytes = <8>;
-		};
+                test_memory: testram@20000000 {
+                        compatible = "sifive,testram0";
+                        reg = <0x20000000 0x8000000>;
+                        reg-names = "mem";
+                        word-size-bytes = <4>;
+                };
 	};
 };
