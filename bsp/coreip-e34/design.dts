@@ -3,8 +3,8 @@
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
-	compatible = "SiFive,FE310G-dev", "fe310-dev", "sifive-dev";
-	model = "SiFive,FE310G";
+	compatible = "SiFive,FE340G-dev", "fe340-dev", "sifive-dev";
+	model = "SiFive,FE340G";
 	L15: cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -16,7 +16,7 @@
 			i-cache-sets = <128>;
 			i-cache-size = <16384>;
 			reg = <0x0>;
-			riscv,isa = "rv32imac";
+			riscv,isa = "rv32imafc";
 			sifive,dtim = <&L6>;
 			sifive,itim = <&L5>;
 			status = "okay";
@@ -32,12 +32,12 @@
 	L14: soc {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "SiFive,FE310G-soc", "fe310-soc", "sifive-soc", "simple-bus";
+		compatible = "SiFive,FE340G-soc", "fe340-soc", "sifive-soc", "simple-bus";
 		ranges;
-		pmp: pmp@0 {
-			compatible = "riscv,pmp";
-			regions = <8>;
-		};
+                pmp: pmp@0 {
+                        compatible = "riscv,pmp";
+                        regions = <8>;
+                };
 		L12: ahb-periph-port@20000000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
@@ -101,11 +101,11 @@
 			reg = <0x4000 0x1000>;
 			reg-names = "control";
 		};
-		test_memory: testram@20000000 {
-			compatible = "sifive,testram0";
-			reg = <0x20000000 0x8000000>;
-			reg-names = "mem";
-			word-size-bytes = <4>;
-		};
+                test_memory: testram@20000000 {
+                        compatible = "sifive,testram0";
+                        reg = <0x20000000 0x8000000>;
+                        reg-names = "mem";
+                        word-size-bytes = <4>;
+                };
 	};
 };

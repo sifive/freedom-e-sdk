@@ -1,7 +1,7 @@
 #ifndef ASSEMBLY
 
-#ifndef COREIP_S51__METAL_H
-#define COREIP_S51__METAL_H
+#ifndef COREIP_S76__METAL_H
+#define COREIP_S76__METAL_H
 
 #ifdef __METAL_MACHINE_MACROS
 
@@ -21,9 +21,7 @@
 
 #define METAL_MAX_CLIC_INTERRUPTS 0
 
-#define __METAL_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS 16
-
-#define METAL_MAX_LOCAL_EXT_INTERRUPTS 16
+#define METAL_MAX_LOCAL_EXT_INTERRUPTS 0
 
 #define __METAL_GLOBAL_EXTERNAL_INTERRUPTS_INTERRUPTS 127
 
@@ -39,7 +37,6 @@
 #include <metal/drivers/riscv,cpu.h>
 #include <metal/drivers/riscv,plic0.h>
 #include <metal/pmp.h>
-#include <metal/drivers/sifive,local-external-interrupts0.h>
 #include <metal/drivers/sifive,global-external-interrupts0.h>
 #include <metal/drivers/sifive,test0.h>
 
@@ -58,13 +55,6 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_interrupt_controller;
 /* From interrupt_controller@c000000 */
 asm (".weak __metal_dt_interrupt_controller_c000000");
 struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
-
-asm (".weak __metal_dt_pmp_0");
-struct metal_pmp __metal_dt_pmp_0;
-
-/* From local_external_interrupts_0 */
-asm (".weak __metal_dt_local_external_interrupts_0");
-struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0;
 
 /* From global_external_interrupts */
 asm (".weak __metal_dt_global_external_interrupts");
@@ -117,37 +107,6 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .max_priority = 7UL,
     .num_interrupts = 127UL,
     .interrupt_controller = 1,
-};
-
-/* From pmp@0 */
-struct metal_pmp __metal_dt_pmp_0 = {
-    .num_regions = 8UL,
-};
-
-/* From local_external_interrupts_0 */
-struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0 = {
-    .vtable = &__metal_driver_vtable_sifive_local_external_interrupts0,
-    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
-    .init_done = 0,
-/* From interrupt_controller */
-    .interrupt_parent = &__metal_dt_interrupt_controller.controller,
-    .num_interrupts = METAL_MAX_LOCAL_EXT_INTERRUPTS,
-    .interrupt_lines[0] = 16,
-    .interrupt_lines[1] = 17,
-    .interrupt_lines[2] = 18,
-    .interrupt_lines[3] = 19,
-    .interrupt_lines[4] = 20,
-    .interrupt_lines[5] = 21,
-    .interrupt_lines[6] = 22,
-    .interrupt_lines[7] = 23,
-    .interrupt_lines[8] = 24,
-    .interrupt_lines[9] = 25,
-    .interrupt_lines[10] = 26,
-    .interrupt_lines[11] = 27,
-    .interrupt_lines[12] = 28,
-    .interrupt_lines[13] = 29,
-    .interrupt_lines[14] = 30,
-    .interrupt_lines[15] = 31,
 };
 
 /* From global_external_interrupts */
@@ -322,14 +281,6 @@ struct __metal_driver_cpu *__metal_cpu_table[] = {
 
 #define __METAL_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__metal_dt_interrupt_controller_c000000.controller)
 
-/* From pmp@0 */
-#define __METAL_DT_PMP_HANDLE (&__metal_dt_pmp_0)
-
-/* From local_external_interrupts_0 */
-#define __METAL_DT_SIFIVE_LOCAL_EXINTR0_HANDLE (&__metal_dt_local_external_interrupts_0.irc)
-
-#define __METAL_DT_LOCAL_EXTERNAL_INTERRUPTS_0_HANDLE (&__metal_dt_local_external_interrupts_0.irc)
-
 /* From global_external_interrupts */
 #define __METAL_DT_SIFIVE_GLOBAL_EXINTR0_HANDLE (&__metal_dt_global_external_interrupts.irc)
 
@@ -362,5 +313,5 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 
 #endif /* ! __METAL_MACHINE_MACROS */
-#endif /* COREIP_S51__METAL_H*/
+#endif /* COREIP_S76__METAL_H*/
 #endif /* ! ASSEMBLY */
