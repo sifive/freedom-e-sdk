@@ -48,7 +48,7 @@ void display_banner (void) {
 
 void timer_isr (int id, void *data) {
 
-	// Disable Timer interrupt
+    // Disable Timer interrupt
     metal_interrupt_disable(tmr_intr, tmr_id);
 
     // Flag showing we hit timer isr
@@ -57,22 +57,22 @@ void timer_isr (int id, void *data) {
 
 void wait_for_timer(struct metal_led *which_led) {
 
-	// clear global timer isr flag
+    // clear global timer isr flag
 	timer_isr_flag = 0;
 
-	// Turn on desired LED
-	metal_led_on(which_led);
+    // Turn on desired LED
+    metal_led_on(which_led);
 
     // Set timer
     metal_cpu_set_mtimecmp(cpu0, metal_cpu_get_mtime(cpu0) + RTC_FREQ);
 
-	// Enable Timer interrupt
-	metal_interrupt_enable(tmr_intr, tmr_id);
+    // Enable Timer interrupt
+    metal_interrupt_enable(tmr_intr, tmr_id);
 
-	// wait till timer triggers and isr is hit
-	while (timer_isr_flag == 0){};
+    // wait till timer triggers and isr is hit
+    while (timer_isr_flag == 0){};
 
-	timer_isr_flag = 0;
+    timer_isr_flag = 0;
 
     // All Off
     metal_led_off(which_led);
