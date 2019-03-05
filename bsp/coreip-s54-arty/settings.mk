@@ -1,0 +1,3 @@
+RISCV_ARCH=rv64imac
+RISCV_ABI=lp64
+iRISCV_CMODEL=medany
