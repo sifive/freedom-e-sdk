@@ -42,7 +42,7 @@ void display_banner (void) {
     printf("\n");
 
     printf("\n");
-    printf("Welcome to the E31/E51 Core IP FPGA Evaluation Kit!\n");
+    printf("  Welcome to the E31/E51 Core IP FPGA Evaluation Kit!\n");
 
 }
 
