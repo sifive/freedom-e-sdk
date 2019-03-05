@@ -5,7 +5,7 @@
 #include <metal/button.h>
 #include <metal/switch.h>
 
-#define RTC_FREQ	32768
+#define RTC_FREQ    32768
 
 struct metal_cpu *cpu0;
 struct metal_interrupt *cpu_intr, *tmr_intr;
@@ -42,7 +42,7 @@ void display_banner (void) {
     printf("\n");
 
     printf("\n");
-    printf("Welcome to the E31/E51 Coreplex IP FPGA Evaluation Kit!\n");
+    printf("Welcome to the E31/E51 Core IP FPGA Evaluation Kit!\n");
 
 }
 
@@ -58,7 +58,7 @@ void timer_isr (int id, void *data) {
 void wait_for_timer(struct metal_led *which_led) {
 
     // clear global timer isr flag
-	timer_isr_flag = 0;
+    timer_isr_flag = 0;
 
     // Turn on desired LED
     metal_led_on(which_led);
