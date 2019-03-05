@@ -28,6 +28,10 @@ ifeq ($(RISCV_ABI),)
 $(error $(BSP_DIR)/board.mk must set RISCV_ABI, the ABI to target)
 endif
 
+ifeq ($(RISCV_CMODEL),)
+RISCV_CMODEL = medany
+endif
+
 # Determines the XLEN from the toolchain tuple
 ifeq ($(patsubst rv32%,rv32,$(RISCV_ARCH)),rv32)
 RISCV_XLEN := 32
@@ -92,8 +96,8 @@ $(PROGRAM_ELF): \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
-		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/)" \
-		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/)" \
+		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=$(RISCV_CMODEL) -I$(abspath $(BSP_DIR)/install/include/)" \
+		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=$(RISCV_CMODEL) -I$(abspath $(BSP_DIR)/install/include/)" \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
 		LDLIBS="-Wl,--gc-sections -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group"
 	touch -c $@
