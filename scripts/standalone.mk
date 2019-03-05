@@ -52,12 +52,14 @@ RISCV_GXX     := $(CROSS_COMPILE)-g++
 RISCV_OBJDUMP := $(CROSS_COMPILE)-objdump
 RISCV_GDB     := $(CROSS_COMPILE)-gdb
 RISCV_AR      := $(CROSS_COMPILE)-ar
+RISCV_SIZE    := $(CROSS_COMPILE)-size
 else
 RISCV_GCC     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gcc)
 RISCV_GXX     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-g++)
 RISCV_OBJDUMP := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-objdump)
 RISCV_GDB     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gdb)
 RISCV_AR      := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-ar)
+RISCV_SIZE    := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-size)
 PATH          := $(abspath $(RISCV_PATH)/bin):$(PATH)
 endif
 
@@ -95,6 +97,8 @@ $(PROGRAM_ELF): \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
 		LDLIBS="-Wl,--gc-sections -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group"
 	touch -c $@
+
+	$(RISCV_SIZE) $@
 
 .PHONY: clean-software
 clean-software:
