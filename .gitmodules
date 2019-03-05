@@ -37,3 +37,6 @@
 [submodule "software/empty"]
 	path = software/empty
 	url = https://github.com/sifive/example-empty.git
+[submodule "software/example-coreip-welcome"]
+	path = software/example-coreip-welcome
+	url = https://github.com/sifive/example-coreip-welcome

@@ -79,7 +79,7 @@ of Freedom E SDK.
     - Demonstrates how to register a handler for and trigger a local interrupt
   - example-pmp
     - Demonstrates how to configure a Physical Memory Protection (PMP) region
-  - coreip-welcome
+  - example-coreip-welcome
     - Prints the SiFive banner and blinks LEDs 
     
 #### (Deprecated) Legacy Freedom E SDK Library ####
