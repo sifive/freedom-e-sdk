@@ -24,7 +24,7 @@
 			i-cache-size = <16384>;
 			next-level-cache = <&L10>;
 			reg = <0x0>;
-			riscv,isa = "rv64imac";
+			riscv,isa = "rv64imafdc";
 			sifive,dtim = <&L6>;
 			sifive,itim = <&L5>;
 			status = "okay";

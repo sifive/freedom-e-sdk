@@ -235,10 +235,10 @@ struct __metal_driver_sifive_global_external_interrupts0 __metal_dt_global_exter
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__metal_dt_interrupt_controller_c000000.controller,
     .num_interrupts = METAL_MAX_GLOBAL_EXT_INTERRUPTS,
-    .interrupt_lines[0] = 1,
-    .interrupt_lines[1] = 2,
-    .interrupt_lines[2] = 3,
-    .interrupt_lines[3] = 4,
+    .interrupt_lines[0] = 23,
+    .interrupt_lines[1] = 24,
+    .interrupt_lines[2] = 25,
+    .interrupt_lines[3] = 26,
 };
 
 /* From gpio@20002000 */
@@ -249,22 +249,22 @@ struct __metal_driver_sifive_gpio0 __metal_dt_gpio_20002000 = {
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__metal_dt_interrupt_controller_c000000.controller,
     .num_interrupts = METAL_MAX_GPIO_INTERRUPTS,
-    .interrupt_lines[0] = 7,
-    .interrupt_lines[1] = 8,
-    .interrupt_lines[2] = 9,
-    .interrupt_lines[3] = 10,
-    .interrupt_lines[4] = 11,
-    .interrupt_lines[5] = 12,
-    .interrupt_lines[6] = 13,
-    .interrupt_lines[7] = 14,
-    .interrupt_lines[8] = 15,
-    .interrupt_lines[9] = 16,
-    .interrupt_lines[10] = 17,
-    .interrupt_lines[11] = 18,
-    .interrupt_lines[12] = 19,
-    .interrupt_lines[13] = 20,
-    .interrupt_lines[14] = 21,
-    .interrupt_lines[15] = 22,
+    .interrupt_lines[0] = 1,
+    .interrupt_lines[1] = 2,
+    .interrupt_lines[2] = 3,
+    .interrupt_lines[3] = 4,
+    .interrupt_lines[4] = 5,
+    .interrupt_lines[5] = 6,
+    .interrupt_lines[6] = 7,
+    .interrupt_lines[7] = 8,
+    .interrupt_lines[8] = 9,
+    .interrupt_lines[9] = 10,
+    .interrupt_lines[10] = 11,
+    .interrupt_lines[11] = 12,
+    .interrupt_lines[12] = 13,
+    .interrupt_lines[13] = 14,
+    .interrupt_lines[14] = 15,
+    .interrupt_lines[15] = 16,
 };
 
 /* From button@0 */
@@ -427,7 +427,7 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_20000000 = {
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__metal_dt_interrupt_controller_c000000.controller,
     .num_interrupts = METAL_MAX_UART_INTERRUPTS,
-    .interrupt_line = 5UL,
+    .interrupt_line = 17UL,
 };
 
 

@@ -3,8 +3,8 @@
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
-	compatible = "SiFive,FS510G-dev", "fs510-dev", "sifive-dev";
-	model = "SiFive,FS510G";
+	compatible = "SiFive,FE310G-dev", "fe310-dev", "sifive-dev";
+	model = "SiFive,FE310G";
         chosen {
                 stdout-path = "/soc/serial@20000000:115200";
                 metal,entry = <&L10 0x400000>;
@@ -24,7 +24,7 @@
 			i-cache-size = <16384>;
 			next-level-cache = <&L10>;
 			reg = <0x0>;
-			riscv,isa = "rv64imac";
+			riscv,isa = "rv32imafc";
 			sifive,dtim = <&L6>;
 			sifive,itim = <&L5>;
 			status = "okay";
@@ -40,7 +40,7 @@
 	L16: soc {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "SiFive,FS510G-soc", "fs510-soc", "sifive-soc", "simple-bus";
+		compatible = "SiFive,FE310G-soc", "fe310-soc", "sifive-soc", "simple-bus";
 		ranges;
 		hfclk: clock@0 {
 			#clock-cells = <0>;
@@ -71,7 +71,7 @@
 		L0: error-device@3000 {
 			compatible = "sifive,error0";
 			reg = <0x3000 0x1000>;
-		};
+	        };
 		L13: global-external-interrupts {
                         compatible = "sifive,global-external-interrupts0";
 			interrupt-parent = <&L1>;
