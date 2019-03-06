@@ -13,7 +13,7 @@ EOF
 unset DTSFILE
 unset CUSTOM_PATH
 unset CUSTOM_NAME
-while [[ "$1" != "" ]]
+while [ "$1" != "" ]
 do
     case "$1" in
     --help)               help "$0";                                 exit 0;;
@@ -26,25 +26,25 @@ do
     esac
 done
 
-if [[ "$CUSTOM_PATH" == "" && "$CUSTOM_NAME" == "" && "$DTSFILE" == "" ]]
+if [ "$CUSTOM_PATH" == "" -a "$CUSTOM_NAME" == "" -a "$DTSFILE" == "" ]
 then
     TARGET_LIST="$(ls -d coreip*) "
     TARGET_LIST+="sifive-hifive1 freedom-e310-arty "
 else
-    if [[ ! -f "$DTSFILE" &&  "$DTSFILE" != "*.dts" ]]
+    if [ ! -f "$DTSFILE" -a "$DTSFILE" != "*.dts" ]
     then
         echo "[ERROR] $0: $DTSFILE must be a dts file" >&2
         help "$0"
         exit 1
     fi
-    if [[ "$CUSTOM_NAME" == "" ]]
+    if [ "$CUSTOM_NAME" == "" ]
     then
         echo "[ERROR] $0: --target-name is mandatory" >&2
         help "$0"
         exit 1
     fi
     CUSTOM_TARGET="$CUSTOM_PATH/bsp/$CUSTOM_NAME"
-    if [[ ! -d "$CUSTOM_TARGET" ]]
+    if [ ! -d "$CUSTOM_TARGET" ]
     then
         echo "[ERROR] $0: "$CUSTOM_TARGET" not found!" >&2
         help "$0"
