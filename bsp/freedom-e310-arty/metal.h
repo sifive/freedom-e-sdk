@@ -163,6 +163,7 @@ struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_externa
 /* From gpio@10012000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
     .vtable = &__metal_driver_vtable_sifive_gpio0,
+    .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
     .base = 268509184UL,
     .size = 4096UL,
 /* From interrupt_controller@c000000 */
@@ -252,6 +253,12 @@ struct __metal_driver_cpu *__metal_cpu_table[] = {
 #define __METAL_DT_SIFIVE_LOCAL_EXINTR0_HANDLE (&__metal_dt_local_external_interrupts_0.irc)
 
 #define __METAL_DT_LOCAL_EXTERNAL_INTERRUPTS_0_HANDLE (&__metal_dt_local_external_interrupts_0.irc)
+
+#define __MEE_DT_MAX_GPIOS 1
+
+asm (".weak __metal_gpio_table");
+struct __metal_driver_sifive_gpio0 *__metal_gpio_table[] = {
+					&__metal_dt_gpio_10012000};
 
 #define __METAL_DT_MAX_BUTTONS 0
 

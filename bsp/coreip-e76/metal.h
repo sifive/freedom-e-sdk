@@ -286,6 +286,11 @@ struct __metal_driver_cpu *__metal_cpu_table[] = {
 
 #define __METAL_DT_GLOBAL_EXTERNAL_INTERRUPTS_HANDLE (&__metal_dt_global_external_interrupts.irc)
 
+#define __MEE_DT_MAX_GPIOS 0
+
+asm (".weak __metal_gpio_table");
+struct __metal_driver_sifive_gpio0 *__metal_gpio_table[] = {
+					NULL };
 #define __METAL_DT_MAX_BUTTONS 0
 
 asm (".weak __metal_button_table");
