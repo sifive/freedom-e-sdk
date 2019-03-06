@@ -5,6 +5,7 @@ set -o pipefail
 
 unset elf
 unset cfg
+unset jlink
 unset openocd
 unset gdb
 while [[ "$1" != "" ]]
@@ -13,13 +14,14 @@ do
     in
     --elf)                 elf="$2";     shift 2;;
     --openocd)             openocd="$2"; shift 2;;
+    --jlink)               jlink="$2";   shift 2;;
     --openocd-config)      cfg="$2";     shift 2;;
     --gdb)                 gdb="$2";     shift 2;;
     *) echo "$0: Unknown argument $1";   exit 1;;
     esac
 done
 
-if [[ "$elf" == "" ]]
+if [ "$elf" == "" ]
 then
     echo "$0: --elf is required" >&2
     exit 1
@@ -27,7 +29,16 @@ fi
 
 export GDB_PORT=3333
 
+if [ "$jlink" != "" ]
+then
+
+$jlink -device RISC-V -port $GDB_PORT &
+
+else
+
 $openocd -f $cfg &
+
+fi
 
 $gdb $elf -ex "set remotetimeout 240" -ex "target extended-remote localhost:${GDB_PORT}"
 

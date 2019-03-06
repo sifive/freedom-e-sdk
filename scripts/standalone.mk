@@ -54,6 +54,7 @@ ifeq ($(RISCV_PATH),)
 RISCV_GCC     := $(CROSS_COMPILE)-gcc
 RISCV_GXX     := $(CROSS_COMPILE)-g++
 RISCV_OBJDUMP := $(CROSS_COMPILE)-objdump
+RISCV_OBJCOPY := $(CROSS_COMPILE)-objcopy
 RISCV_GDB     := $(CROSS_COMPILE)-gdb
 RISCV_AR      := $(CROSS_COMPILE)-ar
 RISCV_SIZE    := $(CROSS_COMPILE)-size
@@ -61,11 +62,15 @@ else
 RISCV_GCC     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gcc)
 RISCV_GXX     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-g++)
 RISCV_OBJDUMP := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-objdump)
+RISCV_OBJCOPY := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-objcopy)
 RISCV_GDB     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gdb)
 RISCV_AR      := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-ar)
 RISCV_SIZE    := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-size)
 PATH          := $(abspath $(RISCV_PATH)/bin):$(PATH)
 endif
+
+SEGGER_JLINK_EXE := JLinkExe
+SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 
 #############################################################
 # Software
@@ -82,6 +87,9 @@ all: software
 software: $(PROGRAM_ELF)
 
 ifneq ($(COREIP_MEM_WIDTH),)
+software: $(PROGRAM_HEX)
+endif
+ifneq ($(SEGGER_JLINK_OB),)
 software: $(PROGRAM_HEX)
 endif
 
@@ -103,6 +111,14 @@ $(PROGRAM_ELF): \
 	touch -c $@
 
 	$(RISCV_SIZE) $@
+
+ifneq ($(SEGGER_JLINK_OB),)
+# If we're using Segger J-Link OB, use objcopy to create an Intel hex file for programming
+$(PROGRAM_HEX): \
+		$(RISCV_OBJCOPY) \
+		$(PROGRAM_ELF)
+	$< -O ihex $(PROGRAM_ELF) $@
+endif
 
 .PHONY: clean-software
 clean-software:

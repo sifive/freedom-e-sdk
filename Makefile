@@ -216,18 +216,19 @@ endif
 endif
 
 #############################################################
-# MEE Software Compilation
+# CoreIP RTL Simulation Hex File Creation
 #############################################################
 
-# Generation of $(PROGRAM_ELF) is handled by scripts/standalone.mk
-# In this top level Makefile, just describe how to turn the elf into
-# $(PROGRAM_HEX)
-
 ifeq ($(BSP),metal)
+
+# Use elf2hex if we're not using Segger J-Link OB (i.e. for coreip-rtl targets)
+ifeq ($(SEGGER_JLINK_OB),)
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+endif
+
 endif
 
 #############################################################
@@ -263,11 +264,21 @@ endif
 
 ifeq ($(BSP),metal)
 
+ifneq ($(SEGGER_JLINK_OB),)
+upload: $(PROGRAM_HEX)
+	scripts/upload --hex $(PROGRAM_HEX) --jlink $(SEGGER_JLINK_EXE)
+else
 upload: $(PROGRAM_ELF)
 	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
+endif
 
+ifneq ($(SEGGER_JLINK_OB),)
+debug: $(PROGRAM_ELF)
+	scripts/debug --elf $(PROGRAM_ELF) --jlink $(SEGGER_JLINK_GDB_SERVER) --gdb $(RISCV_GDB)
+else
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
+endif
 
 else # BSP != metal
 
