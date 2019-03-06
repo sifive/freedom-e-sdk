@@ -74,7 +74,7 @@ void wait_for_timer(struct metal_led *which_led) {
 
     timer_isr_flag = 0;
 
-    // All Off
+    // Turn off this LED
     metal_led_off(which_led);
 }
 
