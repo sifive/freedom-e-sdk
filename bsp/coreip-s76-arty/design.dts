@@ -1,0 +1,215 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "SiFive,FS760G-dev", "fs710-dev", "sifive-dev";
+	model = "SiFive,FS760G";
+	L21: aliases {
+		serial0 = &L13;
+	};
+	L16: chosen {
+                stdout-path = "/soc/serial@20000000:115200";
+                metal,entry = <&L14 0x400000>;
+	};
+	L20: cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		L6: cpu@0 {
+			clock-frequency = <0>;
+			compatible = "sifive,bullet0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <128>;
+			d-cache-size = <32768>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <128>;
+			i-cache-size = <32768>;
+			next-level-cache = <&L14 &L15>;
+			reg = <0x0>;
+			riscv,isa = "rv64imafdc";
+			status = "okay";
+			timebase-frequency = <1000000>;
+                        hardware-exec-breakpoint-count = <4>;
+			L4: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+	L15: memory@80000000 {
+		device_type = "memory";
+		reg = <0x80000000 0x10000000>;
+	};
+	L19: soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "SiFive,FS760G-soc", "fs710-soc", "sifive-soc", "simple-bus";
+		ranges;
+		L2: clint@2000000 {
+			compatible = "riscv,clint0";
+			interrupts-extended = <&L4 3 &L4 7>;
+			reg = <0x2000000 0x10000>;
+			reg-names = "control";
+		};
+		L3: debug-controller@0 {
+			compatible = "sifive,debug-013", "riscv,debug-013";
+			interrupts-extended = <&L4 65535>;
+			reg = <0x0 0x1000>;
+			reg-names = "control";
+		};
+		L0: error-device@3000 {
+			compatible = "sifive,error0";
+			reg = <0x3000 0x1000>;
+		};
+		L10: global-external-interrupts {
+                        compatible = "sifive,global-external-interrupts0";
+			interrupt-parent = <&L1>;
+			interrupts = <21 22 23 24>;
+		};
+		L17: gpio@10060000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			compatible = "sifive,gpio0", "sifive,gpio1";
+			gpio-controller;
+			interrupt-controller;
+			interrupt-parent = <&L1>;
+			interrupts = <27 28 29 30>;
+			reg = <0x10060000 0x1000>;
+			reg-names = "control";
+		};
+		L7: gpio@20002000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			compatible = "sifive,gpio0", "sifive,gpio1";
+			gpio-controller;
+			interrupt-controller;
+			interrupt-parent = <&L1>;
+			interrupts = <1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16>;
+			reg = <0x20002000 0x1000>;
+			reg-names = "control";
+		};
+		L1: interrupt-controller@c000000 {
+			#interrupt-cells = <1>;
+			compatible = "riscv,plic0";
+			interrupt-controller;
+			interrupts-extended = <&L4 11>;
+			reg = <0xc000000 0x4000000>;
+			reg-names = "control";
+			riscv,max-priority = <7>;
+			riscv,ndev = <30>;
+		};
+		L8: pwm@20005000 {
+			compatible = "sifive,pwm0";
+			interrupt-parent = <&L1>;
+			interrupts = <17 18 19 20>;
+			reg = <0x20005000 0x1000>;
+			reg-names = "control";
+		};
+		L11: rom@1000 {
+			compatible = "sifive,modeselect0";
+			reg = <0x1000 0x1000>;
+			reg-names = "mem";
+		};
+		L13: serial@20000000 {
+			clocks = <&L12>;
+			compatible = "sifive,uart0";
+			interrupt-parent = <&L1>;
+			interrupts = <25>;
+			reg = <0x20000000 0x1000>;
+			reg-names = "control";
+		};
+		L14: spi@20004000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&L12>;
+			compatible = "sifive,spi0";
+			interrupt-parent = <&L1>;
+			interrupts = <26>;
+			reg = <0x20004000 0x1000 0x40000000 0x20000000>;
+			reg-names = "control", "mem";
+		};
+               	led@0red {
+                       	compatible = "sifive,gpio-leds";
+                       	label = "LD0red";
+                       	gpios = <&L17 0>;
+                       	linux,default-trigger = "none";
+               	};
+                led@0green {
+                       	compatible = "sifive,gpio-leds";
+                        label = "LD0green";
+                        gpios = <&L17 1>;
+                        linux,default-trigger = "none";
+                };
+                led@0blue {
+                     	compatible = "sifive,gpio-leds";
+                        label = "LD0blue";
+                        gpios = <&L17 2>;
+                        linux,default-trigger = "none";
+                };
+                button@0 {
+                       	compatible = "sifive,gpio-buttons";
+                        label = "BTN0";
+                        gpios = <&L17 4>;
+                        interrupts-extended = <&L10 0>;
+                        linux,code = "none";
+                };
+                button@1 {
+                       	compatible = "sifive,gpio-buttons";
+                        label = "BTN1";
+                        gpios = <&L17 5>;
+                        interrupts-extended = <&L10 1>;
+                        linux,code = "none";
+                };
+                button@2 {
+                       	compatible = "sifive,gpio-buttons";
+                        label = "BTN2";
+                        gpios = <&L17 6>;
+                        interrupts-extended = <&L10 2>;
+                        linux,code = "none";
+                };
+                button@3 {
+                       	compatible = "sifive,gpio-buttons";
+                        label = "BTN3";
+                        gpios = <&L17 7>;
+                        interrupts-extended = <&L10 3>;
+                        linux,code = "none";
+                };
+                switch@0 {
+                        compatible = "sifive,gpio-switches";
+                        label = "SW0";
+                        interrupts-extended = <&L10 0>;
+                        linux,code = "none";
+                };
+                switch@1 {
+                        compatible = "sifive,gpio-switches";
+                        label = "SW1";
+                        interrupts-extended = <&L10 1>;
+                        linux,code = "none";
+                };
+                switch@2 {
+                        compatible = "sifive,gpio-switches";
+                        label = "SW2";
+                        interrupts-extended = <&L10 2>;
+                        linux,code = "none";
+                };
+                switch@3 {
+                        compatible = "sifive,gpio-switches";
+                        label = "SW3";
+                        interrupts-extended = <&L10 3>;
+                        linux,code = "none";
+                };
+                L9: teststatus@4000 {
+                        compatible = "sifive,test0";
+                        reg = <0x4000 0x1000>;
+                        reg-names = "control";
+                };
+		L12: tlclk {
+			#clock-cells = <0>;
+			clock-frequency = <32500000>;
+			clock-output-names = "tlclk";
+			compatible = "fixed-clock";
+		};
+	};
+};
