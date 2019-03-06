@@ -3,8 +3,8 @@
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
-	compatible = "SiFive,FE240G-dev", "fe240-dev", "sifive-dev";
-	model = "SiFive,FE240G";
+	compatible = "SiFive,FE210G-dev", "fe210-dev", "sifive-dev";
+	model = "SiFive,FE210G";
         chosen {
                 stdout-path = "/soc/serial@20000000:115200";
                 mee,entry = <&L7 0x400000>;
@@ -20,7 +20,7 @@
 			compatible = "sifive,caboose0", "riscv";
 			device_type = "cpu";
 			reg = <0x0>;
-			riscv,isa = "rv32imafc";
+			riscv,isa = "rv32imac";
 			status = "okay";
 			timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -34,7 +34,7 @@
 	L15: soc {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "SiFive,FE240G-soc", "fe240-soc", "sifive-soc", "simple-bus";
+		compatible = "SiFive,FE210G-soc", "fe210-soc", "sifive-soc", "simple-bus";
 		ranges;
                 hfclk: clock@0 {
                         #clock-cells = <0>;
@@ -76,7 +76,7 @@
 			reg-names = "control";
 			sifive,numints = <153>;
 			sifive,numlevels = <16>;
-			sifive,numintbits = <4>;
+			sifive,numintbits = <2>;
 		};
 		L13: local-external-interrupts-0 {
                         compatible = "sifive,local-external-interrupts0";
