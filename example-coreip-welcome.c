@@ -42,7 +42,7 @@ void display_banner (void) {
     printf("\n");
 
     printf("\n");
-    printf("Welcome to the E31/E51 Core IP FPGA Evaluation Kit!\n");
+    printf("  Welcome to the Standard Core IP FPGA Evaluation Kit!\n");
 
 }
 
@@ -74,7 +74,7 @@ void wait_for_timer(struct metal_led *which_led) {
 
     timer_isr_flag = 0;
 
-    // All Off
+    // Turn off this LED
     metal_led_off(which_led);
 }
 

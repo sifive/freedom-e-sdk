@@ -1,6 +1,6 @@
 
-coreip-welcome: coreip-welcome.c
+example-coreip-welcome: example-coreip-welcome.c
 
 clean:
-	rm -f coreip-welcome coreip-welcome.hex
+	rm -f example-coreip-welcome example-coreip-welcome.hex
 
