@@ -48,6 +48,15 @@ and unpack it to your desired location. Then, set the ``RISCV_PATH`` and
    export RISCV_OPENOCD_PATH=/my/desired/location/openocd
    export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
 
+Install Segger J-Link Software
+------------------------------
+
+Some targets supported by Freedom E SDK (like the SiFive HiFive1 Rev B) use Segger J-Link OB
+for programming and debugging. If you intend to use these targets, install the Segger J-Link
+Software and Documentation Pack for your machine:
+
+`Segger J-Link Software Downloads <https://www.segger.com/downloads/jlink#J-LinkSoftwareAndDocumentationPack>`_
+
 Cloning the Repository
 ----------------------
 
