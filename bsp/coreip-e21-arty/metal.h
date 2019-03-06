@@ -1,7 +1,7 @@
 #ifndef ASSEMBLY
 
-#ifndef COREIP_E24_ARTY__METAL_H
-#define COREIP_E24_ARTY__METAL_H
+#ifndef COREIP_E21_ARTY__METAL_H
+#define COREIP_E21_ARTY__METAL_H
 
 #ifdef __METAL_MACHINE_MACROS
 
@@ -175,7 +175,7 @@ struct __metal_driver_sifive_clic0 __metal_dt_interrupt_controller_2000000 = {
     .interrupt_lines[1] = 7,
     .interrupt_lines[2] = 11,
     .num_subinterrupts = 153UL,
-    .num_intbits = 4UL,
+    .num_intbits = 2UL,
     .max_levels = 16UL,
     .interrupt_controller = 1,
 };
@@ -598,5 +598,5 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 
 #endif /* ! __METAL_MACHINE_MACROS */
-#endif /* COREIP_E24_ARTY__METAL_H*/
+#endif /* COREIP_E21_ARTY__METAL_H*/
 #endif /* ! ASSEMBLY */

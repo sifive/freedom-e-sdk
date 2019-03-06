@@ -1,11 +1,11 @@
 #ifndef ASSEMBLY
 
-#ifndef COREIP_E24_ARTY__METAL_H
-#define COREIP_E24_ARTY__METAL_H
+#ifndef COREIP_E20_ARTY__METAL_H
+#define COREIP_E20_ARTY__METAL_H
 
 #ifdef __METAL_MACHINE_MACROS
 
-#define __METAL_CLIC_SUBINTERRUPTS 153
+#define __METAL_CLIC_SUBINTERRUPTS 58
 
 #ifndef __METAL_CLIC_SUBINTERRUPTS
 #define __METAL_CLIC_SUBINTERRUPTS 0
@@ -19,13 +19,13 @@
 
 #define __METAL_INTERRUPT_CONTROLLER_2000000_INTERRUPTS 3
 
-#define __METAL_CLIC_SUBINTERRUPTS 153
+#define __METAL_CLIC_SUBINTERRUPTS 58
 
 #define METAL_MAX_CLIC_INTERRUPTS 3
 
-#define __METAL_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS 127
+#define __METAL_LOCAL_EXTERNAL_INTERRUPTS_0_INTERRUPTS 32
 
-#define METAL_MAX_LOCAL_EXT_INTERRUPTS 127
+#define METAL_MAX_LOCAL_EXT_INTERRUPTS 32
 
 #define __METAL_GLOBAL_EXTERNAL_INTERRUPTS_INTERRUPTS 4
 
@@ -174,8 +174,8 @@ struct __metal_driver_sifive_clic0 __metal_dt_interrupt_controller_2000000 = {
     .interrupt_lines[0] = 3,
     .interrupt_lines[1] = 7,
     .interrupt_lines[2] = 11,
-    .num_subinterrupts = 153UL,
-    .num_intbits = 4UL,
+    .num_subinterrupts = 58UL,
+    .num_intbits = 2UL,
     .max_levels = 16UL,
     .interrupt_controller = 1,
 };
@@ -220,101 +220,6 @@ struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_externa
     .interrupt_lines[29] = 55,
     .interrupt_lines[30] = 56,
     .interrupt_lines[31] = 57,
-    .interrupt_lines[32] = 58,
-    .interrupt_lines[33] = 59,
-    .interrupt_lines[34] = 60,
-    .interrupt_lines[35] = 61,
-    .interrupt_lines[36] = 62,
-    .interrupt_lines[37] = 63,
-    .interrupt_lines[38] = 64,
-    .interrupt_lines[39] = 65,
-    .interrupt_lines[40] = 66,
-    .interrupt_lines[41] = 67,
-    .interrupt_lines[42] = 68,
-    .interrupt_lines[43] = 69,
-    .interrupt_lines[44] = 70,
-    .interrupt_lines[45] = 71,
-    .interrupt_lines[46] = 72,
-    .interrupt_lines[47] = 73,
-    .interrupt_lines[48] = 74,
-    .interrupt_lines[49] = 75,
-    .interrupt_lines[50] = 76,
-    .interrupt_lines[51] = 77,
-    .interrupt_lines[52] = 78,
-    .interrupt_lines[53] = 79,
-    .interrupt_lines[54] = 80,
-    .interrupt_lines[55] = 81,
-    .interrupt_lines[56] = 82,
-    .interrupt_lines[57] = 83,
-    .interrupt_lines[58] = 84,
-    .interrupt_lines[59] = 85,
-    .interrupt_lines[60] = 86,
-    .interrupt_lines[61] = 87,
-    .interrupt_lines[62] = 88,
-    .interrupt_lines[63] = 89,
-    .interrupt_lines[64] = 90,
-    .interrupt_lines[65] = 91,
-    .interrupt_lines[66] = 92,
-    .interrupt_lines[67] = 93,
-    .interrupt_lines[68] = 94,
-    .interrupt_lines[69] = 95,
-    .interrupt_lines[70] = 96,
-    .interrupt_lines[71] = 97,
-    .interrupt_lines[72] = 98,
-    .interrupt_lines[73] = 99,
-    .interrupt_lines[74] = 100,
-    .interrupt_lines[75] = 101,
-    .interrupt_lines[76] = 102,
-    .interrupt_lines[77] = 103,
-    .interrupt_lines[78] = 104,
-    .interrupt_lines[79] = 105,
-    .interrupt_lines[80] = 106,
-    .interrupt_lines[81] = 107,
-    .interrupt_lines[82] = 108,
-    .interrupt_lines[83] = 109,
-    .interrupt_lines[84] = 110,
-    .interrupt_lines[85] = 111,
-    .interrupt_lines[86] = 112,
-    .interrupt_lines[87] = 113,
-    .interrupt_lines[88] = 114,
-    .interrupt_lines[89] = 115,
-    .interrupt_lines[90] = 116,
-    .interrupt_lines[91] = 117,
-    .interrupt_lines[92] = 118,
-    .interrupt_lines[93] = 119,
-    .interrupt_lines[94] = 120,
-    .interrupt_lines[95] = 121,
-    .interrupt_lines[96] = 122,
-    .interrupt_lines[97] = 123,
-    .interrupt_lines[98] = 124,
-    .interrupt_lines[99] = 125,
-    .interrupt_lines[100] = 126,
-    .interrupt_lines[101] = 127,
-    .interrupt_lines[102] = 128,
-    .interrupt_lines[103] = 129,
-    .interrupt_lines[104] = 130,
-    .interrupt_lines[105] = 131,
-    .interrupt_lines[106] = 132,
-    .interrupt_lines[107] = 133,
-    .interrupt_lines[108] = 134,
-    .interrupt_lines[109] = 135,
-    .interrupt_lines[110] = 136,
-    .interrupt_lines[111] = 137,
-    .interrupt_lines[112] = 138,
-    .interrupt_lines[113] = 139,
-    .interrupt_lines[114] = 140,
-    .interrupt_lines[115] = 141,
-    .interrupt_lines[116] = 142,
-    .interrupt_lines[117] = 143,
-    .interrupt_lines[118] = 144,
-    .interrupt_lines[119] = 145,
-    .interrupt_lines[120] = 146,
-    .interrupt_lines[121] = 147,
-    .interrupt_lines[122] = 148,
-    .interrupt_lines[123] = 149,
-    .interrupt_lines[124] = 150,
-    .interrupt_lines[125] = 151,
-    .interrupt_lines[126] = 152,
 };
 
 /* From global_external_interrupts */
@@ -598,5 +503,5 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 
 #endif /* ! __METAL_MACHINE_MACROS */
-#endif /* COREIP_E24_ARTY__METAL_H*/
+#endif /* COREIP_E20_ARTY__METAL_H*/
 #endif /* ! ASSEMBLY */
