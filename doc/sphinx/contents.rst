@@ -11,20 +11,35 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - sifive-hifive1
 
+- SiFive HiFive 1 Rev B
+
+  - sifive-hifive1-revb
+
 - `SiFive Freedom E310 Arty <https://github.com/sifive/freedom>`_
 
   - freedom-e310-arty
 
-- SiFive CoreIP
+- SiFive CoreIP RTL
 
-  - coreip-e31
-  - coreip-s51
+  - coreip-e20-rtl
+  - coreip-e21-rtl
+  - coreip-e24-rtl
+  - coreip-e31-rtl
+  - coreip-s51-rtl
+  - coreip-s54-rtl
+  - coreip-e76-rtl
+  - coreip-s76-rtl
 
 - SiFive CoreIP Arty FPGA Evaluation targets
 
+  - coreip-e20-arty
+  - coreip-e21-arty
   - coreip-e24-arty
   - coreip-e31-arty
   - coreip-s51-arty
+  - coreip-s54-arty
+  - coreip-e76-arty
+  - coreip-s76-arty
 
 The board support files for the Freedom Metal library are located entirely
 within a single target directory in ``bsp/<target>/``. For example, the HiFive 1
@@ -38,12 +53,12 @@ and consist of the following:
     so that users of Freedom Metal are aware of what features and peripherals
     are available on the target.
 
-* ``mee.h``
+* ``metal.h``
 
   - The Freedom Metal machine header which is used internally to Freedom Metal
     to instantiate structures to support the target device.
 
-* ``mee.lds``
+* ``metal.lds``
 
   - The linker script for the target device.
 
@@ -75,9 +90,17 @@ Example Programs
 
 The example programs can be found under the ``software/`` directory.
 
+- empty
+
+  - An empty project. Serves as a good starting point for your own program.
+
 - hello
 
   - Prints "Hello, World!" to stdout, if a serial device is present on the target.
+
+- example-coreip-welcome
+
+  - Prints a welcome message and interacts with the LEDs.
 
 - return-pass
 
