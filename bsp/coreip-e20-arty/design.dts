@@ -7,7 +7,7 @@
 	model = "SiFive,FE200G";
         chosen {
                 stdout-path = "/soc/serial@20000000:115200";
-                mee,entry = <&L6 0x400000>;
+                metal,entry = <&L6 0x400000>;
         };
 	L15: aliases {
 		serial0 = &L5;
