@@ -8,7 +8,7 @@ To compile a bare-metal RISC-V program:
 
 .. code-block:: bash
 
-   make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] software
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] software
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
@@ -18,7 +18,7 @@ Arty FPGA Evaluation target, you would instead run the command
 
 .. code-block:: bash
 
-   make BSP=mee PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
+   make PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
 
 Uploading to the Target Board
 -----------------------------
@@ -32,7 +32,7 @@ the development board into your computer and running the following command:
 
 .. code-block:: bash
 
-   make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] upload
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] upload
 
 Debugging a Target Program
 --------------------------
@@ -49,7 +49,7 @@ the development board into your computer and running the following command:
 
 .. code-block:: bash
 
-   make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] debug
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] debug
 
 Cleaning a Target Program Build Directory
 -----------------------------------------
@@ -58,5 +58,5 @@ The ``clean`` target can be used to restore a target program's directory to a cl
 
 .. code-block:: bash
 
-   make BSP=mee [PROGRAM=hello] [TARGET=sifive-hifive1] clean
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] clean
 
