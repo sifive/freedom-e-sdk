@@ -76,8 +76,6 @@ SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 # Software
 #############################################################
 
-ifneq ($(BSP),legacy)
-
 PROGRAM_ELF ?= $(SRC_DIR)/$(PROGRAM)
 
 .PHONY: all
@@ -124,6 +122,4 @@ endif
 clean-software:
 	$(MAKE) -C $(SRC_DIR) clean
 clean: clean-software
-
-endif # BSP != legacy
 

@@ -11,31 +11,16 @@ $(info Obtaining additional make variables from $(extra_configs))
 include $(extra_configs)
 endif
 
-# Select Legacy BSP or Freedom Metal BSP
-# Allowed values are 'legacy' and 'metal'
-BSP ?= legacy
-
-# Use BOARD as a synonym for TARGET
+# Allow BOARD as a synonym for TARGET
 ifneq ($(BOARD),)
 TARGET ?= $(BOARD)
 endif
 
-ifeq ($(BSP),legacy)
-BSP_SUBDIR ?= env
-TARGET ?= freedom-e300-hifive1
-PROGRAM ?= demo_gpio
-LINK_TARGET ?= flash
-GDB_PORT ?= 3333
-
-else # MEE
-override BSP = metal
-BSP_SUBDIR ?= 
+# Default PROGRAM and TARGET
 PROGRAM ?= hello
 TARGET ?= sifive-hifive1
 
-endif # $(BSP)
-
-TARGET_ROOT ?= $(abspath .)
+TARGET_ROOT  ?= $(abspath .)
 PROGRAM_ROOT ?= $(abspath .)
 
 SRC_DIR = $(PROGRAM_ROOT)/software/$(PROGRAM)
@@ -49,9 +34,9 @@ PROGRAM_HEX = $(SRC_DIR)/$(PROGRAM).hex
 
 # Finds the directory in which this BSP is located, ensuring that there is
 # exactly one.
-BSP_DIR := $(wildcard $(TARGET_ROOT)/bsp/$(BSP_SUBDIR)/$(TARGET))
+BSP_DIR := $(wildcard $(TARGET_ROOT)/bsp/$(TARGET))
 ifeq ($(words $(BSP_DIR)),0)
-$(error Unable to find BSP for $(TARGET), expected to find either "bsp/$(TARGET)" or "bsp-addons/$(TARGET)")
+$(error Unable to find BSP for $(TARGET), expected to find "bsp/$(TARGET)")
 endif
 ifneq ($(words $(BSP_DIR)),1)
 $(error Found multiple BSPs for $(TARGET): "$(BSP_DIR)")
@@ -67,7 +52,7 @@ endif
 # The standalone Makefile handles the following tasks:
 #  - Including $(BSP_DIR)/settings.mk and validating RISCV_ARCH, RISCV_ABI
 #  - Setting the toolchain path with CROSS_COMPILE and RISCV_PATH
-#  - Providing the software and $(PROGRAM_ELF) Make targets for the MEE
+#  - Providing the software and $(PROGRAM_ELF) Make targets for Metal
 
 include scripts/standalone.mk
 
@@ -79,25 +64,25 @@ help:
 	@echo " SiFive Freedom E Software Development Kit "
 	@echo " Makefile targets:"
 	@echo ""
-	@echo " software BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " software [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Build a software program to load with the"
 	@echo "    debugger."
 	@echo ""
-	@echo " metal BSP=metal [TARGET=$(TARGET)]"
-	@echo "    Build the MEE library for TARGET"
+	@echo " metal [TARGET=$(TARGET)]"
+	@echo "    Build the Freedom Metal library for TARGET"
 	@echo ""
-	@echo " clean BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " clean [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Clean compiled objects for a specified "
 	@echo "    software program."
 	@echo ""
-	@echo " upload BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " upload [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Launch OpenOCD to flash your program to the"
 	@echo "    on-board Flash."
 	@echo ""
-	@echo " debug BSP=metal [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
+	@echo " debug [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
 	@echo "    Launch OpenOCD and attach GDB to the running program."
 	@echo ""
-	@echo " standalone BSP=metal STANDALONE_DEST=/path/to/desired/location"
+	@echo " standalone STANDALONE_DEST=/path/to/desired/location"
 	@echo "            [INCLUDE_METAL_SOURCES=1] [PROGRAM=$(PROGRAM)]"
 	@echo "            [TARGET=$(TARGET)]:"
 	@echo "    Export a program for a single target into a standalone"
@@ -109,34 +94,30 @@ help:
 clean:
 
 #############################################################
-# Enumerate MEE BSPs and Programs
+# Enumerate BSPs and Programs
 #
-# List all available MEE boards and programs in a form that 
+# List all available boards and programs in a form that 
 # Freedom Studio knows how to parse.  Do not change the 
 # format or fixed text of the output without consulting the 
 # Freedom Studio dev team.
 #############################################################
-ifeq ($(BSP),metal)
-
-# MEE boards are any folders that aren't the Legacy BSP or update-targets.sh
+#
+# Metal boards are any folders that aren't the Legacy BSP or update-targets.sh
 EXCLUDE_TARGET_DIRS = drivers env include libwrap update-targets.sh
 list-targets:
 	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_TARGET_DIRS),$(notdir $(wildcard bsp/*))))
 
-# MEE programs are any submodules in the software folder
+# Metal programs are any submodules in the software folder
 list-programs:
 	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
 
 list-options: list-programs list-targets
 
-endif
-
 #############################################################
 # Import rules to build Freedom Metal
 #############################################################
-ifeq ($(BSP),metal)
+
 include scripts/libmetal.mk
-endif
 
 #############################################################
 # elf2hex
@@ -162,7 +143,6 @@ clean: clean-elf2hex
 # Standalone Project Export
 #############################################################
 
-ifeq ($(BSP),metal)
 ifeq ($(STANDALONE_DEST),)
 standalone:
 	$(error Please provide STANDALONE_DEST to create a standalone project)
@@ -213,13 +193,10 @@ standalone: \
 	cat scripts/standalone.mk >> $</Makefile
 endif
 endif
-endif
 
 #############################################################
 # CoreIP RTL Simulation Hex File Creation
 #############################################################
-
-ifeq ($(BSP),metal)
 
 # Use elf2hex if we're not using Segger J-Link OB (i.e. for coreip-rtl targets)
 ifeq ($(SEGGER_JLINK_OB),)
@@ -227,28 +204,6 @@ $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
-endif
-
-endif
-
-#############################################################
-# Legacy Software Compilation
-#############################################################
-
-ifeq ($(BSP),legacy)
-PROGRAM_DIR=$(dir $(PROGRAM_ELF))
-
-.PHONY: software_clean
-clean: software_clean
-software_clean:
-	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) TARGET=$(TARGET) LINK_TARGET=$(LINK_TARGET) clean
-
-.PHONY: software
-software: software_clean
-	$(MAKE) -C $(PROGRAM_DIR) CC=$(RISCV_GCC) RISCV_ARCH=$(RISCV_ARCH) RISCV_ABI=$(RISCV_ABI) AR=$(RISCV_AR) BSP_BASE=$(abspath bsp) TARGET=$(TARGET) LINK_TARGET=$(LINK_TARGET)
-
-dasm: software $(RISCV_OBJDUMP)
-	$(RISCV_OBJDUMP) -D $(PROGRAM_ELF)
 endif
 
 #############################################################
@@ -261,8 +216,6 @@ else
 #if RISCV_OPENOCD_PATH is not set, just look on the PATH
 RISCV_OPENOCD=openocd
 endif
-
-ifeq ($(BSP),metal)
 
 ifneq ($(SEGGER_JLINK_OB),)
 upload: $(PROGRAM_HEX)
@@ -280,38 +233,3 @@ debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 endif
 
-else # BSP != metal
-
-OPENOCDCFG ?= bsp/env/$(TARGET)/openocd.cfg
-OPENOCDARGS += -f $(OPENOCDCFG)
-
-GDB_UPLOAD_ARGS ?= --batch
-
-GDB_UPLOAD_CMDS += -ex "set remotetimeout 240"
-GDB_UPLOAD_CMDS += -ex "target extended-remote localhost:$(GDB_PORT)"
-GDB_UPLOAD_CMDS += -ex "monitor reset halt"
-GDB_UPLOAD_CMDS += -ex "monitor flash protect 0 64 last off"
-GDB_UPLOAD_CMDS += -ex "load"
-GDB_UPLOAD_CMDS += -ex "monitor resume"
-GDB_UPLOAD_CMDS += -ex "monitor shutdown"
-GDB_UPLOAD_CMDS += -ex "quit"
-
-upload:
-	$(RISCV_OPENOCD) $(OPENOCDARGS) & \
-	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDB_UPLOAD_ARGS) $(GDB_UPLOAD_CMDS) && \
-	echo "Successfully uploaded '$(PROGRAM)' to $(TARGET)."
-
-#############################################################
-# This Section is for launching the debugger
-#############################################################
-
-run_openocd:
-	$(RISCV_OPENOCD) $(OPENOCDARGS)
-
-GDBCMDS += -ex "set remotetimeout 240"
-GDBCMDS += -ex "target extended-remote localhost:$(GDB_PORT)"
-
-run_gdb:
-	$(RISCV_GDB) $(PROGRAM_DIR)/$(PROGRAM) $(GDBARGS) $(GDBCMDS)
-
-endif # BSP == metal
