@@ -1,10 +1,10 @@
 
 #############################################################
-# Compiles an instance of the MEE targeted at $(TARGET)
+# Compiles an instance of Metal targeted at $(TARGET)
 #############################################################
-MEE_SOURCE_PATH	  ?= freedom-metal
-MEE_LDSCRIPT	   = $(BSP_DIR)/metal.lds
-MEE_HEADER	   = $(BSP_DIR)/metal.h
+METAL_SOURCE_PATH ?= freedom-metal
+METAL_LDSCRIPT	   = $(BSP_DIR)/metal.lds
+METAL_HEADER	   = $(BSP_DIR)/metal.h
 
 .PHONY: metal
 metal: $(BSP_DIR)/install/stamp
@@ -14,14 +14,14 @@ $(BSP_DIR)/build/Makefile:
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
 		CFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=$(RISCV_CMODEL)" \
-		$(abspath $(MEE_SOURCE_PATH)/configure) \
+		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(abspath $(BSP_DIR)/install) \
 		--disable-maintainer-mode \
 		--with-preconfigured \
 		--with-machine-name=$(TARGET) \
-		--with-machine-header=$(abspath $(MEE_HEADER)) \
-		--with-machine-ldscript=$(abspath $(MEE_LDSCRIPT)) \
+		--with-machine-header=$(abspath $(METAL_HEADER)) \
+		--with-machine-ldscript=$(abspath $(METAL_LDSCRIPT)) \
 		--with-builtin-libgloss
 	touch -c $@
 
@@ -44,5 +44,5 @@ clean-metal:
 clean: clean-metal
 
 metal_install: metal
-	$(MAKE) -C $(MEE_SOURCE_PATH) install
+	$(MAKE) -C $(METAL_SOURCE_PATH) install
 

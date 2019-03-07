@@ -7,6 +7,10 @@ RISC-V GNU Toolchain.
 
 [Documentation for Freedom E SDK is available here](https://sifive.github.io/freedom-e-sdk-docs/index.html)
 
+Freedom E SDK was recently transitioned to using the Freedom Metal compatibility
+library. If you're looking for the old Freedom E SDK, software examples, and
+board support files, you can find those on the [v1\_0 branch](https://github.com/sifive/freedom-e-sdk/tree/v1_0).
+
 ### Under Construction ###
 
 This repository is currently under construction as we transition from the
@@ -81,54 +85,6 @@ of Freedom E SDK.
     - Demonstrates how to configure a Physical Memory Protection (PMP) region
   - example-coreip-welcome
     - Prints the SiFive banner and blinks LEDs 
-    
-#### (Deprecated) Legacy Freedom E SDK Library ####
-
-As we transition to supporting SiFive targets and examples with the new Freedom Metal
-compatibility library, the legacy Freedom E SDK libraries and examples are still available
-within this repository.
-
-As we port legacy example programs to the new Freedom Metal API, we will remove
-the legacy version of the examples from this repository.
-
-* Board Support Packages (found under `bsp/env`)
-  - Supported Targets:
-    - SiFive HiFive 1
-      - freedom-e300-hifive1
-    - SiFive Freedom E310 Arty
-      - freedom-e300-arty
-    - SiFive CoreIP Arty FPGA Evaluation Targets (e.g. coreplexip-e31-arty)
-      - coreip-e2-arty
-      - coreplexip-e31-arty
-      - coreplexip-e51-arty
-  - The Legacy board support files are located as follows:
-    * `bsp/env/`
-      - Holds board-specific files for the Legacy API
-    * `bsp/drivers/`
-      - Holds legacy device drivers for the PLIC, CLIC, and PRCI
-    * `bsp/include`
-      - Holds legacy header files for the Legacy API
-    * `bsp/libwrap`
-      - Holds wrappers around libc for the Legacy API
-* A Few Example Programs
-  - asm\_main
-  - clic\_vectored
-  - coremark
-  - coreplexip\_welcome
-  - demo\_gpio
-  - dhrystone
-  - double\_tap\_dontboot
-  - global\_interrupts
-  - i2c\_demo
-  - led\_fade
-  - local\_interrupts
-  - performance\_counters
-  - smp
-  - vectored\_interrupts
-  - watchdog
-
-Legacy examples can be built using the same commands as the Freedom Metal examples and simply
-omitting the `BSP=metal` argument or substituting it with `BSP=legacy`.
 
 ### Setting up the SDK ###
 
@@ -189,18 +145,12 @@ git submodule update --init --recursive
 
 ### Using the Tools ###
 
-To ease the transition for consumers of the Legacy SDK, we've namespaced
-the new Freedom Metal examples behind the environment variable `BSP`. To use the
-Freedom Metal examples, you may `export BSP=metal` in your shell environment, or simply
-pass `BSP=metal` as an argument to your `make` invocations as you see in the following
-example commands.
-
 #### Building an Example ####
 
 To compile a bare-metal RISC-V program:
 
 ```
-make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] software
+make [PROGRAM=hello] [TARGET=sifive-hifive1] software
 ```
 
 The square brackets in the above command indicate optional parameters for the
@@ -210,35 +160,25 @@ If, for example, you wished to build the `timer-interrupt` example for the S51
 Arty FPGA Evaluation target, you would instead run the command
 
 ```
-make BSP=metal PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
-```
-
-#### Building a Legacy Example ####
-
-The legacy examples can still be built by omitting `BSP=metal` or by substituting
-`BSP=legacy`. For example, to build the legacy `demo_gpio` application for
-HiFive 1, run:
-
-```
-make PROGRAM=demo_gpio TARGET=freedom-e300-hifive1 software
+make PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
 ```
 
 #### Uploading to the Target Board ####
 
 ```
-make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] upload
+make [PROGRAM=hello] [TARGET=sifive-hifive1] upload
 ```
 
 #### Debugging a Target Program ####
 
 ```
-make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] debug
+make [PROGRAM=hello] [TARGET=sifive-hifive1] debug
 ```
 
 #### Cleaning a Target Program Build Directory ####
 
 ```
-make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] clean
+make [PROGRAM=hello] [TARGET=sifive-hifive1] clean
 ```
 
 #### Create a Standalone Project ####
@@ -256,61 +196,10 @@ project. If this argument is not included, then the Freedom Metal library will
 be included in the generated project as a pre-built archive.
 
 ```
-make BSP=metal [PROGRAM=hello] [TARGET=sifive-hifive1] [INCLUDE_METAL_SOURCES=1] STANDALONE_DEST=/path/to/desired/location standalone
+make [PROGRAM=hello] [TARGET=sifive-hifive1] [INCLUDE_METAL_SOURCES=1] STANDALONE_DEST=/path/to/desired/location standalone
 ```
 
 Run `make help` for more commands.
-
-### Benchmarking ###
-
-The Dhrystone and CoreMark benchmarks are still only supported by the Legacy
-Freedom E SDK. When we port the benchmarks to Freedom Metal, we will update
-this section to describe the updated build steps.
-
-#### Dhrystone ####
-
-After setting up the software and debug toolchains, you can build and
-execute everyone's favorite benchmark as follows:
-
-- Compile the benchmark with the command `make software TARGET=freedom-e300-hifive1 PROGRAM=dhrystone LINK_TARGET=dhrystone`. Note that a slightly different linker file is used for Dhrystone which stores read only data in DTIM instead of external flash.
-- Run on the HiFive1 board with the command `make upload TARGET=freedom-e300-hifive1 PROGRAM=dhrystone`.
-  This will take a few minutes.  Sample output is provided below.
-- Compute DMIPS by dividing the Dhrystones per Second result by 1757, which
-  was the VAX 11/780's performance.  In the example below, 729927 / 1757 =
-  415 DMIPS.
-- Compute DMIPS/MHz by dividing by the clock rate: in the example below,
-  415 / 268 = 1.55 DMIPS/MHz.
-
-```
-core freq at 268694323 Hz
-
-Dhrystone Benchmark, Version 2.1 (Language: C)
-
-<snip>
-
-Microseconds for one run through Dhrystone: 1.3
-Dhrystones per Second:                      729927.0
-```
-
-#### CoreMark ####
-
-We cannot distribute the CoreMark benchmark, but following are instructions
-to download and run the benchmark on the HiFive1 board:
-
-- Download CoreMark from EEMBC's web site and extract the archive from
-  http://www.eembc.org/coremark/download.php.
-- Copy the following files from the extracted archive into the
-  `software/coremark` directory in this repository:
-  - `core_list_join.c`
-  - `core_main.c`
-  - `coremark.h`
-  - `core_matrix.c`
-  - `core_state.c`
-  - `core_util.c`
-- Compile the benchmark with the command `make software PROGRAM=coremark`.
-- Run on the HiFive1 board with the command `make upload PROGRAM=coremark`.
-- Divide the reported Iterations/Sec by the reported core frequency in MHz to
-  obtain a CoreMarks/MHz value.
 
 ### For More Information ###
 
