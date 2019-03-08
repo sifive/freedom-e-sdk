@@ -8,17 +8,18 @@ To compile a bare-metal RISC-V program:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] software
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] software
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
-the build script to build the ``hello`` example for the ``sifive-hifive1`` target.
-If, for example, you wished to build the ``timer-interrupt`` example for the S51
-Arty FPGA Evaluation target, you would instead run the command
+the build script to build the ``hello`` example for the ``sifive-hifive1`` target
+using the ``debug`` build configuration. If, for example, you wished to build
+the ``timer-interrupt`` example for the S51 Arty FPGA Evaluation target using
+the ``release`` build configuration, you would instead run the command
 
 .. code-block:: bash
 
-   make PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
+   make PROGRAM=timer-interrupt TARGET=coreip-s51-arty CONFIGURATION=release software
 
 Uploading to the Target Board
 -----------------------------
@@ -32,7 +33,7 @@ the development board into your computer and running the following command:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] upload
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] upload
 
 Debugging a Target Program
 --------------------------
@@ -49,7 +50,7 @@ the development board into your computer and running the following command:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] debug
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] debug
 
 Cleaning a Target Program Build Directory
 -----------------------------------------
@@ -58,5 +59,5 @@ The ``clean`` target can be used to restore a target program's directory to a cl
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] clean
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] clean
 

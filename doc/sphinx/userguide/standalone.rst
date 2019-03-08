@@ -15,5 +15,5 @@ be included in the generated project as a pre-built archive.
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] [INCLUDE_METAL_SOURCES=1] STANDALONE_DEST=/path/to/desired/location standalone
+   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] [INCLUDE_METAL_SOURCES=1] STANDALONE_DEST=/path/to/desired/location standalone
 

@@ -13,7 +13,7 @@ $(BSP_DIR)/build/Makefile:
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
-		CFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=$(RISCV_CMODEL)" \
+		CFLAGS="$(RISCV_CFLAGS)" \
 		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(abspath $(BSP_DIR)/install) \

@@ -7,6 +7,11 @@ BSP_DIR ?= $(abspath bsp)
 # SRC_DIR sets the path to the program source directory
 SRC_DIR ?= $(abspath src)
 
+# The configuration defaults to Debug. Valid choices are:
+#  - debug
+#  - release
+CONFIGURATION ?= debug
+
 #############################################################
 # BSP loading
 #############################################################
@@ -73,10 +78,42 @@ SEGGER_JLINK_EXE := JLinkExe
 SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 
 #############################################################
+# Software Flags
+#############################################################
+
+# Set the arch, ABI, and code model
+RISCV_CFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
+RISCV_CXXFLAGS += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
+# Prune unused functions and data
+RISCV_CFLAGS   += -ffunction-sections -fdata-sections
+RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
+# Include the Metal headers
+RISCV_CFLAGS   += -I$(abspath $(BSP_DIR)/install/include/)
+RISCV_CXXFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
+
+# Turn on garbage collection for unused sections
+RISCV_LDFLAGS += -Wl,--gc-sections
+# Turn off the C standard library
+RISCV_LDFLAGS += -nostartfiles -nostdlib
+# Find the archive files and linker scripts
+RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
+
+# Link to the relevant libraries
+RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group
+
+# Load the configuration Makefile
+CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
+ifeq ($(words $(CONFIGURATION_FILE)),0)
+$(error Unable to find the Makefile $(CONFIGURATION).mk for CONFIGURATION=$(CONFIGURATION))
+endif
+include $(CONFIGURATION).mk
+
+#############################################################
 # Software
 #############################################################
 
 PROGRAM_ELF ?= $(SRC_DIR)/$(PROGRAM)
+PROGRAM_HEX ?= $(SRC_DIR)/$(PROGRAM).hex
 
 .PHONY: all
 all: software
@@ -102,10 +139,10 @@ $(PROGRAM_ELF): \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
-		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=$(RISCV_CMODEL) -I$(abspath $(BSP_DIR)/install/include/)" \
-		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -ffunction-sections -fdata-sections -g -mcmodel=$(RISCV_CMODEL) -I$(abspath $(BSP_DIR)/install/include/)" \
-		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))" \
-		LDLIBS="-Wl,--gc-sections -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group"
+		CFLAGS="$(RISCV_CFLAGS)" \
+		CXXFLAGS="$(RISCV_CXXFLAGS)" \
+		LDFLAGS="$(RISCV_LDFLAGS)" \
+		LDLIBS="$(RISCV_LDLIBS)"
 	touch -c $@
 
 	$(RISCV_SIZE) $@
@@ -121,5 +158,6 @@ endif
 .PHONY: clean-software
 clean-software:
 	$(MAKE) -C $(SRC_DIR) clean
+.PHONY: clean
 clean: clean-software
 

@@ -8,17 +8,18 @@ To compile a bare-metal RISC-V program:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=coreip-e31-rtl] software
+   make [PROGRAM=hello] [TARGET=coreip-e31-rtl] [CONFIGURATION=debug] software
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
-the build script to build the ``hello`` example for the ``coreip-e31`` target.
-If, for example, you wished to build the ``timer-interrupt`` example for the S51
-Core IP target, you would instead run the command
+the build script to build the ``hello`` example for the ``coreip-e31`` target
+with the ``debug`` build configuration. If, for example, you wished to build
+the ``timer-interrupt`` example for the S51 Core IP target with the ``release``
+configuration, you would instead run the command
 
 .. code-block:: bash
 
-   make PROGRAM=timer-interrupt TARGET=coreip-s51-rtl software
+   make PROGRAM=timer-interrupt TARGET=coreip-s51-rtl CONFIGURATION=release software
 
 Cleaning a Target Program Build Directory
 -----------------------------------------
@@ -27,5 +28,5 @@ The ``clean`` target can be used to restore a target program's directory to a cl
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=coreip-e31-rtl] clean
+   make [PROGRAM=hello] [TARGET=coreip-e31-rtl] [CONFIGURATION=debug] clean
 
