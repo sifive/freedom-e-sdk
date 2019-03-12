@@ -112,7 +112,7 @@ include $(CONFIGURATION).mk
 # Software
 #############################################################
 
-PROGRAM_ELF ?= $(SRC_DIR)/$(PROGRAM)
+PROGRAM_ELF ?= $(SRC_DIR)/$(PROGRAM).elf
 PROGRAM_HEX ?= $(SRC_DIR)/$(PROGRAM).hex
 
 .PHONY: all
@@ -135,7 +135,7 @@ $(PROGRAM_ELF): \
 		$(BSP_DIR)/install/lib/libmetal.a \
 		$(BSP_DIR)/install/lib/libmetal-gloss.a \
 		$(BSP_DIR)/metal.lds
-	$(MAKE) -C $(dir $@) $(notdir $@) \
+	$(MAKE) -C $(dir $@) $(basename $(notdir $@)) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \

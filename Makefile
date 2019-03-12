@@ -25,7 +25,7 @@ PROGRAM_ROOT ?= $(abspath .)
 
 SRC_DIR = $(PROGRAM_ROOT)/software/$(PROGRAM)
 
-PROGRAM_ELF = $(SRC_DIR)/$(PROGRAM)
+PROGRAM_ELF = $(SRC_DIR)/$(PROGRAM).elf
 PROGRAM_HEX = $(SRC_DIR)/$(PROGRAM).hex
 
 #############################################################
