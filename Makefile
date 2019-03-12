@@ -125,26 +125,6 @@ list-options: list-programs list-targets
 include scripts/libmetal.mk
 
 #############################################################
-# elf2hex
-#############################################################
-scripts/elf2hex/build/Makefile: scripts/elf2hex/configure
-	@rm -rf $(dir $@)
-	@mkdir -p $(dir $@)
-	cd $(dir $@); \
-		$(abspath $<) \
-		--prefix=$(abspath $(dir $<))/install \
-		--target=$(CROSS_COMPILE)
-
-scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex: scripts/elf2hex/build/Makefile
-	$(MAKE) -C $(dir $<) install
-	touch -c $@
-
-.PHONY: clean-elf2hex
-clean-elf2hex:
-	rm -rf scripts/elf2hex/build scripts/elf2hex/install
-clean: clean-elf2hex
-
-#############################################################
 # Standalone Project Export
 #############################################################
 
@@ -157,6 +137,39 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
+ifneq ($(COREIP_MEM_WIDTH),)
+standalone: \
+		$(STANDALONE_DEST) \
+		$(STANDALONE_DEST)/bsp \
+		$(STANDALONE_DEST)/src \
+		$(SRC_DIR) \
+		freedom-metal \
+		debug.mk \
+		release.mk \
+		scripts/elf2hex \
+		scripts/standalone.mk \
+		scripts/libmetal.mk
+	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
+
+	cp -r freedom-metal $</
+
+	find $</freedom-metal -name ".git*" | xargs rm
+
+	mkdir -p $</scripts
+	cp -r scripts/elf2hex $</scripts
+
+	find $</scripts/elf2hex -name ".git*" | xargs rm
+
+	$(MAKE) -C $(SRC_DIR) clean
+	cp -r $(SRC_DIR)/* $</src/
+
+	cp debug.mk $</debug.mk
+	cp release.mk $</release.mk
+
+	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+	cat scripts/standalone.mk >> $</Makefile
+	cat scripts/libmetal.mk >> $</Makefile
+else
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -182,19 +195,8 @@ standalone: \
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-
 endif
 
-#############################################################
-# CoreIP RTL Simulation Hex File Creation
-#############################################################
-
-# Use elf2hex if we're not using Segger J-Link OB (i.e. for coreip-rtl targets)
-ifeq ($(SEGGER_JLINK_OB),)
-$(PROGRAM_HEX): \
-		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
-		$(PROGRAM_ELF)
-	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
 endif
 
 #############################################################
