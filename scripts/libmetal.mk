@@ -6,17 +6,22 @@ METAL_SOURCE_PATH ?= freedom-metal
 METAL_LDSCRIPT	   = $(BSP_DIR)/metal.lds
 METAL_HEADER	   = $(BSP_DIR)/metal.h
 
-.PHONY: metal
-metal: $(BSP_DIR)/install/stamp
+METAL_PREFIX       = $(abspath $(BSP_DIR)/install)
+METAL_BUILD_DIR    = $(abspath $(BSP_DIR)/build/$(CONFIGURATION))
+METAL_LIB_DIR	   = $(abspath $(BSP_DIR)/install/lib/$(CONFIGURATION))
 
-$(BSP_DIR)/build/Makefile:
+.PHONY: metal
+metal: $(METAL_LIB_DIR)/stamp
+
+$(METAL_BUILD_DIR)/Makefile:
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
-		--prefix=$(abspath $(BSP_DIR)/install) \
+		--prefix=$(METAL_PREFIX) \
+		--libdir=$(METAL_LIB_DIR) \
 		--disable-maintainer-mode \
 		--with-preconfigured \
 		--with-machine-name=$(TARGET) \
@@ -25,21 +30,21 @@ $(BSP_DIR)/build/Makefile:
 		--with-builtin-libgloss
 	touch -c $@
 
-$(BSP_DIR)/install/stamp: $(BSP_DIR)/build/Makefile
-	$(MAKE) -C $(abspath $(BSP_DIR)/build) install
+$(METAL_LIB_DIR)/stamp: $(BSP_DIR)/build/$(CONFIGURATION)/Makefile
+	$(MAKE) -C $(abspath $(BSP_DIR)/build/$(CONFIGURATION)) install
 	date > $@
 
-$(BSP_DIR)/install/lib/libriscv%.a: $(BSP_DIR)/install/stamp ;@:
+$(METAL_LIB_DIR)/libriscv%.a: $(METAL_LIB_DIR)/stamp ;@:
 
-$(BSP_DIR)/install/lib/libmetal.a: $(BSP_DIR)/install/lib/libriscv__mmachine__$(TARGET).a
+$(METAL_LIB_DIR)/libmetal.a: $(METAL_LIB_DIR)/libriscv__mmachine__$(TARGET).a
 	cp $< $@
 
-$(BSP_DIR)/install/lib/libmetal-gloss.a: $(BSP_DIR)/install/lib/libriscv__menv__metal.a
+$(METAL_LIB_DIR)/libmetal-gloss.a: $(METAL_LIB_DIR)/libriscv__menv__metal.a
 	cp $< $@
 
 .PHONY: clean-metal
 clean-metal:
-	rm -rf $(BSP_DIR)/install
+	rm -rf $(METAL_PREFIX)
 	rm -rf $(BSP_DIR)/build
 clean: clean-metal
 

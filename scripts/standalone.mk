@@ -132,8 +132,8 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
-		$(BSP_DIR)/install/lib/libmetal.a \
-		$(BSP_DIR)/install/lib/libmetal-gloss.a \
+		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
+		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
 		$(BSP_DIR)/metal.lds
 	$(MAKE) -C $(dir $@) $(basename $(notdir $@)) \
 		AR=$(RISCV_AR) \

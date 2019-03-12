@@ -88,8 +88,7 @@ help:
 	@echo "    running program."
 	@echo ""
 	@echo " standalone STANDALONE_DEST=/path/to/desired/location"
-	@echo "            [INCLUDE_METAL_SOURCES=1] [PROGRAM=$(PROGRAM)]"
-	@echo "            [TARGET=$(TARGET)] [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "            [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]:"
 	@echo "    Exports a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
 	@echo ""
@@ -158,8 +157,6 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
-ifneq ($(INCLUDE_METAL_SOURCES),)
-
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -186,28 +183,6 @@ standalone: \
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 
-else
-standalone: \
-		$(STANDALONE_DEST) \
-		$(STANDALONE_DEST)/bsp \
-		$(STANDALONE_DEST)/src \
-		$(BSP_DIR)/install/lib/libmetal.a \
-		$(BSP_DIR)/install/lib/libmetal-gloss.a \
-		$(SRC_DIR) \
-		debug.mk \
-		release.mk \
-		scripts/standalone.mk
-	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
-
-	$(MAKE) -C $(SRC_DIR) clean
-	cp -r $(SRC_DIR)/* $</src/
-
-	cp debug.mk $</debug.mk
-	cp release.mk $</release.mk
-
-	echo "PROGRAM = $(PROGRAM)" > $</Makefile
-	cat scripts/standalone.mk >> $</Makefile
-endif
 endif
 
 #############################################################
