@@ -112,8 +112,8 @@ include $(CONFIGURATION).mk
 # Software
 #############################################################
 
-PROGRAM_ELF ?= $(SRC_DIR)/$(PROGRAM).elf
-PROGRAM_HEX ?= $(SRC_DIR)/$(PROGRAM).hex
+PROGRAM_ELF ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).elf
+PROGRAM_HEX ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).hex
 
 .PHONY: all
 all: software
@@ -135,7 +135,8 @@ $(PROGRAM_ELF): \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
 		$(BSP_DIR)/metal.lds
-	$(MAKE) -C $(dir $@) $(basename $(notdir $@)) \
+	mkdir -p $(dir $@)
+	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
@@ -143,6 +144,7 @@ $(PROGRAM_ELF): \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
+	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	touch -c $@
 
 	$(RISCV_SIZE) $@
@@ -158,6 +160,7 @@ endif
 .PHONY: clean-software
 clean-software:
 	$(MAKE) -C $(SRC_DIR) clean
+	rm -rf $(SRC_DIR)/$(CONFIGURATION)
 .PHONY: clean
 clean: clean-software
 
