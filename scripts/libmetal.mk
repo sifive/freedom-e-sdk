@@ -42,10 +42,19 @@ $(METAL_LIB_DIR)/libmetal.a: $(METAL_LIB_DIR)/libriscv__mmachine__$(TARGET).a
 $(METAL_LIB_DIR)/libmetal-gloss.a: $(METAL_LIB_DIR)/libriscv__menv__metal.a
 	cp $< $@
 
+# If we're cleaning the last Metal library for a TARGET, then remove
+# the install directory, otherwise just remove the built libs for that
+# CONFIGURATION.
+ifeq ($(words $(wildcard $(METAL_PREFIX)/lib/*)),1)
+METAL_CLEAN = $(METAL_PREFIX)
+else
+METAL_CLEAN = $(METAL_LIB_DIR)
+endif
+
 .PHONY: clean-metal
 clean-metal:
-	rm -rf $(METAL_PREFIX)
-	rm -rf $(BSP_DIR)/build
+	rm -rf $(METAL_CLEAN)
+	rm -rf $(METAL_BUILD_DIR)
 clean: clean-metal
 
 metal_install: metal
