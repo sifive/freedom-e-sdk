@@ -25,8 +25,8 @@ PROGRAM_ROOT ?= $(abspath .)
 
 SRC_DIR = $(PROGRAM_ROOT)/software/$(PROGRAM)
 
-PROGRAM_ELF = $(SRC_DIR)/$(PROGRAM)
-PROGRAM_HEX = $(SRC_DIR)/$(PROGRAM).hex
+PROGRAM_ELF = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).elf
+PROGRAM_HEX = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).hex
 
 #############################################################
 # BSP Loading
@@ -64,31 +64,36 @@ help:
 	@echo " SiFive Freedom E Software Development Kit "
 	@echo " Makefile targets:"
 	@echo ""
-	@echo " software [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
-	@echo "    Build a software program to load with the"
-	@echo "    debugger."
+	@echo " software [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "          [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    Builds the requested PROGRAM for the TARGET using the"
+	@echo "    specified build CONFIGURATION."
 	@echo ""
-	@echo " metal [TARGET=$(TARGET)]"
-	@echo "    Build the Freedom Metal library for TARGET"
+	@echo " metal [TARGET=$(TARGET)] [CONFIGURATION=$(CONFIGURATION)]"
+	@echo "    Builds the Freedom Metal library for TARGET."
 	@echo ""
-	@echo " clean [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
-	@echo "    Clean compiled objects for a specified "
+	@echo " clean [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    Cleans compiled objects for a specified "
 	@echo "    software program."
 	@echo ""
-	@echo " upload [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
-	@echo "    Launch OpenOCD to flash your program to the"
-	@echo "    on-board Flash."
+	@echo " upload [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "        [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    For board and FPGA TARGETs, uploads the program to the"
+	@echo "    on-board flash."
 	@echo ""
-	@echo " debug [PROGRAM=$(PROGRAM) TARGET=$(TARGET)]:"
-	@echo "    Launch OpenOCD and attach GDB to the running program."
+	@echo " debug [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    For board and FPGA TARGETs, attaches GDB to the"
+	@echo "    running program."
 	@echo ""
 	@echo " standalone STANDALONE_DEST=/path/to/desired/location"
-	@echo "            [INCLUDE_METAL_SOURCES=1] [PROGRAM=$(PROGRAM)]"
-	@echo "            [TARGET=$(TARGET)]:"
-	@echo "    Export a program for a single target into a standalone"
+	@echo "            [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]:"
+	@echo "    Exports a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
 	@echo ""
-	@echo " For more information, read the accompanying README.md"
+	@echo " For more information, view the Freedom E SDK Documentation at"
+	@echo "   https://sifive.github.io/freedom-e-sdk-docs/index.html"
 
 .PHONY: clean
 clean:
@@ -152,14 +157,14 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
-ifneq ($(INCLUDE_METAL_SOURCES),)
-
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
 		$(STANDALONE_DEST)/src \
 		$(SRC_DIR) \
 		freedom-metal \
+		debug.mk \
+		release.mk \
 		scripts/standalone.mk \
 		scripts/libmetal.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
@@ -171,27 +176,13 @@ standalone: \
 	$(MAKE) -C $(SRC_DIR) clean
 	cp -r $(SRC_DIR)/* $</src/
 
+	cp debug.mk $</debug.mk
+	cp release.mk $</release.mk
+
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 
-else
-standalone: \
-		$(STANDALONE_DEST) \
-		$(STANDALONE_DEST)/bsp \
-		$(STANDALONE_DEST)/src \
-		$(BSP_DIR)/install/lib/libmetal.a \
-		$(BSP_DIR)/install/lib/libmetal-gloss.a \
-		$(SRC_DIR) \
-		scripts/standalone.mk
-	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
-
-	$(MAKE) -C $(SRC_DIR) clean
-	cp -r $(SRC_DIR)/* $</src/
-
-	echo "PROGRAM = $(PROGRAM)" > $</Makefile
-	cat scripts/standalone.mk >> $</Makefile
-endif
 endif
 
 #############################################################
