@@ -3,3 +3,5 @@
 RISCV_ARCH=rv32imac
 RISCV_ABI=ilp32
 RISCV_CMODE=medlow
+
+TARGET_TAGS=fpga openocd

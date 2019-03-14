@@ -1,2 +1,4 @@
 RISCV_ARCH=rv64imac
 RISCV_ABI=lp64
+
+TARGET_TAGS=fpga openocd
