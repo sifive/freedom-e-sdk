@@ -155,7 +155,14 @@ $(PROGRAM_HEX): \
 		$(RISCV_OBJCOPY) \
 		$(PROGRAM_ELF)
 	$< -O ihex $(PROGRAM_ELF) $@
+else
+# Use elf2hex if we're not using Segger J-Link OB (i.e. for coreip-rtl targets)
+$(PROGRAM_HEX): \
+		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
+		$(PROGRAM_ELF)
+	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
 endif
+
 
 .PHONY: clean-software
 clean-software:
@@ -163,4 +170,24 @@ clean-software:
 	rm -rf $(SRC_DIR)/$(CONFIGURATION)
 .PHONY: clean
 clean: clean-software
+
+#############################################################
+# elf2hex
+#############################################################
+scripts/elf2hex/build/Makefile: scripts/elf2hex/configure
+	@rm -rf $(dir $@)
+	@mkdir -p $(dir $@)
+	cd $(dir $@); \
+		$(abspath $<) \
+		--prefix=$(abspath $(dir $<))/install \
+		--target=$(CROSS_COMPILE)
+
+scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex: scripts/elf2hex/build/Makefile
+	$(MAKE) -C $(dir $<) install
+	touch -c $@
+
+.PHONY: clean-elf2hex
+clean-elf2hex:
+	rm -rf scripts/elf2hex/build scripts/elf2hex/install
+clean: clean-elf2hex
 
