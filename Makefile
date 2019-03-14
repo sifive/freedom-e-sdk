@@ -107,11 +107,14 @@ clean:
 # Freedom Studio dev team.
 #############################################################
 
-# Finds all directories in bsp/ with settings.mk, extracts the name of those directories, and sorts them
-ALL_TARGETS = $(sort $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(shell find $(TARGET_ROOT)/bsp -name settings.mk))))
+# Find all settings.mk with TARGET_REQUIRE_TAGS in TARGET_TAGS
+MATCHING_SETTINGS = $(shell scripts/filter-targets $(TARGET_ROOT)/bsp $(TARGET_REQUIRE_TAGS))
+
+# Get the name of the containing directory of all matching settings.mk
+MATCHING_TARGETS = $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(MATCHING_SETTINGS)))
 
 list-targets:
-	@echo bsp-list: $(ALL_TARGETS)
+	@echo bsp-list: $(sort $(MATCHING_TARGETS))
 
 # Metal programs are any submodules in the software folder
 list-programs:
@@ -227,4 +230,5 @@ else
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 endif
+
 
