@@ -106,11 +106,12 @@ clean:
 # format or fixed text of the output without consulting the 
 # Freedom Studio dev team.
 #############################################################
-#
-# Metal boards are any folders that aren't the Legacy BSP or update-targets.sh
-EXCLUDE_TARGET_DIRS = drivers env include libwrap update-targets.sh
+
+# Finds all directories in bsp/ with settings.mk, extracts the name of those directories, and sorts them
+ALL_TARGETS = $(sort $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(shell find $(TARGET_ROOT)/bsp -name settings.mk))))
+
 list-targets:
-	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_TARGET_DIRS),$(notdir $(wildcard bsp/*))))
+	@echo bsp-list: $(ALL_TARGETS)
 
 # Metal programs are any submodules in the software folder
 list-programs:
