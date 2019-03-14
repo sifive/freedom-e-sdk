@@ -131,13 +131,14 @@ include scripts/libmetal.mk
 ifeq ($(STANDALONE_DEST),)
 standalone:
 	$(error Please provide STANDALONE_DEST to create a standalone project)
-else
+else # STANDALONE_DEST != ""
 
 $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
-ifneq ($(COREIP_MEM_WIDTH),)
+ifneq ($(filter rtl,$(TARGET_TAGS)),)
+# TARGETs with the "rtl" TARGET_TAG need elf2hex in their standalone project
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -169,7 +170,7 @@ standalone: \
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-else
+else # "rtl" not in TARGET_TAGS
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -195,9 +196,9 @@ standalone: \
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-endif
+endif # rtl in TARGET_TAGS
 
-endif
+endif # STANDALONE_DEST
 
 #############################################################
 # Upload and Debug
@@ -210,7 +211,7 @@ else
 RISCV_OPENOCD=openocd
 endif
 
-ifneq ($(SEGGER_JLINK_OB),)
+ifneq ($(filter jlink,$(TARGET_TAGS)),)
 upload: $(PROGRAM_HEX)
 	scripts/upload --hex $(PROGRAM_HEX) --jlink $(SEGGER_JLINK_EXE)
 else
@@ -218,7 +219,7 @@ upload: $(PROGRAM_ELF)
 	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 endif
 
-ifneq ($(SEGGER_JLINK_OB),)
+ifneq ($(filter jlink,$(TARGET_TAGS)),)
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --jlink $(SEGGER_JLINK_GDB_SERVER) --gdb $(RISCV_GDB)
 else

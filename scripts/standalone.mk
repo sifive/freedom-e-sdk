@@ -121,10 +121,7 @@ all: software
 .PHONY: software
 software: $(PROGRAM_ELF)
 
-ifneq ($(COREIP_MEM_WIDTH),)
-software: $(PROGRAM_HEX)
-endif
-ifneq ($(SEGGER_JLINK_OB),)
+ifneq ($(filter jlink rtl,$(TARGET_TAGS)),)
 software: $(PROGRAM_HEX)
 endif
 
@@ -149,14 +146,17 @@ $(PROGRAM_ELF): \
 
 	$(RISCV_SIZE) $@
 
-ifneq ($(SEGGER_JLINK_OB),)
 # If we're using Segger J-Link OB, use objcopy to create an Intel hex file for programming
+ifneq ($(filter jlink,$(TARGET_TAGS)),)
 $(PROGRAM_HEX): \
 		$(RISCV_OBJCOPY) \
 		$(PROGRAM_ELF)
 	$< -O ihex $(PROGRAM_ELF) $@
-else
-# Use elf2hex if we're not using Segger J-Link OB (i.e. for coreip-rtl targets)
+endif
+
+# Use elf2hex if we're creating a hex file for RTL simulation
+ifneq ($(filter rtl,$(TARGET_TAGS)),)
+.PHONY: software
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
