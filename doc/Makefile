@@ -10,13 +10,13 @@ all: html
 ###########################
 
 .PHONY: html
-html: html/index.html
+html: clean html/index.html
 
-# Use Sphinx to build HTML from Doxygen XML
+# Use Sphinx to build HTML documentation
 html/index.html: sphinx/*
 	sphinx-build -b html sphinx html
 
 .PHONY: clean
 clean:
-	rm -rf html
+	rm -rf html/* html/.buildinfo html/.doctrees
 
