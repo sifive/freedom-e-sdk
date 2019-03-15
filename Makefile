@@ -113,6 +113,7 @@ MATCHING_SETTINGS = $(shell scripts/filter-targets $(TARGET_ROOT)/bsp $(TARGET_R
 # Get the name of the containing directory of all matching settings.mk
 MATCHING_TARGETS = $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(MATCHING_SETTINGS)))
 
+.PHONY: list-targets
 list-targets:
 	@echo bsp-list: $(sort $(MATCHING_TARGETS))
 
@@ -125,6 +126,7 @@ list-targets:
 #  5. Sort the lines
 #  6. Find unique tags
 #
+.PHONY: list-target-tags
 list-target-tags:
 	@echo target-tags: $(shell find $(TARGET_ROOT)/bsp -name settings.mk | \
 		xargs grep -he "TARGET_TAGS" | \
@@ -134,9 +136,11 @@ list-target-tags:
 		uniq)
 
 # Metal programs are any submodules in the software folder
+.PHONY: list-programs
 list-programs:
 	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
 
+.PHONY: list-options
 list-options: list-programs list-targets
 
 #############################################################
