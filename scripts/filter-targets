@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+unset tag
+unset bsp_dir
+unset all_settings
+
+bsp_dir="$1"
+shift 1
+
+all_settings=`find ${bsp_dir} -name settings.mk`
+
+while [[ "$1" != "" ]]
+do
+	all_settings=`grep -le "TARGET_TAGS.*=.*$1.*" ${all_settings}`
+	shift 1
+done
+
+echo ${all_settings}

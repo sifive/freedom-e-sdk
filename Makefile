@@ -106,16 +106,41 @@ clean:
 # format or fixed text of the output without consulting the 
 # Freedom Studio dev team.
 #############################################################
-#
-# Metal boards are any folders that aren't the Legacy BSP or update-targets.sh
-EXCLUDE_TARGET_DIRS = drivers env include libwrap update-targets.sh
+
+# Find all settings.mk with TARGET_REQUIRE_TAGS in TARGET_TAGS
+MATCHING_SETTINGS = $(shell scripts/filter-targets $(TARGET_ROOT)/bsp $(TARGET_REQUIRE_TAGS))
+
+# Get the name of the containing directory of all matching settings.mk
+MATCHING_TARGETS = $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(MATCHING_SETTINGS)))
+
+.PHONY: list-targets
 list-targets:
-	@echo bsp-list: $(sort $(filter-out $(EXCLUDE_TARGET_DIRS),$(notdir $(wildcard bsp/*))))
+	@echo bsp-list: $(sort $(MATCHING_TARGETS))
+
+# Lists all available TARGET_TAGS
+#
+#  1. Find all settings.mk
+#  2. Extract the TARGET_TAGS line
+#  3. Extract the value of TARGET_TAGS
+#  4. Split each tag onto a newline
+#  5. Sort the lines
+#  6. Find unique tags
+#
+.PHONY: list-target-tags
+list-target-tags:
+	@echo target-tags: $(shell find $(TARGET_ROOT)/bsp -name settings.mk | \
+		xargs grep -he "TARGET_TAGS" | \
+		sed -r 's/TARGET_TAGS.*=(.*)/\1/' | \
+		tr ' ' '\n' | \
+		sort | \
+		uniq)
 
 # Metal programs are any submodules in the software folder
+.PHONY: list-programs
 list-programs:
 	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
 
+.PHONY: list-options
 list-options: list-programs list-targets
 
 #############################################################
@@ -131,13 +156,14 @@ include scripts/libmetal.mk
 ifeq ($(STANDALONE_DEST),)
 standalone:
 	$(error Please provide STANDALONE_DEST to create a standalone project)
-else
+else # STANDALONE_DEST != ""
 
 $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
-ifneq ($(COREIP_MEM_WIDTH),)
+ifneq ($(filter rtl,$(TARGET_TAGS)),)
+# TARGETs with the "rtl" TARGET_TAG need elf2hex in their standalone project
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -169,7 +195,7 @@ standalone: \
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-else
+else # "rtl" not in TARGET_TAGS
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
@@ -195,9 +221,9 @@ standalone: \
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-endif
+endif # rtl in TARGET_TAGS
 
-endif
+endif # STANDALONE_DEST
 
 #############################################################
 # Upload and Debug
@@ -210,7 +236,7 @@ else
 RISCV_OPENOCD=openocd
 endif
 
-ifneq ($(SEGGER_JLINK_OB),)
+ifneq ($(filter jlink,$(TARGET_TAGS)),)
 upload: $(PROGRAM_HEX)
 	scripts/upload --hex $(PROGRAM_HEX) --jlink $(SEGGER_JLINK_EXE)
 else
@@ -218,11 +244,12 @@ upload: $(PROGRAM_ELF)
 	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 endif
 
-ifneq ($(SEGGER_JLINK_OB),)
+ifneq ($(filter jlink,$(TARGET_TAGS)),)
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --jlink $(SEGGER_JLINK_GDB_SERVER) --gdb $(RISCV_GDB)
 else
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
 endif
+
 
