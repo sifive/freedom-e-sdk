@@ -142,7 +142,7 @@ $(PROGRAM_ELF): \
 		CXX=$(RISCV_GXX) \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
-		LDFLAGS="$(RISCV_LDFLAGS)" \
+		LDFLAGS="$(RISCV_LDFLAGS) $(NEWSRC)" \
 		LDLIBS="$(RISCV_LDLIBS)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	touch -c $@
