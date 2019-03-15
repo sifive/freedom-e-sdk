@@ -116,6 +116,23 @@ MATCHING_TARGETS = $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(MATCHING_SETTINGS)
 list-targets:
 	@echo bsp-list: $(sort $(MATCHING_TARGETS))
 
+# Lists all available TARGET_TAGS
+#
+#  1. Find all settings.mk
+#  2. Extract the TARGET_TAGS line
+#  3. Extract the value of TARGET_TAGS
+#  4. Split each tag onto a newline
+#  5. Sort the lines
+#  6. Find unique tags
+#
+list-target-tags:
+	@echo target-tags: $(shell find $(TARGET_ROOT)/bsp -name settings.mk | \
+		xargs grep -he "TARGET_TAGS" | \
+		sed -r 's/TARGET_TAGS.*=(.*)/\1/' | \
+		tr ' ' '\n' | \
+		sort | \
+		uniq)
+
 # Metal programs are any submodules in the software folder
 list-programs:
 	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
