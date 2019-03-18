@@ -40,7 +40,7 @@ release = version
 # ones.
 extensions = [
     'sphinx.ext.intersphinx',
-    'sphinx.ext.githubpages',
+    'sphinx.ext.githubpages', # Creates the .nojekyll file for GitHub Pages
 ]
 
 # Add any paths that contain templates here, relative to this directory.
