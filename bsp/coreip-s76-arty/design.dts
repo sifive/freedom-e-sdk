@@ -29,7 +29,7 @@
 			reg = <0x0>;
 			riscv,isa = "rv64imafdc";
 			status = "okay";
-			timebase-frequency = <1000000>;
+			timebase-frequency = <65000000>;
                         hardware-exec-breakpoint-count = <4>;
 			L4: interrupt-controller {
 				#interrupt-cells = <1>;

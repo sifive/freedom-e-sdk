@@ -61,7 +61,9 @@ LDSCRIPT_GENERATOR=freedom-ldscript-generator
 DTS_FILENAME=design.dts
 DTB_FILENAME=temp.dtb
 HEADER_FILENAME=metal.h
-LDSCRIPT_FILENAME=metal.lds
+LDS_DEFAULT_FILENAME=metal.default.lds
+LDS_RAMRODATA_FILENAME=metal.ramrodata.lds
+LDS_SCRATCHPAD_FILENAME=metal.scratchpad.lds
 
 update_target() {
     TARGET=$1
@@ -73,7 +75,9 @@ update_target() {
 
     # Produce parameterized files
     $MEE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$HEADER_FILENAME || die "Failed to produce $TARGET/$HEADER_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDSCRIPT_FILENAME || die "Failed to produce $TARGET/$LDSCRIPT_FILENAME"
+    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_DEFAULT_FILENAME || die "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
+    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || die "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
+    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || die "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
 
     # Remove temporary .dtb
     rm $TARGET/$DTB_FILENAME

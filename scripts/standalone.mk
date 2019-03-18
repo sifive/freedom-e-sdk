@@ -37,6 +37,10 @@ ifeq ($(RISCV_CMODEL),)
 RISCV_CMODEL = medany
 endif
 
+ifeq ($(LINK_TARGET),)
+LINK_TARGET = default
+endif
+
 # Determines the XLEN from the toolchain tuple
 ifeq ($(patsubst rv32%,rv32,$(RISCV_ARCH)),rv32)
 RISCV_XLEN := 32
@@ -131,7 +135,7 @@ $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
-		$(BSP_DIR)/metal.lds
+		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
 		AR=$(RISCV_AR) \
