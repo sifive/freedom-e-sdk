@@ -22,7 +22,7 @@
 			reg = <0x0>;
 			riscv,isa = "rv32imc";
 			status = "okay";
-			timebase-frequency = <1000000>;
+			timebase-frequency = <32000000>;
                         hardware-exec-breakpoint-count = <4>;
 			L2: interrupt-controller {
 				#interrupt-cells = <1>;

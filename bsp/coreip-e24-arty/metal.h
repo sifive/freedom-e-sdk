@@ -150,7 +150,7 @@ struct __metal_driver_fixed_clock __metal_dt_clock_0 = {
 struct __metal_driver_cpu __metal_dt_cpu_0 = {
     .vtable = &__metal_driver_vtable_cpu,
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
-    .timebase = 1000000UL,
+    .timebase = 32000000UL,
     .interrupt_controller = &__metal_dt_interrupt_controller.controller,
 };
 

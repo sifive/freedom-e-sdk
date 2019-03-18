@@ -1,7 +1,7 @@
 #ifndef ASSEMBLY
 
-#ifndef COREIP_S54__METAL_H
-#define COREIP_S54__METAL_H
+#ifndef COREIP_S54_RTL__METAL_H
+#define COREIP_S54_RTL__METAL_H
 
 #ifdef __METAL_MACHINE_MACROS
 
@@ -367,5 +367,5 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 
 #endif /* ! __METAL_MACHINE_MACROS */
-#endif /* COREIP_S54__METAL_H*/
+#endif /* COREIP_S54_RTL__METAL_H*/
 #endif /* ! ASSEMBLY */
