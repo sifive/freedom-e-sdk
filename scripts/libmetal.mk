@@ -3,7 +3,7 @@
 # Compiles an instance of Metal targeted at $(TARGET)
 #############################################################
 METAL_SOURCE_PATH ?= freedom-metal
-METAL_LDSCRIPT	   = $(BSP_DIR)/metal.lds
+METAL_LDSCRIPT	   = $(BSP_DIR)/metal.$(LINK_TARGET).lds
 METAL_HEADER	   = $(BSP_DIR)/metal.h
 
 METAL_PREFIX       = $(abspath $(BSP_DIR)/install)
