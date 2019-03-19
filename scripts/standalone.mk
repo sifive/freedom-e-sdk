@@ -155,7 +155,7 @@ $(PROGRAM_ELF): \
 # Use elf2hex if we're creating a hex file for RTL simulation
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 .PHONY: software
-$(PROGRAM_RTL): \
+$(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
