@@ -121,7 +121,6 @@ include $(CONFIGURATION).mk
 PROGRAM_ELF ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).elf
 PROGRAM_HEX ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).hex
 PROGRAM_LST ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).lst
-PROGRAM_RTL ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).rtl
 
 .PHONY: all
 all: software
@@ -129,9 +128,7 @@ all: software
 .PHONY: software
 software: $(PROGRAM_ELF)
 
-ifneq ($(filter rtl,$(TARGET_TAGS)),)
-software: $(PROGRAM_RTL)
-endif
+software: $(PROGRAM_HEX)
 
 PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard $(SRC_DIR)/*.S)
 
@@ -152,7 +149,6 @@ $(PROGRAM_ELF): \
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	touch -c $@
-	$(RISCV_OBJCOPY) -O ihex $(PROGRAM_ELF) $(PROGRAM_HEX)
 	$(RISCV_OBJDUMP) --source --all-headers --demangle --line-numbers --wide $@ > $(PROGRAM_LST)
 	$(RISCV_SIZE) $@
 
@@ -163,6 +159,10 @@ $(PROGRAM_RTL): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+else
+$(PROGRAM_HEX): \
+		$(PROGRAM_ELF)
+	$(RISCV_OBJCOPY) -O ihex $(PROGRAM_ELF) $@
 endif
 
 
