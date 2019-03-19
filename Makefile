@@ -27,6 +27,8 @@ SRC_DIR = $(PROGRAM_ROOT)/software/$(PROGRAM)
 
 PROGRAM_ELF = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).elf
 PROGRAM_HEX = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).hex
+PROGRAM_LST = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).lst
+PROGRAM_RTL = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).rtl
 
 #############################################################
 # BSP Loading
