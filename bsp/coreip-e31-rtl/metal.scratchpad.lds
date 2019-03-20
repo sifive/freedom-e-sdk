@@ -4,8 +4,9 @@ ENTRY(_enter)
 
 MEMORY
 {
+	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x10000
 	itim (wx!rai) : ORIGIN = 0x8000000, LENGTH = 0x4000
-	ram (wxa!ri) : ORIGIN = 0x20000000, LENGTH = 0x8000000
+	flash (rxai!w) : ORIGIN = 0x20000000, LENGTH = 0x8000000
 }
 
 PHDRS
