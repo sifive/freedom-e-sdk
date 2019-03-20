@@ -97,6 +97,8 @@ RISCV_CXXFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
+# Turn on linker map file generation
+RISCV_LDFLAGS += -Wl,-Map,$(PROGRAM).map
 # Turn off the C standard library
 RISCV_LDFLAGS += -nostartfiles -nostdlib
 # Find the archive files and linker scripts
@@ -118,6 +120,7 @@ include $(CONFIGURATION).mk
 
 PROGRAM_ELF ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).elf
 PROGRAM_HEX ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).hex
+PROGRAM_LST ?= $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).lst
 
 .PHONY: all
 all: software
@@ -125,9 +128,7 @@ all: software
 .PHONY: software
 software: $(PROGRAM_ELF)
 
-ifneq ($(filter jlink rtl,$(TARGET_TAGS)),)
 software: $(PROGRAM_HEX)
-endif
 
 PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard $(SRC_DIR)/*.S)
 
@@ -145,18 +146,11 @@ $(PROGRAM_ELF): \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
+	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	touch -c $@
-
+	$(RISCV_OBJDUMP) --source --all-headers --demangle --line-numbers --wide $@ > $(PROGRAM_LST)
 	$(RISCV_SIZE) $@
-
-# If we're using Segger J-Link OB, use objcopy to create an Intel hex file for programming
-ifneq ($(filter jlink,$(TARGET_TAGS)),)
-$(PROGRAM_HEX): \
-		$(RISCV_OBJCOPY) \
-		$(PROGRAM_ELF)
-	$< -O ihex $(PROGRAM_ELF) $@
-endif
 
 # Use elf2hex if we're creating a hex file for RTL simulation
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
@@ -165,6 +159,10 @@ $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+else
+$(PROGRAM_HEX): \
+		$(PROGRAM_ELF)
+	$(RISCV_OBJCOPY) -O ihex $(PROGRAM_ELF) $@
 endif
 
 
