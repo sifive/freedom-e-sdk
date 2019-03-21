@@ -69,6 +69,8 @@ update_target() {
     TARGET=$1
 
     echo "Updating target $TARGET"
+
+    ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || die "Failed to check $TARGET/$DTS_FILENAME for missing elements"
     
     # Compile temporary .dtb
     $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || die "Failed to compile $TARGET/$DTS_FILENAME to dtb"
