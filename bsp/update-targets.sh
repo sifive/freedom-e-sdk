@@ -13,10 +13,13 @@ EOF
 unset DTSFILE
 unset CUSTOM_PATH
 unset CUSTOM_NAME
+unset NO_FIXUP
+NO_FIXUP=0
 while [ "$1" != "" ]
 do
     case "$1" in
     --help)               help "$0";                                 exit 0;;
+    --no-fixup)           NO_FIXUP=1;                                shift 1;;
     --target-name)        CUSTOM_NAME="$2";                          shift 2;;
     --sdk-path=*)         CUSTOM_PATH="$(echo "$1" | cut -d= -f2-)"; shift 1;;
     --sdk-path)           CUSTOM_PATH="$2";                          shift 2;;
@@ -70,7 +73,9 @@ update_target() {
 
     echo "Updating target $TARGET"
 
-    ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || die "Failed to check $TARGET/$DTS_FILENAME for missing elements"
+    if [ $NO_FIXUP != 1 ]; then
+        ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || die "Failed to check $TARGET/$DTS_FILENAME for missing elements"
+    fi
     
     # Compile temporary .dtb
     $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || die "Failed to compile $TARGET/$DTS_FILENAME to dtb"
