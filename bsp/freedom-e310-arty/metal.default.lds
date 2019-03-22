@@ -37,7 +37,6 @@ SECTIONS
 		*(.text.unlikely .text.unlikely.*)
 		*(.text.startup .text.startup.*)
 		*(.text .text.*)
-		*(.itim .itim.*)
 		*(.gnu.linkonce.t.*)
 	} >flash AT>flash :flash
 

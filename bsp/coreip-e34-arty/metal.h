@@ -5,6 +5,11 @@
 
 #ifdef __METAL_MACHINE_MACROS
 
+#define __METAL_PLIC_SUBINTERRUPTS 27
+
+#ifndef __METAL_PLIC_SUBINTERRUPTS
+#define __METAL_PLIC_SUBINTERRUPTS 0
+#endif
 #ifndef __METAL_CLIC_SUBINTERRUPTS
 #define __METAL_CLIC_SUBINTERRUPTS 0
 #endif
@@ -16,6 +21,8 @@
 #define METAL_MAX_CLINT_INTERRUPTS 2
 
 #define __METAL_INTERRUPT_CONTROLLER_C000000_INTERRUPTS 1
+
+#define __METAL_PLIC_SUBINTERRUPTS 27
 
 #define METAL_MAX_PLIC_INTERRUPTS 1
 
@@ -192,7 +199,7 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .control_base = 201326592UL,
     .control_size = 67108864UL,
     .max_priority = 7UL,
-    .num_interrupts = 26UL,
+    .num_interrupts = 27UL,
     .interrupt_controller = 1,
 };
 
