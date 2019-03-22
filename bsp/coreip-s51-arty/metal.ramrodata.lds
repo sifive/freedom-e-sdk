@@ -137,7 +137,6 @@ SECTIONS
 		*(.text.startup .text.startup.*)
 		*(.text .text.*)
 		*(.gnu.linkonce.t.*)
-		*(.itim .itim.*)
 	} >flash AT>flash :flash
 
 
