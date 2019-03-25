@@ -86,12 +86,14 @@ SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 #############################################################
 
 # Set the arch, ABI, and code model
+RISCV_ASFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_CFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_CXXFLAGS += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
 RISCV_CFLAGS   += -ffunction-sections -fdata-sections
 RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
 # Include the Metal headers
+RISCV_ASFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS   += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 
@@ -142,6 +144,7 @@ $(PROGRAM_ELF): \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
+		ASFLAGS="$(RISCV_ASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
