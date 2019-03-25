@@ -1,0 +1,138 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+unset dts
+
+while [ "$1" != "" ]
+do
+    case "$1"
+    in
+    --dts)      dts="$2";       shift 2;;
+    *) echo "$0: Unknown argument $1"; exit 1;;
+    esac
+done
+
+if [ "${dts}" == "" ]
+then
+    echo "$0: please provide '--dts' option" >&2
+    exit 1
+fi
+
+# Add a PMP node if it doesn't exist
+
+if [ `grep -c 'riscv,pmp' ${dts}` -eq 0 ]
+then
+    echo "$0: PMP node not found in ${dts}."
+
+    sed -i 's/ranges;/ranges;\n\t\tpmp: pmp@0 {\n\t\t\tcompatible = "riscv,pmp";\n\t\t\tregions = <1>;\n\t\t};/' ${dts}
+
+    echo -e "$0: \tAdded pmp@0"
+fi
+
+# Add compat string for the global-interrupt node if it doesn't exist
+
+if [ `grep -c 'global-external-interrupts {' ${dts}` -ne 0 ]; then
+    if [ `grep -c 'sifive,global-external-interrupts0' ${dts}` -eq 0 ]; then
+        echo "$0: Global external interrupts missing compat string in ${dts}."
+
+        sed -i 's/global-external-interrupts {/global-external-interrupts {\n\t\t\tcompatible = "sifive,global-external-interrupts0";/g' ${dts}
+
+        echo -e "$0: \tAdded compat string to global-external-interrupts."
+    fi
+fi
+
+# Add compat string for the local-interrupt node if it doesn't exist
+
+if [ `grep -c 'local-external-interrupts-0 {' ${dts}` -ne 0 ]; then
+    if [ `grep -c 'sifive,local-external-interrupts0' ${dts}` -eq 0 ]; then
+        echo "$0: Local external interrupts missing compat string in ${dts}."
+
+        sed -i 's/local-external-interrupts-0 {/local-external-interrupts {\n\t\t\tcompatible = "sifive,local-external-interrupts0";/g' ${dts}
+
+        echo -e "$0: \tAdded compat string to local-external-interrupts-0."
+    fi
+fi
+
+# Add a test memory node if one doesn't exist
+
+if [ `grep -c 'sifive,testram0' ${dts}` -eq 0 ]; then
+
+    # bullet cores have a memory defined already
+    if [ `grep -c 'sifive,bullet0' ${dts}` -eq 0 ]; then
+
+        echo "$0: Test memory node not found in ${dts}."
+
+        # The heuristic for determining which memory address contains the
+        # program code loaded by the RTL testbench is determined by taking
+        # the design ports and sorting them in order of (periph, sys, mem),
+        # and then lexicographically by protocol.
+
+        port_types="periph sys mem"
+        protocols="ahb axi4 tl"
+
+        for port_type in ${port_types}; do
+            for protocol in ${protocols}; do
+
+                # Check if the port exists
+                if [ `grep -c "${protocol}-${port_type}-port" ${dts}` -ne 0 ]; then
+                    
+                    # Build the node name
+                    port_node_name=`egrep -o "${protocol}-${port_type}-port@[a-fA-F0-9]+" ${dts}`
+                    echo -e "$0: \tUsing node \t${port_node_name}"
+
+                    # Get the address and size cells
+                    address_cells=`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?address-cells = <\K(\d+)"`
+                    echo -e "$0: \tAddress cells \t${address_cells}"
+                    size_cells=`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?size-cells = <\K(\d+)"`
+                    echo -e "$0: \tSize cells \t${size_cells}"
+
+                    # Get the base address and size
+                    if [ ${address_cells} -eq 1 -a ${size_cells} -eq 1 ]; then
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ \K(0x\d+ 0x\d+)"`)
+                        base_address=${address_and_size[0]}
+                        size=${address_and_size[1]}
+                    elif [ ${address_cells} -eq 1 -a ${size_cells} -eq 2 ]; then
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ \K(0x\d+ 0x\d+ 0x\d+)"`)
+                        base_address=${address_and_size[0]}
+                        size="${address_and_size[1]} ${address_and_size[2]}"
+                    elif [ ${address_cells} -eq 2 -a ${size_cells} -eq 1 ]; then
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ 0x\d+ \K(0x\d+ 0x\d+ 0x\d+)"`)
+                        base_address="${address_and_size[0]} ${address_and_size[1]}"
+                        size=${address_and_size[2]}
+                    elif [ ${address_cells} -eq 2 -a ${size_cells} -eq 2 ]; then
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ 0x\d+ \K(0x\d+ 0x\d+ 0x\d+ 0x\d+)"`)
+                        base_address="${address_and_size[0]} ${address_and_size[1]}"
+                        size="${address_and_size[2]} ${address_and_size[3]}"
+                    fi
+                    echo -e "$0: \tBase addr \t${base_address}"
+                    echo -e "$0: \tSize \t\t${size}"
+
+                    # Build the name of the testram node
+                    if [ "${address_and_size[0]}" == "0x0" ]; then
+                        node_name_addr=`echo ${address_and_size[1]} | cut -c 3-`
+                    else
+                        node_name_addr=`echo ${address_and_size[0]} | cut -c 3-`
+                    fi
+
+                    # Determine word size from ISA bitness
+                    if [ `grep -c 'riscv,isa = "rv32' ${dts}` -ne 0 ]; then
+                        word_size=4
+                    else
+                        word_size=8
+                    fi
+                    echo -e "$0: \tWord size \t${word_size}"
+
+                    # Create the test memory
+                    sed -i "s/ranges;/ranges;\n\t\ttest_memory: testram@${node_name_addr} {\n\t\t\tcompatible = \"sifive,testram0\";\n\t\t\treg = <${base_address} ${size}>;\n\t\t\treg-names = \"mem\";\n\t\t\tword-size-bytes = <${word_size}>;\n\t\t};/" ${dts}
+                    echo -e "$0: \tAdded testram@${node_name_addr}"
+
+                    # Break out of both loops
+                    break 2
+                fi
+            done
+        done
+    fi
+fi
+
