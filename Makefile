@@ -1,5 +1,7 @@
-timer-interrupt: timer-interrupt.c
+PROGRAM ?= timer-interrupt
+
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f timer-interrupt timer-interrupt.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
 
