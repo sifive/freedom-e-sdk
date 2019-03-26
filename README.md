@@ -92,6 +92,8 @@ operating systems to RISC-V.
     - Demonstrates how to configure a Physical Memory Protection (PMP) region
   - sifive-welcome
     - Prints the SiFive banner and blinks LEDs 
+  - dhrystone
+    - "Dhrystone" Benchmark Program by Reinhold P. Weicker
 
 ### Setting up the SDK ###
 
@@ -179,6 +181,16 @@ with the `release` configuration, you would instead run the command
 
 ```
 make PROGRAM=timer-interrupt TARGET=coreip-s51-arty CONFIGURATION=release software
+```
+
+##### Building an Benchmark Program ####
+
+Building a benchmark program is slightly special in that certain section is
+required to be loaded in specific memory region. A specialize linker file has
+been created for its optimal run.
+
+```
+make PROGRAM=dhrystone TARGET=coreip-e31-arty LINK_TARGET=ramrodata software
 ```
 
 #### Uploading to the Target Board ####
