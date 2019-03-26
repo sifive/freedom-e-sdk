@@ -1,5 +1,7 @@
-return-pass: return-pass.c
+PROGRAM ?= return-pass
+
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f return-pass return-pass.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
 
