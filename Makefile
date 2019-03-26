@@ -1,5 +1,6 @@
+PROGRAM ?= example-itim
 
-example-itim: example-itim.c
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f example-itim
+	rm -f $(PROGRAM) $(PROGRAM).hex
