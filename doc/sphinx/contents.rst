@@ -134,3 +134,8 @@ The example programs can be found under the ``software/`` directory.
 - example-spi
 
   - Demonstrates how to use the SPI API to transfer bytes to a peripheral
+
+- dhrystone
+
+  - "Dhrystone" Benchmark Program by Reinhold P. Weicker
+
