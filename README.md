@@ -1,2 +1,2 @@
-# example-coreip-welcome
-A simple "CoreIP Welcome" example which prints SiFive banner and uses board LEDs
+# sifive-welcome
+A simple welcome example which prints SiFive banner and uses board LEDs

@@ -1,4 +1,4 @@
-PROGRAM ?= example-coreip-welcome
+PROGRAM ?= sifive-welcome
 
 $(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
