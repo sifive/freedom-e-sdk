@@ -11,11 +11,6 @@ Freedom E SDK was recently transitioned to using the Freedom Metal compatibility
 library. If you're looking for the old Freedom E SDK, software examples, and
 board support files, you can find those on the [v1\_0 branch](https://github.com/sifive/freedom-e-sdk/tree/v1_0).
 
-### Under Construction ###
-
-This repository is currently under construction as we transition from the
-legacy Freedom E SDK API to the new Freedom Metal Compatibility Library.
-
 #### What is Freedom Metal? ###
 
 [Freedom Metal](https://github.com/sifive/freedom-metal) ([Documentation](https://sifive.github.io/freedom-metal-docs/index.html))
@@ -26,11 +21,6 @@ targets. This makes Freedom Metal suitable for writing portable tests, bare meta
 application programming, and as a hardware abstraction layer for porting
 operating systems to RISC-V.
 
-Consumers of E SDK should also be aware that as we make this transition,
-we are still making refinements to the API provided by Freedom Metal. As such,
-**the Freedom Metal API should be considered in beta** until we tag a stable release
-of Freedom E SDK.
-
 ### Contents ###
 
 #### Freedom Metal Compatibility Library ####
@@ -39,14 +29,30 @@ of Freedom E SDK.
   - Supported Targets:
     - [SiFive HiFive 1](https://www.sifive.com/boards/hifive1)
       - sifive-hifive1
+    - SiFive HiFive 1 Rev B
+      - sifive-hifive1-revb
     - [SiFive Freedom E310 Arty](https://github.com/sifive/freedom)
       - freedom-e310-arty
-    - SiFive CoreIP
-      - coreip-e31
-      - coreip-s51
+    - SiFive CoreIP RTL
+      - coreip-e20-rtl
+      - coreip-e21-rtl
+      - coreip-e24-rtl
+      - coreip-e31-rtl
+      - coreip-e34-rtl
+      - coreip-s51-rtl
+      - coreip-s54-rtl
+      - coreip-e76-rtl
+      - coreip-s76-rtl
     - SiFive CoreIP Arty FPGA Evaluation targets
+      - coreip-e20-arty
+      - coreip-e21-arty
+      - coreip-e24-arty
       - coreip-e31-arty
+      - coreip-e34-arty
       - coreip-s51-arty
+      - coreip-s54-arty
+      - coreip-e76-arty
+      - coreip-s76-arty
   - The board support files for the Freedom Metal library are located entirely
     within a single target directory in `bsp/<target>/`. For example, the HiFive 1
     board support files for Freedom Metal are entirely within `bsp/sifive-hifive1/`
@@ -59,8 +65,9 @@ of Freedom E SDK.
     * metal.h
       - The Freedom Metal machine header which is used internally to Freedom Metal
         to instantiate structures to support the target device.
-    * metal.lds
-      - The linker script for the target device.
+    * metal.%.lds
+      - Generated linker scripts for the target. The different scripts allow
+        for different memory configurations.
     * openocd.cfg (for development board and FPGA targets)
       - Used to configure OpenOCD for flashing and debugging the target device.
     * settings.mk
@@ -96,6 +103,7 @@ To use this SDK, you will need the following software available on your machine:
 * Git
 * RISC-V GNU Toolchain
 * RISC-V OpenOCD (for use with development board and FPGA targets)
+* Segger J-LINK (for use with certain development boards)
 
 ##### Install the RISC-V Toolchain and OpenOCD #####
 
@@ -116,6 +124,15 @@ tar -xvf riscv64-unknown-elf-gcc-<date>-<platform>.tar.gz
 export RISCV_OPENOCD_PATH=/my/desired/location/openocd
 export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
 ```
+
+##### Install Segger J-Link Software
+
+Some targets supported by Freedom E SDK (like the SiFive HiFive1 Rev B) use
+Segger J-Link OB for programming and debugging. If you intend to use these
+targets, install the Segger J-Link Software and Documentation Pack for your
+machine:
+
+[Segger J-Link Software Downloads](https://www.segger.com/downloads/jlink#J-LinkSoftwareAndDocumentationPack)
 
 #### Cloning the Repository ####
 
@@ -150,35 +167,36 @@ git submodule update --init --recursive
 To compile a bare-metal RISC-V program:
 
 ```
-make [PROGRAM=hello] [TARGET=sifive-hifive1] software
+make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] software
 ```
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
-the build script to build the `hello` example for the `sifive-hifive1` target.
-If, for example, you wished to build the `timer-interrupt` example for the S51
-Arty FPGA Evaluation target, you would instead run the command
+the build script to build the `hello` example for the `sifive-hifive1` target
+with the `debug` configuration. If, for example, you wished to build the
+`timer-interrupt` example for the S51 Arty FPGA Evaluation target,
+with the `release` configuration, you would instead run the command
 
 ```
-make PROGRAM=timer-interrupt TARGET=coreip-s51-arty software
+make PROGRAM=timer-interrupt TARGET=coreip-s51-arty CONFIGURATION=release software
 ```
 
 #### Uploading to the Target Board ####
 
 ```
-make [PROGRAM=hello] [TARGET=sifive-hifive1] upload
+make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] upload
 ```
 
 #### Debugging a Target Program ####
 
 ```
-make [PROGRAM=hello] [TARGET=sifive-hifive1] debug
+make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] debug
 ```
 
 #### Cleaning a Target Program Build Directory ####
 
 ```
-make [PROGRAM=hello] [TARGET=sifive-hifive1] clean
+make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] clean
 ```
 
 #### Create a Standalone Project ####
@@ -189,11 +207,6 @@ that this functionality is only supported for Freedom Metal programs, not the
 Legacy Freedom E SDK.
 
 `STANDALONE_DEST` is a required argument to provide the desired project location.
-
-You can include the argument `INCLUDE_METAL_SOURCES=1` if you would like to
-include the sources for the Freedom Metal library in the generated standalone
-project. If this argument is not included, then the Freedom Metal library will
-be included in the generated project as a pre-built archive.
 
 ```
 make [PROGRAM=hello] [TARGET=sifive-hifive1] [INCLUDE_METAL_SOURCES=1] STANDALONE_DEST=/path/to/desired/location standalone
