@@ -1,8 +1,8 @@
 
 PROGRAM ?= empty
 
-$(PROGRAM): main.c
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(filter %.c %.S,$^) $(LOADLIBES) $(LDLIBS) -o $@
 
 clean:
 	rm -f $(PROGRAM) $(PROGRAM).hex
