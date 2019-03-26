@@ -1,4 +1,6 @@
-hello: hello.c
+PROGRAM ?= hello
 
-clean::
-	rm -f hello hello.hex
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
+
+clean:
+	rm -f $(PROGRAM) $(PROGRAM).hex
