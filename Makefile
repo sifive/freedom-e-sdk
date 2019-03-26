@@ -1,7 +1,9 @@
+PROGRAM ?= local-interrupt
+
 override CFLAGS += -Xlinker --defsym=__stack_size=0x800
 
-local-interrupt: local-interrupt.c
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f local-interrupt local-interrupt.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
 
