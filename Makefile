@@ -1,4 +1,6 @@
-example-pmp: example-pmp.c
+PROGRAM ?= example-pmp
+
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f example-pmp example-pmp.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
