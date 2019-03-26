@@ -1,4 +1,6 @@
-example-spi: example-spi.c
+PROGRAM ?= example-spi
 
-clean::
-	rm -f example-spi
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
+
+clean:
+	rm -f $(PROGRAM) $(PROGRAM).hex
