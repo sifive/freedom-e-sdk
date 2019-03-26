@@ -1,7 +1,7 @@
 Freedom E SDK
 =============
 
-This is the documentatino for the SiFive Freedom E SDK |version|.
+This is the documentation for the SiFive Freedom E SDK |version|.
 
 Freedom E SDK is generally available from the `Freedom E SDK Repository`_.
 

@@ -24,9 +24,9 @@ copyright = '2019, SiFive Inc.'
 author = 'SiFive Inc.'
 
 # The short X.Y version
-version = os.popen("git describe").read().strip()
+version = "v201903"
 # The full version, including alpha/beta/rc tags
-release = version
+release = version + "-rc2"
 
 
 # -- General configuration ---------------------------------------------------
