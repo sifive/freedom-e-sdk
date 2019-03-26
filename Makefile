@@ -1,5 +1,7 @@
-return-fail: return-fail.c
+PROGRAM ?= return-fail
+
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f return-fail return-fail.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
 
