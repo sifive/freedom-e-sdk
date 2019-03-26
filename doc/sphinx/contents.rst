@@ -98,7 +98,7 @@ The example programs can be found under the ``software/`` directory.
 
   - Prints "Hello, World!" to stdout, if a serial device is present on the target.
 
-- example-coreip-welcome
+- sifive-welcome
 
   - Prints a welcome message and interacts with the LEDs.
 
