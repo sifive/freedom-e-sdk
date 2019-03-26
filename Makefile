@@ -1,6 +1,7 @@
+PROGRAM ?= example-coreip-welcome
 
-example-coreip-welcome: example-coreip-welcome.c
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f example-coreip-welcome example-coreip-welcome.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
 
