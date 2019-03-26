@@ -1,5 +1,7 @@
-software-interrupt: software-interrupt.c
+PROGRAM ?= software-interrupt
+
+$(PROGRAM): $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
 
 clean:
-	rm -f software-interrupt software-interrupt.hex
+	rm -f $(PROGRAM) $(PROGRAM).hex
 
