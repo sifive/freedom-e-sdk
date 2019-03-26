@@ -90,7 +90,7 @@ operating systems to RISC-V.
     - Demonstrates how to register a handler for and trigger a local interrupt
   - example-pmp
     - Demonstrates how to configure a Physical Memory Protection (PMP) region
-  - example-coreip-welcome
+  - sifive-welcome
     - Prints the SiFive banner and blinks LEDs 
 
 ### Setting up the SDK ###
