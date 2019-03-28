@@ -20,6 +20,13 @@ endif
 PROGRAM ?= hello
 TARGET ?= sifive-hifive1
 
+# Coremark require PORT_DIR set for different OS, freedom-metal for us!
+ifeq ($(PROGRAM),coremark)
+ifeq ($(PORT_DIR),)
+PORT_DIR = freedom-metal
+endif
+endif
+
 TARGET_ROOT  ?= $(abspath .)
 PROGRAM_ROOT ?= $(abspath .)
 
@@ -102,9 +109,9 @@ clean:
 #############################################################
 # Enumerate BSPs and Programs
 #
-# List all available boards and programs in a form that 
-# Freedom Studio knows how to parse.  Do not change the 
-# format or fixed text of the output without consulting the 
+# List all available boards and programs in a form that
+# Freedom Studio knows how to parse.  Do not change the
+# format or fixed text of the output without consulting the
 # Freedom Studio dev team.
 #############################################################
 
@@ -194,6 +201,9 @@ standalone: \
 	cp release.mk $</release.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+ifneq ($(PORT_DIR),)
+	echo "PORT_DIR = $(PORT_DIR)" > $</Makefile
+endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
@@ -220,6 +230,9 @@ standalone: \
 	cp release.mk $</release.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+ifneq ($(PORT_DIR),)
+        echo "PORT_DIR = $(PORT_DIR)" > $</Makefile
+endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
