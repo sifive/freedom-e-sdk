@@ -139,3 +139,6 @@ The example programs can be found under the ``software/`` directory.
 
   - "Dhrystone" Benchmark Program by Reinhold P. Weicker
 
+- coremark
+  - "CoreMark" Benchmark Program that measures the performance of embedded
+    microcrontrollers (MCU)
