@@ -43,3 +43,6 @@
 [submodule "software/dhrystone"]
 	path = software/dhrystone
 	url = https://github.com/sifive/benchmark-dhrystone
+[submodule "software/coremark"]
+	path = software/coremark
+	url = https://github.com/sifive/coremark
