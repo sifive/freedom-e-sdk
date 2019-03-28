@@ -37,7 +37,11 @@ ifeq ($(RISCV_CMODEL),)
 RISCV_CMODEL = medany
 endif
 
-ifeq ($(LINK_TARGET),)
+ifeq ($(PROGRAM),dhrystone)
+LINK_TARGET = ramrodata
+else ifeq ($(PROGRAM),coremark)
+LINK_TARGET = ramrodata
+else
 LINK_TARGET = default
 endif
 
@@ -141,6 +145,7 @@ $(PROGRAM_ELF): \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
+		PORT_DIR=$(PORT_DIR) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
