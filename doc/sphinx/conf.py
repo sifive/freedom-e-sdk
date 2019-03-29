@@ -26,7 +26,7 @@ author = 'SiFive Inc.'
 # The short X.Y version
 version = "v201903"
 # The full version, including alpha/beta/rc tags
-release = version + "-rc2"
+release = version
 
 
 # -- General configuration ---------------------------------------------------
