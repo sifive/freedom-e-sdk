@@ -180,12 +180,12 @@ standalone: \
 
 	cp -r freedom-metal $</
 
-	find $</freedom-metal -name ".git*" | xargs rm
+	find $</freedom-metal -name ".git*" | xargs rm -rf
 
 	mkdir -p $</scripts
 	cp -r scripts/elf2hex $</scripts
 
-	find $</scripts/elf2hex -name ".git*" | xargs rm
+	find $</scripts/elf2hex -name ".git*" | xargs rm -rf
 
 	$(MAKE) -C $(SRC_DIR) clean
 	cp -r $(SRC_DIR)/* $</src/
@@ -211,7 +211,7 @@ standalone: \
 
 	cp -r freedom-metal $</
 
-	find $</freedom-metal -name ".git*" | xargs rm
+	find $</freedom-metal -name ".git*" | xargs rm -rf
 
 	$(MAKE) -C $(SRC_DIR) clean
 	cp -r $(SRC_DIR)/* $</src/
