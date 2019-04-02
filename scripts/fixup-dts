@@ -31,6 +31,18 @@ then
     echo -e "$0: \tAdded pmp@0"
 fi
 
+# Add numintbits for the clic node if it doesn't exist
+
+if [ `grep -c 'sifive,clic0' ${dts}` -ne 0 ]; then
+    if [ `grep -c 'sifive,numintbits' ${dts}` -eq 0 ]; then
+        echo "$0: Clic missing numintbits in  ${dts}."
+
+        sed -i 's/interrupt-controller@2000000 {/interrupt-controller@2000000 {\n\t\t\tsifive,numintbits = <2>;/g' ${dts}
+
+        echo -e "$0: \tAdded numintbits to clic."
+    fi
+fi
+
 # Add compat string for the global-interrupt node if it doesn't exist
 
 if [ `grep -c 'global-external-interrupts {' ${dts}` -ne 0 ]; then
