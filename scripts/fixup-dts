@@ -71,8 +71,8 @@ fi
 
 if [ `grep -c 'sifive,testram0' ${dts}` -eq 0 ]; then
 
-    # bullet cores have a memory defined already
-    if [ `grep -c 'sifive,bullet0' ${dts}` -eq 0 ]; then
+    # bullet and U cores have a memory defined already
+    if [ `grep -c 'sifive,bullet0' ${dts}` -eq 0 -a `grep -c 'SiFive,FU' ${dts}` -eq 0 ]; then
 
         echo "$0: Test memory node not found in ${dts}."
 
