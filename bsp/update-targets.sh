@@ -34,7 +34,7 @@ done
 if [ "$CUSTOM_PATH" == "" -a "$CUSTOM_NAME" == "" -a "$DTSFILE" == "" ]
 then
     TARGET_LIST="$(ls -d coreip*) "
-    TARGET_LIST+="sifive-hifive1 sifive-hifive1-revb freedom-e310-arty "
+    TARGET_LIST+="sifive-hifive1 sifive-hifive1-revb freedom-e310-arty sifive-hifive-unleashed "
 else
     if [ ! -f "$DTSFILE" -a "$DTSFILE" != "*.dts" ]
     then
