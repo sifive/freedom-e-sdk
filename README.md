@@ -31,6 +31,8 @@ operating systems to RISC-V.
       - sifive-hifive1
     - SiFive HiFive 1 Rev B
       - sifive-hifive1-revb
+    - [SiFive HiFive Unleashed](https://www.sifive.com/boards/hifive-unleashed)
+      - sifive-hifive-unleashed
     - [SiFive Freedom E310 Arty](https://github.com/sifive/freedom)
       - freedom-e310-arty
     - SiFive CoreIP RTL
@@ -43,6 +45,8 @@ operating systems to RISC-V.
       - coreip-s54-rtl
       - coreip-e76-rtl
       - coreip-s76-rtl
+      - coreip-u54-rtl
+      - coreip-u54mc-rtl
     - SiFive CoreIP Arty FPGA Evaluation targets
       - coreip-e20-arty
       - coreip-e21-arty

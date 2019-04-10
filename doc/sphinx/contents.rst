@@ -15,6 +15,10 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - sifive-hifive1-revb
 
+- `SiFive HiFive Unleashed <https://www.sifive.com/boards/hifive-unleashed>`_
+
+  - sifive-hifive-unleashed
+
 - `SiFive Freedom E310 Arty <https://github.com/sifive/freedom>`_
 
   - freedom-e310-arty
@@ -29,6 +33,8 @@ Freedom E SDK comes packaged with the following board support packages under the
   - coreip-s54-rtl
   - coreip-e76-rtl
   - coreip-s76-rtl
+  - coreip-u54-rtl
+  - coreip-u54mc-rtl
 
 - SiFive CoreIP Arty FPGA Evaluation targets
 
