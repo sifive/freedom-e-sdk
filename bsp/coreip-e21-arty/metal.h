@@ -70,6 +70,9 @@ struct __metal_driver_cpu __metal_dt_cpu_0;
 asm (".weak __metal_dt_interrupt_controller");
 struct __metal_driver_riscv_cpu_intc __metal_dt_interrupt_controller;
 
+asm (".weak __metal_dt_pmp_0");
+struct metal_pmp __metal_dt_pmp_0;
+
 /* From interrupt_controller@2000000 */
 asm (".weak __metal_dt_interrupt_controller_2000000");
 struct __metal_driver_sifive_clic0 __metal_dt_interrupt_controller_2000000;
@@ -164,6 +167,11 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_interrupt_controller = {
     .controller.vtable = &__metal_driver_vtable_riscv_cpu_intc.controller_vtable,
     .init_done = 0,
     .interrupt_controller = 1,
+};
+
+/* From pmp@0 */
+struct metal_pmp __metal_dt_pmp_0 = {
+    .num_regions = 4UL,
 };
 
 /* From interrupt_controller@2000000 */
@@ -548,6 +556,9 @@ struct __metal_driver_cpu *__metal_cpu_table[] = {
 #define __METAL_DT_RISCV_CPU_INTC_HANDLE (&__metal_dt_interrupt_controller.controller)
 
 #define __METAL_DT_INTERRUPT_CONTROLLER_HANDLE (&__metal_dt_interrupt_controller.controller)
+
+/* From pmp@0 */
+#define __METAL_DT_PMP_HANDLE (&__metal_dt_pmp_0)
 
 /* From interrupt_controller@2000000 */
 #define __METAL_DT_SIFIVE_CLIC0_HANDLE (&__metal_dt_interrupt_controller_2000000.controller)
