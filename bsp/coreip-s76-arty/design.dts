@@ -47,6 +47,10 @@
 		#size-cells = <1>;
 		compatible = "SiFive,FS760G-soc", "fs710-soc", "sifive-soc", "simple-bus";
 		ranges;
+		pmp: pmp@0 {
+			compatible = "riscv,pmp";
+			regions = <1>;
+		};
 		L2: clint@2000000 {
 			compatible = "riscv,clint0";
 			interrupts-extended = <&L4 3 &L4 7>;
