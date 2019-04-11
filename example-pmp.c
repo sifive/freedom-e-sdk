@@ -20,11 +20,7 @@ void store_access_fault_handler(struct metal_cpu *cpu, int ecode)
 	 * instruction to return execution after the faulting store */
 	metal_cpu_set_exception_pc(cpu, epc + inst_len);
 
-	if(ecode == ECODE_STORE_FAULT) {
-		printf("Exception: Store Access Fault\n");
-	} else {
-		printf("Spurious Exception\n");
-
+	if(ecode != ECODE_STORE_FAULT) {
 		exit(7);
 	}
 }
