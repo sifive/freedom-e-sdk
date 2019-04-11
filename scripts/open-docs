@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+SDK_PATH="$( cd "$(dirname "$0")/.." ; pwd -P )"
+DOCS_PATH=$SDK_PATH/doc/html/index.html
+
+XDG_OPEN=`which xdg-open`
+OPEN=`which open`
+
+if [ "$XDG_OPEN" != "" ]; then
+        echo "Opening $DOCS_PATH"
+        $XDG_OPEN $DOCS_PATH
+
+elif [ "$OPEN" != "" ]; then
+        echo "Opening $DOCS_PATH"
+        $OPEN $DOCS_PATH
+
+else
+        echo "Please open $DOCS_PATH in your preferred HTML viewer"
+fi
+

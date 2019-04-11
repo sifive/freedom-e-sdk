@@ -93,8 +93,15 @@ help:
 	@echo "    Exports a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
 	@echo ""
-	@echo " For more information, view the Freedom E SDK Documentation at"
-	@echo "   https://sifive.github.io/freedom-e-sdk-docs/index.html"
+	@echo " open-docs"
+	@echo "    Opens the Freedom E SDK documentation in your HTML"
+	@echo "    viewer of choice. The documentation can also be found"
+	@echo "    online at"
+	@echo "      https://sifive.github.io/freedom-e-sdk-docs/index.html"
+
+.PHONY: open-docs
+open-docs: scripts/open-docs
+	$^
 
 .PHONY: clean
 clean:
