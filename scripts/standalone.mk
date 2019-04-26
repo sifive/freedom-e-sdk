@@ -40,7 +40,13 @@ endif
 ifeq ($(PROGRAM),dhrystone)
 LINK_TARGET = ramrodata
 else ifeq ($(PROGRAM),coremark)
+
+ifneq (,$(filter $(TARGET),coreip-e21-rtl coreip-e24-rtl))
+LINK_TARGET = ramrodata.coremark
+else
 LINK_TARGET = ramrodata
+endif
+
 else
 LINK_TARGET = default
 endif
