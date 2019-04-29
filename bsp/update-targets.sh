@@ -80,13 +80,16 @@ SETTINGS_FILENAME=settings.mk
 
 update_target() {
     TARGET=$1
+    if [ "$TARGET_TYPE" == "" ]; then
+        TARGET_TYPE=$TARGET
+    fi
 
     echo "Updating target $TARGET"
 
     if [ $NO_FIXUP != 1 ]; then
         ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || die "Failed to check $TARGET/$DTS_FILENAME for missing elements"
     fi
-    
+
     # Compile temporary .dtb
     $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || die "Failed to compile $TARGET/$DTS_FILENAME to dtb"
 
@@ -100,6 +103,7 @@ update_target() {
     # Remove temporary .dtb
     rm $TARGET/$DTB_FILENAME
 
+    TARGET_TYPE=""
     echo ""
 }
 
