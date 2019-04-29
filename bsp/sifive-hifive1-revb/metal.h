@@ -66,6 +66,7 @@
 #include <metal/pmp.h>
 #include <metal/drivers/sifive,local-external-interrupts0.h>
 #include <metal/drivers/sifive,gpio0.h>
+#include <metal/drivers/sifive,gpio-leds.h>
 #include <metal/drivers/sifive,spi0.h>
 #include <metal/drivers/sifive,uart0.h>
 #include <metal/drivers/sifive,fe310-g000,hfrosc.h>
@@ -116,6 +117,18 @@ struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_externa
 /* From gpio@10012000 */
 asm (".weak __metal_dt_gpio_10012000");
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000;
+
+/* From led@0red */
+asm (".weak __metal_dt_led_0red");
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0red;
+
+/* From led@0green */
+asm (".weak __metal_dt_led_0green");
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0green;
+
+/* From led@0blue */
+asm (".weak __metal_dt_led_0blue");
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0blue;
 
 /* From spi@10014000 */
 asm (".weak __metal_dt_spi_10014000");
@@ -286,6 +299,36 @@ struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
     .interrupt_lines[15] = 22,
 };
 
+/* From led@0red */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0red = {
+    .vtable = &__metal_driver_vtable_sifive_led,
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+/* From gpio@10012000 */
+    .gpio = &__metal_dt_gpio_10012000,
+    .pin = 22UL,
+    .label = "LD0red",
+};
+
+/* From led@0green */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0green = {
+    .vtable = &__metal_driver_vtable_sifive_led,
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+/* From gpio@10012000 */
+    .gpio = &__metal_dt_gpio_10012000,
+    .pin = 19UL,
+    .label = "LD0green",
+};
+
+/* From led@0blue */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0blue = {
+    .vtable = &__metal_driver_vtable_sifive_led,
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+/* From gpio@10012000 */
+    .gpio = &__metal_dt_gpio_10012000,
+    .pin = 21UL,
+    .label = "LD0blue",
+};
+
 /* From spi@10014000 */
 struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
     .vtable = &__metal_driver_vtable_sifive_spi0,
@@ -414,11 +457,14 @@ struct __metal_driver_sifive_gpio0 *__metal_gpio_table[] = {
 asm (".weak __metal_button_table");
 struct __metal_driver_sifive_gpio_button *__metal_button_table[] = {
 					NULL };
-#define __METAL_DT_MAX_LEDS 0
+#define __METAL_DT_MAX_LEDS 3
 
 asm (".weak __metal_led_table");
 struct __metal_driver_sifive_gpio_led *__metal_led_table[] = {
-					NULL };
+					&__metal_dt_led_0red,
+					&__metal_dt_led_0green,
+					&__metal_dt_led_0blue};
+
 #define __METAL_DT_MAX_SWITCHES 0
 
 asm (".weak __metal_switch_table");
