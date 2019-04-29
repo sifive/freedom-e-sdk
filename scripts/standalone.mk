@@ -95,7 +95,6 @@ SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 # Software Flags
 #############################################################
 
-RISCV_XCFLAGS  += -O2 -fno-common -funroll-loops -finline-functions --param max-inline-insns-auto=20 -falign-functions=4 -falign-jumps=4 -falign-loops=4 --param inline-min-speedup=10
 # Set the arch, ABI, and code model
 RISCV_ASFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_CFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
@@ -158,7 +157,6 @@ $(PROGRAM_ELF): \
 		CXX=$(RISCV_GXX) \
 		ASFLAGS="$(RISCV_ASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
-        XCFLAGS="$(RISCV_XCFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
