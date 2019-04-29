@@ -41,7 +41,7 @@ ifeq ($(PROGRAM),dhrystone)
 LINK_TARGET = ramrodata
 else ifeq ($(PROGRAM),coremark)
 
-ifneq (,$(filter $(TARGET),coreip-e21-rtl coreip-e24-rtl))
+ifneq (,$(filter $(TARGET),coreip-e21-rtl coreip-e24-rtl coreip-e20-arty coreip-e21-arty coreip-e24-arty))
 LINK_TARGET = ramrodata.coremark
 else
 LINK_TARGET = ramrodata
@@ -95,6 +95,7 @@ SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 # Software Flags
 #############################################################
 
+RISCV_XCFLAGS  += -O2 -fno-common -funroll-loops -finline-functions --param max-inline-insns-auto=20 -falign-functions=4 -falign-jumps=4 -falign-loops=4 --param inline-min-speedup=10
 # Set the arch, ABI, and code model
 RISCV_ASFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_CFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
@@ -157,6 +158,7 @@ $(PROGRAM_ELF): \
 		CXX=$(RISCV_GXX) \
 		ASFLAGS="$(RISCV_ASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
+        XCFLAGS="$(RISCV_XCFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
