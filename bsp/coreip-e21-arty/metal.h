@@ -3,6 +3,8 @@
 #ifndef COREIP_E21_ARTY__METAL_H
 #define COREIP_E21_ARTY__METAL_H
 
+#include <metal/machine/platform.h>
+
 #ifdef __METAL_MACHINE_MACROS
 
 #ifndef __METAL_CLINT_NUM_PARENTS
@@ -169,7 +171,7 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_20000000;
 struct __metal_driver_fixed_clock __metal_dt_clock_0 = {
     .vtable = &__metal_driver_vtable_fixed_clock,
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
-    .rate = 32500000UL,
+    .rate = METAL_FIXED_CLOCK_0_CLOCK_FREQUENCY,
 };
 
 struct metal_memory __metal_dt_mem_sys_sram_0_80000000 = {
@@ -223,24 +225,24 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller = {
 
 /* From pmp@0 */
 struct metal_pmp __metal_dt_pmp_0 = {
-    .num_regions = 4UL,
+    .num_regions = METAL_RISCV_PMP_0_NUM_REGIONS,
 };
 
 /* From interrupt_controller@2000000 */
 struct __metal_driver_sifive_clic0 __metal_dt_interrupt_controller_2000000 = {
     .vtable = &__metal_driver_vtable_sifive_clic0,
     .controller.vtable = &__metal_driver_vtable_sifive_clic0.clic_vtable,
-    .control_base = 33554432UL,
-    .control_size = 16777216UL,
+    .control_base = METAL_SIFIVE_CLIC0_2000000_BASE_ADDRESS,
+    .control_size = METAL_SIFIVE_CLIC0_2000000_SIZE,
     .init_done = 0,
     .num_interrupts = METAL_MAX_CLIC_INTERRUPTS,
     .interrupt_parent = &__metal_dt_cpu_0_interrupt_controller.controller,
     .interrupt_lines[0] = 3,
     .interrupt_lines[1] = 7,
     .interrupt_lines[2] = 11,
-    .num_subinterrupts = 153UL,
-    .num_intbits = 2UL,
-    .max_levels = 16UL,
+    .num_subinterrupts = METAL_SIFIVE_CLIC0_2000000_SIFIVE_NUMINTS,
+    .num_intbits = METAL_SIFIVE_CLIC0_2000000_SIFIVE_NUMINTBITS,
+    .max_levels = METAL_SIFIVE_CLIC0_2000000_SIFIVE_NUMLEVELS,
     .interrupt_controller = 1,
 };
 
@@ -399,8 +401,8 @@ struct __metal_driver_sifive_global_external_interrupts0 __metal_dt_global_exter
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_20002000 = {
     .vtable = &__metal_driver_vtable_sifive_gpio0,
     .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
-    .base = 536879104UL,
-    .size = 4096UL,
+    .base = METAL_SIFIVE_GPIO0_20002000_BASE_ADDRESS,
+    .size = METAL_SIFIVE_GPIO0_20002000_SIZE,
 /* From interrupt_controller@2000000 */
     .interrupt_parent = &__metal_dt_interrupt_controller_2000000.controller,
     .num_interrupts = METAL_MAX_GPIO_INTERRUPTS,
@@ -556,8 +558,8 @@ struct __metal_driver_sifive_gpio_switch __metal_dt_switch_3 = {
 struct __metal_driver_sifive_spi0 __metal_dt_spi_20004000 = {
     .vtable = &__metal_driver_vtable_sifive_spi0,
     .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
-    .control_base = 536887296UL,
-    .control_size = 4096UL,
+    .control_base = METAL_SIFIVE_SPI0_20004000_BASE_ADDRESS,
+    .control_size = METAL_SIFIVE_SPI0_20004000_SIZE,
     .clock = NULL,
     .pinmux = NULL,
 };
@@ -574,8 +576,8 @@ struct __metal_driver_sifive_test0 __metal_dt_teststatus_4000 = {
 struct __metal_driver_sifive_uart0 __metal_dt_serial_20000000 = {
     .vtable = &__metal_driver_vtable_sifive_uart0,
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
-    .control_base = 536870912UL,
-    .control_size = 4096UL,
+    .control_base = METAL_SIFIVE_UART0_20000000_BASE_ADDRESS,
+    .control_size = METAL_SIFIVE_UART0_20000000_SIZE,
 /* From clock@0 */
     .clock = &__metal_dt_clock_0.clock,
     .pinmux = NULL,

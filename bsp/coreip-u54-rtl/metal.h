@@ -3,6 +3,8 @@
 #ifndef COREIP_U54_RTL__METAL_H
 #define COREIP_U54_RTL__METAL_H
 
+#include <metal/machine/platform.h>
+
 #ifdef __METAL_MACHINE_MACROS
 
 #define __METAL_CLINT_NUM_PARENTS 2
@@ -127,8 +129,8 @@ struct metal_memory __metal_dt_mem_memory_80000000 = {
 struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
     .vtable = &__metal_driver_vtable_riscv_clint0,
     .controller.vtable = &__metal_driver_vtable_riscv_clint0.clint_vtable,
-    .control_base = 33554432UL,
-    .control_size = 65536UL,
+    .control_base = METAL_RISCV_CLINT0_2000000_BASE_ADDRESS,
+    .control_size = METAL_RISCV_CLINT0_2000000_SIZE,
     .init_done = 0,
     .num_interrupts = METAL_MAX_CLINT_INTERRUPTS,
     .interrupt_parents[0] = &__metal_dt_cpu_0_interrupt_controller.controller,
@@ -162,16 +164,16 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .interrupt_lines[0] = 11,
     .interrupt_parents[1] = &__metal_dt_cpu_0_interrupt_controller.controller,
     .interrupt_lines[1] = 9,
-    .control_base = 201326592UL,
-    .control_size = 67108864UL,
-    .max_priority = 7UL,
-    .num_interrupts = 133UL,
+    .control_base = METAL_RISCV_PLIC0_C000000_BASE_ADDRESS,
+    .control_size = METAL_RISCV_PLIC0_C000000_SIZE,
+    .max_priority = METAL_RISCV_PLIC0_C000000_RISCV_MAX_PRIORITY,
+    .num_interrupts = METAL_RISCV_PLIC0_C000000_RISCV_NDEV,
     .interrupt_controller = 1,
 };
 
 /* From pmp@0 */
 struct metal_pmp __metal_dt_pmp_0 = {
-    .num_regions = 8UL,
+    .num_regions = METAL_RISCV_PMP_0_NUM_REGIONS,
 };
 
 /* From global_external_interrupts */
