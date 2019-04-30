@@ -21,6 +21,7 @@ PHDRS
 SECTIONS
 {
 	__stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
+	PROVIDE(__stack_size = __stack_size);
 	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x400;
 
 
@@ -214,7 +215,6 @@ SECTIONS
 	{
 		PROVIDE( metal_segment_heap_target_start = . );
 		. = __heap_size;
-		. = __heap_size == 0 ? 0 : ORIGIN(ram) + LENGTH(ram);
 		PROVIDE( metal_segment_heap_target_end = . );
 		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram

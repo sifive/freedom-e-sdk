@@ -1,0 +1,290 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	compatible = "SiFive,FU540G-dev", "fu540-dev", "sifive-dev";
+	model = "SiFive,FU540G";
+	L36: cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		L9: cpu@0 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <128>;
+			i-cache-size = <16384>;
+			next-level-cache = <&L33>;
+			reg = <0x0>;
+			riscv,isa = "rv64imac";
+			sifive,dtim = <&L7>;
+			sifive,itim = <&L6>;
+			status = "okay";
+			timebase-frequency = <1000000>;
+			L5: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+		L13: cpu@1 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <64>;
+			d-cache-size = <32768>;
+			d-tlb-sets = <1>;
+			d-tlb-size = <32>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <64>;
+			i-cache-size = <32768>;
+			i-tlb-sets = <1>;
+			i-tlb-size = <32>;
+			mmu-type = "riscv,sv39";
+			next-level-cache = <&L33>;
+			reg = <0x1>;
+			riscv,isa = "rv64imafdc";
+			sifive,itim = <&L11>;
+			status = "okay";
+			timebase-frequency = <1000000>;
+			tlb-split;
+			L10: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+		L17: cpu@2 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <64>;
+			d-cache-size = <32768>;
+			d-tlb-sets = <1>;
+			d-tlb-size = <32>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <64>;
+			i-cache-size = <32768>;
+			i-tlb-sets = <1>;
+			i-tlb-size = <32>;
+			mmu-type = "riscv,sv39";
+			next-level-cache = <&L33>;
+			reg = <0x2>;
+			riscv,isa = "rv64imafdc";
+			sifive,itim = <&L15>;
+			status = "okay";
+			timebase-frequency = <1000000>;
+			tlb-split;
+			L14: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+		L21: cpu@3 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <64>;
+			d-cache-size = <32768>;
+			d-tlb-sets = <1>;
+			d-tlb-size = <32>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <64>;
+			i-cache-size = <32768>;
+			i-tlb-sets = <1>;
+			i-tlb-size = <32>;
+			mmu-type = "riscv,sv39";
+			next-level-cache = <&L33>;
+			reg = <0x3>;
+			riscv,isa = "rv64imafdc";
+			sifive,itim = <&L19>;
+			status = "okay";
+			timebase-frequency = <1000000>;
+			tlb-split;
+			L18: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+		L25: cpu@4 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <64>;
+			d-cache-size = <32768>;
+			d-tlb-sets = <1>;
+			d-tlb-size = <32>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <64>;
+			i-cache-size = <32768>;
+			i-tlb-sets = <1>;
+			i-tlb-size = <32>;
+			mmu-type = "riscv,sv39";
+			next-level-cache = <&L33>;
+			reg = <0x4>;
+			riscv,isa = "rv64imafdc";
+			sifive,itim = <&L23>;
+			status = "okay";
+			timebase-frequency = <1000000>;
+			tlb-split;
+			L22: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+	L28: memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0x20000000>;
+	};
+	L35: soc {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "SiFive,FU540G-soc", "fu540-soc", "sifive-soc", "simple-bus";
+		ranges;
+		pmp: pmp@0 {
+			compatible = "riscv,pmp";
+			regions = <8>;
+		};
+		L30: axi4-periph-port@20000000 {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			compatible = "sifive,axi4-periph-port", "sifive,axi4-port", "sifive,periph-port", "simple-bus";
+			ranges = <0x0 0x20000000 0x0 0x20000000 0x0 0x20000000 0x1 0x0 0x1 0x0 0xf 0x0>;
+		};
+		L29: axi4-sys-port@40000000 {
+			#address-cells = <2>;
+			#size-cells = <2>;
+			compatible = "sifive,axi4-sys-port", "sifive,axi4-port", "sifive,sys-port", "simple-bus";
+			ranges = <0x0 0x40000000 0x0 0x40000000 0x0 0x20000000 0x10 0x0 0x10 0x0 0x30 0x0>;
+		};
+		L8: bus-error-unit@1700000 {
+			compatible = "sifive,buserror0";
+			interrupt-parent = <&L2>;
+			interrupts = <132>;
+			reg = <0x0 0x1700000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L12: bus-error-unit@1701000 {
+			compatible = "sifive,buserror0";
+			interrupt-parent = <&L2>;
+			interrupts = <133>;
+			reg = <0x0 0x1701000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L16: bus-error-unit@1702000 {
+			compatible = "sifive,buserror0";
+			interrupt-parent = <&L2>;
+			interrupts = <134>;
+			reg = <0x0 0x1702000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L20: bus-error-unit@1703000 {
+			compatible = "sifive,buserror0";
+			interrupt-parent = <&L2>;
+			interrupts = <135>;
+			reg = <0x0 0x1703000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L24: bus-error-unit@1704000 {
+			compatible = "sifive,buserror0";
+			interrupt-parent = <&L2>;
+			interrupts = <136>;
+			reg = <0x0 0x1704000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L33: cache-controller@2010000 {
+			cache-block-size = <64>;
+			cache-level = <2>;
+			cache-sets = <2048>;
+			cache-size = <2097152>;
+			cache-unified;
+			compatible = "sifive,ccache0", "cache";
+			interrupt-parent = <&L2>;
+			interrupts = <128 129 130 131>;
+			next-level-cache = <&L0 &L28>;
+			reg = <0x0 0x2010000 0x0 0x1000 0x0 0x8000000 0x0 0x200000>;
+			reg-names = "control", "sideband";
+			sifive,ecc-granularity = <8>;
+			sifive,mshr-count = <6>;
+		};
+		L3: clint@2000000 {
+			compatible = "riscv,clint0";
+			interrupts-extended = <&L5 3 &L5 7 &L10 3 &L10 7 &L14 3 &L14 7 &L18 3 &L18 7 &L22 3 &L22 7>;
+			reg = <0x0 0x2000000 0x0 0x10000>;
+			reg-names = "control";
+		};
+		L4: debug-controller@0 {
+			compatible = "sifive,debug-013", "riscv,debug-013";
+			interrupts-extended = <&L5 65535 &L10 65535 &L14 65535 &L18 65535 &L22 65535>;
+			reg = <0x0 0x0 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L7: dtim@1000000 {
+			compatible = "sifive,dtim0";
+			reg = <0x0 0x1000000 0x0 0x2000>;
+			reg-names = "mem";
+		};
+		L1: error-device@3000 {
+			compatible = "sifive,error0";
+			reg = <0x0 0x3000 0x0 0x1000>;
+		};
+		L27: global-external-interrupts {
+			compatible = "sifive,global-external-interrupts0";
+			interrupt-parent = <&L2>;
+			interrupts = <1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127>;
+		};
+		L2: interrupt-controller@c000000 {
+			#interrupt-cells = <1>;
+			compatible = "riscv,plic0";
+			interrupt-controller;
+			interrupts-extended = <&L5 11 &L10 11 &L10 9 &L14 11 &L14 9 &L18 11 &L18 9 &L22 11 &L22 9>;
+			reg = <0x0 0xc000000 0x0 0x4000000>;
+			reg-names = "control";
+			riscv,max-priority = <7>;
+			riscv,ndev = <136>;
+		};
+		L6: itim@1800000 {
+			compatible = "sifive,itim0";
+			reg = <0x0 0x1800000 0x0 0x4000>;
+			reg-names = "mem";
+		};
+		L11: itim@1808000 {
+			compatible = "sifive,itim0";
+			reg = <0x0 0x1808000 0x0 0x8000>;
+			reg-names = "mem";
+		};
+		L15: itim@1810000 {
+			compatible = "sifive,itim0";
+			reg = <0x0 0x1810000 0x0 0x8000>;
+			reg-names = "mem";
+		};
+		L19: itim@1818000 {
+			compatible = "sifive,itim0";
+			reg = <0x0 0x1818000 0x0 0x8000>;
+			reg-names = "mem";
+		};
+		L23: itim@1820000 {
+			compatible = "sifive,itim0";
+			reg = <0x0 0x1820000 0x0 0x8000>;
+			reg-names = "mem";
+		};
+		L0: rom@a000000 {
+			compatible = "ucbbar,cacheable-zero0";
+			reg = <0x0 0xa000000 0x0 0x2000000>;
+		};
+		L26: teststatus@4000 {
+			compatible = "sifive,test0";
+			reg = <0x0 0x4000 0x0 0x1000>;
+			reg-names = "control";
+		};
+	};
+};
