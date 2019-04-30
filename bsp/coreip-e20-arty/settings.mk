@@ -1,4 +1,4 @@
-RISCV_ARCH=rv32imac
+RISCV_ARCH=rv32imc
 RISCV_ABI=ilp32
 RISCV_CMODEL=medlow
 

@@ -180,5 +180,23 @@
                         clocks = <&hfclk>;
                         pinmux = <&gpio0 0x0003C 0x0003C>;
                 };
+                led@0red {
+                        compatible = "sifive,gpio-leds";
+                        label = "LD0red";
+                        gpios = <&gpio0 22>;
+                        linux,default-trigger = "none";
+                };
+                led@0green {
+                        compatible = "sifive,gpio-leds";
+                        label = "LD0green";
+                        gpios = <&gpio0 19>;
+                        linux,default-trigger = "none";
+                };
+                led@0blue {
+                        compatible = "sifive,gpio-leds";
+                        label = "LD0blue";
+                        gpios = <&gpio0 21>;
+                        linux,default-trigger = "none";
+                };
         };
 };
