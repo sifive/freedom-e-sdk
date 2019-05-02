@@ -69,6 +69,7 @@ DTC=dtc
 MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=freedom-ldscript-generator
 MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
+BARE_HEADER_GENERATOR=freedom-bare_header-generator
 
 DTS_FILENAME=design.dts
 DTB_FILENAME=temp.dtb
@@ -77,6 +78,7 @@ LDS_DEFAULT_FILENAME=metal.default.lds
 LDS_RAMRODATA_FILENAME=metal.ramrodata.lds
 LDS_SCRATCHPAD_FILENAME=metal.scratchpad.lds
 SETTINGS_FILENAME=settings.mk
+BARE_HEADER_FILENAME=metal-platform.h
 
 update_target() {
     TARGET=$1
@@ -99,6 +101,7 @@ update_target() {
     $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || die "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
     $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || die "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
     $MAKEATTRIB_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || die "Failed to produce $TARGET/$SETTINGS_FILENAME"
+    $BARE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$BARE_HEADER_FILENAME || die "Failed to produce $TARGET/$BARE_HEADER_FILENAME"
 
     # Remove temporary .dtb
     rm $TARGET/$DTB_FILENAME

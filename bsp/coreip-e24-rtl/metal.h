@@ -3,6 +3,8 @@
 #ifndef COREIP_E24_RTL__METAL_H
 #define COREIP_E24_RTL__METAL_H
 
+#include <metal/machine/platform.h>
+
 #ifdef __METAL_MACHINE_MACROS
 
 #ifndef __METAL_CLINT_NUM_PARENTS
@@ -139,24 +141,24 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller = {
 
 /* From pmp@0 */
 struct metal_pmp __metal_dt_pmp_0 = {
-    .num_regions = 8UL,
+    .num_regions = METAL_RISCV_PMP_0_NUM_REGIONS,
 };
 
 /* From interrupt_controller@2000000 */
 struct __metal_driver_sifive_clic0 __metal_dt_interrupt_controller_2000000 = {
     .vtable = &__metal_driver_vtable_sifive_clic0,
     .controller.vtable = &__metal_driver_vtable_sifive_clic0.clic_vtable,
-    .control_base = 33554432UL,
-    .control_size = 16777216UL,
+    .control_base = METAL_SIFIVE_CLIC0_2000000_BASE_ADDRESS,
+    .control_size = METAL_SIFIVE_CLIC0_2000000_SIZE,
     .init_done = 0,
     .num_interrupts = METAL_MAX_CLIC_INTERRUPTS,
     .interrupt_parent = &__metal_dt_cpu_0_interrupt_controller.controller,
     .interrupt_lines[0] = 3,
     .interrupt_lines[1] = 7,
     .interrupt_lines[2] = 11,
-    .num_subinterrupts = 143UL,
-    .num_intbits = 4UL,
-    .max_levels = 16UL,
+    .num_subinterrupts = METAL_SIFIVE_CLIC0_2000000_SIFIVE_NUMINTS,
+    .num_intbits = METAL_SIFIVE_CLIC0_2000000_SIFIVE_NUMINTBITS,
+    .max_levels = METAL_SIFIVE_CLIC0_2000000_SIFIVE_NUMLEVELS,
     .interrupt_controller = 1,
 };
 

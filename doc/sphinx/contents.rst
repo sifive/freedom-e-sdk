@@ -64,9 +64,16 @@ and consist of the following:
   - The Freedom Metal machine header which is used internally to Freedom Metal
     to instantiate structures to support the target device.
 
-* ``metal.lds``
+* ``metal-platform.h``
 
-  - The linker script for the target device.
+  - The Freedom Metal platform header which is used internally to Freedom Metal
+    as the source for each device's memory-mapped base address, memory-mapped
+    size, properties, and memory-mapped register offsets.
+
+* ``metal.%.lds``
+
+  - Linker scripts for the target device. Scripts other than ``metal.default.lds``
+    are used for alternative memory layouts.
 
 * ``openocd.cfg`` (for development board and FPGA targets)
 
@@ -74,7 +81,8 @@ and consist of the following:
 
 * ``settings.mk``
 
-  - Used to set ``-march`` and ``-mabi`` arguments to the RISC-V GNU Toolchain.
+  - Used to set ``-march`` and ``-mabi`` arguments to the RISC-V GNU Toolchain
+    as well as configure target-specific build steps.
 
 Freedom Metal
 -------------

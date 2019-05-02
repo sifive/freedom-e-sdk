@@ -3,6 +3,8 @@
 #ifndef COREIP_S76_ARTY__METAL_H
 #define COREIP_S76_ARTY__METAL_H
 
+#include <metal/machine/platform.h>
+
 #ifdef __METAL_MACHINE_MACROS
 
 #define __METAL_CLINT_NUM_PARENTS 2
@@ -176,7 +178,7 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_20000000;
 struct __metal_driver_fixed_clock __metal_dt_tlclk = {
     .vtable = &__metal_driver_vtable_fixed_clock,
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
-    .rate = 32500000UL,
+    .rate = METAL_FIXED_CLOCK__CLOCK_FREQUENCY,
 };
 
 struct metal_memory __metal_dt_mem_memory_80000000 = {
@@ -205,8 +207,8 @@ struct metal_memory __metal_dt_mem_spi_20004000 = {
 struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
     .vtable = &__metal_driver_vtable_riscv_clint0,
     .controller.vtable = &__metal_driver_vtable_riscv_clint0.clint_vtable,
-    .control_base = 33554432UL,
-    .control_size = 65536UL,
+    .control_base = METAL_RISCV_CLINT0_2000000_BASE_ADDRESS,
+    .control_size = METAL_RISCV_CLINT0_2000000_SIZE,
     .init_done = 0,
     .num_interrupts = METAL_MAX_CLINT_INTERRUPTS,
     .interrupt_parents[0] = &__metal_dt_cpu_0_interrupt_controller.controller,
@@ -238,16 +240,16 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .init_done = 0,
     .interrupt_parents[0] = &__metal_dt_cpu_0_interrupt_controller.controller,
     .interrupt_lines[0] = 11,
-    .control_base = 201326592UL,
-    .control_size = 67108864UL,
-    .max_priority = 7UL,
-    .num_interrupts = 31UL,
+    .control_base = METAL_RISCV_PLIC0_C000000_BASE_ADDRESS,
+    .control_size = METAL_RISCV_PLIC0_C000000_SIZE,
+    .max_priority = METAL_RISCV_PLIC0_C000000_RISCV_MAX_PRIORITY,
+    .num_interrupts = METAL_RISCV_PLIC0_C000000_RISCV_NDEV,
     .interrupt_controller = 1,
 };
 
 /* From pmp@0 */
 struct metal_pmp __metal_dt_pmp_0 = {
-    .num_regions = 1UL,
+    .num_regions = METAL_RISCV_PMP_0_NUM_REGIONS,
 };
 
 /* From global_external_interrupts */
@@ -268,8 +270,8 @@ struct __metal_driver_sifive_global_external_interrupts0 __metal_dt_global_exter
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10060000 = {
     .vtable = &__metal_driver_vtable_sifive_gpio0,
     .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
-    .base = 268828672UL,
-    .size = 4096UL,
+    .base = METAL_SIFIVE_GPIO0_10060000_BASE_ADDRESS,
+    .size = METAL_SIFIVE_GPIO0_10060000_SIZE,
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__metal_dt_interrupt_controller_c000000.controller,
     .num_interrupts = METAL_MAX_GPIO_INTERRUPTS,
@@ -283,8 +285,8 @@ struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10060000 = {
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_20002000 = {
     .vtable = &__metal_driver_vtable_sifive_gpio0,
     .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
-    .base = 536879104UL,
-    .size = 4096UL,
+    .base = METAL_SIFIVE_GPIO0_20002000_BASE_ADDRESS,
+    .size = METAL_SIFIVE_GPIO0_20002000_SIZE,
 /* From interrupt_controller@c000000 */
     .interrupt_parent = &__metal_dt_interrupt_controller_c000000.controller,
     .num_interrupts = METAL_MAX_GPIO_INTERRUPTS,
@@ -440,8 +442,8 @@ struct __metal_driver_sifive_gpio_switch __metal_dt_switch_3 = {
 struct __metal_driver_sifive_spi0 __metal_dt_spi_20004000 = {
     .vtable = &__metal_driver_vtable_sifive_spi0,
     .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
-    .control_base = 536887296UL,
-    .control_size = 4096UL,
+    .control_base = METAL_SIFIVE_SPI0_20004000_BASE_ADDRESS,
+    .control_size = METAL_SIFIVE_SPI0_20004000_SIZE,
 /* From tlclk */
     .clock = &__metal_dt_tlclk.clock,
     .pinmux = NULL,
@@ -459,8 +461,8 @@ struct __metal_driver_sifive_test0 __metal_dt_teststatus_4000 = {
 struct __metal_driver_sifive_uart0 __metal_dt_serial_20000000 = {
     .vtable = &__metal_driver_vtable_sifive_uart0,
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
-    .control_base = 536870912UL,
-    .control_size = 4096UL,
+    .control_base = METAL_SIFIVE_UART0_20000000_BASE_ADDRESS,
+    .control_size = METAL_SIFIVE_UART0_20000000_SIZE,
 /* From tlclk */
     .clock = &__metal_dt_tlclk.clock,
     .pinmux = NULL,
