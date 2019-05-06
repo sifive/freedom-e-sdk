@@ -85,6 +85,26 @@ if [ `grep -c 'local-external-interrupts-0 {' ${dts}` -ne 0 ]; then
     fi
 fi
 
+# Add a stdout-path to the chosen node if one doesn't exist and a serial port does
+
+if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
+    if [ `grep -c 'sifive,uart0' ${dts}` -ne 0 ]; then
+        echo "$0: stdout-path property not given, but a UART device exists."
+
+        serial_node=`grep -oP "serial@\d+" ${dts} | sort | uniq | head -n 1`
+        serial_path="/soc/${serial_node}:115200"
+
+        if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
+            ${SED} -i "/cpus/i chosen {\n};" ${dts}
+        fi
+
+        ${SED} -i "/chosen/a stdout-path=\"${serial_path}\";" ${dts}
+
+        echo -e "$0: \tAdded stdout-path ${serial_path}"
+    fi
+fi
+
+
 # Add a test memory node if one doesn't exist
 
 if [ `grep -c 'sifive,testram0' ${dts}` -eq 0 ]; then
