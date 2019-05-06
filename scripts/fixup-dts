@@ -31,13 +31,22 @@ fi
 
 # Add a PMP node if it doesn't exist
 
-if [ `grep -c 'riscv,pmp' ${dts}` -eq 0 ]
-then
+if [ `grep -c 'riscv,pmp' ${dts}` -eq 0 ]; then
+
     echo "$0: PMP node not found in ${dts}."
 
-    ${SED} -i 's/ranges;/ranges;\n\t\tpmp: pmp@0 {\n\t\t\tcompatible = "riscv,pmp";\n\t\t\tregions = <1>;\n\t\t};/' ${dts}
+    # Check for targets without PMP support
 
-    echo -e "$0: \tAdded pmp@0"
+    TARGET=`echo ${dts} | cut -d '/' -f 1`
+    if [ $TARGET != "freedom-e310-arty" -a \
+         $TARGET != "sifive-hifive1" -a \
+         $TARGET != "coreip-e20-rtl" -a \
+         $TARGET != "coreip-e20-arty" ]; then
+
+        ${SED} -i 's/ranges;/ranges;\n\t\tpmp: pmp@0 {\n\t\t\tcompatible = "riscv,pmp";\n\t\t\tregions = <1>;\n\t\t};/' ${dts}
+
+        echo -e "$0: \tAdded pmp@0"
+    fi
 fi
 
 # Add numintbits for the clic node if it doesn't exist
