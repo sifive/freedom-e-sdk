@@ -96,7 +96,7 @@ $(PROGRAM_ELF): \
 		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(CFLAGS)" \
 		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(CXXFLAGS)" \
 		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^)) $(LDFLAGS)" \
-		LDLIBS="-Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group $(LDLIBS)"
+		LDLIBS="-Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -lm -Wl,--end-group $(LDLIBS)"
 	touch -c $@
 
 .PHONY: clean-software
