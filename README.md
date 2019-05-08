@@ -1,6 +1,11 @@
 # README #
 
-This repository, maintained by SiFive, Inc, makes it easy to get started developing software for the Freedom E RISC-V platform. 
+This repository, maintained by SiFive, Inc, makes it easy to get started developing software for the Freedom E RISC-V platform.
+
+This branch contains the legacy v1_0 version. It's mostly useful now as including software for/shipped with
+the original HiFive1.
+
+New development since September 2018 is on the master branch.
 
 ### Contents ###
 
@@ -14,7 +19,7 @@ This repository, maintained by SiFive, Inc, makes it easy to get started develop
 First, clone this repository:
 
 ```
-git clone --recursive https://github.com/sifive/freedom-e-sdk.git
+git clone --recursive -b v1_0 https://github.com/sifive/freedom-e-sdk.git
 ```
 
 To see Makefile options:
