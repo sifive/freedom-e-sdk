@@ -23,7 +23,7 @@ fi
 
 # When installed on MacOS with Homebrew, GNU sed is named gsed.
 # If gsed exists, use it.
-if [ `which gsed` == "" ]; then
+if [ "`which gsed`" == "" ]; then
     SED=sed
 else
     SED=gsed
