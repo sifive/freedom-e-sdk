@@ -95,7 +95,7 @@ $(PROGRAM_ELF): \
 		ASFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(ASFLAGS)" \
 		CFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(CFLAGS)" \
 		CXXFLAGS="-Os -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -g -mcmodel=medany -I$(abspath $(BSP_DIR)/install/include/) $(CXXFLAGS)" \
-		LDFLAGS="-nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^)) $(LDFLAGS)" \
+		LDFLAGS="-march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=medany -nostartfiles -nostdlib -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^)) $(LDFLAGS)" \
 		LDLIBS="-Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -lm -Wl,--end-group $(LDLIBS)"
 	touch -c $@
 
