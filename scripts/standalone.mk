@@ -47,6 +47,12 @@ else
 LINK_TARGET = ramrodata
 endif
 
+ifneq (,$(filter $(TARGET),coreip-e76-rtl coreip-s76-rtl coreip-e76-arty coreip-s76-arty))
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
+else
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions --param max-inline-insns-auto=20 -falign-functions=4 -falign-jumps=4 -falign-loops=4 --param inline-min-speedup=10
+endif
+
 else
 LINK_TARGET = default
 endif
@@ -158,6 +164,7 @@ $(PROGRAM_ELF): \
 		ASFLAGS="$(RISCV_ASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
+        XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
