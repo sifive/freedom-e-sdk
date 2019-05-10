@@ -23,10 +23,10 @@ Original Author: Shay Gal-on
 /************************/
 /* Data types and settings */
 /************************/
-/* Configuration : HAS_FLOAT 
+/* Configuration : HAS_FLOAT
 	Define to 1 if the platform supports floating point.
 */
-#ifndef HAS_FLOAT 
+#ifndef HAS_FLOAT
 #define HAS_FLOAT 1
 #endif
 /* Configuration : HAS_TIME_H
@@ -60,23 +60,23 @@ Original Author: Shay Gal-on
 /* Definitions : COMPILER_VERSION, COMPILER_FLAGS, MEM_LOCATION
 	Initialize these strings per platform
 */
-#ifndef COMPILER_VERSION 
+#ifndef COMPILER_VERSION
  #ifdef __GNUC__
  #define COMPILER_VERSION "GCC"__VERSION__
  #else
  #define COMPILER_VERSION "Please put compiler version here (e.g. gcc 4.1)"
  #endif
 #endif
-#ifndef COMPILER_FLAGS 
+#ifndef COMPILER_FLAGS
  #define COMPILER_FLAGS FLAGS_STR /* "Please put compiler flags here (e.g. -o3)" */
 #endif
-#ifndef MEM_LOCATION 
+#ifndef MEM_LOCATION
  #define MEM_LOCATION "STACK"
 #endif
 
 /* Data Types :
 	To avoid compiler issues, define the data types that need ot be used for 8b, 16b and 32b in <core_portme.h>.
-	
+
 	*Imprtant* :
 	ee_ptr_int needs to be the data type used to hold pointers, otherwise coremark may fail!!!
 */
@@ -85,7 +85,7 @@ typedef unsigned short ee_u16;
 typedef signed int ee_s32;
 typedef double ee_f32;
 typedef unsigned char ee_u8;
-typedef unsigned int ee_u32;
+typedef signed int ee_u32;
 typedef signed long ee_u64;
 #if __riscv_xlen == 32
 typedef ee_u32 ee_ptr_int;
@@ -102,12 +102,12 @@ typedef signed int ee_size_t;
 /* Configuration : CORE_TICKS
 	Define type of return from the timing functions.
  */
-#define CORETIMETYPE ee_u32 
+#define CORETIMETYPE ee_u32
 typedef ee_u32 CORE_TICKS;
 
 /* Configuration : SEED_METHOD
 	Defines method to get seed values that cannot be computed at compile time.
-	
+
 	Valid values :
 	SEED_ARG - from command line.
 	SEED_FUNC - from a system function.
@@ -119,7 +119,7 @@ typedef ee_u32 CORE_TICKS;
 
 /* Configuration : MEM_METHOD
 	Defines method to get a block of memry.
-	
+
 	Valid values :
 	MEM_MALLOC - for platforms that implement malloc and have malloc.h.
 	MEM_STATIC - to use a static memory array.
@@ -130,19 +130,19 @@ typedef ee_u32 CORE_TICKS;
 #endif
 
 /* Configuration : MULTITHREAD
-	Define for parallel execution 
-	
+	Define for parallel execution
+
 	Valid values :
 	1 - only one context (default).
 	N>1 - will execute N copies in parallel.
-	
-	Note : 
+
+	Note :
 	If this flag is defined to more then 1, an implementation for launching parallel contexts must be defined.
-	
+
 	Two sample implementations are provided. Use <USE_PTHREAD> or <USE_FORK> to enable them.
-	
+
 	It is valid to have a different implementation of <core_start_parallel> and <core_end_parallel> in <core_portme.c>,
-	to fit a particular architecture. 
+	to fit a particular architecture.
 */
 #ifndef MULTITHREAD
 #define MULTITHREAD 1
@@ -152,22 +152,22 @@ typedef ee_u32 CORE_TICKS;
 #endif
 
 /* Configuration : MAIN_HAS_NOARGC
-	Needed if platform does not support getting arguments to main. 
-	
+	Needed if platform does not support getting arguments to main.
+
 	Valid values :
 	0 - argc/argv to main is supported
 	1 - argc/argv to main is not supported
-	
-	Note : 
+
+	Note :
 	This flag only matters if MULTITHREAD has been defined to a value greater then 1.
 */
-#ifndef MAIN_HAS_NOARGC 
+#ifndef MAIN_HAS_NOARGC
 #define MAIN_HAS_NOARGC 0
 #endif
 
 /* Configuration : MAIN_HAS_NORETURN
-	Needed if platform does not support returning a value from main. 
-	
+	Needed if platform does not support returning a value from main.
+
 	Valid values :
 	0 - main returns an int, and return value will be 0.
 	1 - platform does not support returning a value from main
