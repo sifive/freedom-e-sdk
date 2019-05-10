@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+#
 # Original Author: Shay Gal-on
 
 #File : core_portme.mak
@@ -26,23 +26,23 @@ OUTFLAG= -o
 #CC 		= gcc
 # Flag : LD
 #	Use this flag to define compiler to use
-#LD		= 
+#LD		=
 # Flag : AS
 #	Use this flag to define compiler to use
 #AS		= gas
 # Flag : CFLAGS
 #	Use this flag to define compiler options. Note, you can add compiler options from the command line using XCFLAGS="other flags"
-PORT_CFLAGS = -specs=nano.specs -O3 -DITERATIONS=10000 -DPERFORMANCE_RUN=1 -DMAIN_HAS_NOARGC=1 -DMAIN_HAS_NORETURN=1 -DHAS_STDIO -DHAS_PRINTF -DHAS_TIME_H -DUSE_CLOCK
+PORT_CFLAGS = -O3 -DITERATIONS=3000 -DPERFORMANCE_RUN=1 -DMAIN_HAS_NOARGC=1 -DMAIN_HAS_NORETURN=1 -DHAS_STDIO -DHAS_PRINTF -DHAS_TIME_H -DUSE_CLOCK
 FLAGS_STR = "$(PORT_CFLAGS) $(XCFLAGS) $(XLFLAGS) $(LFLAGS_END)"
 override CFLAGS += $(PORT_CFLAGS) -I$(PORT_DIR) -I. -DFLAGS_STR=\"$(FLAGS_STR)\" -Xlinker --defsym=__stack_size=0x1000
 #Flag : LFLAGS_END
-#	Define any libraries needed for linking or other flags that should come at the end of the link line (e.g. linker scripts). 
+#	Define any libraries needed for linking or other flags that should come at the end of the link line (e.g. linker scripts).
 #	Note : On certain platforms, the default clock_gettime implementation is supported but requires linking of librt.
 SEPARATE_COMPILE =
 # Flag : SEPARATE_COMPILE
 # You must also define below how to create an object file, and how to link.
 OBJOUT 	= -o
-LFLAGS 	= 
+LFLAGS 	=
 ASFLAGS =
 OFLAG 	= -o
 COUT 	= -c
@@ -80,7 +80,7 @@ $(OPATH)$(PORT_DIR)/%$(OEXT) : %.s
 # For the purpose of this simple port, no pre or post steps needed.
 
 .PHONY : port_prebuild port_postbuild port_prerun port_postrun port_preload port_postload
-port_pre% port_post% : 
+port_pre% port_post% :
 
 # FLAG : OPATH
 # Path to the output folder. Default - current folder.
