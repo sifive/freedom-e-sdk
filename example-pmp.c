@@ -6,9 +6,9 @@
 
 #define ECODE_STORE_FAULT	7
 
-/* Mark the variable volatile to ensure that we access the memory location
- * on write and align to 4 bytes for PMP */
-volatile int protected_global __attribute__((aligned(4)));
+#define NAPOT_SIZE 128
+#define PROTECTED_ARRAY_LENGTH 32
+volatile uint32_t protected_global[PROTECTED_ARRAY_LENGTH] __attribute__((aligned(NAPOT_SIZE)));
 
 void store_access_fault_handler(struct metal_cpu *cpu, int ecode)
 {
@@ -34,6 +34,12 @@ int main()
 
 	/* PMP addresses are 4-byte aligned, drop the bottom two bits */
 	size_t protected_addr = ((size_t) &protected_global) >> 2;
+	
+	/* Clear the bit corresponding with alignment */
+	protected_addr &= ~(NAPOT_SIZE >> 2);
+
+	/* Set the bits up to the alignment bit */
+	protected_addr |= ((NAPOT_SIZE >> 2) - 1);
 
 	printf("PMP Driver Example\n");
 
@@ -66,14 +72,14 @@ int main()
 	metal_pmp_init(pmp);
 
 	/* Perform a write to the memory we're about to protect access to */
-	protected_global = 0;
+	protected_global[0] = 0;
 
 	/* Configure PMP 0 to only allow reads to protected_global. The
 	 * PMP region is locked so that the configuration applies to M-mode
 	 * accesses. */
 	struct metal_pmp_config config = {
 		.L = METAL_PMP_LOCKED,
-		.A = METAL_PMP_NA4, /* Naturally-aligned 4-byte region */
+		.A = METAL_PMP_NAPOT, /* Naturally-aligned power of two */
 		.X = 0,
 		.W = 0,
 		.R = 1,
@@ -88,11 +94,11 @@ int main()
 
 	/* Attempt to write to protected_global. This should generate a store
 	 * access fault exception. */
-	protected_global = 6;
+	protected_global[0] = 6;
 
 	/* If execution returns to here, return the value of protected
 	 * global to demonstrate that we can still read the value */
 
 	/* If the write succeeds, the test fails */
-	return protected_global;
+	return protected_global[0];
 }
