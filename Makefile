@@ -193,6 +193,8 @@ standalone: \
 	cp debug.mk $</debug.mk
 	cp release.mk $</release.mk
 
+	cp $</bsp/metal.h $</freedom-metal/metal/machine.h
+
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
