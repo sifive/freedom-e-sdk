@@ -46,6 +46,3 @@
 [submodule "software/multicore-hello"]
 	path = software/multicore-hello
 	url = https://github.com/sifive/example-multicore-hello.git
-[submodule "software/coremark"]
-	path = software/coremark
-	url = https://github.com/sifive/coremark

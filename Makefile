@@ -20,15 +20,6 @@ endif
 PROGRAM ?= hello
 TARGET ?= sifive-hifive1
 
-# Coremark require PORT_DIR set for different OS, freedom-metal for us!
-ifeq ($(PORT_DIR),)
-#$(error PORT_DIR not set for $(PROGRAM))
-ifeq ($(PROGRAM),coremark)
-PORT_DIR = freedom-metal
-#$(error PORT_DIR set to $(PORT_DIR), for $(PROGRAM))
-endif
-endif
-
 TARGET_ROOT  ?= $(abspath .)
 PROGRAM_ROOT ?= $(abspath .)
 
@@ -203,9 +194,6 @@ standalone: \
 	cp release.mk $</release.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
-ifneq ($(PORT_DIR),)
-	echo "PORT_DIR = $(PORT_DIR)" > $</Makefile
-endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
@@ -232,9 +220,6 @@ standalone: \
 	cp release.mk $</release.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
-ifneq ($(PORT_DIR),)
-        echo "PORT_DIR = $(PORT_DIR)" > $</Makefile
-endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 endif # rtl in TARGET_TAGS

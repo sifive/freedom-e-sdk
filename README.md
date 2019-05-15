@@ -98,9 +98,6 @@ operating systems to RISC-V.
     - Prints the SiFive banner and blinks LEDs 
   - dhrystone
     - "Dhrystone" Benchmark Program by Reinhold P. Weicker
-  - coremark
-    - "CoreMark" Benchmark Program that measures the performance of embedded
-      microcrontrollers (MCU)
 
 ### Setting up the SDK ###
 

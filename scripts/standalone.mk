@@ -37,23 +37,7 @@ ifeq ($(RISCV_CMODEL),)
 RISCV_CMODEL = medany
 endif
 
-ifeq ($(PROGRAM),dhrystone)
-LINK_TARGET = ramrodata
-else ifeq ($(PROGRAM),coremark)
-
-ifneq (,$(filter $(TARGET),coreip-e21-rtl coreip-e24-rtl coreip-e20-arty coreip-e21-arty coreip-e24-arty))
-LINK_TARGET = ramrodata.coremark
-else
-LINK_TARGET = ramrodata
-endif
-
-ifneq (,$(filter $(TARGET),coreip-e76-rtl coreip-s76-rtl coreip-e76-arty coreip-s76-arty))
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
-else
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions --param max-inline-insns-auto=20 -falign-functions=4 -falign-jumps=4 -falign-loops=4 --param inline-min-speedup=10
-endif
-
-else
+ifeq ($(LINK_TARGET),)
 LINK_TARGET = default
 endif
 
@@ -161,7 +145,6 @@ $(PROGRAM_ELF): \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
-		PORT_DIR=$(PORT_DIR) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
@@ -169,7 +152,6 @@ $(PROGRAM_ELF): \
 		CCASFLAGS="$(RISCV_CCASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
-        XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
