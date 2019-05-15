@@ -122,13 +122,17 @@ main ()
     printf ("Program compiled without 'register' attribute\n");
     printf ("\n");
   }
+#ifdef DHRY_ITERS
+  Number_Of_Runs = DHRY_ITERS;
+#else
   printf ("Please give the number of runs through the benchmark: ");
   {
     int n;
     scanf ("%d", &n);
-    Number_Of_Runs = DHRY_ITERS;
+    Number_Of_Runs = n;
   }
   printf ("\n");
+#endif
 
   printf ("Execution starts, %d runs through Dhrystone\n", Number_Of_Runs);
 
