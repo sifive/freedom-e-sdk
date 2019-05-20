@@ -98,19 +98,19 @@ update_target() {
     echo "Updating target $TARGET"
 
     if [ $NO_FIXUP != 1 ]; then
-        ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || die "Failed to check $TARGET/$DTS_FILENAME for missing elements"
+        ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
     fi
 
     # Compile temporary .dtb
-    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || die "Failed to compile $TARGET/$DTS_FILENAME to dtb"
+    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || warn "Failed to compile $TARGET/$DTS_FILENAME to dtb"
 
     # Produce parameterized files
-    $MEE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$HEADER_FILENAME || die "Failed to produce $TARGET/$HEADER_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_DEFAULT_FILENAME || die "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || die "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || die "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
-    $MAKEATTRIB_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || die "Failed to produce $TARGET/$SETTINGS_FILENAME"
-    $BARE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$BARE_HEADER_FILENAME || die "Failed to produce $TARGET/$BARE_HEADER_FILENAME"
+    $MEE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME"
+    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
+    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
+    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
+    $MAKEATTRIB_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
+    $BARE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME"
 
     # Remove temporary .dtb
     rm $TARGET/$DTB_FILENAME
