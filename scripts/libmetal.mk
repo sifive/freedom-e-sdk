@@ -5,6 +5,7 @@
 METAL_SOURCE_PATH ?= freedom-metal
 METAL_LDSCRIPT	   = $(BSP_DIR)/metal.$(LINK_TARGET).lds
 METAL_HEADER	   = $(BSP_DIR)/metal.h
+METAL_INLINE       = $(BSP_DIR)/metal-inline.h
 PLATFORM_HEADER	   = $(BSP_DIR)/metal-platform.h
 
 METAL_PREFIX       = $(abspath $(BSP_DIR)/install)
@@ -27,6 +28,7 @@ $(METAL_BUILD_DIR)/Makefile:
 		--with-preconfigured \
 		--with-machine-name=$(TARGET) \
 		--with-machine-header=$(abspath $(METAL_HEADER)) \
+                --with-machine-inline=$(abspath $(METAL_INLINE)) \
 		--with-platform-header=$(abspath $(PLATFORM_HEADER)) \
 		--with-machine-ldscript=$(abspath $(METAL_LDSCRIPT)) \
 		--with-builtin-libgloss

@@ -11,6 +11,15 @@ $0: BSP Generator for the SiFive Freedom E SDK
 EOF
 }
 
+warn () {
+    echo "$0:" "$@" >&2
+}
+die () {
+    shift
+    warn "$@"
+    exit 1
+}
+
 unset DTSFILE
 unset CUSTOM_PATH
 unset CUSTOM_NAME
