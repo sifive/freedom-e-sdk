@@ -1,3 +1,9 @@
+/* Copyright 2019 SiFive, Inc */
+/* SPDX-License-Identifier: Apache-2.0 */
+/* ----------------------------------- */
+/* [XXXXX] 20-05-2019 14-26-09        */
+/* ----------------------------------- */
+
 OUTPUT_ARCH("riscv")
 
 ENTRY(_enter)
@@ -58,6 +64,12 @@ SECTIONS
 		*(.rdata)
 		*(.rodata .rodata.*)
 		*(.gnu.linkonce.r.*)
+		. = ALIGN(8);
+		*(.srodata.cst16)
+		*(.srodata.cst8)
+		*(.srodata.cst4)
+		*(.srodata.cst2)
+		*(.srodata .srodata.*)
 	} >flash AT>flash :flash
 
 
@@ -170,12 +182,6 @@ SECTIONS
 		PROVIDE( __global_pointer$ = . + 0x800 );
 		*(.sdata .sdata.* .sdata2.*)
 		*(.gnu.linkonce.s.*)
-		. = ALIGN(8);
-		*(.srodata.cst16)
-		*(.srodata.cst8)
-		*(.srodata.cst4)
-		*(.srodata.cst2)
-		*(.srodata .srodata.*)
 	} >ram AT>flash :ram_init
 
 
