@@ -18,6 +18,7 @@ struct metal_register_file my_regfile = {
 void illegal_instruction_fault_handler(struct metal_cpu *cpu, int ecode)
 {
 	if(ecode == ECODE_ILLEGAL_INSTRUCTION) {
+		printf("Caught illegal instruction in User mode\n");
 		exit(0);
 	} else {
 		exit(7);
@@ -81,6 +82,8 @@ int main()
 	if(rc != 0) {
 		return 5;
 	}
+
+	printf("Dropping privilege to User mode");
 
 	/* Drop to user mode */
 	metal_privilege_drop_to_mode(METAL_PRIVILEGE_USER, my_regfile, user_mode_entry_point);
