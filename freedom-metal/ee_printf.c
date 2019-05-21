@@ -54,7 +54,7 @@ static char *number(char *str, long num, int base, int size, int precision, int 
   if (type & UPPERCASE)  dig = upper_digits;
   if (type & LEFT) type &= ~ZEROPAD;
   if (base < 2 || base > 36) return 0;
-  
+
   c = (type & ZEROPAD) ? '0' : ' ';
   sign = 0;
   if (type & SIGN)
@@ -102,7 +102,7 @@ static char *number(char *str, long num, int base, int size, int precision, int 
   size -= precision;
   if (!(type & (ZEROPAD | LEFT))) while (size-- > 0) *str++ = ' ';
   if (sign) *str++ = sign;
-  
+
   if (type & HEX_PREP)
   {
     if (base == 8)
@@ -154,19 +154,19 @@ static char *iaddr(char *str, unsigned char *addr, int size, int precision, int 
   {
     if (i != 0) tmp[len++] = '.';
     n = addr[i];
-    
+
     if (n == 0)
       tmp[len++] = digits[0];
     else
     {
-      if (n >= 100) 
+      if (n >= 100)
       {
         tmp[len++] = digits[n / 100];
         n = n % 100;
         tmp[len++] = digits[n / 10];
         n = n % 10;
       }
-      else if (n >= 10) 
+      else if (n >= 10)
       {
         tmp[len++] = digits[n / 10];
         n = n % 10;
@@ -183,12 +183,12 @@ static char *iaddr(char *str, unsigned char *addr, int size, int precision, int 
   return str;
 }
 
-#ifdef HAS_FLOAT
+#if HAS_FLOAT
 
 char *ecvtbuf(double arg, int ndigits, int *decpt, int *sign, char *buf);
 char *fcvtbuf(double arg, int ndigits, int *decpt, int *sign, char *buf);
-static void ee_bufcpy(char *d, char *s, int count); 
- 
+static void ee_bufcpy(char *d, char *s, int count);
+
 void ee_bufcpy(char *pd, char *ps, int count) {
 	char *pe=ps+count;
 	while (ps!=pe)
@@ -310,7 +310,7 @@ static void decimal_point(char *buffer)
   if (*buffer)
   {
     int n = strnlen(buffer,256);
-    while (n > 0) 
+    while (n > 0)
     {
       buffer[n + 1] = buffer[n];
       n--;
@@ -419,7 +419,7 @@ static int ee_vsprintf(char *buf, const char *fmt, va_list args)
       *str++ = *fmt;
       continue;
     }
-                  
+
     // Process flags
     flags = 0;
 repeat:
@@ -432,7 +432,7 @@ repeat:
       case '#': flags |= HEX_PREP; goto repeat;
       case '0': flags |= ZEROPAD; goto repeat;
     }
-          
+
     // Get field width
     field_width = -1;
     if (is_digit(*fmt))
@@ -452,7 +452,7 @@ repeat:
     precision = -1;
     if (*fmt == '.')
     {
-      ++fmt;    
+      ++fmt;
       if (is_digit(*fmt))
         precision = skip_atoi(&fmt);
       else if (*fmt == '*')
@@ -529,7 +529,7 @@ repeat:
       case 'u':
         break;
 
-#ifdef HAS_FLOAT
+#if HAS_FLOAT
 
       case 'f':
         str = flt(str, va_arg(args, double), field_width, precision, *fmt, flags | SIGN);
@@ -566,12 +566,12 @@ void uart_send_char(char c) {
 	Wait until UART is ready
 	Write char to UART
 	Wait until UART is done
-	
+
 	Or in code:
 	while (*UART_CONTROL_ADDRESS != UART_READY);
 	*UART_DATA_ADDRESS = c;
 	while (*UART_CONTROL_ADDRESS != UART_READY);
-	
+
 	Check the UART sample code on your platform or the board documentation.
 */
 }
