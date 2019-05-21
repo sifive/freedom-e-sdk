@@ -28,7 +28,7 @@ void store_access_fault_handler(struct metal_cpu *cpu, int ecode)
 int main()
 {
 	int rc;
-	struct metal_cpu *cpu0;
+	struct metal_cpu *cpu;
 	struct metal_interrupt *cpu_intr;
 	struct metal_pmp *pmp;
 
@@ -43,21 +43,21 @@ int main()
 
 	printf("PMP Driver Example\n");
 
-	/* Initialize interrupt handling on CPU 0 */
-	cpu0 = metal_cpu_get(0);
-	if(!cpu0) {
-		printf("Unable to get CPU 0 handle\n");
+	/* Initialize interrupt handling on the current CPU */
+	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
+	if(!cpu) {
+		printf("Unable to get CPU handle\n");
 		return 1;
 	}
-	cpu_intr = metal_cpu_interrupt_controller(cpu0);
+	cpu_intr = metal_cpu_interrupt_controller(cpu);
 	if(!cpu_intr) {
-		printf("Unable to get CPU 0 Interrupt handle\n");
+		printf("Unable to get CPU Interrupt handle\n");
 		return 2;
 	}
 	metal_interrupt_init(cpu_intr);
 
 	/* Register a handler for the store access fault exception */
-	rc = metal_cpu_exception_register(cpu0, ECODE_STORE_FAULT, store_access_fault_handler);
+	rc = metal_cpu_exception_register(cpu, ECODE_STORE_FAULT, store_access_fault_handler);
 	if(rc < 0) {
 		printf("Failed to register exception handler\n");
 		return 3;
