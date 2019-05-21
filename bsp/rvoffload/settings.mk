@@ -1,0 +1,3 @@
+#FIXME: TEMP run on E51
+RISCV_ARCH=rv64imac
+RISCV_ABI=lp64
