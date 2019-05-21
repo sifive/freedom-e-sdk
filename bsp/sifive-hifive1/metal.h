@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-11        */
+/* [XXXXX] 21-05-2019 10-54-35        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -245,6 +245,16 @@ static inline struct metal_interrupt * __metal_driver_cpu_interrupt_controller(s
 	}
 	else {
 		return NULL;
+	}
+}
+
+static inline int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 0;
+	}
+	else {
+		return 0;
 	}
 }
 

@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-11        */
+/* [XXXXX] 21-05-2019 10-54-35        */
 /* ----------------------------------- */
 
 #ifndef SIFIVE_HIFIVE1_REVB__METAL_PLATFORM_H
@@ -45,11 +45,6 @@
 #define METAL_RISCV_PLIC0_ENABLE_BASE 8192UL
 #define METAL_RISCV_PLIC0_THRESHOLD 2097152UL
 #define METAL_RISCV_PLIC0_CLAIM 2097156UL
-
-/* From pmp@0 */
-#define METAL_RISCV_PMP_0_NUM_REGIONS 8UL
-
-#define METAL_RISCV_PMP
 
 /* From aon@10000000 */
 #define METAL_SIFIVE_AON0_10000000_BASE_ADDRESS 268435456UL

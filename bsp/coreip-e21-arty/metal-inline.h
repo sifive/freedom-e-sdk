@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-10        */
+/* [XXXXX] 21-05-2019 10-54-34        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -25,6 +25,7 @@ extern inline unsigned long __metal_driver_fixed_clock_rate(struct metal_clock *
 /* --------------------- cpu ------------ */
 extern inline int __metal_driver_cpu_timebase(struct metal_cpu *cpu);
 extern inline struct metal_interrupt * __metal_driver_cpu_interrupt_controller(struct metal_cpu *cpu);
+extern inline int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu);
 
 
 /* --------------------- sifive_plic0 ------------ */
@@ -171,11 +172,6 @@ struct __metal_driver_cpu __metal_dt_cpu_0 = {
 struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller = {
     .controller.vtable = &__metal_driver_vtable_riscv_cpu_intc.controller_vtable,
     .init_done = 0,
-};
-
-/* From pmp@0 */
-struct metal_pmp __metal_dt_pmp_0 = {
-    .num_regions = METAL_RISCV_PMP_0_NUM_REGIONS,
 };
 
 /* From interrupt_controller@2000000 */

@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-10        */
+/* [XXXXX] 21-05-2019 10-54-34        */
 /* ----------------------------------- */
 
 #ifndef COREIP_E21_ARTY__METAL_PLATFORM_H
@@ -11,11 +11,6 @@
 #define METAL_FIXED_CLOCK_0_CLOCK_FREQUENCY 32500000UL
 
 #define METAL_FIXED_CLOCK
-
-/* From pmp@0 */
-#define METAL_RISCV_PMP_0_NUM_REGIONS 4UL
-
-#define METAL_RISCV_PMP
 
 /* From interrupt_controller@2000000 */
 #define METAL_SIFIVE_CLIC0_2000000_BASE_ADDRESS 33554432UL

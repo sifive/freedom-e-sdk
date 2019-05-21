@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-11        */
+/* [XXXXX] 21-05-2019 10-54-35        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -141,7 +141,7 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_4_interrupt_controller;
 /* From interrupt_controller@c000000 */
 struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
 
-struct metal_pmp __metal_dt_pmp_0;
+struct metal_pmp __metal_dt_pmp;
 
 /* From gpio@10060000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10060000;
@@ -359,6 +359,28 @@ static inline struct metal_interrupt * __metal_driver_cpu_interrupt_controller(s
 	}
 	else {
 		return NULL;
+	}
+}
+
+static inline int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 8;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 8;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
+		return 8;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
+		return 8;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return 8;
+	}
+	else {
+		return 0;
 	}
 }
 
@@ -777,8 +799,7 @@ struct __metal_driver_cpu *__metal_cpu_table[] = {
 
 #define __METAL_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__metal_dt_interrupt_controller_c000000.controller)
 
-/* From pmp@0 */
-#define __METAL_DT_PMP_HANDLE (&__metal_dt_pmp_0)
+#define __METAL_DT_PMP_HANDLE (&__metal_dt_pmp)
 
 #define __MEE_DT_MAX_GPIOS 1
 
