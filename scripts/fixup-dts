@@ -43,7 +43,7 @@ if [ `grep -c 'riscv,pmp' ${dts}` -eq 0 ]; then
          $TARGET != "coreip-e20-rtl" -a \
          $TARGET != "coreip-e20-arty" ]; then
 
-        ${SED} -i 's/ranges;/ranges;\n\t\tpmp: pmp@0 {\n\t\t\tcompatible = "riscv,pmp";\n\t\t\tregions = <1>;\n\t\t};/' ${dts}
+        ${SED} -i '/riscv,isa/a riscv,pmpregions = <1>;' ${dts}
 
         echo -e "$0: \tAdded pmp@0"
     fi
