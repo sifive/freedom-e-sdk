@@ -37,6 +37,12 @@ ifeq ($(RISCV_CMODEL),)
 RISCV_CMODEL = medany
 endif
 
+ifeq ($(PROGRAM),dhrystone)
+ifeq ($(LINK_TARGET),)
+LINK_TARGET = ramrodata
+endif
+endif
+
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = default
 endif
@@ -101,6 +107,20 @@ RISCV_CCASFLAGS += --specs=nano.specs
 RISCV_CFLAGS    += --specs=nano.specs
 RISCV_CXXFLAGS  += --specs=nano.specs
 
+ifeq ($(PROGRAM),dhrystone)
+ifeq ($(DHRY_OPTION),)
+# Ground rules (default)
+RISCV_XCFLAGS += -mexplicit-relocs -fno-inline
+else ifeq ($(DHRY_OPTION),fast)
+# With inline and without lto
+RISCV_XCFLAGS += -mexplicit-relocs -finline
+else ifeq ($(DHRY_OPTION),best)
+# Best Score
+RISCV_XCFLAGS += -finline -flto -fwhole-program
+endif
+RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
+endif
+
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
 # Turn on linker map file generation
@@ -152,6 +172,7 @@ $(PROGRAM_ELF): \
 		CCASFLAGS="$(RISCV_CCASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
+		XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
