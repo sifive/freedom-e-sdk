@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 21-05-2019 10-54-34        */
+/* [XXXXX] 23-05-2019 13-29-49        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -170,6 +170,16 @@ static inline unsigned long __metal_driver_fixed_clock_rate(struct metal_clock *
 
 
 /* --------------------- cpu ------------ */
+static inline int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 0;
+	}
+	else {
+		return -1;
+	}
+}
+
 static inline int __metal_driver_cpu_timebase(struct metal_cpu *cpu)
 {
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
