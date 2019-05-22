@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-10        */
+/* [XXXXX] 21-05-2019 10-54-34        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -96,7 +96,7 @@ struct __metal_driver_cpu __metal_dt_cpu_0;
 
 struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller;
 
-struct metal_pmp __metal_dt_pmp_0;
+struct metal_pmp __metal_dt_pmp;
 
 /* From interrupt_controller@2000000 */
 struct __metal_driver_sifive_clic0 __metal_dt_interrupt_controller_2000000;
@@ -191,6 +191,16 @@ static inline struct metal_interrupt * __metal_driver_cpu_interrupt_controller(s
 	}
 	else {
 		return NULL;
+	}
+}
+
+static inline int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 4;
+	}
+	else {
+		return 0;
 	}
 }
 
@@ -1226,8 +1236,7 @@ asm (".weak __metal_cpu_table");
 struct __metal_driver_cpu *__metal_cpu_table[] = {
 					&__metal_dt_cpu_0};
 
-/* From pmp@0 */
-#define __METAL_DT_PMP_HANDLE (&__metal_dt_pmp_0)
+#define __METAL_DT_PMP_HANDLE (&__metal_dt_pmp)
 
 /* From interrupt_controller@2000000 */
 #define __METAL_DT_SIFIVE_CLIC0_HANDLE (&__metal_dt_interrupt_controller_2000000.controller)

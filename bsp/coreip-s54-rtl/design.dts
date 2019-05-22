@@ -17,6 +17,7 @@
 			i-cache-size = <16384>;
 			reg = <0x0>;
 			riscv,isa = "rv64imafdc";
+			riscv,pmpregions = <8>;
 			sifive,dtim = <&L6>;
 			sifive,itim = <&L5>;
 			status = "okay";
@@ -34,10 +35,6 @@
 		#size-cells = <2>;
 		compatible = "SiFive,FS540G-soc", "fs540-soc", "sifive-soc", "simple-bus";
 		ranges;
-                pmp: pmp@0 {
-                        compatible = "riscv,pmp";
-                        regions = <8>;
-                };
 		L12: axi4-periph-port@20000000 {
 			#address-cells = <2>;
 			#size-cells = <2>;
