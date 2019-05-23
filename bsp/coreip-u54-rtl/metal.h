@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 23-05-2019 13-29-49        */
+/* [XXXXX] 28-05-2019 10-06-15        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -69,13 +69,13 @@
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
-#include <metal/drivers/riscv,clint0.h>
-#include <metal/drivers/riscv,cpu.h>
-#include <metal/drivers/riscv,plic0.h>
+#include <metal/drivers/riscv_clint0.h>
+#include <metal/drivers/riscv_cpu.h>
+#include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
-#include <metal/drivers/sifive,global-external-interrupts0.h>
-#include <metal/drivers/sifive,test0.h>
-#include <metal/drivers/sifive,fu540-c000,l2.h>
+#include <metal/drivers/sifive_global-external-interrupts0.h>
+#include <metal/drivers/sifive_test0.h>
+#include <metal/drivers/sifive_fu540-c000_l2.h>
 
 struct metal_memory __metal_dt_mem_itim_1800000;
 

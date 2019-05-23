@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 23-05-2019 13-29-50        */
+/* [XXXXX] 28-05-2019 10-06-20        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -73,19 +73,19 @@
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
-#include <metal/drivers/riscv,clint0.h>
-#include <metal/drivers/riscv,cpu.h>
-#include <metal/drivers/riscv,plic0.h>
+#include <metal/drivers/riscv_clint0.h>
+#include <metal/drivers/riscv_cpu.h>
+#include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
-#include <metal/drivers/sifive,local-external-interrupts0.h>
-#include <metal/drivers/sifive,gpio0.h>
-#include <metal/drivers/sifive,gpio-leds.h>
-#include <metal/drivers/sifive,spi0.h>
-#include <metal/drivers/sifive,uart0.h>
-#include <metal/drivers/sifive,fe310-g000,hfrosc.h>
-#include <metal/drivers/sifive,fe310-g000,hfxosc.h>
-#include <metal/drivers/sifive,fe310-g000,pll.h>
-#include <metal/drivers/sifive,fe310-g000,prci.h>
+#include <metal/drivers/sifive_local-external-interrupts0.h>
+#include <metal/drivers/sifive_gpio0.h>
+#include <metal/drivers/sifive_gpio-leds.h>
+#include <metal/drivers/sifive_spi0.h>
+#include <metal/drivers/sifive_uart0.h>
+#include <metal/drivers/sifive_fe310-g000_hfrosc.h>
+#include <metal/drivers/sifive_fe310-g000_hfxosc.h>
+#include <metal/drivers/sifive_fe310-g000_pll.h>
+#include <metal/drivers/sifive_fe310-g000_prci.h>
 
 /* From clock@0 */
 struct __metal_driver_fixed_clock __metal_dt_clock_0;
