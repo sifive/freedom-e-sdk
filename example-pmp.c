@@ -36,10 +36,10 @@ int main()
 	size_t protected_addr = ((size_t) &protected_global) >> 2;
 	
 	/* Clear the bit corresponding with alignment */
-	protected_addr &= ~(NAPOT_SIZE >> 2);
+	protected_addr &= ~(NAPOT_SIZE >> 3);
 
 	/* Set the bits up to the alignment bit */
-	protected_addr |= ((NAPOT_SIZE >> 2) - 1);
+	protected_addr |= ((NAPOT_SIZE >> 3) - 1);
 
 	printf("PMP Driver Example\n");
 
