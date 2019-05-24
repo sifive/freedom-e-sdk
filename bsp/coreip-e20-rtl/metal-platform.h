@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-09        */
+/* [XXXXX] 23-05-2019 13-29-49        */
 /* ----------------------------------- */
 
 #ifndef COREIP_E20_RTL__METAL_PLATFORM_H

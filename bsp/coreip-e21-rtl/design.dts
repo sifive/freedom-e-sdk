@@ -14,6 +14,7 @@
 			device_type = "cpu";
 			reg = <0x0>;
 			riscv,isa = "rv32imac";
+			riscv,pmpregions = <4>;
 			status = "okay";
 			timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -29,10 +30,6 @@
 		#size-cells = <1>;
 		compatible = "SiFive,FE210G-soc", "fe210-soc", "sifive-soc", "simple-bus";
 		ranges;
- 		pmp: pmp@0 {
- 			compatible = "riscv,pmp";
- 			regions = <8>;
- 		};
 		L11: ahb-periph-port@20000000 {
 			#address-cells = <1>;
 			#size-cells = <1>;

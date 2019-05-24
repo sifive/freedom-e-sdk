@@ -28,6 +28,7 @@
 			next-level-cache = <&L14 &L15>;
 			reg = <0x0>;
 			riscv,isa = "rv64imafdc";
+			riscv,pmpregions = <8>;
 			status = "okay";
 			timebase-frequency = <65000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -47,10 +48,6 @@
 		#size-cells = <1>;
 		compatible = "SiFive,FS760G-soc", "fs710-soc", "sifive-soc", "simple-bus";
 		ranges;
-		pmp: pmp@0 {
-			compatible = "riscv,pmp";
-			regions = <1>;
-		};
 		L2: clint@2000000 {
 			compatible = "riscv,clint0";
 			interrupts-extended = <&L4 3 &L4 7>;

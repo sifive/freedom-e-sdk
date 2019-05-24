@@ -25,6 +25,7 @@
                         next-level-cache = <&spi0>;
                         reg = <0>;
                         riscv,isa = "rv32imac";
+                        riscv,pmpregions = <8>;
                         sifive,dtim = <&dtim>;
                         status = "okay";
                         timebase-frequency = <1000000>;
@@ -43,12 +44,6 @@
                 #clock-cells = <1>;
                 compatible = "sifive,hifive1";
                 ranges;
-
-		pmp: pmp@0 {
-			compatible = "riscv,pmp";
-			regions = <8>;
-		};
-
                 hfxoscin: clock@0 {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";

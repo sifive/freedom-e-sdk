@@ -25,6 +25,7 @@
 			next-level-cache = <&L10>;
 			reg = <0x0>;
 			riscv,isa = "rv64imac";
+			riscv,pmpregions = <8>;
 			sifive,dtim = <&L6>;
 			sifive,itim = <&L5>;
 			status = "okay";
@@ -46,10 +47,6 @@
 			#clock-cells = <0>;
 			compatible = "fixed-clock";
 			clock-frequency = <32500000>;
-		};
-		pmp: pmp@0 {
-			compatible = "riscv,pmp";
-			regions = <8>;
 		};
 		L2: clint@2000000 {
 			compatible = "riscv,clint0";

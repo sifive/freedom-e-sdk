@@ -139,7 +139,7 @@ list-target-tags:
 # Metal programs are any submodules in the software folder
 .PHONY: list-programs
 list-programs:
-	@echo program-list: $(shell grep -o '= software/.*$$' .gitmodules | sed 's/.*\///')
+	@echo program-list: $(shell ls $(PROGRAM_ROOT)/software)
 
 .PHONY: list-options
 list-options: list-programs list-targets

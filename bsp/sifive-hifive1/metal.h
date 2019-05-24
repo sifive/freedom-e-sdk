@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-11        */
+/* [XXXXX] 23-05-2019 13-29-50        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -228,6 +228,16 @@ static inline int __metal_driver_sifive_clint0_interrupt_lines(struct metal_inte
 
 
 /* --------------------- cpu ------------ */
+static inline int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 0;
+	}
+	else {
+		return -1;
+	}
+}
+
 static inline int __metal_driver_cpu_timebase(struct metal_cpu *cpu)
 {
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
@@ -245,6 +255,16 @@ static inline struct metal_interrupt * __metal_driver_cpu_interrupt_controller(s
 	}
 	else {
 		return NULL;
+	}
+}
+
+static inline int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 0;
+	}
+	else {
+		return 0;
 	}
 }
 

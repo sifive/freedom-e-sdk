@@ -46,3 +46,9 @@
 [submodule "software/multicore-hello"]
 	path = software/multicore-hello
 	url = https://github.com/sifive/example-multicore-hello.git
+[submodule "software/example-user-mode"]
+	path = software/example-user-mode
+	url = https://github.com/sifive/example-user-mode.git
+[submodule "software/example-user-syscall"]
+	path = software/example-user-syscall
+	url = https://github.com/sifive/example-user-syscall.git

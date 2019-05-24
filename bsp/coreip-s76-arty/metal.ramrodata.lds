@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 20-05-2019 14-26-10        */
+/* [XXXXX] 23-05-2019 13-29-49        */
 /* ----------------------------------- */
 
 OUTPUT_ARCH("riscv")
@@ -28,6 +28,7 @@ SECTIONS
 	__stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
 	PROVIDE(__stack_size = __stack_size);
 	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x400;
+	PROVIDE(__metal_boot_hart = 0);
 
 
 	.init 		:

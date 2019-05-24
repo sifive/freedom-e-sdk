@@ -33,6 +33,7 @@
 			next-level-cache = <&L24 &L0>;
 			reg = <0>;
 			riscv,isa = "rv64imac";
+			riscv,pmpregions = <8>;
 			sifive,dtim = <&L8>;
 			sifive,itim = <&L7>;
 			status = "okay";
@@ -60,6 +61,7 @@
 			next-level-cache = <&L24 &L0>;
 			reg = <1>;
 			riscv,isa = "rv64imafdc";
+			riscv,pmpregions = <8>;
 			sifive,itim = <&L11>;
 			status = "okay";
 			tlb-split;
@@ -87,6 +89,7 @@
 			next-level-cache = <&L24 &L0>;
 			reg = <2>;
 			riscv,isa = "rv64imafdc";
+			riscv,pmpregions = <8>;
 			sifive,itim = <&L14>;
 			status = "okay";
 			tlb-split;
@@ -114,6 +117,7 @@
 			next-level-cache = <&L24 &L0>;
 			reg = <3>;
 			riscv,isa = "rv64imafdc";
+			riscv,pmpregions = <8>;
 			sifive,itim = <&L17>;
 			status = "okay";
 			tlb-split;
@@ -141,6 +145,7 @@
 			next-level-cache = <&L24 &L0>;
 			reg = <4>;
 			riscv,isa = "rv64imafdc";
+			riscv,pmpregions = <8>;
 			sifive,itim = <&L20>;
 			status = "okay";
 			tlb-split;
@@ -160,10 +165,6 @@
 		#size-cells = <2>;
 		compatible = "SiFive,FU540G-soc", "fu500-soc", "sifive-soc", "simple-bus";
 		ranges;
-		pmp: pmp@0 {
-			compatible = "riscv,pmp";
-			regions = <1>;
-		};
 		refclk: refclk {
 			#clock-cells = <0>;
 			compatible = "fixed-clock";
