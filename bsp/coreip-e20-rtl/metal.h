@@ -1,7 +1,7 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 23-05-2019 13-29-49        */
+/* [XXXXX] 28-05-2019 10-05-53        */
 /* ----------------------------------- */
 
 #ifndef ASSEMBLY
@@ -63,11 +63,11 @@
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
-#include <metal/drivers/riscv,cpu.h>
+#include <metal/drivers/riscv_cpu.h>
 #include <metal/pmp.h>
-#include <metal/drivers/sifive,clic0.h>
-#include <metal/drivers/sifive,local-external-interrupts0.h>
-#include <metal/drivers/sifive,test0.h>
+#include <metal/drivers/sifive_clic0.h>
+#include <metal/drivers/sifive_local-external-interrupts0.h>
+#include <metal/drivers/sifive_test0.h>
 
 struct metal_memory __metal_dt_mem_testram_20000000;
 
