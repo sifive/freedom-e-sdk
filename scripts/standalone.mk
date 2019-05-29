@@ -49,6 +49,14 @@ ifeq ($(LINK_TARGET),)
 endif
 endif
 
+ifeq ($(PROGRAM),coremark)
+ifeq ($(CONFIGURATION),release)
+ifeq ($(LINK_TARGET),)
+LINK_TARGET = ramrodata
+endif
+endif
+endif
+
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = default
 endif
@@ -125,6 +133,15 @@ else ifeq ($(DHRY_OPTION),best)
 RISCV_XCFLAGS += -finline -flto -fwhole-program
 endif
 RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
+endif
+
+ifeq ($(PROGRAM),coremark)
+ifeq ($(RISCV_SERIES),sifive-7-series)
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
+else
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions --param max-inline-insns-auto=20 -falign-functions=4 -falign-jumps=4 -falign-loops=4 --param inline-min-speedup=10
+endif
+RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
 endif
 
 # Turn on garbage collection for unused sections
