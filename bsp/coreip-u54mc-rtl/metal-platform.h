@@ -1,7 +1,6 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 /* ----------------------------------- */
-/* [XXXXX] 28-05-2019 10-06-13        */
 /* ----------------------------------- */
 
 #ifndef COREIP_U54MC_RTL__METAL_PLATFORM_H
