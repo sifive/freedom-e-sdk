@@ -3,8 +3,8 @@
 # ----------------------------------- #
 # ----------------------------------- #
 
-RISCV_ARCH=rv64imafdc
-RISCV_ABI=lp64d
+RISCV_ARCH=rv64imac
+RISCV_ABI=lp64
 RISCV_CMODEL=medany
 RISCV_SERIES=sifive-5-series
 
