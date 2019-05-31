@@ -5,9 +5,6 @@
 	#size-cells = <2>;
 	compatible = "SiFive,FU540G-dev", "fu540-dev", "sifive-dev";
 	model = "SiFive,FU540G";
-	chosen {
-		metal,boothart = <&L13>;
-	};
 	L36: cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
