@@ -39,7 +39,13 @@ endif
 
 ifeq ($(PROGRAM),dhrystone)
 ifeq ($(LINK_TARGET),)
-LINK_TARGET = ramrodata
+  ifneq ($(TARGET),freedom-e310-arty)
+  ifneq ($(TARGET),sifive-hifive1)
+  ifneq ($(TARGET),sifive-hifive1-revb)
+    LINK_TARGET = ramrodata
+  endif
+  endif
+  endif
 endif
 endif
 
