@@ -38,7 +38,6 @@ CLEAN_OBJS += $(TARGET) $(LINK_OBJS)
 CFLAGS += -g
 CFLAGS += -march=$(RISCV_ARCH)
 CFLAGS += -mabi=$(RISCV_ABI)
-CFLAGS += -mcmodel=medany
 
 $(TARGET): $(LINK_OBJS) $(LINK_DEPS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LINK_OBJS) -o $@ $(LDFLAGS)
