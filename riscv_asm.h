@@ -5,12 +5,6 @@
 #ifndef METAL__RISCV_ASM_H
 #define METAL__RISCV_ASM_H
 
-#define ADD_TEST_LABEL ADD
-#define XOR_TEST_ID 200
-#define MUL_TEST_ID 300
-#define DIV_TEST_ID 400
-#define CSR_TEST_ID 500
-
 #define PASS 0
 #define FAIL 1
 
