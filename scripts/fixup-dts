@@ -129,7 +129,7 @@ if [ `grep -c 'sifive,testram0' ${dts}` -eq 0 ]; then
                 if [ `grep -c "${protocol}-${port_type}-port" ${dts}` -ne 0 ]; then
                     
                     # Build the node name
-                    port_node_name=`egrep -o "${protocol}-${port_type}-port@[a-fA-F0-9]+" ${dts}`
+                    port_node_name=`egrep -o "${protocol}-${port_type}-port@[a-fA-F0-9]+" ${dts} | head -n 1`
                     echo -e "$0: \tUsing node \t${port_node_name}"
 
                     # Get the address and size cells
