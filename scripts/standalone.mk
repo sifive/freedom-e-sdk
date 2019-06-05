@@ -49,6 +49,14 @@ ifeq ($(LINK_TARGET),)
 endif
 endif
 
+ifeq ($(PROGRAM),coremark)
+ifeq ($(CONFIGURATION),release)
+ifeq ($(LINK_TARGET),)
+LINK_TARGET = ramrodata
+endif
+endif
+endif
+
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = default
 endif
@@ -127,6 +135,15 @@ endif
 RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
 endif
 
+ifeq ($(PROGRAM),coremark)
+ifeq ($(RISCV_SERIES),sifive-7-series)
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
+else
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions --param max-inline-insns-auto=20 -falign-functions=4 -falign-jumps=4 -falign-loops=4 --param inline-min-speedup=10
+endif
+RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
+endif
+
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
 # Turn on linker map file generation
@@ -171,6 +188,7 @@ $(PROGRAM_ELF): \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
+		PORT_DIR=$(PORT_DIR) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
