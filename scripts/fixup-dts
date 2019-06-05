@@ -140,19 +140,19 @@ if [ `grep -c 'sifive,testram0' ${dts}` -eq 0 ]; then
 
                     # Get the base address and size
                     if [ ${address_cells} -eq 1 -a ${size_cells} -eq 1 ]; then
-                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ \K(0x\d+ 0x\d+)"`)
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x[[:xdigit:]]+ \K(0x[[:xdigit:]]+ 0x[[:xdigit:]]+)"`)
                         base_address=${address_and_size[0]}
                         size=${address_and_size[1]}
                     elif [ ${address_cells} -eq 1 -a ${size_cells} -eq 2 ]; then
-                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ \K(0x\d+ 0x\d+ 0x\d+)"`)
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x[[:xdigit:]]+ \K(0x[[:xdigit:]]+ 0x[[:xdigit:]]+ 0x[[:xdigit:]]+)"`)
                         base_address=${address_and_size[0]}
                         size="${address_and_size[1]} ${address_and_size[2]}"
                     elif [ ${address_cells} -eq 2 -a ${size_cells} -eq 1 ]; then
-                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ 0x\d+ \K(0x\d+ 0x\d+ 0x\d+)"`)
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x[[:xdigit:]]+ 0x[[:xdigit:]]+ \K(0x[[:xdigit:]]+ 0x[[:xdigit:]]+ 0x[[:xdigit:]]+)"`)
                         base_address="${address_and_size[0]} ${address_and_size[1]}"
                         size=${address_and_size[2]}
                     elif [ ${address_cells} -eq 2 -a ${size_cells} -eq 2 ]; then
-                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x\d+ 0x\d+ \K(0x\d+ 0x\d+ 0x\d+ 0x\d+)"`)
+                        address_and_size=(`cat ${dts} | tr -d '\n\t' | grep -oP "${port_node_name}.*?ranges = <0x[[:xdigit:]]+ 0x[[:xdigit:]]+ \K(0x[[:xdigit:]]+ 0x[[:xdigit:]]+ 0x[[:xdigit:]]+ 0x[[:xdigit:]]+)"`)
                         base_address="${address_and_size[0]} ${address_and_size[1]}"
                         size="${address_and_size[2]} ${address_and_size[3]}"
                     fi
