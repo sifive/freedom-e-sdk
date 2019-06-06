@@ -20,6 +20,19 @@ endif
 PROGRAM ?= hello
 TARGET ?= sifive-hifive1
 
+# Setup differences between host platforms
+ifeq ($(OS),Windows_NT)
+    SED_RE_FLAG = -r
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        SED_RE_FLAG = -r
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        SED_RE_FLAG = -E
+    endif
+endif
+
 # Coremark require PORT_DIR set for different OS, freedom-metal for us!
 ifeq ($(PROGRAM),coremark)
 ifeq ($(PORT_DIR),)
@@ -145,7 +158,7 @@ list-targets:
 list-target-tags:
 	@echo target-tags: $(shell find $(TARGET_ROOT)/bsp -name settings.mk | \
 		xargs grep -he "TARGET_TAGS" | \
-		sed -r 's/TARGET_TAGS.*=(.*)/\1/' | \
+		sed $(SED_RE_FLAG) 's/TARGET_TAGS.*=(.*)/\1/' | \
 		tr ' ' '\n' | \
 		sort | \
 		uniq)
