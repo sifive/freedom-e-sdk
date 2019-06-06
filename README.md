@@ -95,12 +95,12 @@ operating systems to RISC-V.
   - example-pmp
     - Demonstrates how to configure a Physical Memory Protection (PMP) region
   - sifive-welcome
-    - Prints the SiFive banner and blinks LEDs 
+    - Prints the SiFive banner and blinks LEDs
   - dhrystone
     - "Dhrystone" Benchmark Program by Reinhold P. Weicker
   - coremark
     - "CoreMark" Benchmark Program that measures the performance of embedded
-      microcrontrollers (MCU)
+      microcrontrollers (MCU) Please use SiFive GNU Embedded Toolchain >= v2019.05
 
 ### Setting up the SDK ###
 
