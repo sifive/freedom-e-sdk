@@ -818,7 +818,7 @@ static inline unsigned long __metal_driver_sifive_spi0_control_size(struct metal
 
 static inline struct metal_clock * __metal_driver_sifive_spi0_clock(struct metal_spi *spi)
 {
-		return NULL;
+		return (struct metal_clock *)&__metal_dt_clock_0.clock;
 }
 
 static inline struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_spi0_pinmux(struct metal_spi *spi)
