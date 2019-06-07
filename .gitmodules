@@ -61,3 +61,6 @@
 [submodule "software/test-coreip"]
 	path = software/test-coreip
 	url = https://github.com/sifive/test-coreip.git
+[submodule "software/qspi-interface"]
+	path = software/qspi-interface
+	url = https://github.com/sifive/qspi-interface.git
