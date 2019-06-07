@@ -55,3 +55,6 @@
 [submodule "software/coremark"]
 	path = software/coremark
 	url = https://github.com/sifive/benchmark-coremark.git
+[submodule "freedom-devicetree-tools"]
+	path = freedom-devicetree-tools
+	url = git@github.com:sifive/freedom-devicetree-tools.git
