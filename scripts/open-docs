@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 SDK_PATH="$( cd "$(dirname "$0")/.." ; pwd -P )"
 DOCS_PATH=$SDK_PATH/doc/html/index.html
