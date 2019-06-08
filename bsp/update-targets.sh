@@ -45,9 +45,10 @@ then
     TARGET_LIST="$(ls -d coreip*) "
     TARGET_LIST+="sifive-hifive1 sifive-hifive1-revb freedom-e310-arty sifive-hifive-unleashed "
 else
-    if [ ! -f "$DTSFILE" -a "$DTSFILE" != "*.dts" ]
+    file "$DTSFILE"
+    if [ ! -f "$DTSFILE" ]
     then
-        echo "[ERROR] $0: $DTSFILE must be a dts file" >&2
+        echo "[ERROR] $0: $DTSFILE must be a file" >&2
         help "$0"
         exit 1
     fi
