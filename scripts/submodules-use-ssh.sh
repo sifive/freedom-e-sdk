@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 # By default, when you clone Freedom E SDK, submodules are instantiated with their
 # origin URLs pointing to GitHub's HTTPS URL for the repository.
