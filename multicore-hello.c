@@ -34,6 +34,10 @@ int secondary_main(void) {
 			exit(1);
 		}
 
+		/* Ensure that the lock is initialized before any readers of
+		 * _start_other */
+		__asm__ ("fence rw,w"); /* Release semantics */
+
 		_start_other = 1;
 
 		return main();
