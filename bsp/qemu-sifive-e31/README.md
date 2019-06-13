@@ -10,3 +10,5 @@ This target is ideal for getting familiarize with RISC-V ISA instructions set an
 - SPI memory with 1 interrupt line
 - Serial port with 1 interrupt line
 - 1 RGB LEDS
+
+This BSP matches the QEMU code in https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1
