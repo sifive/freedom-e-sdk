@@ -30,7 +30,7 @@ int secondary_main(void) {
 	if(hartid == 0) {
 		int rc = metal_lock_init(&my_lock);
 		if(rc != 0) {
-			printf("Failed to initialize my_lock: %d", rc);
+			puts("Failed to initialize my_lock\n");
 			exit(1);
 		}
 
@@ -58,7 +58,7 @@ int main(void) {
 
 	metal_lock_take(&my_lock);
 
-	printf("Hart 0\n");
+	puts("Hart 0\n");
 	fflush(stdout);
 
 	checkin_count += 1;
@@ -75,7 +75,7 @@ int other_main(int hartid) {
 
 	metal_lock_take(&my_lock);
 
-	printf("Hart %d\n", hartid);
+	puts("Other Hart\n");
 	fflush(stdout);
 
 	checkin_count += 1;
