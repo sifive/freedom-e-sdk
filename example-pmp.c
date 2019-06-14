@@ -9,8 +9,8 @@
 
 #define ECODE_STORE_FAULT	7
 
-#define NAPOT_SIZE 128
-#define PROTECTED_ARRAY_LENGTH 32
+#define NAPOT_SIZE 4096
+#define PROTECTED_ARRAY_LENGTH 1024
 volatile uint32_t protected_global[PROTECTED_ARRAY_LENGTH] __attribute__((aligned(NAPOT_SIZE)));
 
 void store_access_fault_handler(struct metal_cpu *cpu, int ecode)
