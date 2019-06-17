@@ -50,10 +50,8 @@ endif
 endif
 
 ifeq ($(PROGRAM),coremark)
-ifeq ($(CONFIGURATION),release)
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = ramrodata
-endif
 endif
 endif
 
@@ -121,6 +119,27 @@ RISCV_CCASFLAGS += --specs=nano.specs
 RISCV_CFLAGS    += --specs=nano.specs
 RISCV_CXXFLAGS  += --specs=nano.specs
 
+# Turn on garbage collection for unused sections
+RISCV_LDFLAGS += -Wl,--gc-sections
+# Turn on linker map file generation
+RISCV_LDFLAGS += -Wl,-Map,$(PROGRAM).map
+# Turn off the C standard library
+RISCV_LDFLAGS += -nostartfiles -nostdlib
+# Find the archive files and linker scripts
+RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
+
+# Link to the relevant libraries
+RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group
+
+# Load the configuration Makefile
+CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
+ifeq ($(words $(CONFIGURATION_FILE)),0)
+$(error Unable to find the Makefile $(CONFIGURATION).mk for CONFIGURATION=$(CONFIGURATION))
+endif
+include $(CONFIGURATION).mk
+
+# Benchmark CFLAGS go after loading the CONFIGURATION so that they can override the optimization level
+
 ifeq ($(PROGRAM),dhrystone)
 ifeq ($(DHRY_OPTION),)
 # Ground rules (default)
@@ -143,25 +162,6 @@ RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions --param max-i
 endif
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
 endif
-
-# Turn on garbage collection for unused sections
-RISCV_LDFLAGS += -Wl,--gc-sections
-# Turn on linker map file generation
-RISCV_LDFLAGS += -Wl,-Map,$(PROGRAM).map
-# Turn off the C standard library
-RISCV_LDFLAGS += -nostartfiles -nostdlib
-# Find the archive files and linker scripts
-RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
-
-# Link to the relevant libraries
-RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group
-
-# Load the configuration Makefile
-CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
-ifeq ($(words $(CONFIGURATION_FILE)),0)
-$(error Unable to find the Makefile $(CONFIGURATION).mk for CONFIGURATION=$(CONFIGURATION))
-endif
-include $(CONFIGURATION).mk
 
 #############################################################
 # Software
