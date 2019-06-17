@@ -42,13 +42,6 @@ int secondary_main(void) {
 
 		return main();
 	} else {
-		/* We can't count on hart 0 to initialize _start_other before
-		 * the other harts get here because hart 0 is in charge of copying
-		 * the data section, zeroing bss, and running the constructors.
-		 * The other harts will always zero _start_other here long before
-		 * hart 0 gets around to setting it to 1 */
-		_start_other = 0;
-
 		return other_main(hartid);
 	}
 }
