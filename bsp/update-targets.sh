@@ -80,6 +80,7 @@ MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=freedom-ldscript-generator
 MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
 BARE_HEADER_GENERATOR=freedom-bare_header-generator
+OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
 
 DTS_FILENAME=design.dts
 DTB_FILENAME=temp.dtb
@@ -89,6 +90,7 @@ LDS_RAMRODATA_FILENAME=metal.ramrodata.lds
 LDS_SCRATCHPAD_FILENAME=metal.scratchpad.lds
 SETTINGS_FILENAME=settings.mk
 BARE_HEADER_FILENAME=metal-platform.h
+OPENOCDCFG_FILENAME=openocd.cfg
 
 update_target() {
     TARGET=$1
@@ -112,6 +114,12 @@ update_target() {
     $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
     $MAKEATTRIB_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
     $BARE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME"
+
+    if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "hifive" ]] ; then
+        if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
+            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
+        fi
+    fi
 
     # Remove temporary .dtb
     rm $TARGET/$DTB_FILENAME
