@@ -221,7 +221,7 @@ endif
 
 .PHONY: clean-software
 clean-software:
-	$(MAKE) -C $(SRC_DIR) clean
+	$(MAKE) -C $(SRC_DIR) PORT_DIR=$(PORT_DIR) clean
 	rm -rf $(SRC_DIR)/$(CONFIGURATION)
 .PHONY: clean
 clean: clean-software
