@@ -214,7 +214,11 @@ standalone: \
 
 	find $</scripts/elf2hex -name ".git*" | xargs rm -rf
 
+ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
+else
+	$(MAKE) -C $(SRC_DIR) PORT_DIR=${PORT_DIR} clean
+endif
 	cp -r $(SRC_DIR)/* $</src/
 
 	cp debug.mk $</debug.mk
@@ -222,7 +226,7 @@ standalone: \
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 ifneq ($(PORT_DIR),)
-	echo "PORT_DIR = $(PORT_DIR)" > $</Makefile
+	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
@@ -243,7 +247,11 @@ standalone: \
 
 	find $</freedom-metal -name ".git*" | xargs rm -rf
 
+ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
+else
+	$(MAKE) -C $(SRC_DIR) PORT_DIR=${PORT_DIR} clean
+endif
 	cp -r $(SRC_DIR)/* $</src/
 
 	cp debug.mk $</debug.mk
@@ -251,7 +259,7 @@ standalone: \
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 ifneq ($(PORT_DIR),)
-        echo "PORT_DIR = $(PORT_DIR)" > $</Makefile
+	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
