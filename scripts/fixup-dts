@@ -29,26 +29,6 @@ else
     SED=gsed
 fi
 
-# Add a PMP node if it doesn't exist
-
-if [ `grep -c 'riscv,pmp' ${dts}` -eq 0 ]; then
-
-    echo "$0: PMP node not found in ${dts}."
-
-    # Check for targets without PMP support
-
-    TARGET=`echo ${dts} | cut -d '/' -f 1`
-    if [ "$TARGET" != "freedom-e310-arty" -a \
-         "$TARGET" != "sifive-hifive1" -a \
-         "$TARGET" != "coreip-e20-rtl" -a \
-         "$TARGET" != "coreip-e20-arty" ]; then
-
-        ${SED} -i '/riscv,isa/a riscv,pmpregions = <1>;' ${dts}
-
-        echo -e "$0: \tAdded pmp@0"
-    fi
-fi
-
 # Add numintbits for the clic node if it doesn't exist
 
 if [ `grep -c 'sifive,clic0' ${dts}` -ne 0 ]; then
