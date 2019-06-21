@@ -3,8 +3,8 @@
 /* ----------------------------------- */
 /* ----------------------------------- */
 
-#ifndef QEMU_SIFIVE_S51__METAL_PLATFORM_H
-#define QEMU_SIFIVE_S51__METAL_PLATFORM_H
+#ifndef QEMU_SIFIVE_S51____METAL_PLATFORM_H
+#define QEMU_SIFIVE_S51____METAL_PLATFORM_H
 
 /* From clock@0 */
 #define METAL_FIXED_CLOCK_0_CLOCK_FREQUENCY 16000000UL
@@ -219,4 +219,4 @@
 #define METAL_SIFIVE_UART0_IP 20UL
 #define METAL_SIFIVE_UART0_DIV 24UL
 
-#endif /* QEMU_SIFIVE_S51__METAL_PLATFORM_H*/
+#endif /* QEMU_SIFIVE_S51____METAL_PLATFORM_H*/

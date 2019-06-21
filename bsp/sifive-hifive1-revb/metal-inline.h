@@ -5,8 +5,8 @@
 
 #ifndef ASSEMBLY
 
-#ifndef SIFIVE_HIFIVE1_REVB__METAL_INLINE_H
-#define SIFIVE_HIFIVE1_REVB__METAL_INLINE_H
+#ifndef SIFIVE_HIFIVE1_REVB____METAL_INLINE_H
+#define SIFIVE_HIFIVE1_REVB____METAL_INLINE_H
 
 #include <metal/machine.h>
 
@@ -245,5 +245,5 @@ struct __metal_driver_sifive_fe310_g000_prci __metal_dt_prci_10008000 = {
 };
 
 
-#endif /* SIFIVE_HIFIVE1_REVB__METAL_INLINE_H*/
+#endif /* SIFIVE_HIFIVE1_REVB____METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */

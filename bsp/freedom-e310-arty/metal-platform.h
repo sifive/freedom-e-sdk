@@ -3,8 +3,8 @@
 /* ----------------------------------- */
 /* ----------------------------------- */
 
-#ifndef FREEDOM_E310_ARTY__METAL_PLATFORM_H
-#define FREEDOM_E310_ARTY__METAL_PLATFORM_H
+#ifndef FREEDOM_E310_ARTY____METAL_PLATFORM_H
+#define FREEDOM_E310_ARTY____METAL_PLATFORM_H
 
 /* From clock@0 */
 #define METAL_FIXED_CLOCK_0_CLOCK_FREQUENCY 65000000UL
@@ -122,4 +122,4 @@
 #define METAL_SIFIVE_UART0_IP 20UL
 #define METAL_SIFIVE_UART0_DIV 24UL
 
-#endif /* FREEDOM_E310_ARTY__METAL_PLATFORM_H*/
+#endif /* FREEDOM_E310_ARTY____METAL_PLATFORM_H*/
