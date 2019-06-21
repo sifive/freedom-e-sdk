@@ -50,7 +50,7 @@
                         clock-frequency = <16000000>;
                 };
                 hfxoscout: clock@1 {
-                        compatible = "sifive,fs510-g000,hfxosc";
+                        compatible = "sifive,fe310-g000,hfxosc";
                         clocks = <&hfxoscin>;
                         reg = <&prci 0x4>;
                         reg-names = "config";
@@ -61,13 +61,13 @@
                         clock-frequency = <72000000>;
                 };
                 hfroscout: clock@3 {
-                        compatible = "sifive,fs510-g000,hfrosc";
+                        compatible = "sifive,fe310-g000,hfrosc";
                         clocks = <&hfroscin>;
                         reg = <&prci 0x0>;
                         reg-names = "config";
                 };
                 hfclk: clock@4 {
-                        compatible = "sifive,fs510-g000,pll";
+                        compatible = "sifive,fe310-g000,pll";
                         clocks = <&hfxoscout &hfroscout>;
                         clock-names = "pllref", "pllsel0";
                         reg = <&prci 0x8 &prci 0xc>;
@@ -81,7 +81,7 @@
                         clock-frequency = <32000000>;
                 };
                 lfclk: clock@6 {
-                        compatible = "sifive,fs510-g000,lfrosc";
+                        compatible = "sifive,fe310-g000,lfrosc";
                         clocks = <&lfroscin>;
                         reg = <&aon 0x70>;
                         reg-names = "config";
@@ -94,7 +94,7 @@
                 };
 
                 prci: prci@10008000 {
-                        compatible = "sifive,fs510-g000,prci";
+                        compatible = "sifive,fe310-g000,prci";
                         reg = <0x10008000 0x8000>;
                         reg-names = "mem";
                 };
