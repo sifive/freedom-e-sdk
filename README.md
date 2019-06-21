@@ -29,34 +29,16 @@ operating systems to RISC-V.
   - Supported Targets:
     - [SiFive HiFive 1](https://www.sifive.com/boards/hifive1)
       - sifive-hifive1
-    - SiFive HiFive 1 Rev B
+    - [SiFive HiFive 1 Rev B](https://www.sifive.com/boards/hifive1-rev-b)
       - sifive-hifive1-revb
     - [SiFive HiFive Unleashed](https://www.sifive.com/boards/hifive-unleashed)
       - sifive-hifive-unleashed
     - [SiFive Freedom E310 Arty](https://github.com/sifive/freedom)
       - freedom-e310-arty
-    - SiFive CoreIP RTL
-      - coreip-e20-rtl
-      - coreip-e21-rtl
-      - coreip-e24-rtl
-      - coreip-e31-rtl
-      - coreip-e34-rtl
-      - coreip-s51-rtl
-      - coreip-s54-rtl
-      - coreip-e76-rtl
-      - coreip-s76-rtl
-      - coreip-u54-rtl
-      - coreip-u54mc-rtl
-    - SiFive CoreIP Arty FPGA Evaluation targets
-      - coreip-e20-arty
-      - coreip-e21-arty
-      - coreip-e24-arty
-      - coreip-e31-arty
-      - coreip-e34-arty
-      - coreip-s51-arty
-      - coreip-s54-arty
-      - coreip-e76-arty
-      - coreip-s76-arty
+    - [QEMU Emulation of the SiFive E31](https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1)
+      - qemu-sifive-e31
+    - [QEMU Emulation of the SiFive S51](https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1)
+      - qemu-sifive-s51
   - The board support files for the Freedom Metal library are located entirely
     within a single target directory in `bsp/<target>/`. For example, the HiFive 1
     board support files for Freedom Metal are entirely within `bsp/sifive-hifive1/`
