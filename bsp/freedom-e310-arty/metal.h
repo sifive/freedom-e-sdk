@@ -116,7 +116,7 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000;
 
 
 /* --------------------- fixed_clock ------------ */
-static inline unsigned long __metal_driver_fixed_clock_rate(struct metal_clock *clock)
+static inline unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock)
 {
 	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_0) {
 		return METAL_FIXED_CLOCK_0_CLOCK_FREQUENCY;
