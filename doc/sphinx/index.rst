@@ -15,12 +15,6 @@ Freedom E SDK is a project maintained by Sifive Inc. which makes it easy to
 get started developing software for the Freedom E and Freedom S Embedded
 RISC-V Platforms.
 
-**UNDER CONSTRUCTION**
-
-Freedom E SDK is currently under construction as we transition from the
-legacy Freedom E SDK API to the new
-`Freedom Metal Compatibility Library <https://github.com/sifive/freedom-metal>`_.
-
 Table of Contents
 -----------------
 

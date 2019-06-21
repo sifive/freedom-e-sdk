@@ -14,12 +14,12 @@ The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
 the build script to build the ``hello`` example for the ``sifive-hifive1`` target
 using the ``debug`` build configuration. If, for example, you wished to build
-the ``timer-interrupt`` example for the S51 Arty FPGA Evaluation target using
+the ``timer-interrupt`` example for the Freedom E310 Arty FPGA Evaluation target using
 the ``release`` build configuration, you would instead run the command
 
 .. code-block:: bash
 
-   make PROGRAM=timer-interrupt TARGET=coreip-s51-arty CONFIGURATION=release software
+   make PROGRAM=timer-interrupt TARGET=freedom-e310-arty CONFIGURATION=release software
 
 Uploading to the Target Board
 -----------------------------

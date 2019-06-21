@@ -11,7 +11,7 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - sifive-hifive1
 
-- SiFive HiFive 1 Rev B
+- `SiFive HiFive 1 Rev B <https://www.sifive.com/boards/hifive1-rev-b>`_
 
   - sifive-hifive1-revb
 
@@ -23,29 +23,13 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - freedom-e310-arty
 
-- SiFive CoreIP RTL
+- `QEMU Emulation of the SiFive E31 <https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1>`_
 
-  - coreip-e20-rtl
-  - coreip-e21-rtl
-  - coreip-e24-rtl
-  - coreip-e31-rtl
-  - coreip-s51-rtl
-  - coreip-s54-rtl
-  - coreip-e76-rtl
-  - coreip-s76-rtl
-  - coreip-u54-rtl
-  - coreip-u54mc-rtl
+  - qemu-sifive-e31
 
-- SiFive CoreIP Arty FPGA Evaluation targets
+- `QEMU Emulation of the SiFive S51 <https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1>`_
 
-  - coreip-e20-arty
-  - coreip-e21-arty
-  - coreip-e24-arty
-  - coreip-e31-arty
-  - coreip-s51-arty
-  - coreip-s54-arty
-  - coreip-e76-arty
-  - coreip-s76-arty
+  - qemu-sifive-s51
 
 The board support files for the Freedom Metal library are located entirely
 within a single target directory in ``bsp/<target>/``. For example, the HiFive 1
