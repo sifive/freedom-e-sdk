@@ -94,12 +94,12 @@ SECTIONS
 	} >ram AT>ram :ram
 
 
-	.finit_array 		:
+	.fini_array 		:
 	{
-		PROVIDE_HIDDEN (__finit_array_start = .);
+		PROVIDE_HIDDEN (__fini_array_start = .);
 		KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
 		KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
-		PROVIDE_HIDDEN (__finit_array_end = .);
+		PROVIDE_HIDDEN (__fini_array_end = .);
 	} >ram AT>ram :ram
 
 

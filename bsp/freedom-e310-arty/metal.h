@@ -9,8 +9,8 @@
 
 #ifdef __METAL_MACHINE_MACROS
 
-#ifndef MACROS_IF_FREEDOM_E310_ARTY__METAL_H
-#define MACROS_IF_FREEDOM_E310_ARTY__METAL_H
+#ifndef MACROS_IF_FREEDOM_E310_ARTY____METAL_H
+#define MACROS_IF_FREEDOM_E310_ARTY____METAL_H
 
 #define __METAL_CLINT_NUM_PARENTS 2
 
@@ -31,12 +31,12 @@
 #define __METAL_CLIC_SUBINTERRUPTS 0
 #endif
 
-#endif /* MACROS_IF_FREEDOM_E310_ARTY__METAL_H*/
+#endif /* MACROS_IF_FREEDOM_E310_ARTY____METAL_H*/
 
 #else /* ! __METAL_MACHINE_MACROS */
 
-#ifndef MACROS_ELSE_FREEDOM_E310_ARTY__METAL_H
-#define MACROS_ELSE_FREEDOM_E310_ARTY__METAL_H
+#ifndef MACROS_ELSE_FREEDOM_E310_ARTY____METAL_H
+#define MACROS_ELSE_FREEDOM_E310_ARTY____METAL_H
 
 #define __METAL_CLINT_2000000_INTERRUPTS 2
 
@@ -685,7 +685,7 @@ asm (".weak __metal_spi_table");
 struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 					&__metal_dt_spi_10014000};
 
-#endif /* MACROS_ELSE_FREEDOM_E310_ARTY__METAL_H*/
+#endif /* MACROS_ELSE_FREEDOM_E310_ARTY____METAL_H*/
 
 #endif /* ! __METAL_MACHINE_MACROS */
 

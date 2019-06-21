@@ -5,8 +5,8 @@
 
 #ifndef ASSEMBLY
 
-#ifndef FREEDOM_E310_ARTY__METAL_INLINE_H
-#define FREEDOM_E310_ARTY__METAL_INLINE_H
+#ifndef FREEDOM_E310_ARTY____METAL_INLINE_H
+#define FREEDOM_E310_ARTY____METAL_INLINE_H
 
 #include <metal/machine.h>
 
@@ -192,5 +192,5 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000 = {
 };
 
 
-#endif /* FREEDOM_E310_ARTY__METAL_INLINE_H*/
+#endif /* FREEDOM_E310_ARTY____METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */
