@@ -24,7 +24,7 @@ copyright = '2019, SiFive Inc.'
 author = 'SiFive Inc.'
 
 # The short X.Y version
-version = "v201903"
+version = "v201905"
 # The full version, including alpha/beta/rc tags
 release = version
 
