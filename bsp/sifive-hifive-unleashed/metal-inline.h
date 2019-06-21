@@ -12,7 +12,7 @@
 
 
 /* --------------------- fixed_clock ------------ */
-extern inline unsigned long __metal_driver_fixed_clock_rate(struct metal_clock *clock);
+extern inline unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock);
 
 
 /* --------------------- fixed_factor_clock ------------ */

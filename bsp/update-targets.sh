@@ -116,7 +116,8 @@ update_target() {
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
-            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
+            echo "generating openocd.cfg"
+            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
         fi
     fi
 

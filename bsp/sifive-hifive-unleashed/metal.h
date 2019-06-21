@@ -169,7 +169,7 @@ struct __metal_driver_sifive_fu540_c000_l2 __metal_dt_cache_controller_2010000;
 
 
 /* --------------------- fixed_clock ------------ */
-static inline unsigned long __metal_driver_fixed_clock_rate(struct metal_clock *clock)
+static inline unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock)
 {
 	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_refclk) {
 		return METAL_FIXED_CLOCK__CLOCK_FREQUENCY;
