@@ -56,6 +56,11 @@ PROGRAM_LST = $(SRC_DIR)/$(CONFIGURATION)/$(PROGRAM).lst
 # Finds the directory in which this BSP is located, ensuring that there is
 # exactly one.
 BSP_DIR := $(wildcard $(TARGET_ROOT)/bsp/$(TARGET))
+
+# Only perform these error checks and include the standalone.mk fragment 
+# if we're not processing one of the "list-" targets
+ifneq ($@,$(filter $@, list-targets list-target-tags list-programs list-options))
+
 ifeq ($(words $(BSP_DIR)),0)
 $(error Unable to find BSP for $(TARGET), expected to find "bsp/$(TARGET)")
 endif
@@ -76,6 +81,9 @@ endif
 #  - Providing the software and $(PROGRAM_ELF) Make targets for Metal
 
 include scripts/standalone.mk
+
+# End of exclusion when procesinng "list-" targets. 
+endif
 
 #############################################################
 # Prints help message
