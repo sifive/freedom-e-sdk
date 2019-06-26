@@ -765,7 +765,7 @@ static inline long __metal_driver_sifive_fe310_g000_pll_config_offset( )
 
 static inline long __metal_driver_sifive_fe310_g000_pll_init_rate( )
 {
-		return 16000000;
+		return 256000000;
 }
 
 
