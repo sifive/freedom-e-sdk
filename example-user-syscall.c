@@ -11,7 +11,7 @@
 #define ECODE_SYSCALL_FROM_U_MODE	8
 
 /* Create a stack for user-mode execution */
-uint8_t my_stack[768];
+uint8_t my_stack[768] __attribute__((aligned(16)));
 
 /* Create the register file for user mode execution */
 struct metal_register_file my_regfile = {
