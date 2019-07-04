@@ -33,6 +33,7 @@ if [ "$jlink" != "" ]
 then
 
 $jlink -device RISC-V -port $GDB_PORT &
+extra_gdb=("-ex" "monitor allowsimulation 0")
 
 else
 
@@ -40,6 +41,6 @@ $openocd -f $cfg &
 
 fi
 
-$gdb $elf -ex "set remotetimeout 240" -ex "target extended-remote localhost:${GDB_PORT}"
+$gdb $elf -ex "set remotetimeout 240" -ex "target extended-remote localhost:${GDB_PORT}" "${extra_gdb[@]}"
 
 kill %1
