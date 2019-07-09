@@ -85,6 +85,7 @@ RISCV_OBJCOPY := $(CROSS_COMPILE)-objcopy
 RISCV_GDB     := $(CROSS_COMPILE)-gdb
 RISCV_AR      := $(CROSS_COMPILE)-ar
 RISCV_SIZE    := $(CROSS_COMPILE)-size
+RISCV_RANLIB  := $(CROSS_COMPILE)-ranlib
 else
 RISCV_GCC     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gcc)
 RISCV_GXX     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-g++)
@@ -93,6 +94,7 @@ RISCV_OBJCOPY := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-objcopy)
 RISCV_GDB     := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-gdb)
 RISCV_AR      := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-ar)
 RISCV_SIZE    := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-size)
+RISCV_RANLIB  := $(abspath $(RISCV_PATH)/bin/$(CROSS_COMPILE)-ranlib)
 PATH          := $(abspath $(RISCV_PATH)/bin):$(PATH)
 endif
 
@@ -131,6 +133,9 @@ RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filt
 
 # Link to the relevant libraries
 RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lmetal -lmetal-gloss -Wl,--end-group
+
+# Build archives deterministically (remove timestamps)
+RISCV_ARFLAGS += Dcr
 
 # Load the configuration Makefile
 CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
@@ -193,7 +198,9 @@ $(PROGRAM_ELF): \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
+		RANLIB=$(RISCV_RANLIB) \
 		ASFLAGS="$(RISCV_ASFLAGS)" \
+		ARFLAGS="$(RISCV_ARFLAGS)" \
 		CCASFLAGS="$(RISCV_CCASFLAGS)" \
 		CFLAGS="$(RISCV_CFLAGS)" \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \

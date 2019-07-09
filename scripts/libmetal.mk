@@ -20,6 +20,7 @@ $(METAL_BUILD_DIR)/Makefile:
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
 		CFLAGS="$(RISCV_CFLAGS)" \
+		ARFLAGS="$(RISCV_ARFLAGS)" \
 		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(METAL_PREFIX) \
