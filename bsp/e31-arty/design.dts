@@ -1,0 +1,215 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+	compatible = "SiFive,FE300-dev", "fe300-dev", "sifive-dev";
+	model = "SiFive,FE300";
+	L21: aliases {
+		serial0 = &L9;
+	};
+	L17: chosen {
+metal,entry = <&L10 0x400000>;
+stdout-path="/soc/serial@20000000:115200";
+	};
+	L20: cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		L7: cpu@0 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			device_type = "cpu";
+			hardware-exec-breakpoint-count = <4>;
+			i-cache-block-size = <64>;
+			i-cache-sets = <128>;
+			i-cache-size = <16384>;
+			reg = <0x0>;
+			riscv,isa = "rv32imac";
+			riscv,pmpregions = <8>;
+			sifive,dtim = <&L6>;
+			sifive,itim = <&L5>;
+			status = "okay";
+			timebase-frequency = <1000000>;
+			L4: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+	L19: soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "SiFive,FE300-soc", "fe300-soc", "sifive-soc", "simple-bus";
+		ranges;
+		L2: clint@2000000 {
+			compatible = "riscv,clint0";
+			interrupts-extended = <&L4 3 &L4 7>;
+			reg = <0x2000000 0x10000>;
+			reg-names = "control";
+		};
+		L3: debug-controller@0 {
+			compatible = "sifive,debug-013", "riscv,debug-013";
+			interrupts-extended = <&L4 65535>;
+			reg = <0x0 0x1000>;
+			reg-names = "control";
+		};
+		L6: dtim@80000000 {
+			compatible = "sifive,dtim0";
+			reg = <0x80000000 0x10000>;
+			reg-names = "mem";
+		};
+		L0: error-device@3000 {
+			compatible = "sifive,error0";
+			reg = <0x3000 0x1000>;
+		};
+		L14: global-external-interrupts {
+			compatible = "sifive,global-external-interrupts0";
+			interrupt-parent = <&L1>;
+			interrupts = <23 24 25 26 27 28 29 30>;
+		};
+		L11: gpio@20002000 {
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			compatible = "sifive,gpio0", "sifive,gpio1";
+			gpio-controller;
+			interrupt-controller;
+			interrupt-parent = <&L1>;
+			interrupts = <3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18>;
+			reg = <0x20002000 0x1000>;
+			reg-names = "control";
+		};
+		L1: interrupt-controller@c000000 {
+			#interrupt-cells = <1>;
+			compatible = "riscv,plic0";
+			interrupt-controller;
+			interrupts-extended = <&L4 11>;
+			reg = <0xc000000 0x4000000>;
+			reg-names = "control";
+			riscv,max-priority = <7>;
+			riscv,ndev = <30>;
+		};
+		L5: itim@8000000 {
+			compatible = "sifive,itim0";
+			reg = <0x8000000 0x4000>;
+			reg-names = "mem";
+		};
+		L15: local-external-interrupts-0 {
+			compatible = "sifive,local-external-interrupts0";
+			interrupt-parent = <&L4>;
+			interrupts = <16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31>;
+		};
+		L12: pwm@20005000 {
+			compatible = "sifive,pwm0";
+			interrupt-parent = <&L1>;
+			interrupts = <19 20 21 22>;
+			reg = <0x20005000 0x1000>;
+			reg-names = "control";
+		};
+		L16: rom@1000 {
+			compatible = "sifive,modeselect0";
+			reg = <0x1000 0x1000>;
+			reg-names = "mem";
+		};
+		L9: serial@20000000 {
+			clocks = <&L8>;
+			compatible = "sifive,uart0";
+			interrupt-parent = <&L1>;
+			interrupts = <1>;
+			reg = <0x20000000 0x1000>;
+			reg-names = "control";
+		};
+		L10: spi@20004000 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&L8>;
+			compatible = "sifive,spi0";
+			interrupt-parent = <&L1>;
+			interrupts = <2>;
+			reg = <0x20004000 0x1000 0x40000000 0x20000000>;
+			reg-names = "control", "mem";
+		};
+		L13: teststatus@4000 {
+			compatible = "sifive,test0";
+			reg = <0x4000 0x1000>;
+			reg-names = "control";
+		};
+		L8: tlclk {
+			#clock-cells = <0>;
+			clock-frequency = <32500000>;
+			clock-output-names = "tlclk";
+			compatible = "fixed-clock";
+		};
+				led@0red {
+						compatible = "sifive,gpio-leds";
+						label = "LD0red";
+						gpios = <&L11 2>;
+						linux,default-trigger = "none";
+				};
+				led@0green {
+						compatible = "sifive,gpio-leds";
+						label = "LD0green";
+						gpios = <&L11 1>;
+						linux,default-trigger = "none";
+				};
+				led@0blue {
+						compatible = "sifive,gpio-leds";
+						label = "LD0blue";
+						gpios = <&L11 0>;
+						linux,default-trigger = "none";
+				};
+				button@0 {
+						compatible = "sifive,gpio-buttons";
+						label = "BTN0";
+						gpios = <&L11 4>;
+						interrupts-extended = <&L15 4>;
+						linux,code = "none";
+				};
+				button@1 {
+						compatible = "sifive,gpio-buttons";
+						label = "BTN1";
+						gpios = <&L11 5>;
+						interrupts-extended = <&L15 5>;
+						linux,code = "none";
+				};
+				button@2 {
+						compatible = "sifive,gpio-buttons";
+						label = "BTN2";
+						gpios = <&L11 6>;
+						interrupts-extended = <&L15 6>;
+						linux,code = "none";
+				};
+				button@3 {
+						compatible = "sifive,gpio-buttons";
+						label = "BTN3";
+						gpios = <&L11 7>;
+						interrupts-extended = <&L15 7>;
+						linux,code = "none";
+				};
+				switch@0 {
+						compatible = "sifive,gpio-switches";
+						label = "SW0";
+						interrupts-extended = <&L15 0>;
+						linux,code = "none";
+				};
+				switch@1 {
+						compatible = "sifive,gpio-switches";
+						label = "SW1";
+						interrupts-extended = <&L15 1>;
+						linux,code = "none";
+				};
+				switch@2 {
+						compatible = "sifive,gpio-switches";
+						label = "SW2";
+						interrupts-extended = <&L15 2>;
+						linux,code = "none";
+				};
+				switch@3 {
+						compatible = "sifive,gpio-switches";
+						label = "SW3";
+						interrupts-extended = <&L15 3>;
+						linux,code = "none";
+				};
+
+	};
+};
