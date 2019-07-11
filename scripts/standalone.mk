@@ -37,6 +37,15 @@ ifeq ($(RISCV_CMODEL),)
 RISCV_CMODEL = medany
 endif
 
+ifeq ($(PROGRAM),cflush)
+ifeq ($(DCACHE_PRESENT),false)
+$(error cflush example only available on target with dcache present!)
+endif
+ifeq ($(DCACHE_PRESENT),)
+$(error Check if dcache is present on your target. If present, update setting.mk with "DCACHE_PRESENT=true" and re-run!)
+endif
+endif
+
 ifeq ($(PROGRAM),dhrystone)
 ifeq ($(LINK_TARGET),)
   ifneq ($(TARGET),freedom-e310-arty)

@@ -61,3 +61,6 @@
 [submodule "software/test-coreip"]
 	path = software/test-coreip
 	url = https://github.com/sifive/test-coreip.git
+[submodule "software/cflush"]
+	path = software/cflush
+	url = git@github.com:sifive/example-cflush.git
