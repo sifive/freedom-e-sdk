@@ -205,5 +205,10 @@
                         gpios = <&gpio0 21>;
                         linux,default-trigger = "none";
                 };
+  L99: trace-encoder-0@20007000 {
+    compatible = "sifive,trace";
+    reg = <0x20007000 0x1000>;
+    reg-names = "control";
+  };
         };
 };
