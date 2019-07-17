@@ -46,9 +46,6 @@ extern inline int __metal_driver_sifive_plic0_interrupt_lines(struct metal_inter
 
 
 /* --------------------- sifive_local_external_interrupts0 ------------ */
-extern inline struct metal_interrupt * __metal_driver_sifive_local_external_interrupts0_interrupt_parent(struct metal_interrupt *controller);
-extern inline int __metal_driver_sifive_local_external_interrupts0_num_interrupts(struct metal_interrupt *controller);
-extern inline int __metal_driver_sifive_local_external_interrupts0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
 /* --------------------- sifive_global_external_interrupts0 ------------ */
@@ -139,6 +136,11 @@ struct __metal_driver_fixed_clock __metal_dt_clock_2 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
+/* From clock@6 */
+struct __metal_driver_fixed_clock __metal_dt_clock_6 = {
+    .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
+};
+
 /* From clock@5 */
 struct __metal_driver_fixed_clock __metal_dt_clock_5 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
@@ -155,9 +157,38 @@ struct metal_memory __metal_dt_mem_dtim_80000000 = {
         .A = 1},
 };
 
+struct metal_memory __metal_dt_mem_itim_8000000 = {
+    ._base_address = 134217728UL,
+    ._size = 8192UL,
+    ._attrs = {
+        .R = 1,
+        .W = 1,
+        .X = 1,
+        .C = 1,
+        .A = 1},
+};
+
 struct metal_memory __metal_dt_mem_spi_10014000 = {
     ._base_address = 536870912UL,
     ._size = 500000UL,
+    ._attrs = {
+        .R = 1,
+        .W = 1,
+        .X = 1,
+        .C = 1,
+        .A = 1},
+};
+
+struct metal_memory __metal_dt_mem_spi_10024000 = {
+    ._attrs = {
+        .R = 1,
+        .W = 1,
+        .X = 1,
+        .C = 1,
+        .A = 1},
+};
+
+struct metal_memory __metal_dt_mem_spi_10034000 = {
     ._attrs = {
         .R = 1,
         .W = 1,
@@ -189,12 +220,6 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .init_done = 0,
 };
 
-/* From local_external_interrupts_0 */
-struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0 = {
-    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
-    .init_done = 0,
-};
-
 /* From gpio@10012000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
     .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
@@ -220,8 +245,23 @@ struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
     .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
 };
 
+/* From spi@10024000 */
+struct __metal_driver_sifive_spi0 __metal_dt_spi_10024000 = {
+    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
+};
+
+/* From spi@10034000 */
+struct __metal_driver_sifive_spi0 __metal_dt_spi_10034000 = {
+    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
+};
+
 /* From serial@10013000 */
 struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
+};
+
+/* From serial@10023000 */
+struct __metal_driver_sifive_uart0 __metal_dt_serial_10023000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
 };
 
