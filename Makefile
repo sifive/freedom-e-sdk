@@ -227,6 +227,7 @@ endif
 	cp release.mk $</release.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+	echo "TARGET = ${TARGET}" >> $</Makefile
 ifneq ($(PORT_DIR),)
 	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
@@ -260,6 +261,7 @@ endif
 	cp release.mk $</release.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
+	echo "TARGET = ${TARGET}" >> $</Makefile
 ifneq ($(PORT_DIR),)
 	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
