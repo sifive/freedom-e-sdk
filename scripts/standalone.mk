@@ -7,11 +7,6 @@ BSP_DIR ?= $(abspath bsp)
 # SRC_DIR sets the path to the program source directory
 SRC_DIR ?= $(abspath src)
 
-# The configuration defaults to Debug. Valid choices are:
-#  - debug
-#  - release
-CONFIGURATION ?= debug
-
 #############################################################
 # BSP loading
 #############################################################
