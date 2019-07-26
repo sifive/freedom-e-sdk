@@ -22,6 +22,10 @@ endif
 # Default PROGRAM and TARGET
 PROGRAM ?= hello
 TARGET ?= $(shell find $(TARGET_ROOT)/bsp/* -type d | head -n 1 | rev | cut -d '/' -f 1 | rev)
+
+# The configuration defaults to Debug. Valid choices are:
+#  - debug
+#  - release
 CONFIGURATION ?= debug
 
 # Setup differences between host platforms
@@ -37,8 +41,14 @@ else
     endif
 endif
 
+# Default to use relase configuration For Benchmark programs, like Coremark and Dhrystone.
+ifeq ($(PROGRAM),dhrystone)
+CONFIGURATION = release
+endif
+
 # Coremark require PORT_DIR set for different OS, freedom-metal for us!
 ifeq ($(PROGRAM),coremark)
+CONFIGURATION = release
 ifeq ($(PORT_DIR),)
 PORT_DIR = freedom-metal
 endif
@@ -231,6 +241,12 @@ endif
 ifneq ($(PORT_DIR),)
 	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
+	echo "" >> $</Makefile
+	echo "# The configuration defaults to Debug. Valid choices are:" >> $</Makefile
+	echo "#   - debug" >> $</Makefile
+	echo "#   - release" >> $</Makefile
+	echo "CONFIGURATION = ${CONFIGURATION}" >> $</Makefile
+	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
@@ -265,6 +281,12 @@ endif
 ifneq ($(PORT_DIR),)
 	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
+        echo "" >> $</Makefile
+        echo "# The configuration defaults to Debug. Valid choices are:" >> $</Makefile
+        echo "#   - debug" >> $</Makefile
+        echo "#   - release" >> $</Makefile
+        echo "CONFIGURATION = ${CONFIGURATION}" >> $</Makefile
+        echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
