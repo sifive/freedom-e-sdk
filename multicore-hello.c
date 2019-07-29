@@ -76,6 +76,6 @@ int other_main(int hartid) {
 	metal_lock_give(&my_lock);
 
 	while(1) {
-		asm("wfi");
+		__asm__("wfi");
 	}
 }
