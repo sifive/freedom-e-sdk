@@ -32,7 +32,7 @@ void user_mode_entry_point()
 {
 	/* Attempt to read from a machine-mode CSR */
 	int misa;
-	asm volatile("csrr %0, misa" : "=r" (misa));
+	__asm__ volatile("csrr %0, misa" : "=r" (misa));
 
 	/* If we didn't trap, fail the test */
 	exit(8);
