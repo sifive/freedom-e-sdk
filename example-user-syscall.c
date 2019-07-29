@@ -30,11 +30,10 @@ void syscall_from_u_handler(struct metal_cpu *cpu, int ecode)
 
 void user_mode_entry_point()
 {
-	/* Attempt to read from a machine-mode CSR */
-	int misa;
+	/* Perform a syscall from user mode */
 	__asm__ volatile("ecall");
 
-	/* If we didn't trap, fail the test */
+	/* If we didn't trap or control flow returns here, fail the test */
 	exit(8);
 }
 
