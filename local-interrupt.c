@@ -58,21 +58,21 @@ void button0_isr (int id, void *data) {
     printf("Button 0 was pressed. Toggle Red LED.\n");
     metal_led_toggle((struct metal_led *)data);
     debounce();  
-};
+}
 void button1_isr (int id, void *data) {
     printf("Button 1 was pressed. Toggle Green LED.\n");
     metal_led_toggle((struct metal_led *)data);
     debounce();
-};
+}
 void button2_isr (int id, void *data) {
     printf("Button 2 was pressed. Toggle Blue LED.\n");
     metal_led_toggle((struct metal_led *)data);
     debounce();
-};
+}
 void button3_isr (int id, void *data) {
     printf("Button 3 was pressed. No LED change!\n");
     debounce();
-};
+}
 
 void switch3_isr(int id, void *data) {
     metal_interrupt_disable(swch3_ic, swch3_irq);
