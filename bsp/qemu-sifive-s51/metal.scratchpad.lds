@@ -74,7 +74,7 @@ SECTIONS
 	} >ram AT>ram :ram
 
 
-	. = ALIGN(4);
+	. = ALIGN(8);
 
 
 	.preinit_array 		:
@@ -138,14 +138,14 @@ SECTIONS
 
 	.litimalign 		:
 	{
-		. = ALIGN(4);
+		. = ALIGN(8);
 		PROVIDE( metal_segment_itim_source_start = . );
 	} >ram AT>ram :ram
 
 
 	.ditimalign 		:
 	{
-		. = ALIGN(4);
+		. = ALIGN(8);
 		PROVIDE( metal_segment_itim_target_start = . );
 	} >ram AT>ram :ram_init
 
@@ -156,13 +156,12 @@ SECTIONS
 	} >ram AT>ram :ram_init
 
 
-	. = ALIGN(8);
 	PROVIDE( metal_segment_itim_target_end = . );
 
 
 	.lalign 		:
 	{
-		. = ALIGN(4);
+		. = ALIGN(8);
 		PROVIDE( _data_lma = . );
 		PROVIDE( metal_segment_data_source_start = . );
 	} >ram AT>ram :ram
@@ -170,7 +169,7 @@ SECTIONS
 
 	.dalign 		:
 	{
-		. = ALIGN(4);
+		. = ALIGN(8);
 		PROVIDE( metal_segment_data_target_start = . );
 	} >ram AT>ram :ram_init
 
@@ -186,7 +185,6 @@ SECTIONS
 	} >ram AT>ram :ram_init
 
 
-	. = ALIGN(4);
 	PROVIDE( _edata = . );
 	PROVIDE( edata = . );
 	PROVIDE( metal_segment_data_target_end = . );
@@ -202,11 +200,9 @@ SECTIONS
 		*(.bss .bss.*)
 		*(.gnu.linkonce.b.*)
 		*(COMMON)
-		. = ALIGN(4);
 	} >ram AT>ram :ram
 
 
-	. = ALIGN(8);
 	PROVIDE( _end = . );
 	PROVIDE( end = . );
 	PROVIDE( metal_segment_bss_target_end = . );
