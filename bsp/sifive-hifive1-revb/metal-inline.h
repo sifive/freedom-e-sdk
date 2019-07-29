@@ -136,13 +136,13 @@ struct __metal_driver_fixed_clock __metal_dt_clock_2 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-/* From clock@6 */
-struct __metal_driver_fixed_clock __metal_dt_clock_6 = {
+/* From clock@5 */
+struct __metal_driver_fixed_clock __metal_dt_clock_5 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-/* From clock@5 */
-struct __metal_driver_fixed_clock __metal_dt_clock_5 = {
+/* From clock@6 */
+struct __metal_driver_fixed_clock __metal_dt_clock_6 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
