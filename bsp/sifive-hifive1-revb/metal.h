@@ -91,11 +91,11 @@ struct __metal_driver_fixed_clock __metal_dt_clock_0;
 /* From clock@2 */
 struct __metal_driver_fixed_clock __metal_dt_clock_2;
 
-/* From clock@6 */
-struct __metal_driver_fixed_clock __metal_dt_clock_6;
-
 /* From clock@5 */
 struct __metal_driver_fixed_clock __metal_dt_clock_5;
+
+/* From clock@6 */
+struct __metal_driver_fixed_clock __metal_dt_clock_6;
 
 struct metal_memory __metal_dt_mem_dtim_80000000;
 
@@ -170,11 +170,11 @@ static inline unsigned long __metal_driver_fixed_clock_rate(const struct metal_c
 	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_2) {
 		return METAL_FIXED_CLOCK_2_CLOCK_FREQUENCY;
 	}
-	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_6) {
-		return METAL_FIXED_CLOCK_6_CLOCK_FREQUENCY;
-	}
 	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_5) {
 		return METAL_FIXED_CLOCK_5_CLOCK_FREQUENCY;
+	}
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_6) {
+		return METAL_FIXED_CLOCK_6_CLOCK_FREQUENCY;
 	}
 	else {
 		return 0;
@@ -568,12 +568,16 @@ static inline char * __metal_driver_sifive_gpio_led_label(struct metal_led *led)
 
 /* --------------------- sifive_gpio_switch ------------ */
 
-
-/* --------------------- sifive_spi0 ------------ */
 static inline unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi)
 {
 	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
 		return METAL_SIFIVE_SPI0_10014000_BASE_ADDRESS;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10024000) {
+		return METAL_SIFIVE_SPI0_10024000_BASE_ADDRESS;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10034000) {
+		return METAL_SIFIVE_SPI0_10034000_BASE_ADDRESS;
 	}
 	else {
 		return 0;
@@ -585,6 +589,12 @@ static inline unsigned long __metal_driver_sifive_spi0_control_size(struct metal
 	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
 		return METAL_SIFIVE_SPI0_10014000_SIZE;
 	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10024000) {
+		return METAL_SIFIVE_SPI0_10024000_SIZE;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10034000) {
+		return METAL_SIFIVE_SPI0_10034000_SIZE;
+	}
 	else {
 		return 0;
 	}
@@ -592,22 +602,66 @@ static inline unsigned long __metal_driver_sifive_spi0_control_size(struct metal
 
 static inline struct metal_clock * __metal_driver_sifive_spi0_clock(struct metal_spi *spi)
 {
+	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
 		return (struct metal_clock *)&__metal_dt_clock_4.clock;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10024000) {
+		return (struct metal_clock *)&__metal_dt_clock_4.clock;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10034000) {
+		return (struct metal_clock *)&__metal_dt_clock_4.clock;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_spi0_pinmux(struct metal_spi *spi)
 {
+	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
 		return (struct __metal_driver_sifive_gpio0 *)&__metal_dt_gpio_10012000;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10024000) {
+		return (struct __metal_driver_sifive_gpio0 *)&__metal_dt_gpio_10012000;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10034000) {
+		return (struct __metal_driver_sifive_gpio0 *)&__metal_dt_gpio_10012000;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline unsigned long __metal_driver_sifive_spi0_pinmux_output_selector(struct metal_spi *spi)
 {
+	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
 		return 0;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10024000) {
+		return 60;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10034000) {
+		return 4227858432;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline unsigned long __metal_driver_sifive_spi0_pinmux_source_selector(struct metal_spi *spi)
 {
+	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
 		return 0;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10024000) {
+		return 60;
+	}
+	else if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10034000) {
+		return 4227858432;
+	}
+	else {
+		return 0;
+	}
 }
 
 
@@ -621,6 +675,9 @@ static inline unsigned long __metal_driver_sifive_uart0_control_base(struct meta
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return METAL_SIFIVE_UART0_10013000_BASE_ADDRESS;
 	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return METAL_SIFIVE_UART0_10023000_BASE_ADDRESS;
+	}
 	else {
 		return 0;
 	}
@@ -631,6 +688,9 @@ static inline unsigned long __metal_driver_sifive_uart0_control_size(struct meta
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return METAL_SIFIVE_UART0_10013000_SIZE;
 	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return METAL_SIFIVE_UART0_10023000_SIZE;
+	}
 	else {
 		return 0;
 	}
@@ -639,6 +699,9 @@ static inline unsigned long __metal_driver_sifive_uart0_control_size(struct meta
 static inline int __metal_driver_sifive_uart0_num_interrupts(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
+		return METAL_MAX_UART_INTERRUPTS;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
 		return METAL_MAX_UART_INTERRUPTS;
 	}
 	else {
@@ -651,34 +714,77 @@ static inline struct metal_interrupt * __metal_driver_sifive_uart0_interrupt_par
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
 	}
-	else {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
 		return NULL;
+	}
+	else {
+		return 0;
 	}
 }
 
 static inline int __metal_driver_sifive_uart0_interrupt_line(struct metal_uart *uart)
 {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return 3;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return 4;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline struct metal_clock * __metal_driver_sifive_uart0_clock(struct metal_uart *uart)
 {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return (struct metal_clock *)&__metal_dt_clock_4.clock;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return (struct metal_clock *)&__metal_dt_clock_4.clock;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart)
 {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return (struct __metal_driver_sifive_gpio0 *)&__metal_dt_gpio_10012000;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return (struct __metal_driver_sifive_gpio0 *)&__metal_dt_gpio_10012000;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart)
 {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return 196608;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return 8650752;
+	}
+	else {
+		return 0;
+	}
 }
 
 static inline unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart)
 {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
 		return 196608;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
+		return 8650752;
+	}
+	else {
+		return 0;
+	}
 }
 
 

@@ -80,8 +80,8 @@ extern inline unsigned long __metal_driver_sifive_spi0_pinmux_source_selector(st
 
 
 /* --------------------- sifive_test0 ------------ */
-extern inline unsigned long __metal_driver_sifive_test0_base( );
-extern inline unsigned long __metal_driver_sifive_test0_size( );
+extern inline unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd);
+extern inline unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
 
 /* --------------------- sifive_uart0 ------------ */
