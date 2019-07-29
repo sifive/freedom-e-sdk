@@ -245,7 +245,7 @@ endif
 	echo "# The configuration defaults to Debug. Valid choices are:" >> $</Makefile
 	echo "#   - debug" >> $</Makefile
 	echo "#   - release" >> $</Makefile
-	echo "CONFIGURATION = ${CONFIGURATION}" >> $</Makefile
+	echo "CONFIGURATION ?= ${CONFIGURATION}" >> $</Makefile
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
@@ -285,7 +285,7 @@ endif
         echo "# The configuration defaults to Debug. Valid choices are:" >> $</Makefile
         echo "#   - debug" >> $</Makefile
         echo "#   - release" >> $</Makefile
-        echo "CONFIGURATION = ${CONFIGURATION}" >> $</Makefile
+        echo "CONFIGURATION ?= ${CONFIGURATION}" >> $</Makefile
         echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
