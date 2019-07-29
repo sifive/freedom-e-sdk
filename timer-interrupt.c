@@ -13,7 +13,7 @@ void timer_handler (int id, void *data) {
 
 int main (void)
 {
-    unsigned long long i, timeval, timebase;
+    unsigned long long timeval, timebase;
     struct metal_cpu *cpu;
     struct metal_interrupt *cpu_intr;
     struct metal_interrupt *tmr_intr;
