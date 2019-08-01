@@ -120,6 +120,10 @@ help:
 	@echo "    For board and FPGA TARGETs, attaches GDB to the"
 	@echo "    running program."
 	@echo ""
+	@echo " simulate [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "          [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    Simulates the program in the QEMU emulator."
+	@echo ""
 	@echo " standalone STANDALONE_DEST=/path/to/desired/location"
 	@echo "            [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]:"
 	@echo "    Exports a program for a single target into a standalone"
@@ -318,6 +322,19 @@ debug: $(PROGRAM_ELF)
 else
 debug: $(PROGRAM_ELF)
 	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
+endif
+
+ifeq ($(findstring qemu,$(TARGET)),qemu)
+ifeq ($(findstring rv32,$(RISCV_ARCH)),rv32)
+simulate: $(PROGRAM_ELF)
+	scripts/simulate --elf $(PROGRAM_ELF) --qemu $(QEMU_RISCV32) --qemu-config bsp/$(TARGET)/qemu.cfg
+else # findstring rv32
+simulate: $(PROGRAM_ELF)
+	scripts/simulate --elf $(PROGRAM_ELF) --qemu $(QEMU_RISCV64) --qemu-config bsp/$(TARGET)/qemu.cfg
+endif
+else # findstring qemu
+simulate:
+	@echo "QEMU can't simulate target $(TARGET)!"
 endif
 
 

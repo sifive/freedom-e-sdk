@@ -94,6 +94,9 @@ endif
 SEGGER_JLINK_EXE := JLinkExe
 SEGGER_JLINK_GDB_SERVER := JLinkGDBServer
 
+QEMU_RISCV32 = qemu-system-riscv32
+QEMU_RISCV64 = qemu-system-riscv64
+
 #############################################################
 # Software Flags
 #############################################################
