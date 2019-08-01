@@ -13,7 +13,6 @@
 struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr, *tmr_intr;
 struct metal_led *led0_red, *led0_green, *led0_blue;
-
 struct metal_interrupt *swch_ic;
 int tmr_id, swch1_irq, swch2_irq;
 
@@ -63,7 +62,6 @@ void switch2_isr(int id, void *data) {
 int main (void)
 {
     int rc;
-    struct metal_led *led0_red, *led0_green, *led0_blue;
     struct metal_switch *swch1, *swch2;
 
 
@@ -117,7 +115,7 @@ int main (void)
         return 1;
     }
     swch_ic = metal_switch_interrupt_controller(swch1);
-    if ((swch_ic == NULL) || (strcmp(metal_interrupt_label(swch_ic), "PLIC") == 0)){
+    if ((swch_ic == NULL) || (strcmp(metal_interrupt_label(swch_ic), "PLIC"))){
         printf("Exit. This example need a plic interrupt controller for SW1 and SW2.\n");
         return 0;
     }
