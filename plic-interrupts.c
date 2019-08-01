@@ -115,7 +115,7 @@ int main (void)
         return 1;
     }
     swch_ic = metal_switch_interrupt_controller(swch1);
-    if ((swch_ic == NULL) || (strcmp(metal_interrupt_label(swch_ic), "PLIC"))){
+    if ((swch_ic == NULL) || (strcmp(metal_interrupt_label(swch_ic), "riscv,plic"))){
         printf("Exit. This example need a plic interrupt controller for SW1 and SW2.\n");
         return 0;
     }
