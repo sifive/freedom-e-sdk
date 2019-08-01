@@ -202,7 +202,7 @@
 			cache-sets = <2048>;
 			cache-size = <2097152>;
 			cache-unified;
-			compatible = "sifive,ccache0", "cache";
+			compatible = "sifive,fu540-c000,l2", "cache";
 			interrupt-parent = <&L4>;
 			interrupts = <1 2 3>;
 			next-level-cache = <&L25 &L40 &L36>;
