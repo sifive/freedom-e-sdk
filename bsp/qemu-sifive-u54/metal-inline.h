@@ -5,14 +5,13 @@
 
 #ifndef ASSEMBLY
 
-#ifndef FREEDOM_E310_ARTY____METAL_INLINE_H
-#define FREEDOM_E310_ARTY____METAL_INLINE_H
+#ifndef QEMU_SIFIVE_U54____METAL_INLINE_H
+#define QEMU_SIFIVE_U54____METAL_INLINE_H
 
 #include <metal/machine.h>
 
 
 /* --------------------- fixed_clock ------------ */
-extern __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock);
 
 
 /* --------------------- fixed_factor_clock ------------ */
@@ -46,20 +45,12 @@ extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 
 
 /* --------------------- sifive_local_external_interrupts0 ------------ */
-extern __inline__ struct metal_interrupt * __metal_driver_sifive_local_external_interrupts0_interrupt_parent(struct metal_interrupt *controller);
-extern __inline__ int __metal_driver_sifive_local_external_interrupts0_num_interrupts(struct metal_interrupt *controller);
-extern __inline__ int __metal_driver_sifive_local_external_interrupts0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
 /* --------------------- sifive_global_external_interrupts0 ------------ */
 
 
 /* --------------------- sifive_gpio0 ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_gpio0_base(struct metal_gpio *gpio);
-extern __inline__ unsigned long __metal_driver_sifive_gpio0_size(struct metal_gpio *gpio);
-extern __inline__ int __metal_driver_sifive_gpio0_num_interrupts(struct metal_gpio *gpio);
-extern __inline__ struct metal_interrupt * __metal_driver_sifive_gpio0_interrupt_parent(struct metal_gpio *gpio);
-extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_gpio *gpio, int idx);
 
 
 /* --------------------- sifive_gpio_button ------------ */
@@ -75,11 +66,6 @@ extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 
 
 /* --------------------- sifive_spi0 ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi);
-extern __inline__ unsigned long __metal_driver_sifive_spi0_control_size(struct metal_spi *spi);
-extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_spi0_pinmux(struct metal_spi *spi);
-extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_output_selector(struct metal_spi *spi);
-extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selector(struct metal_spi *spi);
 
 
 /* --------------------- sifive_test0 ------------ */
@@ -118,36 +104,20 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 /* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
-/* From clock@0 */
-struct __metal_driver_fixed_clock __metal_dt_clock_0 = {
-    .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
+struct metal_memory __metal_dt_mem_memory_80010000 = {
+    ._base_address = 2147549184UL,
+    ._size = 134213632UL,
+    ._attrs = {
+        .R = 1,
+        .W = 1,
+        .X = 1,
+        .C = 1,
+        .A = 1},
 };
 
-struct metal_memory __metal_dt_mem_dtim_80000000 = {
+struct metal_memory __metal_dt_mem_memory_80000000 = {
     ._base_address = 2147483648UL,
-    ._size = 16384UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_itim_8000000 = {
-    ._base_address = 134217728UL,
-    ._size = 16384UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_spi_10014000 = {
-    ._base_address = 536870912UL,
-    ._size = 536870912UL,
+    ._size = 65536UL,
     ._attrs = {
         .R = 1,
         .W = 1,
@@ -179,27 +149,16 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .init_done = 0,
 };
 
-/* From local_external_interrupts_0 */
-struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0 = {
-    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
-    .init_done = 0,
+/* From test@100000 */
+struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
+    .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
 };
 
-/* From gpio@10012000 */
-struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
-    .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
-};
-
-/* From spi@10014000 */
-struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
-    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
-};
-
-/* From serial@10013000 */
-struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000 = {
+/* From uart@10013000 */
+struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
 };
 
 
-#endif /* FREEDOM_E310_ARTY____METAL_INLINE_H*/
+#endif /* QEMU_SIFIVE_U54____METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */

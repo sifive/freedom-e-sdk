@@ -12,37 +12,37 @@
 
 
 /* --------------------- fixed_clock ------------ */
-extern inline unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock);
+extern __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock);
 
 
 /* --------------------- fixed_factor_clock ------------ */
-extern inline struct metal_clock * __metal_driver_fixed_factor_clock_parent(struct metal_clock *clock);
-extern inline unsigned long __metal_driver_fixed_factor_clock_mult(struct metal_clock *clock);
-extern inline unsigned long __metal_driver_fixed_factor_clock_div(struct metal_clock *clock);
+extern __inline__ struct metal_clock * __metal_driver_fixed_factor_clock_parent(const struct metal_clock *clock);
+extern __inline__ unsigned long __metal_driver_fixed_factor_clock_mult(const struct metal_clock *clock);
+extern __inline__ unsigned long __metal_driver_fixed_factor_clock_div(const struct metal_clock *clock);
 
 
 /* --------------------- sifive_clint0 ------------ */
-extern inline unsigned long __metal_driver_sifive_clint0_control_base(struct metal_interrupt *controller);
-extern inline unsigned long __metal_driver_sifive_clint0_control_size(struct metal_interrupt *controller);
-extern inline int __metal_driver_sifive_clint0_num_interrupts(struct metal_interrupt *controller);
-extern inline struct metal_interrupt * __metal_driver_sifive_clint0_interrupt_parents(struct metal_interrupt *controller, int idx);
-extern inline int __metal_driver_sifive_clint0_interrupt_lines(struct metal_interrupt *controller, int idx);
+extern __inline__ unsigned long __metal_driver_sifive_clint0_control_base(struct metal_interrupt *controller);
+extern __inline__ unsigned long __metal_driver_sifive_clint0_control_size(struct metal_interrupt *controller);
+extern __inline__ int __metal_driver_sifive_clint0_num_interrupts(struct metal_interrupt *controller);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_clint0_interrupt_parents(struct metal_interrupt *controller, int idx);
+extern __inline__ int __metal_driver_sifive_clint0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
 /* --------------------- cpu ------------ */
-extern inline int __metal_driver_cpu_hartid(struct metal_cpu *cpu);
-extern inline int __metal_driver_cpu_timebase(struct metal_cpu *cpu);
-extern inline struct metal_interrupt * __metal_driver_cpu_interrupt_controller(struct metal_cpu *cpu);
-extern inline int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu);
+extern __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu);
+extern __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu);
+extern __inline__ struct metal_interrupt * __metal_driver_cpu_interrupt_controller(struct metal_cpu *cpu);
+extern __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu);
 
 
 /* --------------------- sifive_plic0 ------------ */
-extern inline unsigned long __metal_driver_sifive_plic0_control_base(struct metal_interrupt *controller);
-extern inline unsigned long __metal_driver_sifive_plic0_control_size(struct metal_interrupt *controller);
-extern inline int __metal_driver_sifive_plic0_num_interrupts(struct metal_interrupt *controller);
-extern inline int __metal_driver_sifive_plic0_max_priority(struct metal_interrupt *controller);
-extern inline struct metal_interrupt * __metal_driver_sifive_plic0_interrupt_parents(struct metal_interrupt *controller, int idx);
-extern inline int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx);
+extern __inline__ unsigned long __metal_driver_sifive_plic0_control_base(struct metal_interrupt *controller);
+extern __inline__ unsigned long __metal_driver_sifive_plic0_control_size(struct metal_interrupt *controller);
+extern __inline__ int __metal_driver_sifive_plic0_num_interrupts(struct metal_interrupt *controller);
+extern __inline__ int __metal_driver_sifive_plic0_max_priority(struct metal_interrupt *controller);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt_parents(struct metal_interrupt *controller, int idx);
+extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
 /* --------------------- sifive_clic0 ------------ */
@@ -55,11 +55,11 @@ extern inline int __metal_driver_sifive_plic0_interrupt_lines(struct metal_inter
 
 
 /* --------------------- sifive_gpio0 ------------ */
-extern inline unsigned long __metal_driver_sifive_gpio0_base(struct metal_gpio *gpio);
-extern inline unsigned long __metal_driver_sifive_gpio0_size(struct metal_gpio *gpio);
-extern inline int __metal_driver_sifive_gpio0_num_interrupts(struct metal_gpio *gpio);
-extern inline struct metal_interrupt * __metal_driver_sifive_gpio0_interrupt_parent(struct metal_gpio *gpio);
-extern inline int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_gpio *gpio, int idx);
+extern __inline__ unsigned long __metal_driver_sifive_gpio0_base(struct metal_gpio *gpio);
+extern __inline__ unsigned long __metal_driver_sifive_gpio0_size(struct metal_gpio *gpio);
+extern __inline__ int __metal_driver_sifive_gpio0_num_interrupts(struct metal_gpio *gpio);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_gpio0_interrupt_parent(struct metal_gpio *gpio);
+extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_gpio *gpio, int idx);
 
 
 /* --------------------- sifive_gpio_button ------------ */
@@ -71,35 +71,44 @@ extern inline int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_gpio 
 /* --------------------- sifive_gpio_switch ------------ */
 
 
+/* --------------------- sifive_rtc0 ------------ */
+
+
 /* --------------------- sifive_spi0 ------------ */
-extern inline unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi);
-extern inline unsigned long __metal_driver_sifive_spi0_control_size(struct metal_spi *spi);
-extern inline struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_spi0_pinmux(struct metal_spi *spi);
-extern inline unsigned long __metal_driver_sifive_spi0_pinmux_output_selector(struct metal_spi *spi);
-extern inline unsigned long __metal_driver_sifive_spi0_pinmux_source_selector(struct metal_spi *spi);
+extern __inline__ unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi);
+extern __inline__ unsigned long __metal_driver_sifive_spi0_control_size(struct metal_spi *spi);
+extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_spi0_pinmux(struct metal_spi *spi);
+extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_output_selector(struct metal_spi *spi);
+extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selector(struct metal_spi *spi);
 
 
 /* --------------------- sifive_test0 ------------ */
-extern inline unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd);
-extern inline unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
+extern __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd);
+extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
 
 /* --------------------- sifive_uart0 ------------ */
-extern inline unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
-extern inline unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
-extern inline int __metal_driver_sifive_uart0_num_interrupts(struct metal_uart *uart);
-extern inline struct metal_interrupt * __metal_driver_sifive_uart0_interrupt_parent(struct metal_uart *uart);
-extern inline int __metal_driver_sifive_uart0_interrupt_line(struct metal_uart *uart);
-extern inline struct metal_clock * __metal_driver_sifive_uart0_clock(struct metal_uart *uart);
-extern inline struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart);
-extern inline unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart);
-extern inline unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
+extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
+extern __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
+extern __inline__ int __metal_driver_sifive_uart0_num_interrupts(struct metal_uart *uart);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_uart0_interrupt_parent(struct metal_uart *uart);
+extern __inline__ int __metal_driver_sifive_uart0_interrupt_line(struct metal_uart *uart);
+extern __inline__ struct metal_clock * __metal_driver_sifive_uart0_clock(struct metal_uart *uart);
+extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart);
+extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart);
+extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
+
+
+/* --------------------- sifive_wdog0 ------------ */
 
 
 /* --------------------- sifive_fe310_g000_hfrosc ------------ */
 
 
 /* --------------------- sifive_fe310_g000_hfxosc ------------ */
+
+
+/* --------------------- sifive_fe310_g000_lfrosc ------------ */
 
 
 /* --------------------- sifive_fe310_g000_pll ------------ */
@@ -109,6 +118,7 @@ extern inline unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(s
 
 
 /* --------------------- sifive_fu540_c000_l2 ------------ */
+extern __inline__ uintptr_t __metal_driver_sifive_fu540_c000_l2_control_base(struct metal_cache *cache);
 
 
 /* From refclk */
