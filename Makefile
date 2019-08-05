@@ -285,12 +285,12 @@ endif
 ifneq ($(PORT_DIR),)
 	echo "PORT_DIR = $(PORT_DIR)" >> $</Makefile
 endif
-        echo "" >> $</Makefile
-        echo "# The configuration defaults to Debug. Valid choices are:" >> $</Makefile
-        echo "#   - debug" >> $</Makefile
-        echo "#   - release" >> $</Makefile
-        echo "CONFIGURATION ?= ${CONFIGURATION}" >> $</Makefile
-        echo "" >> $</Makefile
+	echo "" >> $</Makefile
+	echo "# The configuration defaults to Debug. Valid choices are:" >> $</Makefile
+	echo "#   - debug" >> $</Makefile
+	echo "#   - release" >> $</Makefile
+	echo "CONFIGURATION ?= ${CONFIGURATION}" >> $</Makefile
+	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
