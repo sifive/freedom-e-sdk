@@ -31,6 +31,10 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - qemu-sifive-s51
 
+- `QEMU Emulation of the SiFive U54 <https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1>`_
+
+  - qemu-sifive-u54
+
 The board support files for the Freedom Metal library are located entirely
 within a single target directory in ``bsp/<target>/``. For example, the HiFive 1
 board support files for Freedom Metal are entirely within ``bsp/sifive-hifive1/``
