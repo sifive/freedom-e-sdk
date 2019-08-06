@@ -62,6 +62,7 @@ void switch2_isr(int id, void *data) {
 int main (void)
 {
     int rc;
+    struct metal_interrupt *plic;
     struct metal_switch *swch1, *swch2;
 
 
@@ -107,6 +108,13 @@ int main (void)
         return (rc * -1);
     }
 
+    // Check we this target has a plic. If not gracefull exit
+    plic = metal_interrupt_get_controller(METAL_PLIC_CONTROLLER, 0);
+    if (plic == NULL) {
+        printf("Exit. This example need a plic interrupt controller for SW1 and SW2.\n");
+        return 0;
+    }
+
     // Setup Switch1, Switch2 and its interrupts
     swch1 = metal_switch_get("SW1");
     swch2 = metal_switch_get("SW2");
@@ -115,9 +123,9 @@ int main (void)
         return 1;
     }
     swch_ic = metal_switch_interrupt_controller(swch1);
-    if ((swch_ic == NULL) || (strcmp(metal_interrupt_label(swch_ic), "riscv,plic"))){
-        printf("Exit. This example need a plic interrupt controller for SW1 and SW2.\n");
-        return 0;
+    if (swch_ic == NULL) {
+        printf("Abort. Failed to get interrupt controller for SW1 and SW2.\n");
+        return 1;
     }
     metal_interrupt_init(swch_ic);
     swch1_irq = metal_switch_get_interrupt_id(swch1);
