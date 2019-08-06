@@ -67,3 +67,6 @@
 [submodule "software/example-watchdog"]
 	path = software/example-watchdog
 	url = https://github.com/sifive/example-watchdog.git
+[submodule "software/cflush"]
+	path = software/cflush
+	url = https://github.com/sifive/example-cflush.git
