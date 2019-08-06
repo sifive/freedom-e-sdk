@@ -327,9 +327,6 @@ static __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return 0;
 	}
-	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
-		return 0;
-	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
 		return 1;
 	}
@@ -338,6 +335,9 @@ static __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
 		return 3;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_4) {
+		return 4;
 	}
 	else {
 		return -1;
@@ -349,9 +349,6 @@ static __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu)
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return 1000000;
 	}
-	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
-		return 1000000;
-	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
 		return 1000000;
 	}
@@ -359,6 +356,9 @@ static __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu)
 		return 1000000;
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return 1000000;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_4) {
 		return 1000000;
 	}
 	else {
@@ -371,9 +371,6 @@ static __inline__ struct metal_interrupt * __metal_driver_cpu_interrupt_controll
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return &__metal_dt_cpu_0_interrupt_controller.controller;
 	}
-	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
-		return &__metal_dt_cpu_0_interrupt_controller.controller;
-	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
 		return &__metal_dt_cpu_1_interrupt_controller.controller;
 	}
@@ -382,6 +379,9 @@ static __inline__ struct metal_interrupt * __metal_driver_cpu_interrupt_controll
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
 		return &__metal_dt_cpu_3_interrupt_controller.controller;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_4) {
+		return &__metal_dt_cpu_4_interrupt_controller.controller;
 	}
 	else {
 		return NULL;
@@ -393,9 +393,6 @@ static __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return 8;
 	}
-	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
-		return 8;
-	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
 		return 8;
 	}
@@ -403,6 +400,9 @@ static __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
 		return 8;
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return 8;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_4) {
 		return 8;
 	}
 	else {
@@ -458,9 +458,6 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 	if (idx == 0) {
 		return (struct metal_interrupt *)&__metal_dt_cpu_0_interrupt_controller.controller;
 	}
-	else if (idx == 0) {
-		return (struct metal_interrupt *)&__metal_dt_cpu_0_interrupt_controller.controller;
-	}
 	else if (idx == 1) {
 		return (struct metal_interrupt *)&__metal_dt_cpu_1_interrupt_controller.controller;
 	}
@@ -493,9 +490,6 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx)
 {
 	if (idx == 0) {
-		return 11;
-	}
-	else if (idx == 0) {
 		return 11;
 	}
 	else if (idx == 1) {
