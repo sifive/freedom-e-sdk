@@ -279,9 +279,6 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 	if (idx == 0) {
 		return (struct metal_interrupt *)&__metal_dt_cpu_0_interrupt_controller.controller;
 	}
-	else if (idx == 0) {
-		return (struct metal_interrupt *)&__metal_dt_cpu_0_interrupt_controller.controller;
-	}
 	else {
 		return NULL;
 	}
@@ -290,9 +287,6 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx)
 {
 	if (idx == 0) {
-		return 11;
-	}
-	else if (idx == 0) {
 		return 11;
 	}
 	else {
