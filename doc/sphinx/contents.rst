@@ -145,3 +145,38 @@ The example programs can be found under the ``software/`` directory.
 
   - "CoreMark" Benchmark Program that measures the performance of embedded
     microcrontrollers (MCU)
+
+- cflush
+
+  - A simple example demo how to use cflush (Data) L1 and use FENCE to ensure flush
+    complete. 
+
+- example-rtc
+
+  - Demonstrates how to use the RTC API to start a Real-Time Clock, set a compare
+    value, and handle an interrupt when the clock matches the compare value.
+
+- example-watchdog
+
+  - Demonstrates how to use the Watchdog API to set a watchdog timer to trigger an
+    interrupt on timeout.
+
+- example-user-mode
+
+  - Demonstrates how to drop to user mode privilege level.
+
+- example-user-syscall
+
+  - Demonstrates how to register a handler for the "syscall from user mode" exception,
+    drop to the user mode privilege level, and then issue a syscall.
+
+- plic-interrupts
+
+  - A simple example demonstrating how PLIC interrupts get uses on an Arty board. 
+
+- test-coreip
+
+  - Assembly test code which executes instructions and checks for expected results.
+    The tests are designed to work on SiFive CPU designs in RTL simulation or on the
+    Arty FPGA board. 
+
