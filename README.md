@@ -61,8 +61,12 @@ operating systems to RISC-V.
     * settings.mk
       - Used to set `-march` and `-mabi` arguments to the RISC-V GNU Toolchain.
 * A Few Example Programs (found under `software/`)
+  - empty
+    - An empty project. Serves as a good starting point for your own program.
   - hello
     - Prints "Hello, World!" to stdout, if a serial device is present on the target.
+  - sifive-welcome
+    - Prints a welcome message and interacts with the LEDs.
   - return-pass
     - Returns status code 0 indicating program success.
   - return-fail
@@ -78,13 +82,33 @@ operating systems to RISC-V.
     - Demonstrates how to register a handler for and trigger a local interrupt
   - example-pmp
     - Demonstrates how to configure a Physical Memory Protection (PMP) region
-  - sifive-welcome
-    - Prints the SiFive banner and blinks LEDs
+  - example-spi
+    - Demonstrates how to use the SPI API to transfer bytes to a peripheral
   - dhrystone
     - "Dhrystone" Benchmark Program by Reinhold P. Weicker
   - coremark
     - "CoreMark" Benchmark Program that measures the performance of embedded
-      microcrontrollers (MCU) Please use SiFive GNU Embedded Toolchain >= v2019.05
+      microcrontrollers (MCU)
+  - cflush
+    - A simple example demo how to use cflush (Data) L1 and use FENCE to ensure flush
+      complete. 
+  - example-rtc
+    - Demonstrates how to use the RTC API to start a Real-Time Clock, set a compare
+      value, and handle an interrupt when the clock matches the compare value.
+  - example-watchdog
+    - Demonstrates how to use the Watchdog API to set a watchdog timer to trigger an
+      interrupt on timeout.
+  - example-user-mode
+    - Demonstrates how to drop to user mode privilege level.
+  - example-user-syscall
+    - Demonstrates how to register a handler for the "syscall from user mode" exception,
+      drop to the user mode privilege level, and then issue a syscall.
+  - plic-interrupts
+    - A simple example demonstrating how PLIC interrupts get uses on an Arty board. 
+  - test-coreip
+    - Assembly test code which executes instructions and checks for expected results.
+      The tests are designed to work on SiFive CPU designs in RTL simulation or on the
+      Arty FPGA board. 
 
 ### Setting up the SDK ###
 
