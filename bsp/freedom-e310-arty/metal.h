@@ -690,6 +690,8 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_MAX_HARTS 1
 
+#define __METAL_CPU_0_ICACHE_HANDLE 1
+
 __asm__ (".weak __metal_cpu_table");
 struct __metal_driver_cpu *__metal_cpu_table[] = {
 					&__metal_dt_cpu_0};
