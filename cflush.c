@@ -26,16 +26,19 @@ int main (void)
         test = data;
         dummy = test++; // Ensure load actually complete
         metal_timer_get_cyclecount(metal_cpu_get_current_hartid(), &mc_count1);
-        metal_dcache_l1_flush(metal_cpu_get_current_hartid());
+
+        // Use cflush (Data) L1
+        metal_dcache_l1_flush(metal_cpu_get_current_hartid(), 0x0);
+
+        // Use cdiscard (Data) L1
+        metal_dcache_l1_discard(metal_cpu_get_current_hartid(), 0x0);
+
+        // Use cflush (Instruction) L1
+        metal_icache_l1_flush(metal_cpu_get_current_hartid());
+
         mc[i] = mc_count1 - mc_count0;
     }
 
-    if (mc[1] <= mc[0]) {
-        printf("CFLUSH failed, pre-mc %d post-mc %d\n", mc[0], mc[1]);
-        return 2;
-    }
-
-    // return
     return 0;
 }
 
