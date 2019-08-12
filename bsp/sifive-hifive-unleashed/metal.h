@@ -941,11 +941,21 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_MAX_HARTS 5
 
+#define __METAL_CPU_0_ICACHE_HANDLE 1
+
+#define __METAL_CPU_1_ICACHE_HANDLE 1
+
 #define __METAL_CPU_1_DCACHE_HANDLE 1
+
+#define __METAL_CPU_2_ICACHE_HANDLE 1
 
 #define __METAL_CPU_2_DCACHE_HANDLE 1
 
+#define __METAL_CPU_3_ICACHE_HANDLE 1
+
 #define __METAL_CPU_3_DCACHE_HANDLE 1
+
+#define __METAL_CPU_4_ICACHE_HANDLE 1
 
 #define __METAL_CPU_4_DCACHE_HANDLE 1
 
