@@ -180,3 +180,15 @@ The example programs can be found under the ``software/`` directory.
     The tests are designed to work on SiFive CPU designs in RTL simulation or on the
     Arty FPGA board. 
 
+- clic-vector-interrupts
+
+  - A simple example demonstrating how to use CLIC non vector interrupts
+
+- clic-selective-vector-interrupts
+
+  - A simple example demonstrating how to use CLIC selective vector interrupts
+
+- clic-hardware-vector-interrupts
+
+  - A simple example demonstrating the use of CLIC hardware vector interrupts
+
