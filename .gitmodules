@@ -73,3 +73,12 @@
 [submodule "software/plic-interrupts"]
 	path = software/plic-interrupts
 	url = https://github.com/sifive/example-plic-interrupts.git
+[submodule "software/clic-vector-interrupts"]
+	path = software/clic-vector-interrupts
+	url = https://github.com/sifive/example-clic-vector-interrupts.git
+[submodule "software/clic-selective-vector-interrupts"]
+	path = software/clic-selective-vector-interrupts
+	url = https://github.com/sifive/example-clic-selective-vector-interrupts.git
+[submodule "software/clic-hardware-vector-interrupts"]
+	path = software/clic-hardware-vector-interrupts
+	url = https://github.com/sifive/example-clic-hardware-vector-interrupts.git
