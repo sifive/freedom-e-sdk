@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+set -x
+
+targets=($(find bsp -name settings.mk | cut -d '/' -f 2)) 
+
+programs=($(ls software))
+
+SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+
+CONFIGURATION=debug
+
+# Run regression tests
+for target in ${targets[@]}
+do
+    for program in "${programs[@]}"
+    do
+        # Dhrystone doesn't fit in the QEMU S51 DTIM
+        if [ "${target}" == "qemu-sifive-s51" -a "${program}" == "dhrystone" ] ; then
+            continue
+        fi
+
+        make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
+        make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean-software
+    done
+    make TARGET="${target}" clean
+done
+
+echo "PASSED"
+
