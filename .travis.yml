@@ -33,4 +33,4 @@ install:
 # Here's where we actually run the test.
 script:
 # Build all software for all targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14 && cd /travis && ./scripts/all-targets-build"
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14 && cd /travis && RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/all-targets-build"

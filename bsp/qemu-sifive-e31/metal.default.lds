@@ -29,19 +29,22 @@ SECTIONS
 
 	.init : {
 		KEEP (*(.text.metal.init.enter))
+		KEEP (*(.text.metal.init.*))
 		KEEP (*(SORT_NONE(.init)))
 		KEEP (*(.text.libgloss.start))
 	} >flash AT>flash :flash
+
+	.fini : {
+		KEEP (*(SORT_NONE(.fini)))
+	} >flash AT>flash :flash
+
+
 
 	.text : {
 		*(.text.unlikely .text.unlikely.*)
 		*(.text.startup .text.startup.*)
 		*(.text .text.*)
 		*(.gnu.linkonce.t.*)
-	} >flash AT>flash :flash
-
-	.fini : {
-		KEEP (*(SORT_NONE(.fini)))
 	} >flash AT>flash :flash
 
 	PROVIDE (__etext = .);
