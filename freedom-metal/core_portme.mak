@@ -32,7 +32,11 @@ OUTFLAG= -o
 #AS		= gas
 # Flag : CFLAGS
 #	Use this flag to define compiler options. Note, you can add compiler options from the command line using XCFLAGS="other flags"
-PORT_CFLAGS = -O3 -DITERATIONS=3000 -DPERFORMANCE_RUN=1 -DMAIN_HAS_NOARGC=1 -DHAS_STDIO -DHAS_PRINTF -DHAS_TIME_H -DUSE_CLOCK -DHAS_FLOAT=0
+PORT_CFLAGS = -O3 -DPERFORMANCE_RUN=1 -DMAIN_HAS_NOARGC=1 -DHAS_STDIO -DHAS_PRINTF -DHAS_TIME_H -DUSE_CLOCK -DHAS_FLOAT=0
+
+# Turn of the maybe-unitialized warning to pacify -Wall -Wextra -Wpedantic -Werror on code we can't control
+PORT_CFLAGS += -Wno-maybe-uninitialized
+
 FLAGS_STR = "$(PORT_CFLAGS) $(XCFLAGS) $(XLFLAGS) $(LFLAGS_END)"
 override CFLAGS += $(PORT_CFLAGS) -I$(PORT_DIR) -I. -DFLAGS_STR=\"$(FLAGS_STR)\" -Xlinker --defsym=__stack_size=0x1000
 #Flag : LFLAGS_END
