@@ -6,6 +6,8 @@
 #include <metal/cpu.h>
 #include <metal/cache.h>
 
+#define UNUSED(x) (void)(x)
+
 int data = 0xABBACADA;
 
 int main (void)
@@ -38,6 +40,9 @@ int main (void)
 
         mc[i] = mc_count1 - mc_count0;
     }
+
+    UNUSED(mc);
+    UNUSED(dummy);
 
     return 0;
 }
