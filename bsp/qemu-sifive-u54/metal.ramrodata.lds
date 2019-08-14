@@ -29,15 +29,9 @@ SECTIONS
 
 	.init : {
 		KEEP (*(.text.metal.init.enter))
+		KEEP (*(.text.metal.init.*))
 		KEEP (*(SORT_NONE(.init)))
 		KEEP (*(.text.libgloss.start))
-	} >rom AT>rom :flash
-
-	.text : {
-		*(.text.unlikely .text.unlikely.*)
-		*(.text.startup .text.startup.*)
-		*(.text .text.*)
-		*(.gnu.linkonce.t.*)
 	} >rom AT>rom :flash
 
 	.fini : {
@@ -96,6 +90,13 @@ SECTIONS
 	.ditimalign : {
 		. = ALIGN(8);
 		PROVIDE( metal_segment_itim_target_start = . );
+	} >rom AT>rom :itim_init
+
+	.text : {
+		*(.text.unlikely .text.unlikely.*)
+		*(.text.startup .text.startup.*)
+		*(.text .text.*)
+		*(.gnu.linkonce.t.*)
 	} >rom AT>rom :itim_init
 
 	.itim_section : {
