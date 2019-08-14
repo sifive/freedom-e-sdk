@@ -22,6 +22,12 @@ do
             continue
         fi
 
+        # We don't have a hope of building dhrystone with strict warnings and errors
+        echo $RISCV_CFLAGS
+        if [ "${program}" == "dhrystone" -a `echo ${RISCV_CFLAGS} | grep -c "\-Werror"` -ne 0 ] ; then
+            continue
+        fi
+
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean-software
     done
