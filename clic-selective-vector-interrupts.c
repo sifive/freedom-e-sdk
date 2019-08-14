@@ -49,7 +49,7 @@ void csip_isr(void) {
 #else
 void csip_isr(int id, void *data) {
 #endif
-    printf("Got CSIP interrupt on via IRQ %d!\n");
+    printf("Got CSIP interrupt on via IRQ %d!\n", id);
     metal_interrupt_clear(clic, csip_irq);
     printf("Clear and re-arm timer another 10 seconds.\n");
     metal_led_toggle(led0_green);
@@ -141,7 +141,7 @@ int main (void)
     }
 
     while (1) {
-        asm volatile ("wfi");
+        __asm__ volatile ("wfi");
     }
 
     return 0;
