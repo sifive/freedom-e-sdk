@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This script detects when the medany code model is insufficient to support
+# a target's memory layout.
+
+OUTPUT=`./scripts/all-targets-build 2>&1`
+
+if [ `echo $OUTPUT | grep -c "PCREL"` -ne 0 ] ; then
+    >&2 echo "ERROR: The linker is reporting a PC-relative addressing error."
+    >&2 echo "       This usually indicates that the memory layout for the"
+    >&2 echo "       target is incompatible with the selected code model."
+    >&2 echo "       Here, it probably means that this target requires support"
+    >&2 echo "       for the 'large' code model and cannot be supported with the"
+    >&2 echo "       current toolchain."
+    exit 1
+fi
