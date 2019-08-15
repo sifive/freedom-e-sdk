@@ -90,6 +90,13 @@ endif
 include scripts/standalone.mk
 
 #############################################################
+# Prints version message
+#############################################################
+.PHONY: version
+version:
+	@echo 2019.08
+
+#############################################################
 # Prints help message
 #############################################################
 .PHONY: help
@@ -151,12 +158,31 @@ clean:
 # Freedom Studio dev team.
 #############################################################
 
+#############################################################
+# Prints api version message.  This version should be 
+# incremented if the list-targets, list-target-tags.
+# list-programs, list-options, or standalone targets change
+# in any way that affectz Freedom Studio requirements.
+# A given version of Freedom Stddio may not support 
+# 'future' versions of freedom-e-sdk.  Backward support
+# should be supported.
+#############################################################
+.PHONY: api-version
+api-version:
+	@echo 1.0
+
 # Find all settings.mk with TARGET_REQUIRE_TAGS in TARGET_TAGS
+# Freedom Studio uses this macro.  Changing this macro may break Freedom Studio's
+# ability to create new projects.
 MATCHING_SETTINGS = $(shell scripts/filter-targets $(TARGET_ROOT)/bsp $(TARGET_REQUIRE_TAGS))
 
 # Get the name of the containing directory of all matching settings.mk
+# Freedom Studio uses this macro.  Changing this macro may break Freedom Studio's
+# ability to create new projects.
 MATCHING_TARGETS = $(patsubst $(TARGET_ROOT)/bsp/%/,%,$(dir $(MATCHING_SETTINGS)))
 
+# Freedom Studio uses this target.  Changing this target may break Freedom Studio's
+# ability to create new projects.
 .PHONY: list-targets
 list-targets:
 	@echo bsp-list: $(sort $(MATCHING_TARGETS))
@@ -170,6 +196,8 @@ list-targets:
 #  5. Sort the lines
 #  6. Find unique tags
 #
+# Freedom Studio uses this target.  Changing this target may break Freedom Studio's
+# ability to create new projects.
 .PHONY: list-target-tags
 list-target-tags:
 	@echo target-tags: $(shell find $(TARGET_ROOT)/bsp -name settings.mk | \
@@ -180,10 +208,14 @@ list-target-tags:
 		uniq)
 
 # Metal programs are any submodules in the software folder
+# Freedom Studio uses this target.  Changing this target may break Freedom Studio's
+# ability to create new projects.
 .PHONY: list-programs
 list-programs:
 	@echo program-list: $(shell ls $(PROGRAM_ROOT)/software)
 
+# Freedom Studio uses this target.  Changing this target may break Freedom Studio's
+# ability to create new projects.
 .PHONY: list-options
 list-options: list-programs list-targets
 
@@ -206,6 +238,8 @@ $(STANDALONE_DEST):
 $(STANDALONE_DEST)/%:
 	mkdir -p $@
 
+# Freedom Studio uses the 'standalone' target.  Changing this target may break Freedom Studio's
+# ability to create new projects.
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 # TARGETs with the "rtl" TARGET_TAG need elf2hex in their standalone project
 standalone: \
