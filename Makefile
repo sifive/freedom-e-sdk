@@ -167,8 +167,8 @@ clean:
 # 'future' versions of freedom-e-sdk.  Backward support
 # should be supported.
 #############################################################
-.PHONY: api-version
-api-version:
+.PHONY: freedomstudio-api-version
+freedomstudio-api-version:
 	@echo 1.0
 
 # Find all settings.mk with TARGET_REQUIRE_TAGS in TARGET_TAGS
