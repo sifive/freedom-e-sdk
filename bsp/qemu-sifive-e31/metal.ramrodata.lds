@@ -15,6 +15,7 @@ PHDRS
 	ram_init PT_LOAD;
 	itim PT_LOAD;
 	itim_init PT_LOAD;
+	tls PT_TLS;
 }
 
 SECTIONS
@@ -124,10 +125,31 @@ SECTIONS
 		*(.gnu.linkonce.r.*)
 	} >ram AT>flash :ram_init
 
+	.tdata : {
+		PROVIDE( __tls_base = . );
+		*(.tdata .tdata.* .gnu.linkonce.td.*)
+	} >ram AT>flash :tls :ram_init
+
 	PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
 	PROVIDE( metal_segment_data_target_start = ADDR(.data) );
-	PROVIDE( metal_segment_data_target_end = ADDR(.data) + SIZEOF(.data) );
+	PROVIDE( __tdata_source = LOADADDR(.tdata) );
+	PROVIDE( __tdata_size = SIZEOF(.tdata) );
+	PROVIDE( _edata = . );
+	PROVIDE( edata = . );
+	PROVIDE( metal_segment_data_target_end = . );
 
+
+	.tbss : {
+		*(.tbss .tbss.* .gnu.linkonce.tb.*)
+		*(.tcommon .tcommon.*)
+		PROVIDE( __tls_end = . );
+	} >ram AT>ram :tls :ram
+	PROVIDE( __tbss_size = SIZEOF(.tbss));
+	PROVIDE( __tls_size = __tls_end - __tls_base );
+
+	.tbss_space : {
+		. = . + __tbss_size;
+	} >ram AT>ram :ram
 
 	.bss : ALIGN(8) {
 		*(.sbss*)
@@ -136,8 +158,8 @@ SECTIONS
 		*(.gnu.linkonce.b.*)
 		*(COMMON)
 	} >ram AT>ram :ram
-	PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
-	PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
+	PROVIDE( metal_segment_bss_target_start = ADDR(.tbss) );
+	PROVIDE( metal_segment_bss_target_end = . );
 
 	.stack : {
 		PROVIDE(metal_segment_stack_begin = .);
