@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Sets the timeout for our asynchronous polling and for the subshell command
+TIMEOUT_SECONDS=300
+
+TARGETS=(qemu-sifive-e31 qemu-sifive-s51 qemu-sifive-u54 )
+PROGRAMS=(hello )
+
+for target in ${TARGETS[@]} ; do
+    for program in ${PROGRAMS[@]} ; do
+
+        output_file=$( mktemp -p ./ tmp.${target}.${program}.XXXXXXXXXX)
+
+        case $program in
+            hello)      expected_output="Hello, World!";;
+            *)          expected_output="";;
+        esac
+
+        >&2 echo "Running ${program} on ${target}"
+
+        start_time=$(date +%s)
+        timeout=$(( start_time + ${TIMEOUT_SECONDS} ))
+
+        # Run the build and simulation in a subshell and pipe the output into
+        # the temporariy output file so that we can asynchronously look for
+        # the expected output
+        ( timeout ${TIMEOUT_SECONDS}s make TARGET=${target} PROGRAM=${program} simulate 2>/dev/null >${output_file} ) &
+
+        while true; do
+
+            # If the expected output is found, kill the subshell and continue
+            # to the next test
+            if [ -f ${output_file} -a `cat ${output_file} | grep -c "${expected_output}"` -ne 0 ] ; then
+                kill $(jobs -p)
+
+                cat ${output_file}
+                >&2 echo "${program} on ${target} was successful"
+
+                break
+            fi
+
+            # If the test times out, report the failure and exit
+            if [ `date +%s` -gt $timeout ] ; then
+                kill $(jobs -p)
+
+                cat ${output_file}
+                >&2 echo "${program} on ${target} timed out without producing expected output"
+
+                exit 1
+            fi
+        done
+
+        # Make sure we clean up after ourselves
+        make TARGET=${target} PROGRAM=${program} clean 2>&1 >/dev/null
+    done
+done
+
+>&2 echo "All tests passed on QEMU"
