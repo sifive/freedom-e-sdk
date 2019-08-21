@@ -1,0 +1,147 @@
+[
+    {
+        "commit": "1aba35de05e54683369d2cecbf467d90413f2bd0",
+        "name": "freedom-devicetree-tools",
+        "source": "git@github.com:sifive/freedom-devicetree-tools.git"
+    },
+    {
+        "commit": "2444567a1a932770969641e539bb9fb743e61170",
+        "name": "freedom-metal",
+        "source": "git@github.com:sifive/freedom-metal.git"
+    },
+    {
+        "commit": "980f9b9929701ec526d73c59cf39923ef570d599",
+        "name": "elf2hex",
+        "source": "git@github.com:sifive/elf2hex.git"
+    },
+    {
+        "commit": "8ff0ab1db77b134b56815905bf694eb8a767285b",
+        "name": "benchmark-dhrystone",
+        "source": "git@github.com:sifive/benchmark-dhrystone.git"
+    },
+    {
+        "commit": "cc9baedc061ae27b13a89c349dde9d674084f1a8",
+        "name": "benchmark-coremark",
+        "source": "git@github.com:sifive/benchmark-coremark.git"
+    },
+    {
+        "commit": "28c62c70af86650140ec4ab4b9bd3216c604f7d3",
+        "name": "example-cflush",
+        "source": "git@github.com:sifive/example-cflush.git"
+    },
+    {
+        "commit": "1d47c36c93ac129569c21e71f2d380f146c846f4",
+        "name": "example-clic-hardware-vector-interrupts",
+        "source": "git@github.com:sifive/example-clic-hardware-vector-interrupts.git"
+    },
+    {
+        "commit": "f88ddeebc5ecd84989b685082951e6e9ad3a7655",
+        "name": "example-clic-selective-vector-interrupts",
+        "source": "git@github.com:sifive/example-clic-selective-vector-interrupts.git"
+    },
+    {
+        "commit": "557e83049d6d515885c7fb1f4f22924316ec9a98",
+        "name": "example-clic-vector-interrupts",
+        "source": "git@github.com:sifive/example-clic-vector-interrupts.git"
+    },
+    {
+        "commit": "e81774503fd4670830cb54508a4607c9a33fbc31",
+        "name": "example-hello",
+        "source": "git@github.com:sifive/example-hello.git"
+    },
+    {
+        "commit": "97ad7298444ef118d62cb8cd953dd5ef0a94e2d9",
+        "name": "example-empty",
+        "source": "git@github.com:sifive/example-empty.git"
+    },
+    {
+        "commit": "5bba3ab6adc8c0c6649c49c4ad13859a1a5c80be",
+        "name": "example-itim",
+        "source": "git@github.com:sifive/example-itim.git"
+    },
+    {
+        "commit": "57e15fee6a1dbbb06f0f615892488090a0b05d26",
+        "name": "example-pmp",
+        "source": "git@github.com:sifive/example-pmp.git"
+    },
+    {
+        "commit": "17176f92886e6d0918b3422f24d592f97db9ed62",
+        "name": "example-rtc",
+        "source": "git@github.com:sifive/example-rtc.git"
+    },
+    {
+        "commit": "a9ab5285d841d06dbc60769a2548ac6ff1e21f29",
+        "name": "example-spi",
+        "source": "git@github.com:sifive/example-spi.git"
+    },
+    {
+        "commit": "be15c38fc63e3e4285c40a2d84af1b649b9ba8bf",
+        "name": "example-watchdog",
+        "source": "git@github.com:sifive/example-watchdog.git"
+    },
+    {
+        "commit": "dbe0ff2074e77fc251e2fad811d1c5c3e339614b",
+        "name": "example-user-mode",
+        "source": "git@github.com:sifive/example-user-mode.git"
+    },
+    {
+        "commit": "9cacb154e213d9f695bb5162197227bc7a7a67d7",
+        "name": "example-user-syscall",
+        "source": "git@github.com:sifive/example-user-syscall.git"
+    },
+    {
+        "commit": "56e38090bbfaf845b555443c3466f4a3de10b271",
+        "name": "example-plic-interrupts",
+        "source": "git@github.com:sifive/example-plic-interrupts.git"
+    },
+    {
+        "commit": "19216e862fa9c47abec676c185f0c5f2e44fd2c9",
+        "name": "test-coreip",
+        "source": "git@github.com:sifive/test-coreip.git"
+    },
+    {
+        "commit": "b8f304d296e031b8139729c02621c29e2cea3b20",
+        "name": "example-multicore-hello",
+        "source": "git@github.com:sifive/example-multicore-hello.git"
+    },
+    {
+        "commit": "51fdd6e1590e00bc44dfabeaaee560b62c09c3be",
+        "name": "example-return-fail",
+        "source": "git@github.com:sifive/example-return-fail.git"
+    },
+    {
+        "commit": "b135caed29e8d44b5f6d674988b9175b6b3de3c5",
+        "name": "example-return-pass",
+        "source": "git@github.com:sifive/example-return-pass.git"
+    },
+    {
+        "commit": "52434ebc25f427d5058aab82d3af3431b0d953e0",
+        "name": "example-sifive-welcome",
+        "source": "git@github.com:sifive/example-sifive-welcome.git"
+    },
+    {
+        "commit": "b10a32d2b079e8e454648bd605b49954ed0fd505",
+        "name": "example-software-interrupt",
+        "source": "git@github.com:sifive/example-software-interrupt.git"
+    },
+    {
+        "commit": "36f3a5bc3e48b090d90e06bfa08a347bab485aee",
+        "name": "example-timer-interrupt",
+        "source": "git@github.com:sifive/example-timer-interrupt.git"
+    },
+    {
+        "commit": "d97c67899e46a0d9eaca8fd92071bfdc9c04f7cc",
+        "name": "example-scie-tests",
+        "source": "git@github.com:sifive/example-scie-tests.git"
+    },
+    {
+        "commit": "66a95838f54f6b6e91f1bd600da9b53680787c86",
+        "name": "example-local-interrupt",
+        "source": "git@github.com:sifive/example-local-interrupt.git"
+    },
+    {
+        "commit": "7c179f11112c56f6eea9001eeb6142dd09bf5781",
+        "name": "example-sifive-welcome",
+        "source": "git@github.com:sifive/example-sifive-welcome.git"
+    }
+]
