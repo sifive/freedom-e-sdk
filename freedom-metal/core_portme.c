@@ -99,7 +99,7 @@ CORE_TICKS get_time(void) {
 	Default implementation implemented by the EE_TICKS_PER_SEC macro above.
 */
 secs_ret time_in_secs(CORE_TICKS ticks) {
-	secs_ret retval=((secs_ret)ticks) / (secs_ret)EE_TICKS_PER_SEC;
+	secs_ret retval=((unsigned int)ticks) / (unsigned int)EE_TICKS_PER_SEC;
 	return retval;
 }
 
