@@ -27,19 +27,22 @@ SECTIONS
 
 	.init : {
 		KEEP (*(.text.metal.init.enter))
+		KEEP (*(.text.metal.init.*))
 		KEEP (*(SORT_NONE(.init)))
 		KEEP (*(.text.libgloss.start))
 	} >ram AT>ram :ram
+
+	.fini : {
+		KEEP (*(SORT_NONE(.fini)))
+	} >ram AT>ram :ram
+
+
 
 	.text : {
 		*(.text.unlikely .text.unlikely.*)
 		*(.text.startup .text.startup.*)
 		*(.text .text.*)
 		*(.gnu.linkonce.t.*)
-	} >ram AT>ram :ram
-
-	.fini : {
-		KEEP (*(SORT_NONE(.fini)))
 	} >ram AT>ram :ram
 
 	PROVIDE (__etext = .);
@@ -100,35 +103,16 @@ SECTIONS
 
 
 
-	.litimalign : {
-		. = ALIGN(8);
-		PROVIDE( metal_segment_itim_source_start = . );
-	} >ram AT>ram :ram
-
-	.ditimalign : {
-		. = ALIGN(8);
-		PROVIDE( metal_segment_itim_target_start = . );
-	} >ram AT>ram :itim_init
-
-	.itim_section : {
+	.itim : ALIGN(8) {
 		*(.itim .itim.*)
 	} >ram AT>ram :itim_init
 
-	PROVIDE( metal_segment_itim_target_end = . );
+	PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
+	PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
+	PROVIDE( metal_segment_itim_target_end = ADDR(.itim) + SIZEOF(.itim) );
 
 
-	.lalign : {
-		. = ALIGN(8);
-		PROVIDE( _data_lma = . );
-		PROVIDE( metal_segment_data_source_start = . );
-	} >ram AT>ram :ram
-
-	.dalign : {
-		. = ALIGN(8);
-		PROVIDE( metal_segment_data_target_start = . );
-	} >ram AT>ram :ram_init
-
-	.data : {
+	.data : ALIGN(8) {
 		*(.data .data.*)
 		*(.gnu.linkonce.d.*)
 		. = ALIGN(8);
@@ -141,27 +125,26 @@ SECTIONS
 		*(.srodata.cst4)
 		*(.srodata.cst2)
 		*(.srodata .srodata.*)
+		. = ALIGN(8);
+		*(.rdata)
+		*(.rodata .rodata.*)
+		*(.gnu.linkonce.r.*)
 	} >ram AT>ram :ram_init
 
-	PROVIDE( _edata = . );
-	PROVIDE( edata = . );
-	PROVIDE( metal_segment_data_target_end = . );
+	PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
+	PROVIDE( metal_segment_data_target_start = ADDR(.data) );
+	PROVIDE( metal_segment_data_target_end = ADDR(.data) + SIZEOF(.data) );
 
-	. = ALIGN(8);
-	PROVIDE( _fbss = . );
-	PROVIDE( __bss_start = . );
-	PROVIDE( metal_segment_bss_target_start = . );
 
-	.bss : {
+	.bss : ALIGN(8) {
 		*(.sbss*)
 		*(.gnu.linkonce.sb.*)
 		*(.bss .bss.*)
 		*(.gnu.linkonce.b.*)
 		*(COMMON)
 	} >ram AT>ram :ram
-	PROVIDE( _end = . );
-	PROVIDE( end = . );
-	PROVIDE( metal_segment_bss_target_end = . );
+	PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
+	PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
 	.stack : {
 		PROVIDE(metal_segment_stack_begin = .);
