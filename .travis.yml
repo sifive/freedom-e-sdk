@@ -28,10 +28,10 @@ install:
 # Install QEMU dependencies
   - docker exec -t host bash -c "yes | apt-get install libpixman-1-0 libnuma1 libpng12-0 libglib2.0-0"
 # Download RISC-V embedded toolchain
-  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-RC2-x86_64-linux-ubuntu14.tar.gz"
   - docker exec -t host bash -c "cd /travis && tar xzvf riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz"
 # Download RISC-V QEMU
-  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv-qemu-3.1.0-2019.05.1-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv-qemu-4.1.0-2019.08.0-RC2-preview1-x86_64-linux-ubuntu14.tar.gz"
   - docker exec -t host bash -c "cd /travis && tar xzvf riscv-qemu-3.1.0-2019.05.1-x86_64-linux-ubuntu14.tar.gz"
 
 # Here's where we actually run the test.
