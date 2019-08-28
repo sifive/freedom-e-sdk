@@ -7,6 +7,7 @@
 	model = "ucbbar,spike-bare,qemu";
 
 	chosen {
+		metal,boothart = <&cpu1>;
 		metal,ram = <&ram>;
 		metal,rom = <&rom>;
 		bootargs = [00];
@@ -18,7 +19,7 @@
 		#size-cells = <0x0>;
 		timebase-frequency = <0x989680>;
 
-		cpu@0 {
+		cpu0: cpu@0 {
 			device_type = "cpu";
 			reg = <0x0>;
 			status = "okay";
@@ -37,7 +38,7 @@
 			};
 		};
 
-		cpu@1 {
+		cpu1: cpu@1 {
 			device_type = "cpu";
 			reg = <0x1>;
 			status = "okay";
@@ -55,7 +56,7 @@
 			};
 		};
 
-		cpu@2 {
+		cpu2: cpu@2 {
 			device_type = "cpu";
 			reg = <0x2>;
 			status = "okay";
@@ -73,7 +74,7 @@
 			};
 		};
 
-		cpu@3 {
+		cpu3: cpu@3 {
 			device_type = "cpu";
 			reg = <0x3>;
 			status = "okay";
