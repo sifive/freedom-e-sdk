@@ -7,8 +7,10 @@
 	model = "ucbbar,spike-bare,qemu";
 
 	chosen {
+		metal,ram = <&ram>;
+		metal,rom = <&rom>;
 		bootargs = [00];
-		stdout-path = "/soc/uart@10013000";
+		stdout-path = "/soc/uart@10013000:115200";
 	};
 
 	cpus {
@@ -16,7 +18,7 @@
 		#size-cells = <0x0>;
 		timebase-frequency = <0x989680>;
 
-		cpu@0 {
+		cpu0: cpu@0 {
 			device_type = "cpu";
 			reg = <0x0>;
 			status = "okay";
@@ -24,6 +26,7 @@
 			riscv,isa = "rv64imafdcsu";
 			mmu-type = "riscv,sv48";
 			clock-frequency = <0x3b9aca00>;
+			riscv,pmpregions = <8>;
 
 			interrupt-controller {
 				#interrupt-cells = <0x1>;
@@ -34,7 +37,7 @@
 			};
 		};
 
-		cpu@1 {
+		cpu1: cpu@1 {
 			device_type = "cpu";
 			reg = <0x1>;
 			status = "okay";
@@ -52,7 +55,7 @@
 			};
 		};
 
-		cpu@2 {
+		cpu2: cpu@2 {
 			device_type = "cpu";
 			reg = <0x2>;
 			status = "okay";
@@ -70,7 +73,7 @@
 			};
 		};
 
-		cpu@3 {
+		cpu3: cpu@3 {
 			device_type = "cpu";
 			reg = <0x3>;
 			status = "okay";
@@ -89,9 +92,9 @@
 		};
 	};
 
-	memory@80000000 {
+	ram: memory@80010000 {
 		device_type = "memory";
-		reg = <0x0 0x80000000 0x0 0x8000000>;
+		reg = <0x0 0x80010000 0x0 0x7FFF000>;
 	};
 
 	soc {
@@ -99,6 +102,11 @@
 		#size-cells = <0x2>;
 		compatible = "simple-bus";
 		ranges;
+
+		rom: memory@80000000 {
+			device_type = "memory";
+			reg = <0x0 0x80000000 0x0 0x10000>;
+		};
 
 		uart@10013000 {
 			interrupts = <0x3>;
