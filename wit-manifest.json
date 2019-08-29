@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "8a3c9c04600946f4228b2e7e76c0058dc6388f60",
+        "commit": "d9625cb50cc08b03695261ea071e731e12e2a607",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -128,6 +128,11 @@
         "commit": "66a95838f54f6b6e91f1bd600da9b53680787c86",
         "name": "example-local-interrupt",
         "source": "git@github.com:sifive/example-local-interrupt.git"
+    },
+    {
+        "commit": "ee50c8451e3cd0b7a782462b9b6c75ff15cb37ae",
+        "name": "example-local-vector-interrupts",
+        "source": "git@github.com:sifive/example-local-vector-interrupts.git"
     },
     {
         "commit": "52434ebc25f427d5058aab82d3af3431b0d953e0",
