@@ -20,7 +20,7 @@
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
     },
     {
-        "commit": "2a15fbb3ecae618f978a1c6f9eaa1fb469aa688c",
+        "commit": "2bf740775c8601ff06af027a33b099b84b0240f9",
         "name": "benchmark-coremark",
         "source": "git@github.com:sifive/benchmark-coremark.git"
     },
