@@ -6,7 +6,7 @@ ignored_submodules='doc\/html'
 
 function check_submodule {
   jq -e ".[]|select(.commit == \"$1\")" wit-manifest.json || \
-    (>&2 echo "$2 does have a matching wit-manifest.json dependency!"; exit 1)
+    (>&2 echo "$2 does NOT have a matching wit-manifest.json dependency!"; exit 1)
 }
 
 export -f check_submodule
