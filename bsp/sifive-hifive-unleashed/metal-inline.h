@@ -87,6 +87,8 @@ extern __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __
 extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
 
+/* --------------------- sifive_trace ------------ */
+
 /* --------------------- sifive_uart0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
