@@ -17,14 +17,8 @@ for target in ${targets[@]}
 do
     for program in "${programs[@]}"
     do
-        # Dhrystone doesn't fit in the QEMU S51 DTIM
-        if [ "${target}" == "qemu-sifive-s51" -a "${program}" == "dhrystone" ] ; then
-            continue
-        fi
-
-        # We don't have a hope of building dhrystone with strict warnings and errors
-        echo $RISCV_CFLAGS
-        if [ "${program}" == "dhrystone" -a `echo ${RISCV_CFLAGS} | grep -c "\-Werror"` -ne 0 ] ; then
+        # Coremark and Dhrystone don't fit
+        if [ "${program}" == "dhrystone" -o "${program}" == "coremark" ] ; then
             continue
         fi
 
