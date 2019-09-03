@@ -554,6 +554,8 @@ static __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 /* --------------------- sifive_test0 ------------ */
 
 
+/* --------------------- sifive_trace ------------ */
+
 /* --------------------- sifive_uart0 ------------ */
 static __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart)
 {

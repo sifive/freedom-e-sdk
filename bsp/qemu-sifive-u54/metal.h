@@ -325,6 +325,8 @@ static __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __
 
 
 
+/* --------------------- sifive_trace ------------ */
+
 /* --------------------- sifive_uart0 ------------ */
 static __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart)
 {

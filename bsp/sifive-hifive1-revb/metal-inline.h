@@ -90,6 +90,8 @@ extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 /* --------------------- sifive_test0 ------------ */
 
 
+/* --------------------- sifive_trace ------------ */
+
 /* --------------------- sifive_uart0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
