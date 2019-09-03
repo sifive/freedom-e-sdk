@@ -17,11 +17,9 @@ for target in ${targets[@]}
 do
     for program in "${programs[@]}"
     do
-        # Coremark and Dhrystone don't fit in QEMU targets
-        if [[ "${target}" == "qemu"* ]] ; then
-            if [ "${program}" == "dhrystone" -o "${program}" == "coremark" ] ; then
-                continue
-            fi
+        # Coremark and Dhrystone don't fit
+        if [ "${program}" == "dhrystone" -o "${program}" == "coremark" ] ; then
+            continue
         fi
 
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
