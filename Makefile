@@ -9,7 +9,7 @@ DHRY-CFLAGS += -fno-builtin-printf -fno-common -falign-functions=4
 SRC = dhry_1.c dhry_2.c
 HDR = dhry.h
 
-override CFLAGS += $(DHRY-CFLAGS) $(XCFLAGS) -Xlinker --defsym=__stack_size=0x800
+override CFLAGS += $(DHRY-CFLAGS) $(XCFLAGS) -Xlinker --defsym=__stack_size=0x1000
 dhrystone: $(SRC) $(HDR)
 	$(CC) $(CFLAGS) $(SRC) $(LDFLAGS) $(LOADLIBES) $(LDLIBS) -o $@
 
