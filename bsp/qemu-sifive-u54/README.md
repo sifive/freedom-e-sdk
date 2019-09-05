@@ -7,4 +7,4 @@ Metal libraries. It supports:
 - 1 hart with support for the RV64GC instruction set
 - A Memory Management Unit with SV48 Virtual Memory
 
-This BSP matches the QEMU code in https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1
+This BSP matches the QEMU code in https://git.qemu.org/?p=qemu.git;a=tree;h=refs/tags/v4.1.0;hb=refs/tags/v4.1.0

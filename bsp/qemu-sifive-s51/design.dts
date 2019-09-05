@@ -87,6 +87,12 @@
                         reg-names = "config";
                 };
 
+                test: test@100000 {
+                        compatible = "sifive,test0";
+                        reg = <0x100000 0x1000>;
+                        reg-names = "control";
+                };
+
                 aon: aon@10000000 {
                         compatible = "sifive,aon0";
                         reg = <0x10000000 0x8000>;
@@ -144,7 +150,7 @@
 
                 dtim: dtim@80000000 {
                         compatible = "sifive,dtim0";
-                        reg = <0x80000000 0x4000>;
+                        reg = <0x80000000 0x400000>;
                         reg-names = "mem";
                 };
 
