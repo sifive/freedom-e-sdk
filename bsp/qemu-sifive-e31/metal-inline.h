@@ -92,6 +92,8 @@ extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 
 
 /* --------------------- sifive_test0 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd);
+extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
 
 /* --------------------- sifive_trace ------------ */
@@ -172,7 +174,7 @@ struct __metal_driver_fixed_clock __metal_dt_clock_5 = {
 
 struct metal_memory __metal_dt_mem_dtim_80000000 = {
     ._base_address = 2147483648UL,
-    ._size = 16384UL,
+    ._size = 4194304UL,
     ._attrs = {
         .R = 1,
         .W = 1,
@@ -249,6 +251,11 @@ struct __metal_driver_sifive_rtc0 __metal_dt_rtc_10000000 = {
 /* From spi@10014000 */
 struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
     .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
+};
+
+/* From test@100000 */
+struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
+    .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
 };
 
 /* From serial@10013000 */
