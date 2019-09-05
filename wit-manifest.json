@@ -15,7 +15,7 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "9a102bc2936a921e4da79cdf396189faaa98f242",
+        "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
     },
