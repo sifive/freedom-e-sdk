@@ -80,12 +80,12 @@
         "source": "git@github.com:sifive/example-watchdog.git"
     },
     {
-        "commit": "dbe0ff2074e77fc251e2fad811d1c5c3e339614b",
+        "commit": "00f22ac352fe540e7061fdb01a6ecfee88afc2c2",
         "name": "example-user-mode",
         "source": "git@github.com:sifive/example-user-mode.git"
     },
     {
-        "commit": "9cacb154e213d9f695bb5162197227bc7a7a67d7",
+        "commit": "dde4f8537d4cf26a2ed4b6667829cbab7bcc05b9",
         "name": "example-user-syscall",
         "source": "git@github.com:sifive/example-user-syscall.git"
     },
