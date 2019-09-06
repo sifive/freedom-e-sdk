@@ -113,13 +113,10 @@ RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
 RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
-
-ifneq ($(PROGRAM),dhrystone)
 # Use newlib-nano
 RISCV_CCASFLAGS += --specs=nano.specs
 RISCV_CFLAGS    += --specs=nano.specs
 RISCV_CXXFLAGS  += --specs=nano.specs
-endif
 
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
