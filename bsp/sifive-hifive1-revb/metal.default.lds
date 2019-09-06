@@ -151,7 +151,7 @@ SECTIONS
 
 	.stack : {
 		PROVIDE(metal_segment_stack_begin = .);
-		. = __stack_size;
+		. += __stack_size;
 		PROVIDE( _sp = . );
 		PROVIDE(metal_segment_stack_end = .);
 	} >ram AT>ram :ram
