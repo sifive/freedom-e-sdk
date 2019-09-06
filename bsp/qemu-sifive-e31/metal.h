@@ -705,7 +705,7 @@ static __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 static __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd)
 {
 	if ((uintptr_t)sd == (uintptr_t)&__metal_dt_test_100000) {
-		return METAL_SIFIVE_TEST0_100000_BASE_ADDRESS;
+		return 1048576;
 	}
 	else {
 		return 0;
@@ -715,7 +715,7 @@ static __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __
 static __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd)
 {
 	if ((uintptr_t)sd == (uintptr_t)&__metal_dt_test_100000) {
-		return METAL_SIFIVE_TEST0_100000_SIZE;
+		return 4096;
 	}
 	else {
 		return 0;

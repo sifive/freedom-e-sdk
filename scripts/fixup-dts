@@ -84,6 +84,21 @@ if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
     fi
 fi
 
+# Multicore configs have a monitor core for hart 0, so to get the right benchmark
+# scores we should request boot from hart 1
+
+if [ `grep -c 'cpu@1' ${dts}` -ne 0 ]; then
+    if [ `grep -c 'metal,boothart' ${dts}` -eq 0 ]; then
+
+        if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
+            ${SED} -i "/cpus/i chosen {\n};" ${dts}
+        fi
+
+        label=`grep "cpu@1" ${dts} | ${SED} -E "s/^\s+(\S+):.*$/\1/g"`
+
+        ${SED} -i "/chosen/a metal,boothart = <&${label}>;" ${dts}
+    fi
+fi
 
 # FPGA targets need a 0x400000 byte offset into their SPI flash
 
