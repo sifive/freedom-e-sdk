@@ -40,17 +40,17 @@ void user_mode_entry_point()
 int main()
 {
 	int rc;
-	struct metal_cpu *cpu0;
+	struct metal_cpu *cpu;
 	struct metal_interrupt *cpu_intr;
 	struct metal_pmp *pmp;
 
 	/* Initialize interrupt handling on CPU 0 */
-	cpu0 = metal_cpu_get(0);
-	if(!cpu0) {
+	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
+	if(!cpu) {
 		printf("Unable to get CPU 0 handle\n");
 		return 1;
 	}
-	cpu_intr = metal_cpu_interrupt_controller(cpu0);
+	cpu_intr = metal_cpu_interrupt_controller(cpu);
 	if(!cpu_intr) {
 		printf("Unable to get CPU 0 Interrupt handle\n");
 		return 2;
@@ -58,7 +58,7 @@ int main()
 	metal_interrupt_init(cpu_intr);
 
 	/* Register a handler for the store access fault exception */
-	rc = metal_cpu_exception_register(cpu0, ECODE_SYSCALL_FROM_U_MODE, syscall_from_u_handler);
+	rc = metal_cpu_exception_register(cpu, ECODE_SYSCALL_FROM_U_MODE, syscall_from_u_handler);
 	if(rc < 0) {
 		printf("Failed to register exception handler\n");
 		return 3;
