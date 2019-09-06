@@ -8,4 +8,5 @@ User Guide
    userguide/installing
    userguide/building*
    userguide/standalone
+   userguide/qemusimulation
    userguide/*
