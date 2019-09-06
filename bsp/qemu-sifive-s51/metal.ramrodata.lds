@@ -5,7 +5,7 @@ ENTRY(_enter)
 MEMORY
 {
 	flash (rxai!w) : ORIGIN = 0x20400000, LENGTH = 0x1fc00000
-	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x4000
+	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x400000
 }
 
 PHDRS
@@ -36,15 +36,6 @@ SECTIONS
 
 	.fini : {
 		KEEP (*(SORT_NONE(.fini)))
-	} >flash AT>flash :flash
-
-
-
-	.text : {
-		*(.text.unlikely .text.unlikely.*)
-		*(.text.startup .text.startup.*)
-		*(.text .text.*)
-		*(.gnu.linkonce.t.*)
 	} >flash AT>flash :flash
 
 	PROVIDE (__etext = .);
@@ -92,6 +83,10 @@ SECTIONS
 
 
 	.itim : ALIGN(8) {
+		*(.text.unlikely .text.unlikely.*)
+		*(.text.startup .text.startup.*)
+		*(.text .text.*)
+		*(.gnu.linkonce.t.*)
 		*(.itim .itim.*)
 	} >ram AT>flash :itim_init
 
