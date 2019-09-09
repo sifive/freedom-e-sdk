@@ -1,11 +1,11 @@
 [
     {
-        "commit": "1aba35de05e54683369d2cecbf467d90413f2bd0",
+        "commit": "ca581da22b0267b4f146b7eb522b76ad8450718d",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "2444567a1a932770969641e539bb9fb743e61170",
+        "commit": "d4f013a58410ac973481186aadc78ab2e2a1f96b",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -15,12 +15,12 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "8ff0ab1db77b134b56815905bf694eb8a767285b",
+        "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
     },
     {
-        "commit": "cc9baedc061ae27b13a89c349dde9d674084f1a8",
+        "commit": "2bf740775c8601ff06af027a33b099b84b0240f9",
         "name": "benchmark-coremark",
         "source": "git@github.com:sifive/benchmark-coremark.git"
     },
@@ -60,7 +60,7 @@
         "source": "git@github.com:sifive/example-itim.git"
     },
     {
-        "commit": "57e15fee6a1dbbb06f0f615892488090a0b05d26",
+        "commit": "e784710af0994e76a9b41402c1d5bceeaa25a415",
         "name": "example-pmp",
         "source": "git@github.com:sifive/example-pmp.git"
     },
@@ -80,12 +80,12 @@
         "source": "git@github.com:sifive/example-watchdog.git"
     },
     {
-        "commit": "dbe0ff2074e77fc251e2fad811d1c5c3e339614b",
+        "commit": "00f22ac352fe540e7061fdb01a6ecfee88afc2c2",
         "name": "example-user-mode",
         "source": "git@github.com:sifive/example-user-mode.git"
     },
     {
-        "commit": "9cacb154e213d9f695bb5162197227bc7a7a67d7",
+        "commit": "dde4f8537d4cf26a2ed4b6667829cbab7bcc05b9",
         "name": "example-user-syscall",
         "source": "git@github.com:sifive/example-user-syscall.git"
     },
