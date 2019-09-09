@@ -125,6 +125,7 @@ To use this SDK, you will need the following software available on your machine:
 * GNU Make
 * Git
 * RISC-V GNU Toolchain
+* RISC-V QEMU 4.1.0 (for use with the qemu-sifive-\* simulation targets)
 * RISC-V OpenOCD (for use with development board and FPGA targets)
 * Segger J-LINK (for use with certain development boards)
 
@@ -146,6 +147,21 @@ tar -xvf openocd-<date>-<platform>.tar.gz
 tar -xvf riscv64-unknown-elf-gcc-<date>-<platform>.tar.gz
 export RISCV_OPENOCD_PATH=/my/desired/location/openocd
 export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
+```
+
+##### Install RISC-V QEMU 4.1.0
+
+The RISC-V QEMU Emulator is available from the SiFive Website at
+
+https://www.sifive.com/boards
+
+Download the .tar.gz for your platform and unpack it to your desired location.
+Then, add QEMU to your path:
+
+```
+cp riscv-qemu-<version>-<date>-<platform>.tar.gz /my/desired/location
+tar -xvf riscv-qemu-<version>-<date>-<platform>.tar.gz
+export PATH=$PATH:/my/desired/location/riscv-qemu-<version>-<date>-<platform>/bin
 ```
 
 ##### Install Segger J-Link Software
