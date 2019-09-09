@@ -342,6 +342,16 @@ static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 	}
 }
 
+static __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid)
+{
+	if (hartid == 0) {
+		return 0;
+	}
+	else {
+		return -1;
+	}
+}
+
 
 
 /* --------------------- sifive_clic0 ------------ */
@@ -699,6 +709,8 @@ static __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 
 /* --------------------- sifive_test0 ------------ */
 
+
+/* --------------------- sifive_trace ------------ */
 
 /* --------------------- sifive_uart0 ------------ */
 static __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart)

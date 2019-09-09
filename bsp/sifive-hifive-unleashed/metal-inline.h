@@ -43,6 +43,7 @@ extern __inline__ int __metal_driver_sifive_plic0_num_interrupts(struct metal_in
 extern __inline__ int __metal_driver_sifive_plic0_max_priority(struct metal_interrupt *controller);
 extern __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt_parents(struct metal_interrupt *controller, int idx);
 extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx);
+extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 
 
 /* --------------------- sifive_clic0 ------------ */
@@ -86,6 +87,8 @@ extern __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 extern __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd);
 extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
+
+/* --------------------- sifive_trace ------------ */
 
 /* --------------------- sifive_uart0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);

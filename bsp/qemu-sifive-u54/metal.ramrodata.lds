@@ -22,7 +22,7 @@ SECTIONS
 
 	__stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
 	PROVIDE(__stack_size = __stack_size);
-	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x400;
+	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x800;
 	PROVIDE(__metal_boot_hart = 0);
 	PROVIDE(__metal_chicken_bit = 0);
 
@@ -55,6 +55,10 @@ SECTIONS
 		KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*)))
 		KEEP (*(.init_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .ctors))
 		PROVIDE_HIDDEN (__init_array_end = .);
+		PROVIDE_HIDDEN ( metal_constructors_start = .);
+		KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
+		KEEP (*(.metal.init_array));
+		PROVIDE_HIDDEN ( metal_constructors_end = .);
 	} >rom AT>rom :flash
 
 	.fini_array : {
@@ -62,6 +66,10 @@ SECTIONS
 		KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*)))
 		KEEP (*(.fini_array EXCLUDE_FILE (*crtbegin.o *crtbegin?.o *crtend.o *crtend?.o ) .dtors))
 		PROVIDE_HIDDEN (__fini_array_end = .);
+		PROVIDE_HIDDEN ( metal_destructors_start = .);
+		KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
+		KEEP (*(.metal.fini_array));
+		PROVIDE_HIDDEN ( metal_destructors_end = .);
 	} >rom AT>rom :flash
 
 	.ctors : {
@@ -70,6 +78,7 @@ SECTIONS
 		KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))
 		KEEP (*(SORT(.ctors.*)))
 		KEEP (*(.ctors))
+		KEEP (*(.metal.ctors metal.ctors.*));
 	} >rom AT>rom :flash
 
 	.dtors : {
@@ -78,46 +87,25 @@ SECTIONS
 		KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .dtors))
 		KEEP (*(SORT(.dtors.*)))
 		KEEP (*(.dtors))
+		KEEP (*(.metal.dtors metal.dtors.*));
 	} >rom AT>rom :flash
 
 
 
-	.litimalign : {
-		. = ALIGN(8);
-		PROVIDE( metal_segment_itim_source_start = . );
-	} >rom AT>rom :flash
-
-	.ditimalign : {
-		. = ALIGN(8);
-		PROVIDE( metal_segment_itim_target_start = . );
-	} >rom AT>rom :itim_init
-
-	.text : {
+	.itim : ALIGN(8) {
 		*(.text.unlikely .text.unlikely.*)
 		*(.text.startup .text.startup.*)
 		*(.text .text.*)
 		*(.gnu.linkonce.t.*)
-	} >rom AT>rom :itim_init
-
-	.itim_section : {
 		*(.itim .itim.*)
 	} >rom AT>rom :itim_init
 
-	PROVIDE( metal_segment_itim_target_end = . );
+	PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
+	PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
+	PROVIDE( metal_segment_itim_target_end = ADDR(.itim) + SIZEOF(.itim) );
 
 
-	.lalign : {
-		. = ALIGN(8);
-		PROVIDE( _data_lma = . );
-		PROVIDE( metal_segment_data_source_start = . );
-	} >rom AT>rom :flash
-
-	.dalign : {
-		. = ALIGN(8);
-		PROVIDE( metal_segment_data_target_start = . );
-	} >ram AT>rom :ram_init
-
-	.data : {
+	.data : ALIGN(8) {
 		*(.data .data.*)
 		*(.gnu.linkonce.d.*)
 		. = ALIGN(8);
@@ -130,31 +118,30 @@ SECTIONS
 		*(.srodata.cst4)
 		*(.srodata.cst2)
 		*(.srodata .srodata.*)
+		. = ALIGN(8);
+		*(.rdata)
+		*(.rodata .rodata.*)
+		*(.gnu.linkonce.r.*)
 	} >ram AT>rom :ram_init
 
-	PROVIDE( _edata = . );
-	PROVIDE( edata = . );
-	PROVIDE( metal_segment_data_target_end = . );
+	PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
+	PROVIDE( metal_segment_data_target_start = ADDR(.data) );
+	PROVIDE( metal_segment_data_target_end = ADDR(.data) + SIZEOF(.data) );
 
-	. = ALIGN(8);
-	PROVIDE( _fbss = . );
-	PROVIDE( __bss_start = . );
-	PROVIDE( metal_segment_bss_target_start = . );
 
-	.bss : {
+	.bss : ALIGN(8) {
 		*(.sbss*)
 		*(.gnu.linkonce.sb.*)
 		*(.bss .bss.*)
 		*(.gnu.linkonce.b.*)
 		*(COMMON)
 	} >ram AT>ram :ram
-	PROVIDE( _end = . );
-	PROVIDE( end = . );
-	PROVIDE( metal_segment_bss_target_end = . );
+	PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
+	PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
 	.stack : {
 		PROVIDE(metal_segment_stack_begin = .);
-		. = __stack_size;
+		. += __stack_size;
 		PROVIDE( _sp = . );
 		PROVIDE(metal_segment_stack_end = .);
 	} >ram AT>ram :ram
