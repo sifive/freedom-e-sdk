@@ -3,7 +3,7 @@
 # Sets the timeout for our asynchronous polling and for the subshell command
 TIMEOUT_SECONDS=300
 
-TARGETS=(qemu-sifive-e31 qemu-sifive-s51 qemu-sifive-u54 )
+TARGETS=(qemu-sifive-e31 qemu-sifive-s51 qemu-sifive-u54 qemu-sifive-u54mc )
 PROGRAMS=(hello )
 
 for target in ${TARGETS[@]} ; do
