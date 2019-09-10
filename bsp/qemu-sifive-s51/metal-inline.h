@@ -42,6 +42,9 @@ extern __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 

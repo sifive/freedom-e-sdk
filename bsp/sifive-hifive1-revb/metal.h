@@ -363,6 +363,9 @@ static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 
