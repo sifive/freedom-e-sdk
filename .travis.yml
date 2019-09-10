@@ -28,8 +28,8 @@ install:
 # Install QEMU dependencies
   - docker exec -t host bash -c "yes | apt-get install libpixman-1-0 libnuma1 libpng12-0 libglib2.0-0 libjpeg8"
 # Download RISC-V embedded toolchain
-  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz"
-  - docker exec -t host bash -c "cd /travis && tar xzvf riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-RC5-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "cd /travis && tar xzvf riscv64-unknown-elf-gcc-8.3.0-2019.08.0-RC5-x86_64-linux-ubuntu14.tar.gz"
 # Download RISC-V QEMU
   - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv-qemu-4.1.0-2019.08.0-RC3-x86_64-linux-ubuntu14.tar.gz"
   - docker exec -t host bash -c "cd /travis && tar xzvf riscv-qemu-4.1.0-2019.08.0-RC3-x86_64-linux-ubuntu14.tar.gz"
@@ -39,6 +39,6 @@ script:
 # check that submodules match wit-manifest.json
   - docker exec -t host bash -c "cd /travis && ./scripts/check-submodules"
 # Build all software for all targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14 && cd /travis && ./scripts/all-targets-build"
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-RC5-x86_64-linux-ubuntu14 && cd /travis && ./scripts/all-targets-build"
 # Test by running software on all QEMU targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14 && export PATH=$PATH:/travis/riscv-qemu-4.1.0-2019.08.0-RC3-x86_64-linux-ubuntu14/bin && cd /travis && ./scripts/test-qemu-targets"
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-RC5-x86_64-linux-ubuntu14 && export PATH=$PATH:/travis/riscv-qemu-4.1.0-2019.08.0-RC3-x86_64-linux-ubuntu14/bin && cd /travis && ./scripts/test-qemu-targets"
