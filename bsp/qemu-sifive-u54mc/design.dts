@@ -116,6 +116,12 @@
 			compatible = "sifive,uart0";
 		};
 
+		test@100000 {
+			compatible = "sifive,test0";
+			reg = <0x0 0x100000 0x0 0x1000>;
+			reg-names = "control";
+		};
+
 		ethernet@100900fc {
 			#size-cells = <0x0>;
 			#address-cells = <0x1>;
