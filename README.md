@@ -35,11 +35,11 @@ operating systems to RISC-V.
       - sifive-hifive-unleashed
     - [SiFive Freedom E310 Arty](https://github.com/sifive/freedom)
       - freedom-e310-arty
-    - [QEMU Emulation of the SiFive E31](https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1)
+    - [QEMU Emulation of the SiFive E31](https://github.com/sifive/freedom-tools)
       - qemu-sifive-e31
-    - [QEMU Emulation of the SiFive S51](https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1)
+    - [QEMU Emulation of the SiFive S51](https://github.com/sifive/freedom-tools)
       - qemu-sifive-s51
-    - [QEMU Emulation of the SiFive U54](https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1)
+    - [QEMU Emulation of the SiFive U54](https://github.com/sifive/freedom-tools)
       - qemu-sifive-u54
   - The board support files for the Freedom Metal library are located entirely
     within a single target directory in `bsp/<target>/`. For example, the HiFive 1
