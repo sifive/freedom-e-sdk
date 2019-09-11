@@ -118,8 +118,9 @@
 		};
 
 		test@100000 {
+			compatible = "sifive,test0";
 			reg = <0x0 0x100000 0x0 0x1000>;
-			comptible = "sifive,test0";
+			reg-names = "control";
 		};
 
 		ethernet@100900fc {
