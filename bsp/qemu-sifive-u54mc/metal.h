@@ -72,6 +72,7 @@
 #include <metal/drivers/riscv_cpu.h>
 #include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
+#include <metal/drivers/sifive_test0.h>
 #include <metal/drivers/sifive_uart0.h>
 
 /* From ethclk */
@@ -108,6 +109,9 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_3_interrupt_controller;
 struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
 
 struct metal_pmp __metal_dt_pmp;
+
+/* From test@100000 */
+struct __metal_driver_sifive_test0 __metal_dt_test_100000;
 
 /* From uart@10013000 */
 struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000;
@@ -409,6 +413,9 @@ static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 
@@ -435,6 +442,26 @@ static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 
 
 /* --------------------- sifive_test0 ------------ */
+static __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd)
+{
+	if ((uintptr_t)sd == (uintptr_t)&__metal_dt_test_100000) {
+		return METAL_SIFIVE_TEST0_100000_BASE_ADDRESS;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd)
+{
+	if ((uintptr_t)sd == (uintptr_t)&__metal_dt_test_100000) {
+		return METAL_SIFIVE_TEST0_100000_SIZE;
+	}
+	else {
+		return 0;
+	}
+}
+
 
 
 /* --------------------- sifive_trace ------------ */
@@ -618,6 +645,11 @@ struct __metal_driver_sifive_rtc0 *__metal_rtc_table[] = {
 __asm__ (".weak __metal_spi_table");
 struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 					NULL };
+/* From test@100000 */
+#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_test_100000.shutdown)
+
+#define __METAL_DT_TEST_100000_HANDLE (&__metal_dt_test_100000.shutdown)
+
 #define __METAL_DT_MAX_WDOGS 0
 
 __asm__ (".weak __metal_wdog_table");

@@ -42,6 +42,9 @@ extern __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 
@@ -70,6 +73,8 @@ extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 
 
 /* --------------------- sifive_test0 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd);
+extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
 
 /* --------------------- sifive_trace ------------ */
@@ -188,6 +193,11 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_3_interrupt_controller = {
 struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .controller.vtable = &__metal_driver_vtable_riscv_plic0.plic_vtable,
     .init_done = 0,
+};
+
+/* From test@100000 */
+struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
+    .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
 };
 
 /* From uart@10013000 */
