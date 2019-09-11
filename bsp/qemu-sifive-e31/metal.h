@@ -348,6 +348,9 @@ static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 
@@ -705,7 +708,7 @@ static __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 static __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __metal_shutdown *sd)
 {
 	if ((uintptr_t)sd == (uintptr_t)&__metal_dt_test_100000) {
-		return 1048576;
+		return METAL_SIFIVE_TEST0_100000_BASE_ADDRESS;
 	}
 	else {
 		return 0;
@@ -715,7 +718,7 @@ static __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __
 static __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd)
 {
 	if ((uintptr_t)sd == (uintptr_t)&__metal_dt_test_100000) {
-		return 4096;
+		return METAL_SIFIVE_TEST0_100000_SIZE;
 	}
 	else {
 		return 0;
