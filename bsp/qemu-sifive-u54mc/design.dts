@@ -7,6 +7,7 @@
 	model = "ucbbar,spike-bare,qemu";
 
 	chosen {
+metal,boothart = <&cpu1>;
 		metal,ram = <&ram>;
 		metal,rom = <&rom>;
 		bootargs = [00];
