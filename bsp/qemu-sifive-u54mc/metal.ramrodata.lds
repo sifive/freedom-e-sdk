@@ -4,9 +4,8 @@ ENTRY(_enter)
 
 MEMORY
 {
-	flash (rxai!w) : ORIGIN = 0x20000000, LENGTH = 0x10000000
-	itim (wx!rai) : ORIGIN = 0x1800000, LENGTH = 0x4000
-	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x1f80000000
+	rom (rxai!w) : ORIGIN = 0x80000000, LENGTH = 0x10000
+	ram (wxa!ri) : ORIGIN = 0x80010000, LENGTH = 0x7fff000
 }
 
 PHDRS
@@ -33,38 +32,15 @@ SECTIONS
 		KEEP (*(.text.metal.init.*))
 		KEEP (*(SORT_NONE(.init)))
 		KEEP (*(.text.libgloss.start))
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 	.fini : {
 		KEEP (*(SORT_NONE(.fini)))
-	} >flash AT>flash :flash
-
-
-
-	.text : {
-		*(.text.unlikely .text.unlikely.*)
-		*(.text.startup .text.startup.*)
-		*(.text .text.*)
-		*(.gnu.linkonce.t.*)
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 	PROVIDE (__etext = .);
 	PROVIDE (_etext = .);
 	PROVIDE (etext = .);
-
-
-	.rodata : {
-		*(.rdata)
-		*(.rodata .rodata.*)
-		*(.gnu.linkonce.r.*)
-		. = ALIGN(8);
-		*(.srodata.cst16)
-		*(.srodata.cst8)
-		*(.srodata.cst4)
-		*(.srodata.cst2)
-		*(.srodata .srodata.*)
-	} >flash AT>flash :flash
-
 
 	. = ALIGN(8);
 
@@ -72,7 +48,7 @@ SECTIONS
 		PROVIDE_HIDDEN (__preinit_array_start = .);
 		KEEP (*(.preinit_array))
 		PROVIDE_HIDDEN (__preinit_array_end = .);
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 	.init_array : {
 		PROVIDE_HIDDEN (__init_array_start = .);
@@ -83,7 +59,7 @@ SECTIONS
 		KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
 		KEEP (*(.metal.init_array));
 		PROVIDE_HIDDEN ( metal_constructors_end = .);
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 	.fini_array : {
 		PROVIDE_HIDDEN (__fini_array_start = .);
@@ -94,7 +70,7 @@ SECTIONS
 		KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
 		KEEP (*(.metal.fini_array));
 		PROVIDE_HIDDEN ( metal_destructors_end = .);
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 	.ctors : {
 		KEEP (*crtbegin.o(.ctors))
@@ -103,7 +79,7 @@ SECTIONS
 		KEEP (*(SORT(.ctors.*)))
 		KEEP (*(.ctors))
 		KEEP (*(.metal.ctors metal.ctors.*));
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 	.dtors : {
 		KEEP (*crtbegin.o(.dtors))
@@ -112,13 +88,17 @@ SECTIONS
 		KEEP (*(SORT(.dtors.*)))
 		KEEP (*(.dtors))
 		KEEP (*(.metal.dtors metal.dtors.*));
-	} >flash AT>flash :flash
+	} >rom AT>rom :flash
 
 
 
 	.itim : ALIGN(8) {
+		*(.text.unlikely .text.unlikely.*)
+		*(.text.startup .text.startup.*)
+		*(.text .text.*)
+		*(.gnu.linkonce.t.*)
 		*(.itim .itim.*)
-	} >itim AT>flash :itim_init
+	} >rom AT>rom :itim_init
 
 	PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
 	PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -142,7 +122,7 @@ SECTIONS
 		*(.rdata)
 		*(.rodata .rodata.*)
 		*(.gnu.linkonce.r.*)
-	} >ram AT>flash :ram_init
+	} >ram AT>rom :ram_init
 
 	PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
 	PROVIDE( metal_segment_data_target_start = ADDR(.data) );
@@ -163,7 +143,6 @@ SECTIONS
 		PROVIDE(metal_segment_stack_begin = .);
 		. += __stack_size;
 		PROVIDE( _sp = . );
-		. += __stack_size;
 		. += __stack_size;
 		. += __stack_size;
 		. += __stack_size;

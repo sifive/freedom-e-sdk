@@ -23,17 +23,21 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - freedom-e310-arty
 
-- `QEMU Emulation of the SiFive E31 <https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1>`_
+- `QEMU Emulation of the SiFive E31 <https://github.com/sifive/freedom-tools>`_
 
   - qemu-sifive-e31
 
-- `QEMU Emulation of the SiFive S51 <https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1>`_
+- `QEMU Emulation of the SiFive S51 <https://github.com/sifive/freedom-tools>`_
 
   - qemu-sifive-s51
 
-- `QEMU Emulation of the SiFive U54 <https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1>`_
+- `QEMU Emulation of the SiFive U54 <https://github.com/sifive/freedom-tools>`_
 
   - qemu-sifive-u54
+
+- `QEMU Emulation of the SiFive U54MC <https://github.com/sifive/freedom-tools>`_
+
+  - qemu-sifive-u54mc
 
 The board support files for the Freedom Metal library are located entirely
 within a single target directory in ``bsp/<target>/``. For example, the HiFive 1

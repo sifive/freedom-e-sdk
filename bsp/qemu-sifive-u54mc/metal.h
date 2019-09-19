@@ -9,17 +9,17 @@
 
 #ifdef __METAL_MACHINE_MACROS
 
-#ifndef MACROS_IF_QEMU_SIFIVE_U54____METAL_H
-#define MACROS_IF_QEMU_SIFIVE_U54____METAL_H
+#ifndef MACROS_IF_QEMU_SIFIVE_U54MC____METAL_H
+#define MACROS_IF_QEMU_SIFIVE_U54MC____METAL_H
 
-#define __METAL_CLINT_NUM_PARENTS 2
+#define __METAL_CLINT_NUM_PARENTS 8
 
 #ifndef __METAL_CLINT_NUM_PARENTS
 #define __METAL_CLINT_NUM_PARENTS 0
 #endif
 #define __METAL_PLIC_SUBINTERRUPTS 54
 
-#define __METAL_PLIC_NUM_PARENTS 2
+#define __METAL_PLIC_NUM_PARENTS 8
 
 #ifndef __METAL_PLIC_SUBINTERRUPTS
 #define __METAL_PLIC_SUBINTERRUPTS 0
@@ -31,26 +31,26 @@
 #define __METAL_CLIC_SUBINTERRUPTS 0
 #endif
 
-#endif /* MACROS_IF_QEMU_SIFIVE_U54____METAL_H*/
+#endif /* MACROS_IF_QEMU_SIFIVE_U54MC____METAL_H*/
 
 #else /* ! __METAL_MACHINE_MACROS */
 
-#ifndef MACROS_ELSE_QEMU_SIFIVE_U54____METAL_H
-#define MACROS_ELSE_QEMU_SIFIVE_U54____METAL_H
+#ifndef MACROS_ELSE_QEMU_SIFIVE_U54MC____METAL_H
+#define MACROS_ELSE_QEMU_SIFIVE_U54MC____METAL_H
 
-#define __METAL_CLINT_2000000_INTERRUPTS 2
+#define __METAL_CLINT_2000000_INTERRUPTS 8
 
-#define METAL_MAX_CLINT_INTERRUPTS 2
+#define METAL_MAX_CLINT_INTERRUPTS 8
 
-#define __METAL_CLINT_NUM_PARENTS 2
+#define __METAL_CLINT_NUM_PARENTS 8
 
-#define __METAL_INTERRUPT_CONTROLLER_C000000_INTERRUPTS 2
+#define __METAL_INTERRUPT_CONTROLLER_C000000_INTERRUPTS 8
 
 #define __METAL_PLIC_SUBINTERRUPTS 54
 
-#define METAL_MAX_PLIC_INTERRUPTS 2
+#define METAL_MAX_PLIC_INTERRUPTS 8
 
-#define __METAL_PLIC_NUM_PARENTS 2
+#define __METAL_PLIC_NUM_PARENTS 8
 
 #define __METAL_CLIC_SUBINTERRUPTS 0
 #define METAL_MAX_CLIC_INTERRUPTS 0
@@ -75,6 +75,9 @@
 #include <metal/drivers/sifive_test0.h>
 #include <metal/drivers/sifive_uart0.h>
 
+/* From ethclk */
+struct __metal_driver_fixed_clock __metal_dt_ethclk;
+
 struct metal_memory __metal_dt_mem_memory_80010000;
 
 struct metal_memory __metal_dt_mem_memory_80000000;
@@ -85,7 +88,22 @@ struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000;
 /* From cpu@0 */
 struct __metal_driver_cpu __metal_dt_cpu_0;
 
+/* From cpu@1 */
+struct __metal_driver_cpu __metal_dt_cpu_1;
+
+/* From cpu@2 */
+struct __metal_driver_cpu __metal_dt_cpu_2;
+
+/* From cpu@3 */
+struct __metal_driver_cpu __metal_dt_cpu_3;
+
 struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller;
+
+struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_1_interrupt_controller;
+
+struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_2_interrupt_controller;
+
+struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_3_interrupt_controller;
 
 /* From interrupt_controller@c000000 */
 struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
@@ -101,6 +119,16 @@ struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000;
 
 
 /* --------------------- fixed_clock ------------ */
+static __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock)
+{
+	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_ethclk) {
+		return METAL_FIXED_CLOCK__CLOCK_FREQUENCY;
+	}
+	else {
+		return 0;
+	}
+}
+
 
 
 /* --------------------- fixed_factor_clock ------------ */
@@ -145,6 +173,24 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_clint0_interrup
 	else if (idx == 1) {
 		return (struct metal_interrupt *)&__metal_dt_cpu_0_interrupt_controller.controller;
 	}
+	else if (idx == 2) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_1_interrupt_controller.controller;
+	}
+	else if (idx == 3) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_1_interrupt_controller.controller;
+	}
+	else if (idx == 4) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_2_interrupt_controller.controller;
+	}
+	else if (idx == 5) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_2_interrupt_controller.controller;
+	}
+	else if (idx == 6) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_3_interrupt_controller.controller;
+	}
+	else if (idx == 7) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_3_interrupt_controller.controller;
+	}
 	else {
 		return NULL;
 	}
@@ -156,6 +202,24 @@ static __inline__ int __metal_driver_sifive_clint0_interrupt_lines(struct metal_
 		return 3;
 	}
 	else if (idx == 1) {
+		return 7;
+	}
+	else if (idx == 2) {
+		return 3;
+	}
+	else if (idx == 3) {
+		return 7;
+	}
+	else if (idx == 4) {
+		return 3;
+	}
+	else if (idx == 5) {
+		return 7;
+	}
+	else if (idx == 6) {
+		return 3;
+	}
+	else if (idx == 7) {
 		return 7;
 	}
 	else {
@@ -171,6 +235,15 @@ static __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return 0;
 	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
+		return 1;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
+		return 2;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return 3;
+	}
 	else {
 		return -1;
 	}
@@ -179,6 +252,15 @@ static __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
 static __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu)
 {
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return 10000000;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
+		return 10000000;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
+		return 10000000;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
 		return 10000000;
 	}
 	else {
@@ -191,6 +273,15 @@ static __inline__ struct metal_interrupt * __metal_driver_cpu_interrupt_controll
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return &__metal_dt_cpu_0_interrupt_controller.controller;
 	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
+		return &__metal_dt_cpu_1_interrupt_controller.controller;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
+		return &__metal_dt_cpu_2_interrupt_controller.controller;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return &__metal_dt_cpu_3_interrupt_controller.controller;
+	}
 	else {
 		return NULL;
 	}
@@ -200,6 +291,15 @@ static __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
 {
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
 		return 8;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
+		return 0;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
+		return 0;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return 0;
 	}
 	else {
 		return 0;
@@ -257,6 +357,24 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt
 	else if (idx == 1) {
 		return (struct metal_interrupt *)&__metal_dt_cpu_0_interrupt_controller.controller;
 	}
+	else if (idx == 2) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_1_interrupt_controller.controller;
+	}
+	else if (idx == 3) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_1_interrupt_controller.controller;
+	}
+	else if (idx == 4) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_2_interrupt_controller.controller;
+	}
+	else if (idx == 5) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_2_interrupt_controller.controller;
+	}
+	else if (idx == 6) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_3_interrupt_controller.controller;
+	}
+	else if (idx == 7) {
+		return (struct metal_interrupt *)&__metal_dt_cpu_3_interrupt_controller.controller;
+	}
 	else {
 		return NULL;
 	}
@@ -270,6 +388,24 @@ static __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 	else if (idx == 1) {
 		return 9;
 	}
+	else if (idx == 2) {
+		return 11;
+	}
+	else if (idx == 3) {
+		return 9;
+	}
+	else if (idx == 4) {
+		return 11;
+	}
+	else if (idx == 5) {
+		return 9;
+	}
+	else if (idx == 6) {
+		return 11;
+	}
+	else if (idx == 7) {
+		return 9;
+	}
 	else {
 		return 0;
 	}
@@ -279,6 +415,15 @@ static __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid)
 {
 	if (hartid == 0) {
 		return 0;
+	}
+	else if (hartid == 1) {
+		return 2;
+	}
+	else if (hartid == 2) {
+		return 4;
+	}
+	else if (hartid == 3) {
+		return 6;
 	}
 	else {
 		return -1;
@@ -381,7 +526,7 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_uart0_interrupt
 static __inline__ int __metal_driver_sifive_uart0_interrupt_line(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return 1;
+		return 3;
 	}
 	else {
 		return 0;
@@ -470,11 +615,14 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_CLINT_2000000_HANDLE (&__metal_dt_clint_2000000.controller)
 
-#define __METAL_DT_MAX_HARTS 1
+#define __METAL_DT_MAX_HARTS 4
 
 __asm__ (".weak __metal_cpu_table");
 struct __metal_driver_cpu *__metal_cpu_table[] = {
-					&__metal_dt_cpu_0};
+					&__metal_dt_cpu_0,
+					&__metal_dt_cpu_1,
+					&__metal_dt_cpu_2,
+					&__metal_dt_cpu_3};
 
 /* From interrupt_controller@c000000 */
 #define __METAL_DT_RISCV_PLIC0_HANDLE (&__metal_dt_interrupt_controller_c000000.controller)
@@ -523,7 +671,7 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 __asm__ (".weak __metal_wdog_table");
 struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] = {
 					NULL };
-#endif /* MACROS_ELSE_QEMU_SIFIVE_U54____METAL_H*/
+#endif /* MACROS_ELSE_QEMU_SIFIVE_U54MC____METAL_H*/
 
 #endif /* ! __METAL_MACHINE_MACROS */
 

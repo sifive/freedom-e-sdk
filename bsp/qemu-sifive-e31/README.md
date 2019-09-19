@@ -1,4 +1,5 @@
-SiFive QEMU E31 is a virtual development platform matching the Freedom E310. It’s the best way to start prototyping and developing your RISC‑V applications.
+SiFive QEMU E31 is a virtual development platform matching the Freedom E310 (with more memory though).
+It’s the best way to start prototyping and developing your RISC‑V applications.
 
 This target is ideal for getting familiarize with RISC-V ISA instructions set and freedom-metal libraries. It supports:
 
@@ -10,5 +11,6 @@ This target is ideal for getting familiarize with RISC-V ISA instructions set an
 - SPI memory with 1 interrupt line
 - Serial port with 1 interrupt line
 - 1 RGB LEDS
+- DTIM memory with 4M bytes
 
-This BSP matches the QEMU code in https://github.com/sifive/riscv-qemu/tree/riscv-qemu-3.1
+This BSP matches the QEMU code in https://git.qemu.org/?p=qemu.git;a=tree;h=refs/tags/v4.1.0;hb=refs/tags/v4.1.0

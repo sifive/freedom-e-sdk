@@ -12,6 +12,7 @@
 	};
 
 	chosen {
+metal,boothart = <&L12>;
 		stdout-path = "/soc/serial@10010000:115200";
 	};
 

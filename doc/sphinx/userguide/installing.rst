@@ -48,6 +48,20 @@ and unpack it to your desired location. Then, set the ``RISCV_PATH`` and
    export RISCV_OPENOCD_PATH=/my/desired/location/openocd
    export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
 
+Install RISC-V QEMU 4.1.0
+-------------------------
+
+The RISC-V QEMU Emulator is available from `the SiFive Website <https://www.sifive.com/boards>`_.
+
+Download the .tar.gz for your platform and unpack it to your desired location.
+Then, add QEMU to your PATH:
+
+.. code-block:: bash
+
+   cp riscv-qemu-<version>-<date>-<platform>.tar.gz /my/desired/location
+   tar -xvf riscv-qemu-<version>-<date>-<platform>.tar.gz
+   export PATH=$PATH:/my/desired/location/riscv-qemu-<version>-<date>-<platform>/bin
+
 Install Segger J-Link Software
 ------------------------------
 
