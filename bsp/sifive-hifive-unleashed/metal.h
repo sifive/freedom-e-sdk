@@ -545,6 +545,9 @@ static __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid)
 
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 

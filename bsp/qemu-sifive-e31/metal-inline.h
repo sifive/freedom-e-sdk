@@ -43,6 +43,9 @@ extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_i
 extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 
 
+/* --------------------- sifive_ccache0 ------------ */
+
+
 /* --------------------- sifive_clic0 ------------ */
 
 
