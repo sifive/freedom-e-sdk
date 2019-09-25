@@ -60,7 +60,7 @@
         "source": "git@github.com:sifive/example-itim.git"
     },
     {
-        "commit": "e784710af0994e76a9b41402c1d5bceeaa25a415",
+        "commit": "79d0df54e1a3b7fa53dd1b855717de3d9fa7a1d9",
         "name": "example-pmp",
         "source": "git@github.com:sifive/example-pmp.git"
     },
