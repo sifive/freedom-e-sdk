@@ -4,7 +4,7 @@
 TIMEOUT_SECONDS=300
 
 TARGETS=(qemu-sifive-e31 qemu-sifive-s51 qemu-sifive-u54 qemu-sifive-u54mc )
-PROGRAMS=(hello )
+PROGRAMS=(hello minimal-boot )
 
 for target in ${TARGETS[@]} ; do
     for program in ${PROGRAMS[@]} ; do
@@ -12,8 +12,9 @@ for target in ${TARGETS[@]} ; do
         output_file=$( mktemp -p ./ tmp.${target}.${program}.XXXXXXXXXX)
 
         case $program in
-            hello)      expected_output="Hello, World!";;
-            *)          expected_output="";;
+            hello)              expected_output="Hello, World!";;
+            minimal-boot)       expected_output="minimal-boot";;
+            *)                  expected_output="";;
         esac
 
         >&2 echo "Running ${program} on ${target}"
