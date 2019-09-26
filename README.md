@@ -117,6 +117,8 @@ operating systems to RISC-V.
     - A simple example demonstrating how to use CLIC selective vector interrupts
   - clic-hardware-vector-interrupts
     - A simple example demonstrating the use of CLIC hardware vector interrupts
+  - minimal-boot
+    - Demonstrates how to replace the Metal constructors and replace them with your own
 
 ### Setting up the SDK ###
 

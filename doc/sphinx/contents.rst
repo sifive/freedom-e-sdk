@@ -196,3 +196,6 @@ The example programs can be found under the ``software/`` directory.
 
   - A simple example demonstrating the use of CLIC hardware vector interrupts
 
+- minimal-boot
+
+  - Demonstrates how to replace the Metal constructors and replace them with your own.
