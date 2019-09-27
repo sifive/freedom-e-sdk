@@ -148,5 +148,10 @@
         "commit": "7c179f11112c56f6eea9001eeb6142dd09bf5781",
         "name": "example-sifive-welcome",
         "source": "git@github.com:sifive/example-sifive-welcome.git"
+    },
+    {
+        "commit": "cd650d39b4221b43c74b80440b6995206336bf15",
+        "name": "example-minimal-boot",
+        "source": "git@github.com:sifive/example-minimal-boot.git"
     }
 ]
