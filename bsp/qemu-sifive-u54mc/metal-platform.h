@@ -3,8 +3,8 @@
 /* ----------------------------------- */
 /* ----------------------------------- */
 
-#ifndef QEMU_SIFIVE_U54MC____METAL_PLATFORM_H
-#define QEMU_SIFIVE_U54MC____METAL_PLATFORM_H
+#ifndef METAL_PLATFORM_H
+#define METAL_PLATFORM_H
 
 /* From ethclk */
 #define METAL_FIXED_CLOCK__CLOCK_FREQUENCY 125000000UL
@@ -66,4 +66,4 @@
 #define METAL_SIFIVE_UART0_IP 20UL
 #define METAL_SIFIVE_UART0_DIV 24UL
 
-#endif /* QEMU_SIFIVE_U54MC____METAL_PLATFORM_H*/
+#endif /* METAL_PLATFORM_H*/

@@ -5,8 +5,8 @@
 
 #ifndef ASSEMBLY
 
-#ifndef QEMU_SIFIVE_U54MC____METAL_INLINE_H
-#define QEMU_SIFIVE_U54MC____METAL_INLINE_H
+#ifndef METAL_INLINE_H
+#define METAL_INLINE_H
 
 #include <metal/machine.h>
 
@@ -207,5 +207,5 @@ struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000 = {
 };
 
 
-#endif /* QEMU_SIFIVE_U54MC____METAL_INLINE_H*/
+#endif /* METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */
