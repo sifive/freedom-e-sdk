@@ -5,6 +5,11 @@
   #size-cells = <2>;
   compatible = "ucbbar,spike-bare-dev";
   model = "ucbbar,spike-bare";
+  chosen {
+    metal,ram = <&ram>;
+    metal,rom = <&rom>;
+    stdout-path = "/htif";
+  };
   cpus {
     #address-cells = <1>;
     #size-cells = <0>;
@@ -24,15 +29,19 @@
       };
     };
   };
-  memory@80000000 {
+  ram: memory@80010000 {
     device_type = "memory";
-    reg = <0x0 0x80000000 0x0 0x80000000>;
+    reg = <0x0 0x80010000 0x0 0x7fff0000>;
   };
   soc {
     #address-cells = <2>;
     #size-cells = <2>;
     compatible = "ucbbar,spike-bare-soc", "simple-bus";
     ranges;
+    rom: memory@80000000 {
+      device_type = "memory";
+      reg = <0x0 0x80000000 0x0 0x10000>;
+    };
     clint@2000000 {
       compatible = "riscv,clint0";
       interrupts-extended = <&CPU0_intc 3 &CPU0_intc 7 >;
