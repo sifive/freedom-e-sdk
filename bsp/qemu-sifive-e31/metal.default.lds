@@ -155,9 +155,9 @@ SECTIONS
 		PROVIDE(metal_segment_stack_end = .);
 	} >ram AT>ram :ram
 
-	.heap : {
+	.heap ALIGN(8) : {
 		PROVIDE( metal_segment_heap_target_start = . );
-		. = __heap_size;
+		. += __heap_size;
 		PROVIDE( metal_segment_heap_target_end = . );
 		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram
