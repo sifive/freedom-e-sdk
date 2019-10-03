@@ -1040,6 +1040,13 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 #define __METAL_DT_TESTSTATUS_4000_HANDLE (&__metal_dt_teststatus_4000.shutdown)
 
+#define __METAL_DT_MAX_UARTS 2
+
+__asm__ (".weak __metal_uart_table");
+struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
+					&__metal_dt_serial_10010000,
+					&__metal_dt_serial_10011000};
+
 #define __METAL_DT_MAX_WDOGS 0
 
 __asm__ (".weak __metal_wdog_table");
