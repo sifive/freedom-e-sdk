@@ -114,9 +114,15 @@ RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
 # Use newlib-nano
+ifeq ($(USE_LIBC_SEGGER),)
 RISCV_CCASFLAGS += --specs=nano.specs
 RISCV_CFLAGS    += --specs=nano.specs
 RISCV_CXXFLAGS  += --specs=nano.specs
+else
+RISCV_CCASFLAGS += --specs=segger.specs
+RISCV_CFLAGS    += --specs=segger.specs
+RISCV_CXXFLAGS  += --specs=segger.specs
+endif
 
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
@@ -128,7 +134,11 @@ RISCV_LDFLAGS += -nostartfiles -nostdlib
 RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
 
 # Link to the relevant libraries
-RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -lmetal -lmetal-gloss -Wl,--end-group
+ifeq ($(USE_LIBC_SEGGER),)
+RISCV_LDLIBS += -Wl,--start-group -lc -lm -lgcc -lmetal -lmetal-gloss -Wl,--end-group
+else
+RISCV_LDLIBS += -Wl,--start-group -lc_segger -ltarget_metal -lmetal -lmetal-gloss -Wl,--end-group
+endif
 
 # Load the configuration Makefile
 CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
