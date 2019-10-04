@@ -90,4 +90,4 @@
 	url = https://github.com/sifive/example-minimal-boot.git
 [submodule "software/uart-interrupt"]
 	path = software/uart-interrupt
-	url = git@github.com:sifive/example-uart-interrupt
+	url = https://github.com/sifive/example-uart-interrupt.git
