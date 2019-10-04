@@ -1132,6 +1132,13 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 					&__metal_dt_spi_10024000,
 					&__metal_dt_spi_10034000};
 
+#define __METAL_DT_MAX_UARTS 2
+
+__asm__ (".weak __metal_uart_table");
+struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
+					&__metal_dt_serial_10013000,
+					&__metal_dt_serial_10023000};
+
 #define __METAL_DT_MAX_WDOGS 1
 
 __asm__ (".weak __metal_wdog_table");
