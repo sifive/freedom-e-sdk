@@ -50,6 +50,6 @@ if [ "$qemu" != "" ] ; then
 elif [ "$spike" != "" ] ; then
     echo "Launching Spike!"
 
-    $spike $elf
+    $spike ${SPIKE_OPTIONS} $elf
 fi
 
