@@ -9,7 +9,7 @@
 
 #define RTC_FREQ	32768
 
-struct metal_cpu *cpu0;
+struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr, *tmr_intr;
 struct metal_interrupt *uart0_ic;
 int tmr_id, uart0_irq;
@@ -31,7 +31,7 @@ void timer_isr (int id, void *data) {
 
 void debounce (void) {
     printf("Sleep for 10s more secs\n");
-    metal_cpu_set_mtimecmp(cpu0, metal_cpu_get_mtime(cpu0) + RTC_FREQ);
+    metal_cpu_set_mtimecmp(cpu, metal_cpu_get_mtime(cpu) + RTC_FREQ);
 
     // Enable Timer interrupt
     metal_interrupt_enable(tmr_intr, tmr_id);
@@ -61,12 +61,12 @@ int main (void)
     metal_led_on(led0_red);
  
     // Lets get the CPU and and its interrupt
-    cpu0 = metal_cpu_get(0);
-    if (cpu0 == NULL) {
+    cpu = metal_cpu_get(metal_cpu_get_current_hartid());
+    if (cpu == NULL) {
         printf("CPU null.\n");
         return 2;
     }
-    cpu_intr = metal_cpu_interrupt_controller(cpu0);
+    cpu_intr = metal_cpu_interrupt_controller(cpu);
     if (cpu_intr == NULL) {
         printf("CPU interrupt controller is null.\n");
         return 3;
@@ -74,14 +74,14 @@ int main (void)
     metal_interrupt_init(cpu_intr);
 
     // Setup Timer and its interrupt
-    tmr_intr = metal_cpu_timer_interrupt_controller(cpu0);
+    tmr_intr = metal_cpu_timer_interrupt_controller(cpu);
     if (tmr_intr == NULL) {
         printf("TIMER interrupt controller is  null.\n");
         return 4;
     }
     metal_interrupt_init(tmr_intr);
-    tmr_id = metal_cpu_timer_get_interrupt_id(cpu0);
-    rc = metal_interrupt_register_handler(tmr_intr, tmr_id, timer_isr, cpu0);
+    tmr_id = metal_cpu_timer_get_interrupt_id(cpu);
+    rc = metal_interrupt_register_handler(tmr_intr, tmr_id, timer_isr, cpu);
     if (rc < 0) {
         printf("TIMER interrupt handler registration failed\n");
         return (rc * -1);
