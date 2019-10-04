@@ -25,6 +25,17 @@ BARE_HEADER_GENERATOR = freedom-bare_header-generator
 # This allows user changes to the devicetree in $(BSP_DIR)/design.dts to be
 # propagated through to the end application with a single invocation of Make
 
+ifeq ($(findstring spike,$(TARGET)),spike)
+$(BSP_DIR)/spike_options.sh:
+	echo "export SPIKE_OPTIONS=\"\"" > $@
+
+ifneq ($(shell which spike),)
+$(BSP_DIR)/design.dts: $(BSP_DIR)/spike_options.sh
+	source $< && scripts/spikedts $(dir $@)
+endif # which spike
+endif # findstring spike,$(TARGET)
+
+
 ifneq ($(shell which dtc),)
 ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
 
@@ -48,7 +59,7 @@ $(METAL_HEADER): $(BSP_DIR)/design.dtb
 $(PLATFORM_HEADER): $(BSP_DIR)/design.dtb
 	cd $(dir $@) && $(BARE_HEADER_GENERATOR) -d $(notdir $<) -o $(notdir $@)
 
-$(BSP_DIR)/settings.mk : $(BSP_DIR)/design.dtb
+$(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dtb
 	cd $(dir $@) && $(MAKEATTRIB_GENERATOR) -d $(notdir $<) -o $(notdir $@) -b $(TARGET)
 
 endif # which dtc

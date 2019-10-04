@@ -361,8 +361,8 @@ simulate: $(PROGRAM_ELF)
 endif # findstring rv32
 else # findstring qemu
 ifeq ($(findstring spike,$(TARGET)),spike)
-simulate: $(PROGRAM_ELF)
-	scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike)
+simulate: $(PROGRAM_ELF) $(BSP_DIR)/spike_options.sh
+	source $(BSP_DIR)/spike_options.sh && scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike)
 else
 simulate:
 	@echo "QEMU can't simulate target $(TARGET)!"
