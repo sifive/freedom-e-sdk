@@ -96,7 +96,16 @@ if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
         ${SED} -i "/chosen/a stdout-path=\"${trace_path}\";" ${dts}
 
         echo -e "$0: \tAdded stdout-path ${trace_path}"
+
+    # If an HTIF exists, use it
+    elif [ `grep -c 'ucb,htif0' ${dts}` -ne 0 ]; then
+        echo "$0: stdout-path property not given, but an htif exists."
+
+        ${SED} -i "/chosen/a stdout-path=\"/htif\";" ${dts}
+
+        echo -e "$0: \tAdded stdout-path /htif"
     fi
+
 fi
 
 # Multicore configs have a monitor core for hart 0, so to get the right benchmark
