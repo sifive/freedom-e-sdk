@@ -29,6 +29,7 @@ ifneq ($(shell which dtc),)
 ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
 
 $(BSP_DIR)/design.dtb: $(BSP_DIR)/design.dts
+	./scripts/fixup-dts --dts $<
 	cd $(dir $@) && dtc -I dts -O dtb -o $(notdir $@) $(notdir $<)
 
 $(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dtb
