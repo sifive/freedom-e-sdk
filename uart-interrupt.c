@@ -27,15 +27,9 @@ void timer_isr (int id, void *data) {
     // Disable Timer interrupt
     metal_interrupt_disable(tmr_intr, tmr_id);
     printf("Awaken\n");
-
-    // Enable local IRQs
-    //metal_interrupt_enable(but0_ic, but0_irq);
 }
 
 void debounce (void) {
-    // Disable local IRQs
-    //metal_interrupt_disable(but0_ic, but0_irq);
-
     printf("Sleep for 10s more secs\n");
     metal_cpu_set_mtimecmp(cpu0, metal_cpu_get_mtime(cpu0) + RTC_FREQ);
 
@@ -45,32 +39,26 @@ void debounce (void) {
 
 void uart0_isr (int id, void *data) {
     printf("Got Uart 0 interrupt. Toggle Red LED.\n");
-    //metal_led_toggle((struct metal_led *)data);
+    metal_led_toggle((struct metal_led *)data);
     debounce();  
 }
 
 int main (void)
 {
     int rc;
-    struct metal_led *led0_red, *led0_green, *led0_blue;
+    struct metal_led *led0_red;
     struct metal_uart *uart0;
     size_t txcnt;
 
 
     // Lets get start with getting LEDs and turn only RED ON
     led0_red = metal_led_get_rgb("LD0", "red");
-    led0_green = metal_led_get_rgb("LD0", "green");
-    led0_blue = metal_led_get_rgb("LD0", "blue");
-    if ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL)) {
-        printf("At least one of LEDs is null.\n");
+    if (led0_red == NULL) {
+        printf("LED red is null.\n");
         return 1;
     }
     metal_led_enable(led0_red);
-    metal_led_enable(led0_green);
-    metal_led_enable(led0_blue);
     metal_led_on(led0_red);
-    metal_led_off(led0_green);
-    metal_led_off(led0_blue);
  
     // Lets get the CPU and and its interrupt
     cpu0 = metal_cpu_get(0);
@@ -99,8 +87,8 @@ int main (void)
         return (rc * -1);
     }
 
-    // Setup Buttons 0-3 and its interrupt
-    uart0 = (struct metal_uart *)__METAL_DT_SERIAL_20000000_HANDLE;
+    // Setup UART 0 and its interrupt
+    uart0 = metal_uart_get_device(0);
     uart0_ic = metal_uart_interrupt_controller(uart0);
     if (uart0_ic == NULL) {
         printf("UART0 interrupt controller is null.\n");
