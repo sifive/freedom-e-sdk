@@ -113,15 +113,17 @@ RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
 RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
+METAL_CFLAGS	:= $(RISCV_CFLAGS) -Os -D__SEGGER_LIBC__ -isystem =/include/segger
+
 # Use newlib-nano
 ifeq ($(USE_LIBC_SEGGER),)
 RISCV_CCASFLAGS += --specs=nano.specs
 RISCV_CFLAGS    += --specs=nano.specs
 RISCV_CXXFLAGS  += --specs=nano.specs
 else
-RISCV_CCASFLAGS += --specs=segger.specs
-RISCV_CFLAGS    += --specs=segger.specs
-RISCV_CXXFLAGS  += --specs=segger.specs
+RISCV_CCASFLAGS += --specs=segger-metal.specs
+RISCV_CFLAGS    += --specs=segger-metal.specs
+RISCV_CXXFLAGS  += --specs=segger-metal.specs
 endif
 
 # Turn on garbage collection for unused sections
