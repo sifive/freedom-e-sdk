@@ -39,6 +39,10 @@ Freedom E SDK comes packaged with the following board support packages under the
 
   - qemu-sifive-u54mc
 
+- `Spike RISC-V ISA EMulator <https://github.com/riscv/riscv-isa-sim>`_
+
+  - spike
+
 The board support files for the Freedom Metal library are located entirely
 within a single target directory in ``bsp/<target>/``. For example, the HiFive 1
 board support files for Freedom Metal are entirely within ``bsp/sifive-hifive1/``
