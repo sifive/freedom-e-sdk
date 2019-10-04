@@ -65,6 +65,8 @@
 
 #define METAL_MAX_GPIO_INTERRUPTS 16
 
+#define METAL_MAX_I2C0_INTERRUPTS 0
+
 #define __METAL_SERIAL_10013000_INTERRUPTS 1
 
 #define METAL_MAX_UART_INTERRUPTS 1
@@ -500,6 +502,9 @@ static __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 /* --------------------- sifive_gpio_switch ------------ */
 
 
+/* --------------------- sifive_i2c0 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 static __inline__ unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi)
@@ -741,6 +746,11 @@ struct __metal_driver_sifive_gpio_led *__metal_led_table[] = {
 
 __asm__ (".weak __metal_switch_table");
 struct __metal_driver_sifive_gpio_switch *__metal_switch_table[] = {
+					NULL };
+#define __METAL_DT_MAX_I2CS 0
+
+__asm__ (".weak __metal_i2c_table");
+struct __metal_driver_sifive_i2c0 *__metal_i2c_table[] = {
 					NULL };
 #define __METAL_DT_MAX_RTCS 0
 

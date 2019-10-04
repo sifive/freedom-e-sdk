@@ -198,6 +198,7 @@
                         reg = <0x10016000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x3000 0x3000>;
                 };
                 uart1: serial@10023000 {
                         compatible = "sifive,uart0";

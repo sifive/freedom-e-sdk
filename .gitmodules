@@ -97,3 +97,6 @@
 [submodule "software/atomics"]
 	path = software/atomics
 	url = https://github.com/sifive/example-atomics.git
+[submodule "software/example-i2c"]
+	path = software/example-i2c
+	url = https://github.com/sifive/example-i2c.git

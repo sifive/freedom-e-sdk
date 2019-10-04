@@ -78,6 +78,9 @@ extern __inline__ char * __metal_driver_sifive_gpio_led_label(struct metal_led *
 /* --------------------- sifive_gpio_switch ------------ */
 
 
+/* --------------------- sifive_i2c0 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_base(const struct metal_rtc *const rtc);
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_size(const struct metal_rtc *const rtc);

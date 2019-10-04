@@ -75,6 +75,18 @@ extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 /* --------------------- sifive_gpio_switch ------------ */
 
 
+/* --------------------- sifive_i2c0 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_control_base(struct metal_i2c *i2c);
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_control_size(struct metal_i2c *i2c);
+extern __inline__ int __metal_driver_sifive_i2c0_num_interrupts(struct metal_i2c *i2c);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_i2c0_interrupt_parent(struct metal_i2c *i2c);
+extern __inline__ int __metal_driver_sifive_i2c0_interrupt_line(struct metal_i2c *i2c);
+extern __inline__ struct metal_clock * __metal_driver_sifive_i2c0_clock(struct metal_i2c *i2c);
+extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_i2c0_pinmux(struct metal_i2c *i2c);
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_output_selector(struct metal_i2c *i2c);
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_source_selector(struct metal_i2c *i2c);
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 
@@ -315,6 +327,11 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
 /* From gpio@10060000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10060000 = {
     .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
+};
+
+/* From i2c@10030000 */
+struct __metal_driver_sifive_i2c0 __metal_dt_i2c_10030000 = {
+    .i2c.vtable = &__metal_driver_vtable_sifive_i2c0.i2c,
 };
 
 /* From spi@10040000 */

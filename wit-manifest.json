@@ -1,11 +1,11 @@
 [
     {
-        "commit": "7efd9855fa922eb0cda4c2250f8ea6e3da721bfb",
+        "commit": "a6d657761623063265849fb51fc4aae06103af79",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "a3cdc1e9ac13f3a8a3442f7659bfcef4b4640e41",
+        "commit": "61737c07c64c332e9bcb23a19cad9ba7019fe117",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -168,5 +168,10 @@
         "commit": "b99fb5d268285231114efe144a7cbd758f1b5779",
         "name": "example-atomics",
         "source": "git@github.com:sifive/example-atomics.git"
+    },
+    {
+        "commit": "7a079de6bffc83900f5c3a162438676fa0cf136a",
+        "name": "example-i2c",
+        "source": "git@github.com:sifive/example-i2c.git"
     }
 ]
