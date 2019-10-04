@@ -153,7 +153,7 @@
         "commit": "cd650d39b4221b43c74b80440b6995206336bf15",
         "name": "example-minimal-boot",
         "source": "git@github.com:sifive/example-minimal-boot.git"
-    }
+    },
     {
         "commit": "aee436c2fe86c3c6e64f19a7bc8fa8349895362b",
         "name": "example-uart-interrupt",
