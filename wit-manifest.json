@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "8231b9950bb6539f307877dd331f9b78805124c1",
+        "commit": "b16dbc2dfe49bb0711cbbd703b8a36f9638741e3",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -155,7 +155,7 @@
         "source": "git@github.com:sifive/example-minimal-boot.git"
     },
     {
-        "commit": "aee436c2fe86c3c6e64f19a7bc8fa8349895362b",
+        "commit": "2d246cd192c3bf69cff51c434f838f4095e36b5e",
         "name": "example-uart-interrupt",
         "source": "git@github.com:sifive/example-uart-interrupt.git"
     }
