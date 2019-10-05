@@ -1,0 +1,24 @@
+/* Copyright 2019 SiFive, Inc */
+/* SPDX-License-Identifier: Apache-2.0 */
+/* ----------------------------------- */
+/* ----------------------------------- */
+
+#ifndef SPIKE____METAL_PLATFORM_H
+#define SPIKE____METAL_PLATFORM_H
+
+/* From clint@2000000 */
+#define METAL_RISCV_CLINT0_2000000_BASE_ADDRESS 33554432UL
+#define METAL_RISCV_CLINT0_0_BASE_ADDRESS 33554432UL
+#define METAL_RISCV_CLINT0_2000000_SIZE 786432UL
+#define METAL_RISCV_CLINT0_0_SIZE 786432UL
+
+#define METAL_RISCV_CLINT0
+#define METAL_RISCV_CLINT0_MSIP_BASE 0UL
+#define METAL_RISCV_CLINT0_MTIMECMP_BASE 16384UL
+#define METAL_RISCV_CLINT0_MTIME 49144UL
+
+/* From htif */
+
+#define METAL_SIFIVE_HTIF0
+
+#endif /* SPIKE____METAL_PLATFORM_H*/
