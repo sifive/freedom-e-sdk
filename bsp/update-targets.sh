@@ -107,17 +107,17 @@ update_target() {
     $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || warn "Failed to compile $TARGET/$DTS_FILENAME to dtb"
 
     # Produce parameterized files
-    $MEE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
-    $LDSCRIPT_GENERATOR -d $TARGET/$DTB_FILENAME -l $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
-    $MAKEATTRIB_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
-    $BARE_HEADER_GENERATOR -d $TARGET/$DTB_FILENAME -o $TARGET/$BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME"
+    pushd $TARGET && $MEE_HEADER_GENERATOR -d $DTB_FILENAME -o $HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME" && popd
+    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_DEFAULT_FILENAME || warn "Failed to produce $LDS_DEFAULT_FILENAME" && popd
+    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME" && popd
+    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME" && popd
+    pushd  $TARGET && $MAKEATTRIB_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME" && popd
+    pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
             echo "generating openocd.cfg"
-            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
+            pushd $TARGET && $OPENOCDCFG_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME" && popd
         fi
     fi
 

@@ -5,8 +5,8 @@
 
 #ifndef ASSEMBLY
 
-#ifndef SIFIVE_HIFIVE_UNLEASHED____METAL_INLINE_H
-#define SIFIVE_HIFIVE_UNLEASHED____METAL_INLINE_H
+#ifndef METAL_INLINE_H
+#define METAL_INLINE_H
 
 #include <metal/machine.h>
 
@@ -353,5 +353,5 @@ struct __metal_driver_sifive_fu540_c000_l2 __metal_dt_cache_controller_2010000 =
 };
 
 
-#endif /* SIFIVE_HIFIVE_UNLEASHED____METAL_INLINE_H*/
+#endif /* METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */

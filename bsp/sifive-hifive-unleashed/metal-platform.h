@@ -3,8 +3,8 @@
 /* ----------------------------------- */
 /* ----------------------------------- */
 
-#ifndef SIFIVE_HIFIVE_UNLEASHED____METAL_PLATFORM_H
-#define SIFIVE_HIFIVE_UNLEASHED____METAL_PLATFORM_H
+#ifndef METAL_PLATFORM_H
+#define METAL_PLATFORM_H
 
 /* From refclk */
 #define METAL_FIXED_CLOCK__CLOCK_FREQUENCY 33333333UL
@@ -185,4 +185,4 @@
 #define METAL_SIFIVE_UART0_IP 20UL
 #define METAL_SIFIVE_UART0_DIV 24UL
 
-#endif /* SIFIVE_HIFIVE_UNLEASHED____METAL_PLATFORM_H*/
+#endif /* METAL_PLATFORM_H*/
