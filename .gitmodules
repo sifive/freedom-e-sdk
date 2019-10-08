@@ -85,6 +85,9 @@
 [submodule "software/local-vector-interrupts"]
 	path = software/local-vector-interrupts
 	url = https://github.com/sifive/example-local-vector-interrupts.git
+[submodule "software/csr"]
+	path = software/csr
+	url = https://github.com/sifive/example-csr-access.git
 [submodule "software/minimal-boot"]
 	path = software/minimal-boot
 	url = https://github.com/sifive/example-minimal-boot.git
