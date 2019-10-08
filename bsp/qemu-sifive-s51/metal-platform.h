@@ -3,8 +3,8 @@
 /* ----------------------------------- */
 /* ----------------------------------- */
 
-#ifndef QEMU_SIFIVE_S51____METAL_PLATFORM_H
-#define QEMU_SIFIVE_S51____METAL_PLATFORM_H
+#ifndef METAL_PLATFORM_H
+#define METAL_PLATFORM_H
 
 /* From clock@0 */
 #define METAL_FIXED_CLOCK_0_CLOCK_FREQUENCY 16000000UL
@@ -264,4 +264,4 @@
 #define METAL_SIFIVE_WDOG0_WDOGKEY 28UL
 #define METAL_SIFIVE_WDOG0_WDOGCMP 32UL
 
-#endif /* QEMU_SIFIVE_S51____METAL_PLATFORM_H*/
+#endif /* METAL_PLATFORM_H*/

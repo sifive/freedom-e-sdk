@@ -3,8 +3,8 @@
 /* ----------------------------------- */
 /* ----------------------------------- */
 
-#ifndef QEMU_SIFIVE_U54____METAL_PLATFORM_H
-#define QEMU_SIFIVE_U54____METAL_PLATFORM_H
+#ifndef METAL_PLATFORM_H
+#define METAL_PLATFORM_H
 
 /* From clint@2000000 */
 #define METAL_RISCV_CLINT0_2000000_BASE_ADDRESS 33554432UL
@@ -61,4 +61,4 @@
 #define METAL_SIFIVE_UART0_IP 20UL
 #define METAL_SIFIVE_UART0_DIV 24UL
 
-#endif /* QEMU_SIFIVE_U54____METAL_PLATFORM_H*/
+#endif /* METAL_PLATFORM_H*/

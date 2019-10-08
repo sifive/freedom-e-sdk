@@ -2,3 +2,4 @@
 *.a
 /Makefile.local
 /enter.bash
+*.dtb

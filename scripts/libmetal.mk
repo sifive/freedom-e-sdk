@@ -12,10 +12,54 @@ METAL_PREFIX       = $(abspath $(BSP_DIR)/install)
 METAL_BUILD_DIR    = $(abspath $(BSP_DIR)/build/$(CONFIGURATION))
 METAL_LIB_DIR	   = $(abspath $(BSP_DIR)/install/lib/$(CONFIGURATION))
 
+METAL_HEADER_GENERATOR = freedom-metal_header-generator
+LDSCRIPT_GENERATOR = freedom-ldscript-generator
+MAKEATTRIB_GENERATOR = freedom-makeattributes-generator
+BARE_HEADER_GENERATOR = freedom-bare_header-generator
+
+# Metal BSP file generation
+#
+# Requires devicetree compiler (dtc) and freedom-devicetree-tools to be in the
+# PATH, otherwise the existing files are used.
+#
+# This allows user changes to the devicetree in $(BSP_DIR)/design.dts to be
+# propagated through to the end application with a single invocation of Make
+
+ifneq ($(shell which dtc),)
+ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
+
+$(BSP_DIR)/design.dtb: $(BSP_DIR)/design.dts
+	./scripts/fixup-dts --dts $<
+	cd $(dir $@) && dtc -I dts -O dtb -o $(notdir $@) $(notdir $<)
+
+$(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dtb
+	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@)
+
+$(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dtb
+	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@) --ramrodata
+
+$(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dtb
+	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@) --scratchpad
+
+$(METAL_INLINE): $(BSP_DIR)/design.dtb
+$(METAL_HEADER): $(BSP_DIR)/design.dtb
+	cd $(dir $@) && $(METAL_HEADER_GENERATOR) -d $(notdir $<) -o $(notdir $@)
+
+$(PLATFORM_HEADER): $(BSP_DIR)/design.dtb
+	cd $(dir $@) && $(BARE_HEADER_GENERATOR) -d $(notdir $<) -o $(notdir $@)
+
+$(BSP_DIR)/settings.mk : $(BSP_DIR)/design.dtb
+	cd $(dir $@) && $(MAKEATTRIB_GENERATOR) -d $(notdir $<) -o $(notdir $@) -b $(TARGET)
+
+endif # which dtc
+endif # which $(METAL_HEADER_GENERATOR)
+
 .PHONY: metal
 metal: $(METAL_LIB_DIR)/stamp
 
-$(METAL_BUILD_DIR)/Makefile:
+$(METAL_BUILD_DIR)/Makefile: \
+	   $(METAL_HEADER) $(METAL_INLINE) $(PLATFORM_HEADER) \
+	   $(BSP_DIR)/settings.mk
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
@@ -34,8 +78,8 @@ $(METAL_BUILD_DIR)/Makefile:
 		--with-builtin-libgloss
 	touch -c $@
 
-$(METAL_LIB_DIR)/stamp: $(BSP_DIR)/build/$(CONFIGURATION)/Makefile
-	$(MAKE) -C $(abspath $(BSP_DIR)/build/$(CONFIGURATION)) install
+$(METAL_LIB_DIR)/stamp: $(METAL_BUILD_DIR)/Makefile
+	$(MAKE) -C $(METAL_BUILD_DIR) install
 	date > $@
 
 $(METAL_LIB_DIR)/libriscv%.a: $(METAL_LIB_DIR)/stamp ;@:
