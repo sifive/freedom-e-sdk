@@ -163,5 +163,10 @@
         "commit": "2d246cd192c3bf69cff51c434f838f4095e36b5e",
         "name": "example-uart-interrupt",
         "source": "git@github.com:sifive/example-uart-interrupt.git"
+    },
+    {
+        "commit": "b892796079a942ba154fb3e9c1dee6d20df5cee9",
+        "name": "benchmark-mem_probe",
+        "source": "git@github.com:sifive/benchmark-mem_probe.git"
     }
 ]
