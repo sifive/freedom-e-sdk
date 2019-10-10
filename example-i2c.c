@@ -13,6 +13,7 @@
 #define TEMP_SENSOR_I2C_ADDR 0x4B
 #define TEMP_SENSOR_ID 0xCB
 #define ADC_I2C_ADDR 0x28
+#define I2C_BAUDRATE 100000
 
 /* Return values */
 #define RET_OK 0
@@ -23,90 +24,85 @@
 #define LEN2 2
 /* 1s delay macro */
 #define WAIT_1S(timeout)                                                       \
-    timeout = time(NULL) + 1;                                                  \
-    while (timeout > time(NULL))                                               \
-        ;
+  timeout = time(NULL) + 1;                                                    \
+  while (timeout > time(NULL))                                                 \
+    ;
 
 int main(void) {
-    __metal_io_u32 temp, volt;
-    __metal_io_u8 buf[LEN2];
-    time_t timeout;
+  unsigned int temp, volt;
+  unsigned char buf[LEN2];
+  time_t timeout;
+  struct metal_i2c *i2c;
 
-    printf("%s %s \n", __DATE__, __TIME__);
-    printf("I2C demo test..\n");
+  printf("%s %s \n", __DATE__, __TIME__);
+  printf("I2C demo test..\n");
 
-/* Make sure that I2C initialization parameters are specified */
-#if defined(__METAL_DT_SIFIVE_I2C0_HANDLE0) &&                                 \
-    defined(__METAL_DT_I2C0_BAUDRATE0) && defined(__METAL_DT_I2C0_MODE0)
-    metal_i2c_init(__METAL_DT_SIFIVE_I2C0_HANDLE0, __METAL_DT_I2C0_BAUDRATE0,
-                   __METAL_DT_I2C0_MODE0);
-#else
-#error ***Missing I2C init parameters***
-#endif
+  i2c = metal_i2c_get_device(0);
 
-    /* Attempt to read ADT7420 Chip ID */
-    buf[0] = 0x0B;
-    metal_i2c_write(__METAL_DT_SIFIVE_I2C0_HANDLE0, TEMP_SENSOR_I2C_ADDR, LEN1,
-                    buf, METAL_I2C_STOP_DISABLE);
-    metal_i2c_read(__METAL_DT_SIFIVE_I2C0_HANDLE0, TEMP_SENSOR_I2C_ADDR, LEN1,
-                   buf, METAL_I2C_STOP_ENABLE);
+  if (i2c == NULL) {
+    printf("I2C not available \n");
+    return RET_NOK;
+  }
 
-    /* Verify Chip ID */
-    if (buf[0] == TEMP_SENSOR_ID) {
-        printf("PmodTmp2 module detected \n");
-    } else {
-        printf("Failed to detect PmodTmp2 module \n");
-        return RET_NOK;
-    }
+  metal_i2c_init(i2c, I2C_BAUDRATE, METAL_I2C_MASTER);
 
-    /* Attempt to access AD7991, configure to convert on Vin0. */
-    buf[0] = 0x10;
-    if (metal_i2c_write(__METAL_DT_SIFIVE_I2C0_HANDLE0, ADC_I2C_ADDR, LEN1, buf,
-                        METAL_I2C_STOP_ENABLE) != RET_OK) {
-        printf("Failed to detect PmodAD2 module \n");
-        return RET_NOK;
-    } else {
-        printf("PmodAD2 module detected \n");
-    }
+  /* Attempt to read ADT7420 Chip ID */
+  buf[0] = 0x0B;
+  metal_i2c_write(i2c, TEMP_SENSOR_I2C_ADDR, LEN1, buf, METAL_I2C_STOP_DISABLE);
+  metal_i2c_read(i2c, TEMP_SENSOR_I2C_ADDR, LEN1, buf, METAL_I2C_STOP_ENABLE);
 
-    /* Loop and print data from slaves every 1s */
-    while (1) {
-        /* Slave access using read / write APIs */
-        buf[0] = 0x0;
-        metal_i2c_write(__METAL_DT_SIFIVE_I2C0_HANDLE0, TEMP_SENSOR_I2C_ADDR,
-                        LEN1, buf, METAL_I2C_STOP_DISABLE);
-        metal_i2c_read(__METAL_DT_SIFIVE_I2C0_HANDLE0, TEMP_SENSOR_I2C_ADDR,
-                       LEN2, buf, METAL_I2C_STOP_ENABLE);
+  /* Verify Chip ID */
+  if (buf[0] == TEMP_SENSOR_ID) {
+    printf("PmodTmp2 module detected \n");
+  } else {
+    printf("Failed to detect PmodTmp2 module \n");
+    return RET_NOK;
+  }
 
-        /* Get temperature value from received data */
-        temp = ((unsigned int)buf[0] << 8 | buf[1]) >> 7;
-        metal_i2c_read(__METAL_DT_SIFIVE_I2C0_HANDLE0, ADC_I2C_ADDR, LEN2, buf,
-                       METAL_I2C_STOP_ENABLE);
+  /* Attempt to access AD7991, configure to convert on Vin0. */
+  buf[0] = 0x10;
+  if (metal_i2c_write(i2c, ADC_I2C_ADDR, LEN1, buf, METAL_I2C_STOP_ENABLE) !=
+      RET_OK) {
+    printf("Failed to detect PmodAD2 module \n");
+    return RET_NOK;
+  } else {
+    printf("PmodAD2 module detected \n");
+  }
 
-        /* Convert data to represent ADC values in mV */
-        volt = (((unsigned int)buf[0] << 8 | buf[1]) & 0xFFF) * 0.806;
+  /* Loop and print data from slaves every 1s */
+  while (1) {
+    /* Slave access using read / write APIs */
+    buf[0] = 0x0;
+    metal_i2c_write(i2c, TEMP_SENSOR_I2C_ADDR, LEN1, buf,
+                    METAL_I2C_STOP_DISABLE);
+    metal_i2c_read(i2c, TEMP_SENSOR_I2C_ADDR, LEN2, buf, METAL_I2C_STOP_ENABLE);
 
-        printf("temp: %u volts : %u \n", temp, volt);
+    /* Get temperature value from received data */
+    temp = ((unsigned int)buf[0] << 8 | buf[1]) >> 7;
+    metal_i2c_read(i2c, ADC_I2C_ADDR, LEN2, buf, METAL_I2C_STOP_ENABLE);
 
-        /* Slave access using transfer API */
-        buf[0] = 0x0;
-        metal_i2c_transfer(__METAL_DT_SIFIVE_I2C0_HANDLE0, TEMP_SENSOR_I2C_ADDR,
-                           LEN1, LEN2, buf);
+    /* Convert data to represent ADC values in mV */
+    volt = (((unsigned int)buf[0] << 8 | buf[1]) & 0xFFF) * 0.806;
 
-        /* Get temperature value from received data */
-        temp = ((unsigned int)buf[0] << 8 | buf[1]) >> 7;
+    printf("temp: %u volts : %u \n", temp, volt);
 
-        metal_i2c_transfer(__METAL_DT_SIFIVE_I2C0_HANDLE0, ADC_I2C_ADDR, LEN0,
-                           LEN2, buf);
+    /* Slave access using transfer API */
+    buf[0] = 0x0;
+    metal_i2c_transfer(i2c, TEMP_SENSOR_I2C_ADDR, buf, LEN1, buf, LEN2);
 
-        /* Convert data to represent ADC values in mV */
-        volt = (((unsigned int)buf[0] << 8 | buf[1]) & 0xFFF) * 0.806;
+    /* Get temperature value from received data */
+    temp = ((unsigned int)buf[0] << 8 | buf[1]) >> 7;
 
-        printf("temp: %u volts : %u \n", temp, volt);
+    metal_i2c_transfer(i2c, ADC_I2C_ADDR, buf, LEN0, buf, LEN2);
 
-        /* Wait 1s */
-        WAIT_1S(timeout);
-    }
+    /* Convert data to represent ADC values in mV */
+    volt = (((unsigned int)buf[0] << 8 | buf[1]) & 0xFFF) * 0.806;
 
-    return RET_OK;
+    printf("temp: %u volts : %u \n", temp, volt);
+
+    /* Wait 1s */
+    WAIT_1S(timeout);
+  }
+
+  return RET_OK;
 }
