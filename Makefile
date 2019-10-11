@@ -362,7 +362,7 @@ endif # findstring rv32
 else # findstring qemu
 ifeq ($(findstring spike,$(TARGET)),spike)
 simulate: $(PROGRAM_ELF) $(BSP_DIR)/spike_options.sh
-	. $(BSP_DIR)/spike_options.sh && scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike)
+	. $(BSP_DIR)/spike_options.sh && scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike) ; echo "Spike exited with code $$?"
 else
 simulate:
 	@echo "No supported emulator for target $(TARGET)!"
