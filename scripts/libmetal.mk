@@ -31,7 +31,7 @@ $(BSP_DIR)/spike_options.sh:
 
 ifneq ($(shell which spike),)
 $(BSP_DIR)/design.dts: $(BSP_DIR)/spike_options.sh
-	source $< && scripts/spikedts $(dir $@)
+	. $< && scripts/spikedts $(dir $@)
 endif # which spike
 endif # findstring spike,$(TARGET)
 
