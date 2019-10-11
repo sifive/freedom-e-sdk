@@ -365,7 +365,7 @@ simulate: $(PROGRAM_ELF) $(BSP_DIR)/spike_options.sh
 	. $(BSP_DIR)/spike_options.sh && scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike)
 else
 simulate:
-	@echo "QEMU can't simulate target $(TARGET)!"
+	@echo "No supported emulator for target $(TARGET)!"
 endif # findstring spike
 endif # findstring qemu
 
