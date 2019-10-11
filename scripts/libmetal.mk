@@ -62,8 +62,26 @@ $(PLATFORM_HEADER): $(BSP_DIR)/design.dtb
 $(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dtb
 	cd $(dir $@) && $(MAKEATTRIB_GENERATOR) -d $(notdir $<) -o $(notdir $@) -b $(TARGET)
 
-endif # which dtc
+.PHONY: bsp
+metal-bsp:\
+	   $(METAL_HEADER) $(METAL_INLINE) $(PLATFORM_HEADER) \
+	   $(BSP_DIR)/metal.default.lds \
+	   $(BSP_DIR)/metal.ramrodata.lds \
+	   $(BSP_DIR)/metal.scratchpad.lds \
+	   $(BSP_DIR)/settings.mk
+else
+.PHONY: bsp
+metal-bsp:
+	@echo "Make cannot generate a BSP because it cannot find freedom-devicetree-tools"
+	@exit 1
 endif # which $(METAL_HEADER_GENERATOR)
+else
+.PHONY: bsp
+metal-bsp:
+	@echo "Make cannot generate a BSP because it cannot find dtc"
+	@exit 1
+endif # which dtc
+
 
 .PHONY: metal
 metal: $(METAL_LIB_DIR)/stamp
