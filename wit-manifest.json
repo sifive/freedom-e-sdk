@@ -163,5 +163,10 @@
         "commit": "2d246cd192c3bf69cff51c434f838f4095e36b5e",
         "name": "example-uart-interrupt",
         "source": "git@github.com:sifive/example-uart-interrupt.git"
+    },
+    {
+        "commit": "b99fb5d268285231114efe144a7cbd758f1b5779",
+        "name": "example-atomics",
+        "source": "git@github.com:sifive/example-atomics.git"
     }
 ]
