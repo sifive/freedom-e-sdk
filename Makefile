@@ -105,6 +105,10 @@ help:
 	@echo " metal [TARGET=$(TARGET)] [CONFIGURATION=$(CONFIGURATION)]"
 	@echo "    Builds the Freedom Metal library for TARGET."
 	@echo ""
+	@echo " metal-bsp [TARGET=$(TARGET)]"
+	@echo "    Generates the BSP files for TARGET. Requires dtc"
+	@echo "    and freedom-devicetree-tools to be in your PATH"
+	@echo ""
 	@echo " clean [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
 	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
 	@echo "    Cleans compiled objects for a specified "
@@ -358,10 +362,15 @@ simulate: $(PROGRAM_ELF)
 else # findstring rv32
 simulate: $(PROGRAM_ELF)
 	scripts/simulate --elf $(PROGRAM_ELF) --qemu $(QEMU_RISCV64) --qemu-config bsp/$(TARGET)/qemu.cfg
-endif
+endif # findstring rv32
 else # findstring qemu
+ifeq ($(findstring spike,$(TARGET)),spike)
+simulate: $(PROGRAM_ELF) $(BSP_DIR)/spike_options.sh
+	. $(BSP_DIR)/spike_options.sh && scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike) ; echo "Spike exited with code $$?"
+else
 simulate:
-	@echo "QEMU can't simulate target $(TARGET)!"
-endif
+	@echo "No supported emulator for target $(TARGET)!"
+endif # findstring spike
+endif # findstring qemu
 
 

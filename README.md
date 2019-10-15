@@ -43,6 +43,8 @@ operating systems to RISC-V.
       - qemu-sifive-u54
     - [QEMU Emulation of the SiFive U54MC](https://github.com/sifive/freedom-tools)
       - qemu-sifive-u54mc
+    - [Spike RISC-V ISA Emulator](https://github.com/riscv/riscv-isa-sim)
+      - spike
   - The board support files for the Freedom Metal library are located entirely
     within a single target directory in `bsp/<target>/`. For example, the HiFive 1
     board support files for Freedom Metal are entirely within `bsp/sifive-hifive1/`

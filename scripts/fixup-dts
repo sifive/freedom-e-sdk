@@ -65,6 +65,14 @@ if [ `grep -c 'local-external-interrupts-0 {' ${dts}` -ne 0 ]; then
     fi
 fi
 
+# Add a chosen node if it does not exist
+
+if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
+    ${SED} -i "/cpus/i chosen {\n};" ${dts}
+
+    echo -e "$0: \tAdded chosen node"
+fi
+
 # Add a stdout-path to the chosen node if one doesn't exist and a serial port does
 
 if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
@@ -73,10 +81,6 @@ if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
 
         serial_node=`grep -oP "serial@[[:xdigit:]]+" ${dts} | sort | uniq | head -n 1`
         serial_path="/soc/${serial_node}:115200"
-
-        if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
-            ${SED} -i "/cpus/i chosen {\n};" ${dts}
-        fi
 
         ${SED} -i "/chosen/a stdout-path=\"${serial_path}\";" ${dts}
 
@@ -89,14 +93,19 @@ if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
         trace_node=`grep -oP "trace@[[:xdigit:]]+" ${dts} | sort | uniq | head -n 1`
         trace_path="/soc/${trace_node}:115200"
 
-        if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
-            ${SED} -i "/cpus/i chosen {\n};" ${dts}
-        fi
-
         ${SED} -i "/chosen/a stdout-path=\"${trace_path}\";" ${dts}
 
         echo -e "$0: \tAdded stdout-path ${trace_path}"
+
+    # If an HTIF exists, use it
+    elif [ `grep -c 'ucb,htif0' ${dts}` -ne 0 ]; then
+        echo "$0: stdout-path property not given, but an htif exists."
+
+        ${SED} -i "/chosen/a stdout-path=\"/htif\";" ${dts}
+
+        echo -e "$0: \tAdded stdout-path /htif"
     fi
+
 fi
 
 # Multicore configs have a monitor core for hart 0, so to get the right benchmark
@@ -104,10 +113,6 @@ fi
 
 if [ `grep -c 'cpu@1' ${dts}` -ne 0 ]; then
     if [ `grep -c 'metal,boothart' ${dts}` -eq 0 ]; then
-
-        if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
-            ${SED} -i "/cpus/i chosen {\n};" ${dts}
-        fi
 
         label=`grep "cpu@1" ${dts} | ${SED} -E "s/^\s+(\S+):.*$/\1/g"`
 
@@ -128,10 +133,6 @@ if [ `echo ${dts} | grep -c 'arty'` -ne 0 -o `echo ${dts} | grep -c 'fpga'` -ne 
 
         # Get the DTS node label of that SPI device
         spi_entry_label=`grep -oE "[^[:space:]]+?:\s+?${first_spi_node}" ${dts} | cut -d ':' -f 1`
-
-        if [ `grep -c 'chosen' ${dts}` -eq 0 ]; then
-            ${SED} -i "/cpus/i chosen {\n};" ${dts}
-        fi
 
         ${SED} -i "/chosen/a metal,entry = <&${spi_entry_label} 0x400000>;" ${dts}
 
