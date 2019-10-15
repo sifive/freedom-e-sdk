@@ -25,7 +25,7 @@ before_install:
 install:
   - docker exec -t host bash -c "yes | apt-get update"
   - docker exec -t host bash -c "yes | apt-get upgrade"
-  - docker exec -t host bash -c "yes | apt-get install build-essential git wget jq"
+  - docker exec -t host bash -c "yes | apt-get install build-essential git wget jq dtc"
 # Install QEMU dependencies
   - docker exec -t host bash -c "yes | apt-get install libpixman-1-0 libnuma1 libpng12-0 libglib2.0-0 libjpeg8"
 # Download RISC-V embedded toolchain
@@ -40,6 +40,12 @@ script:
 # check that submodules match wit-manifest.json
   - docker exec -t host bash -c "cd /travis && ./scripts/check-submodules"
 # Build all software for all targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && cd /travis && RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/all-targets-build"
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && export PATH=/travis/freedom-devicetree-tools:$PATH && cd /travis && RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/all-targets-build"
 # Test by running software on all QEMU targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && export PATH=$PATH:/travis/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14/bin && cd /travis && ./scripts/test-qemu-targets"
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && export PATH=/travis/freedom-devicetree-tools:$PATH:/travis/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14/bin && cd /travis && ./scripts/test-qemu-targets"
+# build Devicetree Tools
+  - docker exec -t host bash -c "cd /travis/freedom-devictree-tools && ./configure && make -j$(nproc)"
+# Build all software for all targets
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && export PATH=/travis/freedom-devicetree-tools:$PATH && cd /travis && RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/all-targets-build"
+# Test by running software on all QEMU targets
+  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && export PATH=/travis/freedom-devicetree-tools:$PATH:/travis/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14/bin && cd /travis && ./scripts/test-qemu-targets"
