@@ -203,3 +203,8 @@ The example programs can be found under the ``software/`` directory.
 - minimal-boot
 
   - Demonstrates how to replace the Metal constructors and replace them with your own.
+
+- atomics
+
+  - Demonstrates how to use the Metal Atomic API to leverage the RISC-V atomic
+    instruction set.

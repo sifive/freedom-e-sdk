@@ -121,6 +121,9 @@ operating systems to RISC-V.
     - A simple example demonstrating the use of CLIC hardware vector interrupts
   - minimal-boot
     - Demonstrates how to replace the Metal constructors and replace them with your own
+  - atomics
+    - Demonstrates how to use the Metal Atomic API to leverage the RISC-V
+      atomic instruction set.
 
 ### Setting up the SDK ###
 
