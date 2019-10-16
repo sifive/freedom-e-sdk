@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 
 #include <stdio.h>
+#include <inttypes.h>
 
 #include <metal/atomic.h>
 #include <metal/cpu.h>
@@ -25,7 +26,7 @@ int secondary_main(void) {
 	int num_harts = metal_cpu_get_num_harts();
 	while (my_counter != num_harts) ;
 
-	printf("Atomic API incremented %d times\n", my_counter);
+	printf("Atomic API incremented %" PRId32 " times\n", my_counter);
 
 	/* Return success */
 	return 0;
