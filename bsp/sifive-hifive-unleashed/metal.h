@@ -63,6 +63,10 @@
 
 #define METAL_MAX_GPIO_INTERRUPTS 16
 
+#define __METAL_I2C_10030000_INTERRUPTS 0
+
+#define METAL_MAX_I2C0_INTERRUPTS 0
+
 #define __METAL_SERIAL_10010000_INTERRUPTS 1
 
 #define __METAL_SERIAL_10011000_INTERRUPTS 1
@@ -78,6 +82,7 @@
 #include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
 #include <metal/drivers/sifive_gpio0.h>
+#include <metal/drivers/sifive_i2c0.h>
 #include <metal/drivers/sifive_spi0.h>
 #include <metal/drivers/sifive_test0.h>
 #include <metal/drivers/sifive_uart0.h>
@@ -144,6 +149,9 @@ struct metal_pmp __metal_dt_pmp;
 
 /* From gpio@10060000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10060000;
+
+/* From i2c@10030000 */
+struct __metal_driver_sifive_i2c0 __metal_dt_i2c_10030000;
 
 /* From spi@10040000 */
 struct __metal_driver_sifive_spi0 __metal_dt_spi_10040000;
@@ -664,6 +672,89 @@ static __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 /* --------------------- sifive_gpio_switch ------------ */
 
 
+/* --------------------- sifive_i2c0 ------------ */
+static __inline__ unsigned long __metal_driver_sifive_i2c0_control_base(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return METAL_SIFIVE_I2C0_10030000_BASE_ADDRESS;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ unsigned long __metal_driver_sifive_i2c0_control_size(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return METAL_SIFIVE_I2C0_10030000_SIZE;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ struct metal_clock * __metal_driver_sifive_i2c0_clock(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return (struct metal_clock *)&__metal_dt_tlclk.clock;
+	}
+	else {
+		return NULL;
+	}
+}
+
+static __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_i2c0_pinmux(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return NULL;
+	}
+	else {
+		return NULL;
+	}
+}
+
+static __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_output_selector(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return 0;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_source_selector(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return 0;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ int __metal_driver_sifive_i2c0_num_interrupts(struct metal_i2c *i2c)
+{
+		return METAL_MAX_I2C0_INTERRUPTS;
+}
+
+static __inline__ struct metal_interrupt * __metal_driver_sifive_i2c0_interrupt_parent(struct metal_i2c *i2c)
+{
+		return NULL;
+}
+
+static __inline__ int __metal_driver_sifive_i2c0_interrupt_line(struct metal_i2c *i2c)
+{
+	if ((uintptr_t)i2c == (uintptr_t)&__metal_dt_i2c_10030000) {
+		return 0;
+	}
+	else {
+		return 0;
+	}
+}
+
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 static __inline__ unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi)
@@ -1022,6 +1113,12 @@ struct __metal_driver_sifive_gpio_led *__metal_led_table[] = {
 __asm__ (".weak __metal_switch_table");
 struct __metal_driver_sifive_gpio_switch *__metal_switch_table[] = {
 					NULL };
+#define __METAL_DT_MAX_I2CS 1
+
+__asm__ (".weak __metal_i2c_table");
+struct __metal_driver_sifive_i2c0 *__metal_i2c_table[] = {
+					&__metal_dt_i2c_10030000};
+
 #define __METAL_DT_MAX_RTCS 0
 
 __asm__ (".weak __metal_rtc_table");

@@ -75,6 +75,9 @@ extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 /* --------------------- sifive_gpio_switch ------------ */
 
 
+/* --------------------- sifive_i2c0 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 

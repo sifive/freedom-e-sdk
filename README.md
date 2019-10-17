@@ -124,6 +124,8 @@ operating systems to RISC-V.
   - atomics
     - Demonstrates how to use the Metal Atomic API to leverage the RISC-V
       atomic instruction set.
+  - example-i2c
+    - Demonstrates usage of the I2C API to communicate with I2C slaves.
 
 ### Setting up the SDK ###
 
