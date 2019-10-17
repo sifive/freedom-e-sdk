@@ -13,19 +13,33 @@ SRC_DIR ?= $(abspath src)
 
 # There must be a settings makefile fragment in the BSP's board directory.
 ifeq ($(wildcard $(BSP_DIR)/settings.mk),)
+
+ifneq ($(shell which freedom-metal_header-generator),)
+ifneq ($(shell which dtc),)
+
+# If settings.mk does not exist but we have Devicetree tools and Devicetree compiler,
+# we can go ahead and create settings.mk automatically at first run.
+_shellresult := $(shell cd $(BSP_DIR) && dtc -I dts -O dtb -o design.dtb design.dts && freedom-makeattributes-generator -d design.dtb -o settings.mk -b $(TARGET)))
+
+else # dtc
 $(error Unable to find BSP for $(TARGET), expected to find $(BSP_DIR)/settings.mk)
-endif
+endif # dtc
+else # devicetree-tools
+$(error Unable to find BSP for $(TARGET), expected to find $(BSP_DIR)/settings.mk)
+endif # devicetree-tools
+
+endif # wildcard settings.mk
 
 # Include the BSP settings
 include $(BSP_DIR)/settings.mk
 
 # Check that settings.mk sets RISCV_ARCH and RISCV_ABI
 ifeq ($(RISCV_ARCH),)
-$(error $(BSP_DIR)/board.mk must set RISCV_ARCH, the RISC-V ISA string to target)
+$(error $(BSP_DIR)/settings.mk must set RISCV_ARCH, the RISC-V ISA string to target)
 endif
 
 ifeq ($(RISCV_ABI),)
-$(error $(BSP_DIR)/board.mk must set RISCV_ABI, the ABI to target)
+$(error $(BSP_DIR)/settings.mk must set RISCV_ABI, the ABI to target)
 endif
 
 ifeq ($(RISCV_CMODEL),)
@@ -60,7 +74,9 @@ RISCV_XLEN := 32
 else ifeq ($(patsubst rv64%,rv64,$(RISCV_ARCH)),rv64)
 RISCV_XLEN := 64
 else
+ifneq ($(RISCV_ARCH),)
 $(error Unable to determine XLEN from $(RISCV_ARCH))
+endif
 endif
 
 #############################################################
@@ -186,6 +202,7 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
+		$(BSP_DIR)/settings.mk \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
