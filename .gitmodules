@@ -103,3 +103,6 @@
 [submodule "thirdparty/FreeRTOS"]
 	path = thirdparty/FreeRTOS
 	url = https://github.com/sifive/FreeRTOS-fesdk.git
+[submodule "thirdparty/SEGGER_SystemView"]
+	path = thirdparty/SEGGER_SystemView
+	url = https://github.com/sifive/Segger_SystemView-fesdk.git
