@@ -174,4 +174,9 @@
         "name": "example-i2c",
         "source": "git@github.com:sifive/example-i2c.git"
     }
+    {
+        "commit": "2f313a970ee335882073fd80d7ac7969d431e1ad",
+        "name": "FreeRTOS",
+        "source": "git@github.com:sifive/FreeRTOS-Metal.git"
+    }
 ]

@@ -100,3 +100,6 @@
 [submodule "software/example-i2c"]
 	path = software/example-i2c
 	url = https://github.com/sifive/example-i2c.git
+[submodule "thirdparty/FreeRTOS"]
+	path = thirdparty/FreeRTOS
+	url = https://github.com/sifive/FreeRTOS-Metal.git
