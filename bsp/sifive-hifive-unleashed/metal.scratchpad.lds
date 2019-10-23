@@ -170,7 +170,7 @@ SECTIONS
 
 	.heap : {
 		PROVIDE( metal_segment_heap_target_start = . );
-		. = __heap_size;
+		. = DEFINED(__heap_max) ? LENGTH(ram) - ( . - ORIGIN(ram) ) : __heap_size;
 		PROVIDE( metal_segment_heap_target_end = . );
 		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram
