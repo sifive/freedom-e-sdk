@@ -1,6 +1,6 @@
 [
     {
-        "commit": "a6d657761623063265849fb51fc4aae06103af79",
+        "commit": "f2ad4771ea34b18c2d7ad86667c47d57bf3e60db",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },

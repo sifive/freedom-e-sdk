@@ -90,6 +90,7 @@ LDS_SCRATCHPAD_FILENAME=metal.scratchpad.lds
 SETTINGS_FILENAME=settings.mk
 BARE_HEADER_FILENAME=metal-platform.h
 OPENOCDCFG_FILENAME=openocd.cfg
+OPENOCDCFG_CJTAG_FILENAME=openocd.cjtag.cfg
 
 update_target() {
     TARGET=$1
@@ -116,9 +117,13 @@ update_target() {
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
-            echo "generating openocd.cfg"
-            pushd $TARGET && $OPENOCDCFG_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME" && popd
+            echo "generating $OPENOCDCFG_FILENAME"
+            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
         fi
+    fi
+    if [[ "$TARGET_TYPE" =~ "arty" ]] ; then
+        echo "generating $OPENOCDCFG_CJTAG_FILENAME"
+        $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
     fi
 
     # Remove temporary .dtb
