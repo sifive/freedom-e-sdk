@@ -64,6 +64,8 @@ operating systems to RISC-V.
       - Used to configure OpenOCD for flashing and debugging the target device.
     * settings.mk
       - Used to set `-march` and `-mabi` arguments to the RISC-V GNU Toolchain.
+* Third-Party source code or Library (found under `thirdparty/`)
+  * for more detail please read the README.md file under `thirdparty/`directory.
 * A Few Example Programs (found under `software/`)
   - empty
     - An empty project. Serves as a good starting point for your own program.
