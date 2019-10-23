@@ -3,10 +3,9 @@
 # ----------------------------------- #
 # ----------------------------------- #
 
-RISCV_ARCH=rv64imafdc
+RISCV_ARCH=rv64imafdcsu
 RISCV_ABI=lp64d
 RISCV_CMODEL=medany
-RISCV_SERIES=sifive-5-series
 
 TARGET_TAGS=qemu
 TARGET_DHRY_ITERS=20000000
