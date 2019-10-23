@@ -1,11 +1,11 @@
 [
     {
-        "commit": "f2ad4771ea34b18c2d7ad86667c47d57bf3e60db",
+        "commit": "5bb9f91dd5b6115cc6ae0b73b9b0221d1c90e03f",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "61737c07c64c332e9bcb23a19cad9ba7019fe117",
+        "commit": "2d0d3c1fa0874caf2e22e0377360656a97d21039",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
