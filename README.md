@@ -128,6 +128,8 @@ operating systems to RISC-V.
       atomic instruction set.
   - example-i2c
     - Demonstrates usage of the I2C API to communicate with I2C slaves.
+  - example-freertos-blinky
+    - A simple FreeRTOS blinky application.
 
 ### Setting up the SDK ###
 
