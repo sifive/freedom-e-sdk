@@ -179,4 +179,9 @@
         "name": "FreeRTOS",
         "source": "git@github.com:sifive/FreeRTOS-Metal.git"
     }
+    {
+        "commit": "6945b8ac013cbc701898a5e93d22d46caa84b5e9",
+        "name": "SEGGER_SystemView",
+        "source": "git@github.com:sifive/Segger_SystemView-Metal.git"
+    }
 ]
