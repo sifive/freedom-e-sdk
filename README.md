@@ -130,6 +130,8 @@ operating systems to RISC-V.
     - Demonstrates usage of the I2C API to communicate with I2C slaves.
   - example-freertos-blinky
     - A simple FreeRTOS blinky application.
+  - example-freertos-blinky-mc
+    - A simple FreeRTOS blinky application for multicore platform.
 
 ### Setting up the SDK ###
 

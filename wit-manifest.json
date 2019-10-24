@@ -189,4 +189,9 @@
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
     }
+    {
+        "commit": "805a357c09306d2ec1e247b9a2028bd8fd00716f",
+        "name": "example-freertos-blinky-mc",
+        "source": "git@github.com:sifive/example-freertos-blinky-mc.git"
+    }
 ]
