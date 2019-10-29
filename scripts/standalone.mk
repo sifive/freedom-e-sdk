@@ -115,17 +115,16 @@ RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
 
 # Use newlib-nano
-ifeq ($(USE_LIBC_SEGGER),0)
 METAL_CFLAGS	:= $(RISCV_CFLAGS) -Os
-RISCV_CCASFLAGS += --specs=nano.specs
-RISCV_CFLAGS    += --specs=nano.specs
-RISCV_CXXFLAGS  += --specs=nano.specs
-else
+SPECS_NAME  := --specs=nano.specs
+ifeq ($(USE_LIBC_SEGGER),1)
 METAL_CFLAGS	:= $(RISCV_CFLAGS) -Os -D__SEGGER_LIBC__ -isystem =/include/segger
-RISCV_CCASFLAGS += --specs=segger-metal.specs
-RISCV_CFLAGS    += --specs=segger-metal.specs
-RISCV_CXXFLAGS  += --specs=segger-metal.specs
+SPECS_NAME  := --specs=segger-metal.specs
 endif
+RISCV_CCASFLAGS += $(SPECS_NAME)
+RISCV_CFLAGS    += $(SPECS_NAME)
+RISCV_CXXFLAGS  += $(SPECS_NAME)
+
 
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
@@ -137,9 +136,8 @@ RISCV_LDFLAGS += -nostartfiles -nostdlib
 RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
 
 # Link to the relevant libraries
-ifeq ($(USE_LIBC_SEGGER),0)
 RISCV_LDLIBS += -Wl,--start-group -lc -lm -lgcc -lmetal -lmetal-gloss -Wl,--end-group
-else
+ifeq ($(USE_LIBC_SEGGER),1)
 RISCV_LDLIBS += -Wl,--start-group -lc_segger -ltarget_metal -lmetal -lmetal-gloss -Wl,--end-group
 endif
 
