@@ -175,12 +175,12 @@
         "source": "git@github.com:sifive/example-i2c.git"
     },
     {
-        "commit": "2f313a970ee335882073fd80d7ac7969d431e1ad",
+        "commit": "1fd2e87b64dda817fa9c03ff0a3f09dbc1db732f",
         "name": "FreeRTOS",
         "source": "git@github.com:sifive/FreeRTOS-Metal.git"
     },
     {
-        "commit": "6945b8ac013cbc701898a5e93d22d46caa84b5e9",
+        "commit": "feec6b04f088556dc32ebc3888e5462ca9282390",
         "name": "SEGGER_SystemView",
         "source": "git@github.com:sifive/Segger_SystemView-Metal.git"
     },
