@@ -1,4 +1,5 @@
 /* Copyright 2019 SiFive, Inc */
+/* SPDX-License-Identifier: Apache-2.0 */
 #include <metal/cache.h>
 #include <metal/cpu.h>
 #include <stdio.h>

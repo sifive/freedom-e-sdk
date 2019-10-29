@@ -1,3 +1,5 @@
+/* Copyright 2019 SiFive, Inc */
+/* SPDX-License-Identifier: Apache-2.0 */
 #include "latency_test.h"
 #include <stdio.h>
 #include <stdlib.h>
