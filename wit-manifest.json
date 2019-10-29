@@ -173,22 +173,22 @@
         "commit": "7a079de6bffc83900f5c3a162438676fa0cf136a",
         "name": "example-i2c",
         "source": "git@github.com:sifive/example-i2c.git"
-    }
+    },
     {
         "commit": "2f313a970ee335882073fd80d7ac7969d431e1ad",
         "name": "FreeRTOS",
         "source": "git@github.com:sifive/FreeRTOS-Metal.git"
-    }
+    },
     {
         "commit": "6945b8ac013cbc701898a5e93d22d46caa84b5e9",
         "name": "SEGGER_SystemView",
         "source": "git@github.com:sifive/Segger_SystemView-Metal.git"
-    }
+    },
     {
         "commit": "846878d50b6cd84daa3586ebbd1adaaa4117d12d",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
-    }
+    },
     {
         "commit": "f94f6c396c9e4dd2f55900b3d88c97fe0b55d521",
         "name": "example-freertos-blinky-mc",
