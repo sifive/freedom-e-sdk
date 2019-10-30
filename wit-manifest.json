@@ -1,6 +1,6 @@
 [
     {
-        "commit": "5bb9f91dd5b6115cc6ae0b73b9b0221d1c90e03f",
+        "commit": "9ed8270ffe0a181dac826ae17168c3b4f01ca8d8",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
@@ -173,5 +173,10 @@
         "commit": "7a079de6bffc83900f5c3a162438676fa0cf136a",
         "name": "example-i2c",
         "source": "git@github.com:sifive/example-i2c.git"
+    },
+    {
+        "commit": "b6c929b94ed30fc6a3eea51e584c914ffe640982",
+        "name": "benchmark-mem-latency",
+        "source": "git@github.com:sifive/benchmark-mem-latency.git"
     }
 ]
