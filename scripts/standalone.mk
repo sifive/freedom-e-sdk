@@ -136,10 +136,11 @@ RISCV_LDFLAGS += -nostartfiles -nostdlib
 RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
 
 # Link to the relevant libraries
-RISCV_LDLIBS += -Wl,--start-group -lc -lm -lgcc -lmetal -lmetal-gloss -Wl,--end-group
+RISCV_LDLIBS_GROUP  := -Wl,--start-group -lc -lm -lgcc -lmetal -lmetal-gloss -Wl,--end-group
 ifeq ($(USE_LIBC_SEGGER),1)
-RISCV_LDLIBS += -Wl,--start-group -lc_segger -ltarget_metal -lmetal -lmetal-gloss -Wl,--end-group
+RISCV_LDLIBS_GROUP  := -Wl,--start-group -lc_segger -ltarget_metal -lmetal -lmetal-gloss -Wl,--end-group
 endif
+RISCV_LDLIBS += $(RISCV_LDLIBS_GROUP)
 
 # Load the configuration Makefile
 CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
