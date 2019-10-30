@@ -1,4 +1,6 @@
 #!/usr/bin/env python2.7
+# Copyright 2019 SiFive, Inc #
+# SPDX-License-Identifier: Apache-2.0 #
 import argparse
 import logging
 import re
