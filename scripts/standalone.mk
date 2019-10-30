@@ -150,7 +150,7 @@ else ifeq ($(DHRY_OPTION),best)
 # Best Score
 RISCV_XCFLAGS += -finline -flto -fwhole-program
 endif
-RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
+override RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
 endif
 
 ifeq ($(PROGRAM),coremark)
@@ -163,7 +163,7 @@ else
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts
 endif
 endif
-RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
+override RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
 endif
 
 #############################################################
