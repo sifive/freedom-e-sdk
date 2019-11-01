@@ -38,24 +38,24 @@ void benchmark_latency(void *test_setting, size_t min_loop) {
     register size_t i;
     register size_t loop = min_loop;
 
-    asm volatile("sltu zero, x1, x2");  // For RTLsim log marker
+    __asm__ volatile("sltu zero, x1, x2");  // For RTLsim log marker
     for (i = 0; i < loop; ++i) {
         THOUSAND;
     }
-    asm volatile("sltu zero, x1, x2");  // For RTLsim log marker
+    __asm__ volatile("sltu zero, x1, x2");  // For RTLsim log marker
 
     setting->p = (char *)p;
 }
 
 int main() {
     size_t heap_size = (size_t)(heap_end_location - heap_start_location);
-    struct test_info setting = {};
+    struct test_info setting = {0};
     uint32_t test_count = 0;
     uint64_t cycle_count = 0;
     uint32_t i = 0, loop = 5, warmup_loop = 5;
     uint32_t all_test = sizeof(tests) / sizeof(tests[0]);
 
-    printf("heap size: %u K\n", (size_t)heap_size / 1024);
+    printf("heap size: %u K\n", (unsigned int)heap_size / 1024);
 
     while ((test_count < all_test) &&
            (K_TO_BYTE(tests[test_count].size) < heap_size))
@@ -89,8 +89,8 @@ int main() {
         end = get_cycle();
 
         cycle_count = end - start;
-        printf("%5u K : %u  cycle\n", tests[i].size,
-               cycle_count / (loop * 1000));
+        printf("%5u K : %u  cycle\n", (unsigned int)tests[i].size,
+               (unsigned int)(cycle_count / (loop * 1000)));
     }
     printf("---test end---\n");
     exit(0);

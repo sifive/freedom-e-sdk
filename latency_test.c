@@ -61,7 +61,6 @@ void rnd_init(void *test_setting) {
     }
 
     size_t stride = setting->line;
-    size_t range = setting->cur_range;
     register size_t i, cur = 0, next = 0;
 
     for (i = 0; i < setting->nptrs - 1; i++) {
