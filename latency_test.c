@@ -8,7 +8,7 @@
 uint64_t get_cycle() {
     uint64_t val = 0;
 #if __riscv_xlen == 32
-    uint64_t hi, hi1, lo;
+    uint32_t hi, hi1, lo;
 
     __asm__ volatile("csrr %0, mcycleh" : "=r"(hi));
     __asm__ volatile("csrr %0, mcycle" : "=r"(lo));
