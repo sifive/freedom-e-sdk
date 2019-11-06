@@ -15,7 +15,7 @@ git clone git@github.com:sifive/benchmark-mem-latency.git mem-latency
 ```
 under PATH-TO-FREEDOME-E-SDK use followin command to compile & upload to arty
 ```
-make software upload PROGRAM=benchmark-mem-latency TARGET=design-arty
+make software upload PROGRAM=mem-latency TARGET=design-arty
 ```
 
 
