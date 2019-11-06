@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 #include <metal/cache.h>
 #include <metal/cpu.h>
+#include <metal/timer.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -70,7 +71,8 @@ int main() {
 
     // iterate through all tests
     for (i = 0; i < test_count; i++) {
-        uint64_t start = 0, end = 0;
+        unsigned long long start = 0, end = 0;
+        int hartid = metal_cpu_get_current_hartid();
 
         // init all data structure
         setting.line = tests[i].stride;
@@ -78,15 +80,16 @@ int main() {
         rnd_init(&setting);
 
         // warm-up get cycle
-        start = get_cycle();
-        start = get_cycle();
+        metal_timer_get_cyclecount(hartid, &start);
+        metal_timer_get_cyclecount(hartid, &end);
+
         // warm-up run
         benchmark_latency(&setting, warmup_loop);
 
         // benchmark
-        start = get_cycle();
+        metal_timer_get_cyclecount(hartid, &start);
         benchmark_latency(&setting, loop);
-        end = get_cycle();
+        metal_timer_get_cyclecount(hartid, &end);
 
         cycle_count = end - start;
         printf("%5u K : %u  cycle\n", (unsigned int)tests[i].size,

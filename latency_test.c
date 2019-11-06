@@ -1,26 +1,10 @@
 /* Copyright 2019 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
+
 #include "latency_test.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-uint64_t get_cycle() {
-    uint64_t val = 0;
-#if __riscv_xlen == 32
-    uint32_t hi, hi1, lo;
-
-    __asm__ volatile("csrr %0, mcycleh" : "=r"(hi));
-    __asm__ volatile("csrr %0, mcycle" : "=r"(lo));
-    __asm__ volatile("csrr %0, mcycleh" : "=r"(hi1));
-    if (hi == hi1) {
-        val = ((unsigned long long)hi << 32) | lo;
-    }
-#else
-    __asm__ volatile("csrr %0, mcycle" : "=r"(val));
-#endif
-    return val;
-}
 
 size_t *ptr_init_with_random(size_t max, int scale) {
     size_t *ptrs = (size_t *)malloc(max * sizeof(size_t));
