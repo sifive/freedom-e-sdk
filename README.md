@@ -1,6 +1,6 @@
 # Introduction
 
-mem-test is a micro-benchmark for detecting the memory sub-system micro-architecture.
+mem-latency is a micro-benchmark for detecting the memory sub-system micro-architecture.
 
 Currently, it can detect:
 
@@ -8,14 +8,14 @@ Currently, it can detect:
 
 # Setup
 
-clone benchmark-mem-test under PATH-TO-FREEDOME-E-SDK/software
+clone benchmark-mem-latency under PATH-TO-FREEDOME-E-SDK/software
 
 ```
-git clone git@github.com:sifive/benchmark-mem-test.git
+git clone git@github.com:sifive/benchmark-mem-latency.git mem-latency
 ```
 under PATH-TO-FREEDOME-E-SDK use followin command to compile & upload to arty
 ```
-make software upload PROGRAM=benchmark-mem-test TARGET=design-arty
+make software upload PROGRAM=benchmark-mem-latency TARGET=design-arty
 ```
 
 
