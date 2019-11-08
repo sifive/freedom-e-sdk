@@ -176,21 +176,21 @@
     },
     {
         "commit": "1fd2e87b64dda817fa9c03ff0a3f09dbc1db732f",
-        "name": "FreeRTOS",
-        "source": "git@github.com:sifive/FreeRTOS-Metal.git"
+        "name": "FreeRTOS-metal",
+        "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
     {
         "commit": "feec6b04f088556dc32ebc3888e5462ca9282390",
-        "name": "SEGGER_SystemView",
-        "source": "git@github.com:sifive/Segger_SystemView-Metal.git"
+        "name": "SEGGER_SystemView-metal",
+        "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
     {
-        "commit": "846878d50b6cd84daa3586ebbd1adaaa4117d12d",
+        "commit": "ae9d74cd545d42f61f115a9583e5dce044bee263",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
     },
     {
-        "commit": "f94f6c396c9e4dd2f55900b3d88c97fe0b55d521",
+        "commit": "1d9871ba33579c565052b5ac198dfdaccbbe013e",
         "name": "example-freertos-blinky-mc",
         "source": "git@github.com:sifive/example-freertos-blinky-mc.git"
     }
