@@ -109,6 +109,3 @@
 [submodule "software/example-freertos-blinky"]
 	path = software/example-freertos-blinky
 	url = https://github.com/sifive/example-freertos-blinky.git
-[submodule "software/example-freertos-blinky-mc"]
-	path = software/example-freertos-blinky-mc
-	url = https://github.com/sifive/example-freertos-blinky-mc.git
