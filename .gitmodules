@@ -100,3 +100,9 @@
 [submodule "software/example-i2c"]
 	path = software/example-i2c
 	url = https://github.com/sifive/example-i2c.git
+[submodule "FreeRTOS-metal"]
+	path = FreeRTOS-metal
+	url = https://github.com/sifive/FreeRTOS-metal.git
+[submodule "Segger_SystemView-metal"]
+	path = Segger_SystemView-metal
+	url = https://github.com/sifive/Segger_SystemView-metal.git
