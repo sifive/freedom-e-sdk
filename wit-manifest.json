@@ -181,7 +181,7 @@
     },
     {
         "commit": "feec6b04f088556dc32ebc3888e5462ca9282390",
-        "name": "SEGGER_SystemView-metal",
+        "name": "Segger_SystemView-metal",
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
     {
