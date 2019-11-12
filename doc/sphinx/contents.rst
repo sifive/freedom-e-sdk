@@ -212,3 +212,7 @@ The example programs can be found under the ``software/`` directory.
 - example-i2c
 
   - Demonstrates usage of the I2C API to communicate with I2C slaves.
+
+- mem-latency
+
+  - A memory test that measure the latency at different cache layers and memory blocks
