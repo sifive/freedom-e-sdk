@@ -202,8 +202,8 @@ $(PROGRAM_ELF): \
 		XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)"
-	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
+	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
 	touch -c $@
 	$(RISCV_OBJDUMP) --source --all-headers --demangle --line-numbers --wide $@ > $(PROGRAM_LST)
 	$(RISCV_SIZE) $@
