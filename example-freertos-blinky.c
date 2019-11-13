@@ -212,19 +212,25 @@ static void prvSetupHardware( void )
 	struct metal_cpu *cpu;
 	struct metal_interrupt *cpu_intr;
 
+	/* Remove compiler warning about unused parameter. */
+	( void ) pcErrorMsg;
+
 	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
-	if (cpu == NULL) {
-			return;
+	if (cpu == NULL)
+	{
+		return;
 	}
 
 	cpu_intr = metal_cpu_interrupt_controller(cpu);
-	if (cpu_intr == NULL) {
-			return;
+	if (cpu_intr == NULL)
+	{
+		return;
 	}
 	metal_interrupt_init(cpu_intr);
 
-	if (metal_interrupt_enable(cpu_intr, 0) == -1) {
-			return;
+	if (metal_interrupt_enable(cpu_intr, 0) == -1)
+	{
+		return;
 	}
 
 #ifdef METAL_RISCV_PLIC0
@@ -261,9 +267,12 @@ static void prvSetupHardware( void )
 	led0_red = metal_led_get_rgb("LD0", "red");
 	led0_green = metal_led_get_rgb("LD0", "green");
 	led0_blue = metal_led_get_rgb("LD0", "blue");
-	if ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL)) {
+	if ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL))
+	{
 		write( STDOUT_FILENO, pcWarningMsg, strlen( pcWarningMsg ) );
-	} else {
+	}
+	else
+	{
 		// Enable each LED
 		metal_led_enable(led0_red);
 		metal_led_enable(led0_green);
