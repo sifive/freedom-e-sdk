@@ -256,6 +256,12 @@ standalone: \
 
 	find $</freedom-metal -name ".git*" | xargs rm -rf
 
+ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
+	cp -r FreeRTOS-metal $</
+
+	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
+endif
+
 	mkdir -p $</scripts
 	cp -r scripts/elf2hex $</scripts
 
@@ -300,6 +306,12 @@ standalone: \
 	cp -r freedom-metal $</
 
 	find $</freedom-metal -name ".git*" | xargs rm -rf
+
+ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
+	cp -r FreeRTOS-metal $</
+
+	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
+endif
 
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
