@@ -106,3 +106,6 @@
 [submodule "Segger_SystemView-metal"]
 	path = Segger_SystemView-metal
 	url = https://github.com/sifive/Segger_SystemView-metal.git
+[submodule "software/example-freertos-blinky"]
+	path = software/example-freertos-blinky
+	url = https://github.com/sifive/example-freertos-blinky.git

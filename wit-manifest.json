@@ -183,5 +183,10 @@
         "commit": "feec6b04f088556dc32ebc3888e5462ca9282390",
         "name": "Segger_SystemView-metal",
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
+    },
+    {
+        "commit": "0cd216ed9778e3c08e412d0880f91fc0c2197eee",
+        "name": "example-freertos-blinky",
+        "source": "git@github.com:sifive/example-freertos-blinky.git"
     }
 ]
