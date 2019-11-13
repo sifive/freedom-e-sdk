@@ -13,4 +13,12 @@ if [ `echo $OUTPUT | grep -c "PCREL"` -ne 0 ] ; then
     >&2 echo "       for the 'large' code model and cannot be supported with the"
     >&2 echo "       current toolchain."
     exit 1
+elif [ `echo $OUTPUT | grep -c "relocation truncated to fit"` -ne 0 ] ; then
+    >&2 echo "ERROR: The linker is reporting that a relocation has been"
+    >&2 echo "       truncated. This usually indicates that the memory layout"
+    >&2 echo "       for the target is incompatible with the selected code model."
+    >&2 echo "       Here, it probably means that this target requires support"
+    >&2 echo "       for the 'large' code model and cannot be supported with the"
+    >&2 echo "       current toolchain."
+    exit 1
 fi
