@@ -108,11 +108,11 @@ int main( void )
 		/* Start the two tasks as described in the comments at the top of this
 		file. */
 		xTaskCreate( prvQueueReceiveTask,				/* The function that implements the task. */
-					"Rx", 								/* The text name assigned to the task - for debug only as it is not used by the kernel. */
-					configMINIMAL_STACK_SIZE, 			/* The size of the stack to allocate to the task. */
-					NULL, 								/* The parameter passed to the task - not used in this case. */
+					"Rx", 					/* The text name assigned to the task - for debug only as it is not used by the kernel. */
+					configMINIMAL_STACK_SIZE, 		/* The size of the stack to allocate to the task. */
+					NULL, 					/* The parameter passed to the task - not used in this case. */
 					mainQUEUE_RECEIVE_TASK_PRIORITY, 	/* The priority assigned to the task. */
-					NULL );								/* The task handle is not required, so NULL is passed. */
+					NULL );					/* The task handle is not required, so NULL is passed. */
 
 		xTaskCreate( prvQueueSendTask, "TX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_SEND_TASK_PRIORITY, NULL );
 
@@ -139,6 +139,7 @@ static void prvQueueSendTask( void *pvParameters )
 
 	/* Remove compiler warning about unused parameter. */
 	( void ) pvParameters;
+	( void ) xReturned;
 
 	/* Initialise xNextWakeTime - this only needs to be done once. */
 	xNextWakeTime = xTaskGetTickCount();
@@ -149,7 +150,7 @@ static void prvQueueSendTask( void *pvParameters )
 		if ( led0_green != NULL ) 
 		{
 			/* Switch off the Green led */
-        	metal_led_on(led0_green);
+			metal_led_on(led0_green);
 		}
 
 		/* Place this task in the blocked state until it is time to run again. */
@@ -256,22 +257,22 @@ static void prvSetupHardware( void )
 	}
 #endif
 
-    // This demo will toggle LEDs colors so we define them here
-    led0_red = metal_led_get_rgb("LD0", "red");
-    led0_green = metal_led_get_rgb("LD0", "green");
-    led0_blue = metal_led_get_rgb("LD0", "blue");
-    if ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL)) {
-        write( STDOUT_FILENO, pcWarningMsg, strlen( pcWarningMsg ) );
-    } else {
-	    // Enable each LED
-	    metal_led_enable(led0_red);
-	    metal_led_enable(led0_green);
-	    metal_led_enable(led0_blue);
+	// This demo will toggle LEDs colors so we define them here
+	led0_red = metal_led_get_rgb("LD0", "red");
+	led0_green = metal_led_get_rgb("LD0", "green");
+	led0_blue = metal_led_get_rgb("LD0", "blue");
+	if ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL)) {
+		write( STDOUT_FILENO, pcWarningMsg, strlen( pcWarningMsg ) );
+	} else {
+		// Enable each LED
+		metal_led_enable(led0_red);
+		metal_led_enable(led0_green);
+		metal_led_enable(led0_blue);
 
-	    // All Off
-	    metal_led_on(led0_red);
-	    metal_led_on(led0_green);
-	    metal_led_on(led0_blue);
+		// All Off
+		metal_led_on(led0_red);
+		metal_led_on(led0_green);
+		metal_led_on(led0_blue);
 	}
 }
 /*-----------------------------------------------------------*/
@@ -291,8 +292,8 @@ void vApplicationMallocFailedHook( void )
 	provide information on how the remaining heap might be fragmented). */
 	taskDISABLE_INTERRUPTS();
 
-   if ( led0_red != NULL )
-   {
+	if ( led0_red != NULL )
+	{
 		// Red light on
 		metal_led_off(led0_red);
 	}
@@ -329,8 +330,8 @@ void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 	write( STDOUT_FILENO, pcTaskName, strlen( pcTaskName ) );
 
 
-   if ( led0_red != NULL )
-   {
+	if ( led0_red != NULL )
+	{
 		// Red light on
 		metal_led_off(led0_red);
 	}
@@ -347,12 +348,10 @@ void vApplicationTickHook( void )
 
 void vAssertCalled( void )
 {
-volatile uint32_t ulSetTo1ToExitFunction = 0;
-
 	taskDISABLE_INTERRUPTS();
 
-   if ( led0_red != NULL )
-   {
+	if ( led0_red != NULL )
+	{
 		// Red light on
 		metal_led_off(led0_red);
 	}
