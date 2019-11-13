@@ -180,7 +180,7 @@
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
     {
-        "commit": "3c0ba41d93f6f676d12880f855893c382257e64a",
+        "commit": "53f7e0b9b2538b6d3b88658e4957ca96964792cb",
         "name": "FreeRTOS-metal",
         "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
