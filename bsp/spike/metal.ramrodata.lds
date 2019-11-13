@@ -147,7 +147,7 @@ SECTIONS
 
 	.heap : {
 		PROVIDE( metal_segment_heap_target_start = . );
-		. = __heap_size;
+		. = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size;
 		PROVIDE( metal_segment_heap_target_end = . );
 		PROVIDE( _heap_end = . );
 	} >ram AT>ram :ram

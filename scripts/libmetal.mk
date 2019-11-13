@@ -3,7 +3,6 @@
 # Compiles an instance of Metal targeted at $(TARGET)
 #############################################################
 METAL_SOURCE_PATH ?= freedom-metal
-METAL_LDSCRIPT	   = $(BSP_DIR)/metal.$(LINK_TARGET).lds
 METAL_HEADER	   = $(BSP_DIR)/metal.h
 METAL_INLINE       = $(BSP_DIR)/metal-inline.h
 PLATFORM_HEADER	   = $(BSP_DIR)/metal-platform.h
@@ -97,27 +96,17 @@ $(METAL_BUILD_DIR)/Makefile: \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(METAL_PREFIX) \
 		--libdir=$(METAL_LIB_DIR) \
-		--disable-maintainer-mode \
-		--with-preconfigured \
-		--with-machine-name=$(TARGET) \
+		--with-builtin-libgloss \
 		--with-machine-header=$(abspath $(METAL_HEADER)) \
-                --with-machine-inline=$(abspath $(METAL_INLINE)) \
-		--with-platform-header=$(abspath $(PLATFORM_HEADER)) \
-		--with-machine-ldscript=$(abspath $(METAL_LDSCRIPT)) \
-		--with-builtin-libgloss
+		--with-machine-inline=$(abspath $(METAL_INLINE)) \
+		--with-platform-header=$(abspath $(PLATFORM_HEADER))
 	touch -c $@
 
 $(METAL_LIB_DIR)/stamp: $(METAL_BUILD_DIR)/Makefile
 	$(MAKE) -C $(METAL_BUILD_DIR) install
 	date > $@
 
-$(METAL_LIB_DIR)/libriscv%.a: $(METAL_LIB_DIR)/stamp ;@:
-
-$(METAL_LIB_DIR)/libmetal.a: $(METAL_LIB_DIR)/libriscv__mmachine__$(TARGET).a
-	cp $< $@
-
-$(METAL_LIB_DIR)/libmetal-gloss.a: $(METAL_LIB_DIR)/libriscv__menv__metal.a
-	cp $< $@
+$(METAL_LIB_DIR)/lib%.a: $(METAL_LIB_DIR)/stamp ;@:
 
 # If we're cleaning the last Metal library for a TARGET, then remove
 # the install directory, otherwise just remove the built libs for that
