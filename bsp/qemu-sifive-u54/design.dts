@@ -7,8 +7,6 @@
 	model = "ucbbar,spike-bare,qemu";
 
 	chosen {
-		metal,ram = <&ram>;
-		metal,rom = <&rom>;
 		bootargs = [00];
 		stdout-path = "/soc/uart@10013000:115200";
 	};

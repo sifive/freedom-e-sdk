@@ -4,8 +4,7 @@ ENTRY(_enter)
 
 MEMORY
 {
-	rom (rxai!w) : ORIGIN = 0x80000000, LENGTH = 0x10000
-	ram (wxa!ri) : ORIGIN = 0x80010000, LENGTH = 0x7fff000
+	ram (wxa!ri) : ORIGIN = 0x80000000, LENGTH = 0x10000
 }
 
 PHDRS
@@ -32,11 +31,11 @@ SECTIONS
 		KEEP (*(.text.metal.init.*))
 		KEEP (*(SORT_NONE(.init)))
 		KEEP (*(.text.libgloss.start))
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 	.fini : {
 		KEEP (*(SORT_NONE(.fini)))
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 	PROVIDE (__etext = .);
 	PROVIDE (_etext = .);
@@ -48,7 +47,7 @@ SECTIONS
 		PROVIDE_HIDDEN (__preinit_array_start = .);
 		KEEP (*(.preinit_array))
 		PROVIDE_HIDDEN (__preinit_array_end = .);
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 	.init_array : {
 		PROVIDE_HIDDEN (__init_array_start = .);
@@ -59,7 +58,7 @@ SECTIONS
 		KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
 		KEEP (*(.metal.init_array));
 		PROVIDE_HIDDEN ( metal_constructors_end = .);
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 	.fini_array : {
 		PROVIDE_HIDDEN (__fini_array_start = .);
@@ -70,7 +69,7 @@ SECTIONS
 		KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
 		KEEP (*(.metal.fini_array));
 		PROVIDE_HIDDEN ( metal_destructors_end = .);
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 	.ctors : {
 		KEEP (*crtbegin.o(.ctors))
@@ -79,7 +78,7 @@ SECTIONS
 		KEEP (*(SORT(.ctors.*)))
 		KEEP (*(.ctors))
 		KEEP (*(.metal.ctors metal.ctors.*));
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 	.dtors : {
 		KEEP (*crtbegin.o(.dtors))
@@ -88,7 +87,7 @@ SECTIONS
 		KEEP (*(SORT(.dtors.*)))
 		KEEP (*(.dtors))
 		KEEP (*(.metal.dtors metal.dtors.*));
-	} >rom AT>rom :flash
+	} >ram AT>ram :flash
 
 
 
@@ -98,7 +97,7 @@ SECTIONS
 		*(.text .text.*)
 		*(.gnu.linkonce.t.*)
 		*(.itim .itim.*)
-	} >rom AT>rom :itim_init
+	} >ram AT>ram :itim_init
 
 	PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
 	PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -122,7 +121,7 @@ SECTIONS
 		*(.rdata)
 		*(.rodata .rodata.*)
 		*(.gnu.linkonce.r.*)
-	} >ram AT>rom :ram_init
+	} >ram AT>ram :ram_init
 
 	PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
 	PROVIDE( metal_segment_data_target_start = ADDR(.data) );

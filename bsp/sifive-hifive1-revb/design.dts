@@ -182,6 +182,9 @@
                         reg-names = "control", "mem";
                         clocks = <&hfclk>;
                         pinmux = <&gpio0 0x0 0x0>;
+                        flash@0 {
+                                compatible = "jedec,spi-nor";
+                        };
                 };
                 pwm0: pwm@10015000 {
                         compatible = "sifive,pwm0";
