@@ -179,6 +179,9 @@
                         reg-names = "control", "mem";
                         clocks = <&hfclk>;
                         pinmux = <&gpio0 0x0003C 0x0003C>;
+                        flash@0 {
+                                compatible = "jedec,spi-nor";
+                        };
                 };
                 led@0red {
                         compatible = "sifive,gpio-leds";
