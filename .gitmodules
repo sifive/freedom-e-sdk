@@ -103,3 +103,12 @@
 [submodule "software/mem-latency"]
 	path = software/mem-latency
 	url = https://github.com/sifive/benchmark-mem-latency.git
+[submodule "FreeRTOS-metal"]
+	path = FreeRTOS-metal
+	url = https://github.com/sifive/FreeRTOS-metal.git
+[submodule "Segger_SystemView-metal"]
+	path = Segger_SystemView-metal
+	url = https://github.com/sifive/Segger_SystemView-metal.git
+[submodule "software/example-freertos-blinky"]
+	path = software/example-freertos-blinky
+	url = https://github.com/sifive/example-freertos-blinky.git

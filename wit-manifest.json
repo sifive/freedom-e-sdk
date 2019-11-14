@@ -178,5 +178,20 @@
         "commit": "b6c929b94ed30fc6a3eea51e584c914ffe640982",
         "name": "benchmark-mem-latency",
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
+    },
+    {
+        "commit": "53f7e0b9b2538b6d3b88658e4957ca96964792cb",
+        "name": "FreeRTOS-metal",
+        "source": "git@github.com:sifive/FreeRTOS-metal.git"
+    },
+    {
+        "commit": "feec6b04f088556dc32ebc3888e5462ca9282390",
+        "name": "Segger_SystemView-metal",
+        "source": "git@github.com:sifive/Segger_SystemView-metal.git"
+    },
+    {
+        "commit": "0cd216ed9778e3c08e412d0880f91fc0c2197eee",
+        "name": "example-freertos-blinky",
+        "source": "git@github.com:sifive/example-freertos-blinky.git"
     }
 ]

@@ -6,6 +6,8 @@
 BSP_DIR ?= $(abspath bsp)
 # SRC_DIR sets the path to the program source directory
 SRC_DIR ?= $(abspath src)
+# FREERTOS_SOURCE_PATH sets the path to the FreeRTOS source directory
+export FREERTOS_SOURCE_PATH = $(abspath FreeRTOS-metal)
 
 #############################################################
 # BSP loading
