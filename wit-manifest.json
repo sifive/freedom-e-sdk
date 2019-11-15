@@ -193,5 +193,10 @@
         "commit": "0cd216ed9778e3c08e412d0880f91fc0c2197eee",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
+    },
+    {
+        "commit": "ef4897e42239aa3d0270273ec3a8a69e4743e7c9",
+        "name": "example-gpio-testbench",
+        "source": "git@github.com:sifive/example-gpio-testbench.git"
     }
 ]
