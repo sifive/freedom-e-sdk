@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+# Copyright (c) 2019 SiFive Inc.
+
+import sys
+import os
+import re
+
+def main(argv):
+    exp = re.compile("UART TX \((.*)\):") 
+    output = ""
+
+    if len(argv) < 2:
+        # If no argument is provided, extract UART output from stdin
+        for line in sys.stdin:
+            match = exp.match(line)
+            if match:
+                output += chr(int(match.group(1), base=16))
+    else:
+        # Filter and extract output from the provided file 
+        try:
+            # Make sure that the argument is a file that exists
+            os.stat(argv[1])
+        except FileNotFoundError:
+            print("Cannot stat provided commit log file '%s'" % commit_log)
+            sys.exit(1)
+        commit_log = argv[1]
+
+        # Filter log through grep first for performance
+        with os.popen("grep UART %s" % commit_log, mode="r") as log:
+            for line in log:
+                match = exp.match(line)
+                if match:
+                    output += chr(int(match.group(1), base=16))
+
+    print(output)
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--help" or sys.argv[1] == "-h":
+            print("extract_uart_from_commit_log [-h|--help] [LOG_FILE]")
+            print("")
+            print("DESCRIPTION")
+            print("  Displays the text printed to the UART during RTL simulation")
+            print("")
+            print("ARGUMENTS")
+            print("   -h,--help - Print this message")
+            print("")
+            print("   LOG_FILE  - The filename of the commit log from the simulation")
+            print("               If no file is provided, reads from stdin")
+            sys.exit(0)
+    main(sys.argv)
+
