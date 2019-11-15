@@ -101,7 +101,11 @@ update_target() {
     echo "Updating target $TARGET"
 
     if [ $NO_FIXUP != 1 ]; then
-        ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
+        if [ `echo "$TARGET_TYPE" | grep -c "rtl"` -ne 0 ] ; then
+            ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME --rtl || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
+        else 
+            ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
+        fi
     fi
 
     # Compile temporary .dtb

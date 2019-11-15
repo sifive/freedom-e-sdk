@@ -4,6 +4,7 @@ set -e
 set -o pipefail
 
 unset dts
+unset rtl
 unset SED
 
 while [ "$1" != "" ]
@@ -11,6 +12,7 @@ do
     case "$1"
     in
     --dts)      dts="$2";       shift 2;;
+    --rtl)      rtl=1;          shift 1;;
     *) echo "$0: Unknown argument $1"; exit 1;;
     esac
 done
@@ -80,7 +82,11 @@ if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
         echo "$0: stdout-path property not given, but a UART device exists."
 
         serial_node=`grep -oP "serial@[[:xdigit:]]+" ${dts} | sort | uniq | head -n 1`
-        serial_path="/soc/${serial_node}:115200"
+        if [ ${rtl} -eq 1 ] ; then
+            serial_path="/soc/${serial_node}:100000000"
+        else
+            serial_path="/soc/${serial_node}:115200"
+        fi
 
         ${SED} -i "/chosen/a stdout-path=\"${serial_path}\";" ${dts}
 
