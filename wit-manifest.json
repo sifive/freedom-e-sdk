@@ -198,5 +198,10 @@
         "commit": "ef4897e42239aa3d0270273ec3a8a69e4743e7c9",
         "name": "example-gpio-testbench",
         "source": "git@github.com:sifive/example-gpio-testbench.git"
+    },
+    {
+        "commit": "4d39bc25328fbf5daa1ac4a5583170b2e1d06271",
+        "name": "example-uart-testbench",
+        "source": "git@github.com:sifive/example-uart-testbench.git"
     }
 ]

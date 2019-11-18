@@ -115,3 +115,6 @@
 [submodule "software/gpio-testbench"]
 	path = software/gpio-testbench
 	url = https://github.com/sifive/example-gpio-testbench.git
+[submodule "software/uart-testbench"]
+	path = software/uart-testbench
+	url = https://github.com/sifive/example-uart-testbench.git
