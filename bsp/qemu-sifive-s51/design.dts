@@ -17,7 +17,7 @@
                 compatible = "sifive,fs510-g000";
                 L6: cpu@0 {
                         clocks = <&hfclk>;
-                        compatible = "sifive,rocket0", "riscv";
+                        compatible = "riscv";
                         device_type = "cpu";
                         i-cache-block-size = <64>;
                         i-cache-sets = <128>;

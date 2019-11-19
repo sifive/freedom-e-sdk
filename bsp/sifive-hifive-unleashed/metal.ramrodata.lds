@@ -25,7 +25,7 @@ SECTIONS
 	PROVIDE(__stack_size = __stack_size);
 	__heap_size = DEFINED(__heap_size) ? __heap_size : 0x800;
 	PROVIDE(__metal_boot_hart = 1);
-	PROVIDE(__metal_chicken_bit = 0);
+	PROVIDE(__metal_chicken_bit = 1);
 
 
 	.init : {
