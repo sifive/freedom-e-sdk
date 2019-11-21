@@ -82,7 +82,7 @@ if [ `grep -c 'stdout-path' ${dts}` -eq 0 ]; then
         echo "$0: stdout-path property not given, but a UART device exists."
 
         serial_node=`grep -oP "serial@[[:xdigit:]]+" ${dts} | sort | uniq | head -n 1`
-        if [ ${rtl} -eq 1 ] ; then
+        if [ "${rtl}" ] ; then
             serial_path="/soc/${serial_node}:100000000"
         else
             serial_path="/soc/${serial_node}:115200"
