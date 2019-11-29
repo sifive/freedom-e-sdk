@@ -34,6 +34,13 @@ $(BSP_DIR)/design.dts: $(BSP_DIR)/spike_options.sh
 endif # which spike
 endif # findstring spike,$(TARGET)
 
+ifeq ($(RISCV_LIBC),nano)
+METAL_CONFIG   := --with-builtin-libgloss
+endif
+
+ifeq ($(RISCV_LIBC),segger)
+METAL_CONFIG   := --with-builtin-libsegger
+endif
 
 ifneq ($(shell which dtc),)
 ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
@@ -91,12 +98,12 @@ $(METAL_BUILD_DIR)/Makefile: \
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
-		CFLAGS="$(RISCV_CFLAGS)" \
+		CFLAGS="$(METAL_CFLAGS)" \
 		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(METAL_PREFIX) \
 		--libdir=$(METAL_LIB_DIR) \
-		--with-builtin-libgloss \
+		$(METAL_CONFIG) \
 		--with-machine-header=$(abspath $(METAL_HEADER)) \
 		--with-machine-inline=$(abspath $(METAL_INLINE)) \
 		--with-platform-header=$(abspath $(PLATFORM_HEADER))
