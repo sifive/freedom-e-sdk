@@ -15,6 +15,11 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
+        "commit": "4eefc06cc40eb2f2b1658f38dcbfee3420abf882",
+        "name": "devicetree-overlay-generator",
+        "source": "git@github.com:sifive/devicetree-overlay-generator.git"
+    },
+    {
         "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
