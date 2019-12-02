@@ -118,3 +118,6 @@
 [submodule "software/example-freertos-blinky-systemview"]
 	path = software/example-freertos-blinky-systemview
 	url = https://github.com/sifive/example-freertos-blinky-systemview.git
+[submodule "scripts/devicetree-overlay-generator"]
+	path = scripts/devicetree-overlay-generator
+	url = https://github.com/sifive/devicetree-overlay-generator.git
