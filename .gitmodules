@@ -112,3 +112,6 @@
 [submodule "software/example-freertos-blinky"]
 	path = software/example-freertos-blinky
 	url = https://github.com/sifive/example-freertos-blinky.git
+[submodule "scripts/devicetree-overlay-generator"]
+	path = scripts/devicetree-overlay-generator
+	url = https://github.com/sifive/devicetree-overlay-generator.git
