@@ -14,7 +14,7 @@ C_SOURCES = $(wildcard *.c)
 # FREERTOS 
 # ----------------------------------------------------------------------
 FREERTOS_SOURCE_PATH ?= ../../FreeRTOS-metal
-#     Include FREERTOS source from thirdparty directory
+#     Include FREERTOS source
 include $(FREERTOS_SOURCE_PATH)/FreeRTOS.mk
 
 
@@ -33,11 +33,11 @@ else
 _COMMON_CFLAGS  += -DMTIME_RATE_HZ=32768
 endif
 
-#     Create our list of C source files.
+#     Update our list of C source files.
 C_SOURCES += ${FREERTOS_C_SOURCES}
 C_SOURCES += ${FREERTOS_HEAP_4_C}
 
-#     Create our list of S source files.
+#     Update our list of S source files.
 S_SOURCES += ${FREERTOS_S_SOURCES}
 
 # ----------------------------------------------------------------------
@@ -102,7 +102,6 @@ directories: $(BUILD_DIRECTORIES)
 $(PROGRAM): \
 	directories \
 	$(OBJS)
-	@echo 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
 	@echo
 
