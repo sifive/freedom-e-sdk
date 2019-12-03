@@ -120,8 +120,11 @@
                         interrupts = <6>;
                         reg = <0x10014000 0x1000 0x20000000 0x20000000>;
                         reg-names = "control", "mem";
+                        #address-cells = <1>;
+                        #size-cells = <1>;
                         flash@0 {
                                 compatible = "jedec,spi-nor";
+                                reg = <0x20000000 0x7a12000>;
                         };
                 };
         };
