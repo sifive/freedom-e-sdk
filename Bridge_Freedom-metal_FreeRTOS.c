@@ -128,7 +128,7 @@ __attribute__((constructor)) static void SEGGER_SysView_init(void)
   SEGGER_SYSVIEW_Start();
 }
 
-uint32_t SEGGER_SYSVIEW_X_GetInterruptId(void) {
+U32 SEGGER_SYSVIEW_X_GetInterruptId(void) {
 #if (__riscv_xlen == 64)
   uintptr_t mcause;
 
@@ -139,8 +139,7 @@ uint32_t SEGGER_SYSVIEW_X_GetInterruptId(void) {
   else
     mcause = mcause & 0x8000000000000000;
 
-  return (uint32_t) mcause;
-}
+  return (U32)mcause;
 #elif (__riscv_xlen == 32)
   uintptr_t mcause;
 
@@ -151,7 +150,7 @@ uint32_t SEGGER_SYSVIEW_X_GetInterruptId(void) {
   else
     mcause = mcause & 0x80000000;
 
-  return (uint32_t) mcause;
+  return (U32)mcause;
 #endif
 }
 
@@ -159,9 +158,9 @@ uint32_t SEGGER_SYSVIEW_X_GetInterruptId(void) {
   #error No CLINT Base Address defined
 #endif
 
-uint32_t SEGGER_SYSVIEW_X_GetTimestamp(void) {
+U32 SEGGER_SYSVIEW_X_GetTimestamp(void) {
 #if (__riscv_xlen == 64)
-  return (uint32_t)(*(( uint64_t * volatile ) ( configCLINT_BASE_ADDRESS + 0xBFF8) ));
+  return (U32)(*(( uint64_t * volatile ) ( configCLINT_BASE_ADDRESS + 0xBFF8) ));
 #elif (__riscv_xlen == 32) 
   uint32_t lo, hi;
 
@@ -171,7 +170,7 @@ uint32_t SEGGER_SYSVIEW_X_GetTimestamp(void) {
         lo = *(( uint32_t * volatile ) ( configCLINT_BASE_ADDRESS + 0xBFF8) );
     } while ( *(( uint32_t * volatile ) ( configCLINT_BASE_ADDRESS + 0xBFFC)) != hi);
 
-	return lo;
+	return (U32)lo;
 #endif
 }
 
