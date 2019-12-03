@@ -1,16 +1,9 @@
 /dts-v1/;
-
 / {
         #address-cells = <1>;
         #size-cells = <1>;
         compatible = "sifive,freedom-e310-arty";
         model = "sifive,freedom-e310-arty";
-
-        chosen {
-                stdout-path = "/soc/serial@10013000:115200";
-                metal,entry = <&sip0 0x400000>;
-        };
-
         cpus {
                 #address-cells = <1>;
                 #size-cells = <0>;
@@ -22,7 +15,7 @@
                         i-cache-block-size = <64>;
                         i-cache-sets = <128>;
                         i-cache-size = <16384>;
-                        next-level-cache = <&sip0>;
+                        next-level-cache = <&spi0>;
                         reg = <0>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
@@ -37,20 +30,17 @@
                         };
                 };
         };
-
         soc {
                 #address-cells = <1>;
                 #size-cells = <1>;
                 #clock-cells = <1>;
                 compatible = "sifive,freedom-e310-arty";
                 ranges;
-
                 hfclk: clock@0 {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";
                         clock-frequency = <65000000>;
                 };
-
                 clint: clint@2000000 {
                         compatible = "riscv,clint0";
                         interrupts-extended = <&hlic 3 &hlic 7>;
@@ -77,14 +67,12 @@
                         interrupt-parent = <&plic>;
                         interrupts = <1 2 3 4>;
                 };
-
                 debug-controller@0 {
                         compatible = "sifive,debug-011", "riscv,debug-011";
                         interrupts-extended = <&hlic 65535>;
                         reg = <0x0 0x100>;
                         reg-names = "control";
                 };
-
                 maskrom@1000 {
                         reg = <0x1000 0x2000>;
                         reg-names = "mem";
@@ -93,7 +81,6 @@
                         reg = <0x20000 0x2000 0x10010000 0x1000>;
                         reg-names = "mem", "control";
                 };
-
                 dtim: dtim@80000000 {
                         compatible = "sifive,dtim0";
                         reg = <0x80000000 0x4000>;
@@ -104,7 +91,6 @@
                         reg = <0x8000000 0x4000>;
                         reg-names = "mem";
                 };
-
                 pwm@10015000 {
                         compatible = "sifive,pwm0";
                         interrupt-parent = <&plic>;
@@ -128,7 +114,7 @@
                         clocks = <&hfclk>;
                         pinmux = <&gpio0 0x30000 0x30000>;
                 };
-                sip0: spi@10014000 {
+                spi0: spi@10014000 {
                         compatible = "sifive,spi0";
                         interrupt-parent = <&plic>;
                         interrupts = <6>;
