@@ -1,0 +1,10 @@
+/include/ "core.dts"
+/ {
+	chosen {
+		metal,entry = <&{/memory@80000000} 0 0>;
+		metal,boothart = <&cpu1>;
+		stdout-path = "/soc/uart@10013000:115200";
+		metal,itim = <&{/memory@80000000} 0 0>;
+		metal,ram = <&{/memory@80000000} 0 0>;
+	};
+};

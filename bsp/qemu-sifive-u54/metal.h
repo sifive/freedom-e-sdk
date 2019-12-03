@@ -77,8 +77,6 @@
 #include <metal/drivers/sifive_test0.h>
 #include <metal/drivers/sifive_uart0.h>
 
-struct metal_memory __metal_dt_mem_memory_80010000;
-
 struct metal_memory __metal_dt_mem_memory_80000000;
 
 /* From clint@2000000 */
@@ -459,11 +457,10 @@ static __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 /* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
-#define __METAL_DT_MAX_MEMORIES 2
+#define __METAL_DT_MAX_MEMORIES 1
 
 __asm__ (".weak __metal_memory_table");
 struct metal_memory *__metal_memory_table[] = {
-					&__metal_dt_mem_memory_80010000,
 					&__metal_dt_mem_memory_80000000};
 
 /* From uart@10013000 */
