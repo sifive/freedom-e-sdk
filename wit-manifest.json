@@ -193,5 +193,10 @@
         "commit": "3a9ba8924ba2b2937b8f4edb5d4c2bc0b0fb754d",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
+    },
+    {
+        "commit": "4eb87acfbdb314c270f1990a215e5ed5c7602b58",
+        "name": "example-freertos-minimal",
+        "source": "git@github.com:sifive/example-freertos-minimal.git"
     }
 ]
