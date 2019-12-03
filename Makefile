@@ -90,6 +90,12 @@ endif
 include scripts/standalone.mk
 
 #############################################################
+# Virtualenv Script Include
+#############################################################
+
+include scripts/virtualenv.mk
+
+#############################################################
 # Prints help message
 #############################################################
 .PHONY: help
@@ -249,7 +255,8 @@ standalone: \
 		release.mk \
 		scripts/elf2hex \
 		scripts/standalone.mk \
-		scripts/libmetal.mk
+		scripts/libmetal.mk \
+		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	cp -r freedom-metal $</
@@ -290,6 +297,7 @@ endif
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
+	cat scripts/virtualenv.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
 standalone: \
 		$(STANDALONE_DEST) \
@@ -300,7 +308,8 @@ standalone: \
 		debug.mk \
 		release.mk \
 		scripts/standalone.mk \
-		scripts/libmetal.mk
+		scripts/libmetal.mk \
+		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	cp -r freedom-metal $</
@@ -336,6 +345,7 @@ endif
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
+	cat scripts/virtualenv.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
 
 endif # STANDALONE_DEST

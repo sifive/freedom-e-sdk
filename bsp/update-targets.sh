@@ -74,6 +74,8 @@ else
     TARGET_LIST="$CUSTOM_TARGET "
 fi
 
+OVERLAY_GENERATOR=../scripts/devicetree-overlay-generator/generate_overlay.py
+
 DTC=dtc
 MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=freedom-ldscript-generator
@@ -81,7 +83,8 @@ MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
 BARE_HEADER_GENERATOR=freedom-bare_header-generator
 OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
 
-DTS_FILENAME=design.dts
+CORE_DTS_FILENAME=core.dts
+DESIGN_DTS_FILENAME=design.dts
 DTB_FILENAME=temp.dtb
 HEADER_FILENAME=metal.h
 LDS_DEFAULT_FILENAME=metal.default.lds
@@ -100,16 +103,14 @@ update_target() {
 
     echo "Updating target $TARGET"
 
-    if [ $NO_FIXUP != 1 ]; then
-        if [ `echo "$TARGET_TYPE" | grep -c "rtl"` -ne 0 ] ; then
-            ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME --rtl || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
-        else 
-            ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
-        fi
+    # Generate overlay
+    if [ $NO_FIXUP -ne 1 ]; then
+        echo "Generating overlay $TARGET/$DESIGN_DTS_FILENAME"
+        . ../venv/bin/activate && $OVERLAY_GENERATOR --type $TARGET_TYPE --output $TARGET/$DESIGN_DTS_FILENAME --rename-include $CORE_DTS_FILENAME $TARGET/$CORE_DTS_FILENAME
     fi
 
     # Compile temporary .dtb
-    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || warn "Failed to compile $TARGET/$DTS_FILENAME to dtb"
+    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DESIGN_DTS_FILENAME || warn "Failed to compile $TARGET/$DESIGN_DTS_FILENAME to dtb"
 
     # Produce parameterized files
     pushd $TARGET && $MEE_HEADER_GENERATOR -d $DTB_FILENAME -o $HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME" && popd
@@ -136,6 +137,13 @@ update_target() {
     TARGET_TYPE=""
     echo ""
 }
+
+if [ $NO_FIXUP -ne 1 ]; then
+    echo "Generating overlay $TARGET/$DESIGN_DTS_FILENAME"
+    python3 -m venv ../venv
+    . ../venv/bin/activate && pip install --upgrade pip
+    . ../venv/bin/activate && pip install -r ../requirements.txt
+fi
 
 for TARGET in $TARGET_LIST
 do
