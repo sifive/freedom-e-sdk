@@ -1,16 +1,9 @@
 /dts-v1/;
-
 / {
         #address-cells = <1>;
         #size-cells = <1>;
         compatible = "sifive,qemu-sifive-e31";
         model = "sifive,qemu-sifive-e31";
-
-        chosen {
-                stdout-path = "/soc/serial@10013000:115200";
-                metal,entry = <&spi0 0x400000>;
-        };
-
         cpus {
                 #address-cells = <1>;
                 #size-cells = <0>;
@@ -36,7 +29,6 @@
                         };
                 };
         };
-
         soc {
                 #address-cells = <1>;
                 #size-cells = <1>;
@@ -74,7 +66,6 @@
                         reg-names = "config", "divider";
 			clock-frequency = <16000000>;
                 };
-
                 lfroscin: clock@5 {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";
@@ -92,19 +83,16 @@
                         reg = <0x100000 0x1000>;
                         reg-names = "control";
                 };
-
                 aon: aon@10000000 {
                         compatible = "sifive,aon0";
                         reg = <0x10000000 0x8000>;
                         reg-names = "mem";
                 };
-
                 prci: prci@10008000 {
                         compatible = "sifive,fe310-g000,prci";
                         reg = <0x10008000 0x8000>;
                         reg-names = "mem";
                 };
-
                 clint: clint@2000000 {
                         compatible = "riscv,clint0";
                         interrupts-extended = <&hlic 3 &hlic 7>;
@@ -138,7 +126,6 @@
                         reg = <0x0 0x100>;
                         reg-names = "control";
                 };
-
                 maskrom@1000 {
                         reg = <0x1000 0x2000>;
                         reg-names = "mem";
@@ -147,7 +134,6 @@
                         reg = <0x20000 0x2000 0x10010000 0x1000>;
                         reg-names = "mem", "control";
                 };
-
                 dtim: dtim@80000000 {
                         compatible = "sifive,dtim0";
                         reg = <0x80000000 0x400000>;
@@ -185,23 +171,26 @@
                         reg-names = "control", "mem";
                         clocks = <&hfclk>;
                         pinmux = <&gpio0 0x0003C 0x0003C>;
+                        #address-cells = <1>;
+                        #size-cells = <1>;
                         flash@0 {
                                 compatible = "jedec,spi-nor";
+                                reg = <0x20000000 0x3d090000>;
                         };
                 };
-                led@0red {
+                led@0 {
                         compatible = "sifive,gpio-leds";
                         label = "LD0red";
                         gpios = <&gpio0 22>;
                         linux,default-trigger = "none";
                 };
-                led@0green {
+                led@1 {
                         compatible = "sifive,gpio-leds";
                         label = "LD0green";
                         gpios = <&gpio0 19>;
                         linux,default-trigger = "none";
                 };
-                led@0blue {
+                led@2 {
                         compatible = "sifive,gpio-leds";
                         label = "LD0blue";
                         gpios = <&gpio0 21>;

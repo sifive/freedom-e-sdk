@@ -1,25 +1,16 @@
 /dts-v1/;
-
 / {
 	#address-cells = <2>;
 	#size-cells = <2>;
 	compatible = "sifive,fu540g", "sifive,fu500";
 	model = "sifive,hifive-unleashed-a00";
-
 	aliases {
 		serial0 = &L28;
 		serial1 = &L29;
 	};
-
-	chosen {
-metal,boothart = <&L12>;
-		stdout-path = "/soc/serial@10010000:115200";
-	};
-
 	firmware {
 		sifive,fsbl = "YYYY-MM-DD";
 	};
-
 	L3: cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
