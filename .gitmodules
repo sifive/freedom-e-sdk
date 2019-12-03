@@ -115,3 +115,6 @@
 [submodule "software/example-freertos-minimal"]
 	path = software/example-freertos-minimal
 	url = https://github.com/sifive/example-freertos-minimal.git
+[submodule "software/example-freertos-blinky-systemview"]
+	path = software/example-freertos-blinky-systemview
+	url = https://github.com/sifive/example-freertos-blinky-systemview.git
