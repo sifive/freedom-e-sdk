@@ -16,6 +16,9 @@ LDSCRIPT_GENERATOR = freedom-ldscript-generator
 MAKEATTRIB_GENERATOR = freedom-makeattributes-generator
 BARE_HEADER_GENERATOR = freedom-bare_header-generator
 
+OVERLAY_GENERATOR = scripts/devicetree-overlay-generator/generate_overlay.py
+OVERLAY_VIRTUALENV = scripts/devicetree-overlay-generator/venv/bin/activate
+
 # Metal BSP file generation
 #
 # Requires devicetree compiler (dtc) and freedom-devicetree-tools to be in the
@@ -24,22 +27,25 @@ BARE_HEADER_GENERATOR = freedom-bare_header-generator
 # This allows user changes to the devicetree in $(BSP_DIR)/design.dts to be
 # propagated through to the end application with a single invocation of Make
 
+$(OVERLAY_GENERATOR): venv/bin/activate
+
+$(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
+	. venv/bin/activate && $(OVERLAY_GENERATOR) --type rtl --output $@ --rename-include $(notdir $<) $<
+
 ifeq ($(findstring spike,$(TARGET)),spike)
 $(BSP_DIR)/spike_options.sh:
 	echo "export SPIKE_OPTIONS=\"\"" > $@
 
 ifneq ($(shell which spike),)
-$(BSP_DIR)/design.dts: $(BSP_DIR)/spike_options.sh
+$(BSP_DIR)/core.dts: $(BSP_DIR)/spike_options.sh
 	. $< && scripts/spikedts $(dir $@)
 endif # which spike
 endif # findstring spike,$(TARGET)
-
 
 ifneq ($(shell which dtc),)
 ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
 
 $(BSP_DIR)/design.dtb: $(BSP_DIR)/design.dts
-	./scripts/fixup-dts --dts $<
 	cd $(dir $@) && dtc -I dts -O dtb -o $(notdir $@) $(notdir $<)
 
 $(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dtb
