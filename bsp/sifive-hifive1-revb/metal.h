@@ -131,14 +131,14 @@ struct metal_pmp __metal_dt_pmp;
 /* From gpio@10012000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000;
 
-/* From led@0red */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0red;
+/* From led@0 */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0;
 
-/* From led@0green */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0green;
+/* From led@1 */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_1;
 
-/* From led@0blue */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0blue;
+/* From led@2 */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_2;
 
 /* From i2c@10016000 */
 struct __metal_driver_sifive_i2c0 __metal_dt_i2c_10016000;
@@ -545,13 +545,13 @@ static __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 /* --------------------- sifive_gpio_led ------------ */
 static __inline__ struct metal_gpio * __metal_driver_sifive_gpio_led_gpio(struct metal_led *led)
 {
-	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0red) {
+	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0) {
 		return (struct metal_gpio *)&__metal_dt_gpio_10012000;
 	}
-	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0green) {
+	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_1) {
 		return (struct metal_gpio *)&__metal_dt_gpio_10012000;
 	}
-	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0blue) {
+	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_2) {
 		return (struct metal_gpio *)&__metal_dt_gpio_10012000;
 	}
 	else {
@@ -561,13 +561,13 @@ static __inline__ struct metal_gpio * __metal_driver_sifive_gpio_led_gpio(struct
 
 static __inline__ int __metal_driver_sifive_gpio_led_pin(struct metal_led *led)
 {
-	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0red) {
+	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0) {
 		return 22;
 	}
-	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0green) {
+	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_1) {
 		return 19;
 	}
-	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0blue) {
+	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_2) {
 		return 21;
 	}
 	else {
@@ -577,13 +577,13 @@ static __inline__ int __metal_driver_sifive_gpio_led_pin(struct metal_led *led)
 
 static __inline__ char * __metal_driver_sifive_gpio_led_label(struct metal_led *led)
 {
-	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0red) {
+	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0) {
 		return "LD0red";
 	}
-	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0green) {
+	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_1) {
 		return "LD0green";
 	}
-	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0blue) {
+	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_2) {
 		return "LD0blue";
 	}
 	else {
@@ -1200,9 +1200,9 @@ struct __metal_driver_sifive_gpio_button *__metal_button_table[] = {
 
 __asm__ (".weak __metal_led_table");
 struct __metal_driver_sifive_gpio_led *__metal_led_table[] = {
-					&__metal_dt_led_0red,
-					&__metal_dt_led_0green,
-					&__metal_dt_led_0blue};
+					&__metal_dt_led_0,
+					&__metal_dt_led_1,
+					&__metal_dt_led_2};
 
 #define __METAL_DT_MAX_SWITCHES 0
 

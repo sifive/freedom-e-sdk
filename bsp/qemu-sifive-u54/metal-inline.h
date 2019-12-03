@@ -113,20 +113,9 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 /* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
-struct metal_memory __metal_dt_mem_memory_80010000 = {
-    ._base_address = 2147549184UL,
-    ._size = 134213632UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
 struct metal_memory __metal_dt_mem_memory_80000000 = {
     ._base_address = 2147483648UL,
-    ._size = 65536UL,
+    ._size = 2147483648UL,
     ._attrs = {
         .R = 1,
         .W = 1,

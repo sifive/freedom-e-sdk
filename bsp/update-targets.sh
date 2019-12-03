@@ -85,7 +85,7 @@ OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
 
 CORE_DTS_FILENAME=core.dts
 DESIGN_DTS_FILENAME=design.dts
-DTB_FILENAME=temp.dtb
+DTB_FILENAME=design.dtb
 HEADER_FILENAME=metal.h
 LDS_DEFAULT_FILENAME=metal.default.lds
 LDS_RAMRODATA_FILENAME=metal.ramrodata.lds

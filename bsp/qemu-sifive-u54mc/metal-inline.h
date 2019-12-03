@@ -121,20 +121,9 @@ struct __metal_driver_fixed_clock __metal_dt_ethclk = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-struct metal_memory __metal_dt_mem_memory_80010000 = {
-    ._base_address = 2147549184UL,
-    ._size = 134213632UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
 struct metal_memory __metal_dt_mem_memory_80000000 = {
     ._base_address = 2147483648UL,
-    ._size = 65536UL,
+    ._size = 2147483648UL,
     ._attrs = {
         .R = 1,
         .W = 1,
