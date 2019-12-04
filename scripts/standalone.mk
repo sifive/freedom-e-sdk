@@ -127,7 +127,7 @@ METAL_CFLAGS   := $(RISCV_CFLAGS) -Os
 endif
 
 ifeq ($(RISCV_LIBC),segger)
-LIBMETAL_EXTRA=-ltarget_metal -lmetal-segger
+LIBMETAL_EXTRA=-lmetal-segger
 SPEC=metal-segger
 METAL_CFLAGS   := $(RISCV_CFLAGS) -Os -D__SEGGER_LIBC__ -isystem =/include/segger
 endif
