@@ -3,7 +3,7 @@
 	url = https://github.com/sifive/example-hello.git
 [submodule "freedom-metal"]
 	path = freedom-metal
-	url = https://github.com/sifive/freedom-metal.git
+	url = git@github.com:sifive/freedom-metal.git
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
 	url = https://github.com/sifive/elf2hex.git
