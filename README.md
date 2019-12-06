@@ -49,23 +49,38 @@ operating systems to RISC-V.
     within a single target directory in `bsp/<target>/`. For example, the HiFive 1
     board support files for Freedom Metal are entirely within `bsp/sifive-hifive1/`
     and consist of the following:
-    * design.dts
+    * design.dts, core.dts
       - The DeviceTree description of the target. This file is used to parameterize
-        the Freedom Metal library to the target device. It is included as reference
-        so that users of Freedom Metal are aware of what features and peripherals
-        are available on the target.
-    * metal.h
-      - The Freedom Metal machine header which is used internally to Freedom Metal
-        to instantiate structures to support the target device.
+        the Freedom Metal library to the target device. Modifications to these files
+        are propagated to the generated files by freedom-devicetree-tools.
+    * metal.h, metal-inline.h
+      - The Freedom Metal machine headers are generated files which are used internally
+        to Freedom Metal to instantiate structures to support the target device.
+    * metal-platform.h
+      - The Freedom Metal platform header provides a list of C proprocessor definitions
+        which are used by Freedom Metal to indicate the presence of devices and provide
+        the memory-mapped register interface for each device. The contents of this header
+        is considered public API surface of the Metal library and can be used in applications
+        by including `metal/machine/platform.h`.
     * metal.%.lds
       - Generated linker scripts for the target. The different scripts allow
         for different memory configurations.
     * openocd.cfg (for development board and FPGA targets)
       - Used to configure OpenOCD for flashing and debugging the target device.
     * settings.mk
-      - Used to set `-march` and `-mabi` arguments to the RISC-V GNU Toolchain.
-* FreeRTOS (found under `FreeRTOS-metal/`): it is a class of RTOS that is designed to be small enough to run on a microcontroller – although its use is not limited to microcontroller applications. (please visit [https://www.freertos.org](https://www.freertos.org/) for more details). Please read the license before to use it (available into the FreeRTOS subdirectory)
-* SEGGER_SystemView (found under `SEGGER_SystemView-metal/`): it is a real-time recording and visualization tool for embedded systems that reveals the true runtime behavior of an application, going far deeper than the system insights provided by debuggers. This is particularly effective when developing and working with complex embedded systems comprising multiple threads and interrupts: SystemView can ensure a system performs as designed, can track down inefficiencies, and show unintended interactions and resource conflicts, with a focus on details of every single system ticks.
+      - Includes a variety of parameters which affect the build system for the target, including
+        the RISC-V ISA string, the selected ABI, the code model, and more.
+* [FreeRTOS](https://www.freertos.org/) (found under `FreeRTOS-metal/`):
+  - A class of RTOS that is designed to be small enough to run on a microcontroller
+  - Provided here under its own license
+* SEGGER\_SystemView (found under `SEGGER_SystemView-metal/`)
+  - A real-time recording and visualization tool for embedded systems that reveals the true
+    runtime behavior of an application, going far deeper than the system insights provided
+    by debuggers. This is particularly effective when developing and working with complex
+    embedded systems comprising multiple threads and interrupts
+  - SystemView can ensure a system performs as designed, can track down inefficiencies,
+    and show unintended interactions and resource conflicts, with a focus on details
+    of every single system tick.
 * A Few Example Programs (found under `software/`)
   - empty
     - An empty project. Serves as a good starting point for your own program.
