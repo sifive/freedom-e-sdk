@@ -122,12 +122,14 @@ endif
 
 ifeq ($(RISCV_LIBC),nano)
 LIBMETAL_EXTRA=-lmetal-gloss
+PROG_EXTRA_LIB=libmetal-gloss.a
 SPEC=nano
 METAL_CFLAGS   := $(RISCV_CFLAGS) -Os
 endif
 
 ifeq ($(RISCV_LIBC),segger)
 LIBMETAL_EXTRA=-lmetal-segger
+PROG_EXTRA_LIB=libmetal-segger.a
 SPEC=metal-segger
 METAL_CFLAGS   := $(RISCV_CFLAGS) -Os -D__SEGGER_LIBC__ -isystem =/include/segger
 endif
@@ -210,8 +212,7 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-segger.a \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
+		$(BSP_DIR)/install/lib/$(CONFIGURATION)/$(PROG_EXTRA_LIB) \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
