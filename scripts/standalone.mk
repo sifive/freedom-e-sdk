@@ -219,14 +219,12 @@ ifeq ($(RISCV_SERIES),sifive-8-series)
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
 endif
 ifeq ($(RISCV_SERIES),sifive-7-series)
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
-endif
-ifneq ($(RISCV_SERIES),sifive-8-series)
-ifneq ($(RISCV_SERIES),sifive-7-series)
-ifeq ($(RISCV_XLEN),32)
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-reg-struct-return -fno-rename-registers --param case-values-threshold=8 -fno-crossjumping -freorder-blocks-and-partition -fno-tree-loop-if-convert -fno-tree-sink -fgcse-sm -fno-strict-overflow
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math --param fsm-scale-path-stmts=3
 else
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts
+ifeq ($(RISCV_XLEN),32)
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-reg-struct-return -fno-rename-registers --param case-values-threshold=8 -fno-crossjumping -freorder-blocks-and-partition -fno-tree-loop-if-convert -fno-tree-sink -fgcse-sm -fno-strict-overflow --param fsm-scale-path-stmts=3
+else
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts --param fsm-scale-path-stmts=3
 endif
 endif
 endif
