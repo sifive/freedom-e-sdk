@@ -5,7 +5,7 @@ help() {
 $0: BSP Generator for the SiFive Freedom E SDK
     --help                     Prints this help text.
     --target-name              Specify bsp target name.
-    --target-type              Specify bsp target type [rtl | arty].
+    --target-type              Specify bsp target type [rtl | arty | vc707].
     --sdk-path=*               The path to the freedom-e-sdk clone directory, public or private.
     --target-dts=*.dts         The path to the target device tree that will be used.
 EOF
@@ -119,7 +119,7 @@ update_target() {
     pushd  $TARGET && $MAKEATTRIB_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME" && popd
     pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
 
-    if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "hifive" ]] ; then
+    if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "vc707" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
             echo "generating $OPENOCDCFG_FILENAME"
             $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
