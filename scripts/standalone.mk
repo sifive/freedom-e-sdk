@@ -116,6 +116,7 @@ RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
 
+
 ifeq ($(RISCV_LIBC),)
 RISCV_LIBC=nano
 endif
@@ -128,15 +129,25 @@ METAL_CFLAGS   := $(RISCV_CFLAGS) -Os
 endif
 
 ifeq ($(RISCV_LIBC),segger)
+ifeq ($(RISCV_XLEN),32)
 LIBMETAL_EXTRA=-lmetal-segger
 PROG_EXTRA_LIB=libmetal-segger.a
 SPEC=metal-segger
 METAL_CFLAGS   := $(RISCV_CFLAGS) -Os -D__SEGGER_LIBC__ -isystem =/include/segger
-endif
+else # RISCV_XLEN==64 only support nano now
+RISCV_LIBC=nano
+LIBMETAL_EXTRA=-lmetal-gloss
+PROG_EXTRA_LIB=libmetal-gloss.a
+SPEC=nano
+METAL_CFLAGS   := $(RISCV_CFLAGS) -Os
+endif # RISCV_XLEN
+endif # RISCV_LIBC
+
 
 ifeq ($(SPEC),)
 $(error RISCV_LIBC set to an unsupported value: $(RISCV_LIBC))
 endif
+
 
 # Reference selected library
 RISCV_CCASFLAGS += --specs=$(SPEC).specs

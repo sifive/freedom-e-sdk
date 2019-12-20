@@ -39,7 +39,11 @@ METAL_CONFIG   := --with-builtin-libgloss
 endif
 
 ifeq ($(RISCV_LIBC),segger)
+ifeq ($(RISCV_XLEN),32)
 METAL_CONFIG   := --with-builtin-libsegger
+else
+METAL_CONFIG   := --with-builtin-libgloss
+endif
 endif
 
 ifneq ($(shell which dtc),)
