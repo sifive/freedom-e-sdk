@@ -4,7 +4,7 @@
 # Provide a default for no verbose output
 HIDE ?= @
 
-PROGRAM ?= example-freertos-blinky
+PROGRAM ?= example-freertos-minimal
 
 OBJ_DIR ?= ./$(CONFIGURATION)/build
 
