@@ -115,3 +115,6 @@
 [submodule "scripts/devicetree-overlay-generator"]
 	path = scripts/devicetree-overlay-generator
 	url = https://github.com/sifive/devicetree-overlay-generator.git
+[submodule "scripts/ldscript-generator"]
+	path = scripts/ldscript-generator
+	url = https://github.com/sifive/ldscript-generator.git
