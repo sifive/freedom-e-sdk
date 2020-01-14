@@ -12,12 +12,11 @@ METAL_BUILD_DIR    = $(abspath $(BSP_DIR)/build/$(CONFIGURATION))
 METAL_LIB_DIR	   = $(abspath $(BSP_DIR)/install/lib/$(CONFIGURATION))
 
 METAL_HEADER_GENERATOR = freedom-metal_header-generator
-LDSCRIPT_GENERATOR = freedom-ldscript-generator
 MAKEATTRIB_GENERATOR = freedom-makeattributes-generator
 BARE_HEADER_GENERATOR = freedom-bare_header-generator
 
 OVERLAY_GENERATOR = scripts/devicetree-overlay-generator/generate_overlay.py
-OVERLAY_VIRTUALENV = scripts/devicetree-overlay-generator/venv/bin/activate
+LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
 
 # Metal BSP file generation
 #
@@ -28,9 +27,19 @@ OVERLAY_VIRTUALENV = scripts/devicetree-overlay-generator/venv/bin/activate
 # propagated through to the end application with a single invocation of Make
 
 $(OVERLAY_GENERATOR): venv/bin/activate
+$(LDSCRIPT_GENERATOR): venv/bin/activate
 
 $(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
-	. venv/bin/activate && $(OVERLAY_GENERATOR) --type rtl --output $@ --rename-include $(notdir $<) $<
+	. venv/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
+
+$(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@
+
+$(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --ramrodata
+
+$(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --scratchpad
 
 ifeq ($(findstring spike,$(TARGET)),spike)
 $(BSP_DIR)/spike_options.sh:
@@ -47,15 +56,6 @@ ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
 
 $(BSP_DIR)/design.dtb: $(BSP_DIR)/design.dts
 	cd $(dir $@) && dtc -I dts -O dtb -o $(notdir $@) $(notdir $<)
-
-$(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@)
-
-$(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@) --ramrodata
-
-$(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@) --scratchpad
 
 $(METAL_INLINE): $(BSP_DIR)/design.dtb
 $(METAL_HEADER): $(BSP_DIR)/design.dtb
