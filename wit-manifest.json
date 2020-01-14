@@ -20,6 +20,11 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
+        "commit": "336a8fd6e14b2c28df9e30790eca2e367ef8bdd1",
+        "name": "ldscript-generator",
+        "source": "git@github.com:sifive/ldscript-generator.git"
+    },
+    {
         "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
