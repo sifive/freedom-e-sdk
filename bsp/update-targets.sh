@@ -78,7 +78,7 @@ OVERLAY_GENERATOR=../scripts/devicetree-overlay-generator/generate_overlay.py
 
 DTC=dtc
 MEE_HEADER_GENERATOR=freedom-metal_header-generator
-LDSCRIPT_GENERATOR=freedom-ldscript-generator
+LDSCRIPT_GENERATOR=../scripts/ldscript-generator/generate_ldscript.py
 MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
 BARE_HEADER_GENERATOR=freedom-bare_header-generator
 OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
@@ -114,9 +114,9 @@ update_target() {
 
     # Produce parameterized files
     pushd $TARGET && $MEE_HEADER_GENERATOR -d $DTB_FILENAME -o $HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME" && popd
-    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_DEFAULT_FILENAME || warn "Failed to produce $LDS_DEFAULT_FILENAME" && popd
-    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME" && popd
-    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME" && popd
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
     pushd  $TARGET && $MAKEATTRIB_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME" && popd
     pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
 
