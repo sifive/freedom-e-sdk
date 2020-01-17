@@ -26,8 +26,8 @@ LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
 # This allows user changes to the devicetree in $(BSP_DIR)/design.dts to be
 # propagated through to the end application with a single invocation of Make
 
-$(OVERLAY_GENERATOR): venv/bin/activate
-$(LDSCRIPT_GENERATOR): venv/bin/activate
+$(OVERLAY_GENERATOR): virtualenv
+$(LDSCRIPT_GENERATOR): virtualenv
 
 $(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
 	. venv/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
