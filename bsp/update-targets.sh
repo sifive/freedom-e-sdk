@@ -138,12 +138,7 @@ update_target() {
     echo ""
 }
 
-if [ $NO_FIXUP -ne 1 ]; then
-    echo "Generating overlay $TARGET/$DESIGN_DTS_FILENAME"
-    python3 -m venv ../venv
-    . ../venv/bin/activate && pip install --upgrade pip
-    . ../venv/bin/activate && pip install -r ../requirements.txt
-fi
+pushd .. && make virtualenv && popd
 
 for TARGET in $TARGET_LIST
 do
