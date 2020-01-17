@@ -164,6 +164,9 @@ To use this SDK, you will need the following software available on your machine:
 * RISC-V QEMU 4.1.0 (for use with the qemu-sifive-\* simulation targets)
 * RISC-V OpenOCD (for use with development board and FPGA targets)
 * Segger J-LINK (for use with certain development boards)
+* Python >= 3.5
+* Python Virtualenv
+* Python Pip
 
 ##### Install the RISC-V Toolchain and OpenOCD #####
 
