@@ -1,0 +1,2143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
+  <name>sifive_qemu_sifive_s51</name>
+  <version>0.1</version>
+  <description>From sifive,qemu-sifive-s51,model device generator</description>
+  <addressUnitBits>8</addressUnitBits>
+  <width>32</width>
+  <size>32</size>
+  <access>read-write</access>
+  <resetValue>0x00000000</resetValue>
+  <resetMask>0xFFFFFFFF</resetMask>
+  <peripherals>
+    <peripheral>
+      <name>test_100000</name>
+      <description>From sifive,test0,control peripheral generator</description>
+      <baseAddress>0x100000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x1000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>finisher</name>
+          <displayName>Test Finisher Register</displayName>
+          <description>Test finisher register</description>
+          <addressOffset>0x0</addressOffset>
+          <fields>
+            <field>
+              <name>status</name>
+              <description>Test status</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>code</name>
+              <description>Finisher code</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>aon_10000000</name>
+      <description>From sifive,aon0,mem peripheral generator</description>
+      <baseAddress>0x10000000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x8000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>backup_0</name>
+          <description>Backup Register 0</description>
+          <addressOffset>0x80</addressOffset>
+        </register>
+        <register>
+          <name>backup_1</name>
+          <description>Backup Register 1</description>
+          <addressOffset>0x84</addressOffset>
+        </register>
+        <register>
+          <name>backup_2</name>
+          <description>Backup Register 2</description>
+          <addressOffset>0x88</addressOffset>
+        </register>
+        <register>
+          <name>backup_3</name>
+          <description>Backup Register 3</description>
+          <addressOffset>0x8C</addressOffset>
+        </register>
+        <register>
+          <name>backup_4</name>
+          <description>Backup Register 4</description>
+          <addressOffset>0x90</addressOffset>
+        </register>
+        <register>
+          <name>backup_5</name>
+          <description>Backup Register 5</description>
+          <addressOffset>0x94</addressOffset>
+        </register>
+        <register>
+          <name>backup_6</name>
+          <description>Backup Register 6</description>
+          <addressOffset>0x98</addressOffset>
+        </register>
+        <register>
+          <name>backup_7</name>
+          <description>Backup Register 7</description>
+          <addressOffset>0x9C</addressOffset>
+        </register>
+        <register>
+          <name>backup_8</name>
+          <description>Backup Register 8</description>
+          <addressOffset>0xA0</addressOffset>
+        </register>
+        <register>
+          <name>backup_9</name>
+          <description>Backup Register 9</description>
+          <addressOffset>0xA4</addressOffset>
+        </register>
+        <register>
+          <name>backup_10</name>
+          <description>Backup Register 10</description>
+          <addressOffset>0xA8</addressOffset>
+        </register>
+        <register>
+          <name>backup_11</name>
+          <description>Backup Register 11</description>
+          <addressOffset>0xAC</addressOffset>
+        </register>
+        <register>
+          <name>backup_12</name>
+          <description>Backup Register 12</description>
+          <addressOffset>0xB0</addressOffset>
+        </register>
+        <register>
+          <name>backup_13</name>
+          <description>Backup Register 13</description>
+          <addressOffset>0xB4</addressOffset>
+        </register>
+        <register>
+          <name>backup_14</name>
+          <description>Backup Register 14</description>
+          <addressOffset>0xB8</addressOffset>
+        </register>
+        <register>
+          <name>backup_15</name>
+          <description>Backup Register 15</description>
+          <addressOffset>0xBC</addressOffset>
+        </register>
+        <register>
+          <name>wdogcfg</name>
+          <description>wdog Configuration</description>
+          <addressOffset>0x0</addressOffset>
+          <fields>
+            <field>
+              <name>wdogscale</name>
+              <description>Counter scale value.</description>
+              <bitRange>[3:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_7_4</name>
+              <description>Field reserved_7_4</description>
+              <bitRange>[7:4]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>wdogrsten</name>
+              <description>Controls whether the comparator output can set the wdogrst bit and hence cause a full reset.</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>wdogzerocmp</name>
+              <description>Reset counter to zero after match.</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_10_10</name>
+              <description>Field reserved_10_10</description>
+              <bitRange>[10:10]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_11_11</name>
+              <description>Field reserved_11_11</description>
+              <bitRange>[11:11]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>wdogenalways</name>
+              <description>Enable Always - run continuously</description>
+              <bitRange>[12:12]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>wdogcoreawake</name>
+              <description>Increment the watchdog counter if the processor is not asleep</description>
+              <bitRange>[13:13]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_15_14</name>
+              <description>Field reserved_15_14</description>
+              <bitRange>[15:14]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_16_16</name>
+              <description>Field reserved_16_16</description>
+              <bitRange>[16:16]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_19_17</name>
+              <description>Field reserved_19_17</description>
+              <bitRange>[19:17]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_20_20</name>
+              <description>Field reserved_20_20</description>
+              <bitRange>[20:20]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_23_21</name>
+              <description>Field reserved_23_21</description>
+              <bitRange>[23:21]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_24_24</name>
+              <description>Field reserved_24_24</description>
+              <bitRange>[24:24]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_27_25</name>
+              <description>Field reserved_27_25</description>
+              <bitRange>[27:25]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>wdogip0</name>
+              <description>Interrupt 0 Pending</description>
+              <bitRange>[28:28]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_31_29</name>
+              <description>Field reserved_31_29</description>
+              <bitRange>[31:29]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>wdogcount</name>
+          <description>Counter Register</description>
+          <addressOffset>0x8</addressOffset>
+        </register>
+        <register>
+          <name>reserved_C</name>
+          <description>Register reserved_C</description>
+          <addressOffset>0xC</addressOffset>
+        </register>
+        <register>
+          <name>wdogs</name>
+          <description>Scaled value of Counter</description>
+          <addressOffset>0x10</addressOffset>
+        </register>
+        <register>
+          <name>wdogfeed</name>
+          <description>Feed register</description>
+          <addressOffset>0x18</addressOffset>
+        </register>
+        <register>
+          <name>wdogkey</name>
+          <description>Key Register</description>
+          <addressOffset>0x1C</addressOffset>
+        </register>
+        <register>
+          <name>wdogcmp0</name>
+          <description>Comparator 0</description>
+          <addressOffset>0x20</addressOffset>
+        </register>
+        <register>
+          <name>rtccfg</name>
+          <description>rtc Configuration</description>
+          <addressOffset>0x40</addressOffset>
+          <fields>
+            <field>
+              <name>rtcscale</name>
+              <description>Counter scale value.</description>
+              <bitRange>[3:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_7_4</name>
+              <description>Field reserved_7_4</description>
+              <bitRange>[7:4]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_8_8</name>
+              <description>Field reserved_8_8</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_9_9</name>
+              <description>Field reserved_9_9</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_10_10</name>
+              <description>Field reserved_10_10</description>
+              <bitRange>[10:10]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_11_11</name>
+              <description>Field reserved_11_11</description>
+              <bitRange>[11:11]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>rtcenalways</name>
+              <description>Enable Always - run continuously</description>
+              <bitRange>[12:12]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_13_13</name>
+              <description>Field reserved_13_13</description>
+              <bitRange>[13:13]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_15_14</name>
+              <description>Field reserved_15_14</description>
+              <bitRange>[15:14]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_16_16</name>
+              <description>Field reserved_16_16</description>
+              <bitRange>[16:16]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_19_17</name>
+              <description>Field reserved_19_17</description>
+              <bitRange>[19:17]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_20_20</name>
+              <description>Field reserved_20_20</description>
+              <bitRange>[20:20]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_23_21</name>
+              <description>Field reserved_23_21</description>
+              <bitRange>[23:21]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_24_24</name>
+              <description>Field reserved_24_24</description>
+              <bitRange>[24:24]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_27_25</name>
+              <description>Field reserved_27_25</description>
+              <bitRange>[27:25]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>rtcip0</name>
+              <description>Interrupt 0 Pending</description>
+              <bitRange>[28:28]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_31_29</name>
+              <description>Field reserved_31_29</description>
+              <bitRange>[31:29]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>rtccountlo</name>
+          <description>Low bits of Counter</description>
+          <addressOffset>0x48</addressOffset>
+        </register>
+        <register>
+          <name>rtccounthi</name>
+          <description>High bits of Counter</description>
+          <addressOffset>0x4C</addressOffset>
+        </register>
+        <register>
+          <name>rtcs</name>
+          <description>Scaled value of Counter</description>
+          <addressOffset>0x50</addressOffset>
+        </register>
+        <register>
+          <name>reserved_58</name>
+          <description>Register reserved_58</description>
+          <addressOffset>0x58</addressOffset>
+        </register>
+        <register>
+          <name>reserved_5C</name>
+          <description>Register reserved_5C</description>
+          <addressOffset>0x5C</addressOffset>
+        </register>
+        <register>
+          <name>rtccmp0</name>
+          <description>Comparator 0</description>
+          <addressOffset>0x60</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi0</name>
+          <description>Wakeup program instruction 0</description>
+          <addressOffset>0x100</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi1</name>
+          <description>Wakeup program instruction 1</description>
+          <addressOffset>0x104</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi2</name>
+          <description>Wakeup program instruction 2</description>
+          <addressOffset>0x108</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi3</name>
+          <description>Wakeup program instruction 3</description>
+          <addressOffset>0x10C</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi4</name>
+          <description>Wakeup program instruction 4</description>
+          <addressOffset>0x110</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi5</name>
+          <description>Wakeup program instruction 5</description>
+          <addressOffset>0x114</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi6</name>
+          <description>Wakeup program instruction 6</description>
+          <addressOffset>0x118</addressOffset>
+        </register>
+        <register>
+          <name>pmuwakeupi7</name>
+          <description>Wakeup program instruction 7</description>
+          <addressOffset>0x11C</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi0</name>
+          <description>Sleep program instruction 0</description>
+          <addressOffset>0x120</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi1</name>
+          <description>Sleep program instruction 1</description>
+          <addressOffset>0x124</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi2</name>
+          <description>Sleep program instruction 2</description>
+          <addressOffset>0x128</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi3</name>
+          <description>Sleep program instruction 3</description>
+          <addressOffset>0x12C</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi4</name>
+          <description>Sleep program instruction 4</description>
+          <addressOffset>0x130</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi5</name>
+          <description>Sleep program instruction 5</description>
+          <addressOffset>0x134</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi6</name>
+          <description>Sleep program instruction 6</description>
+          <addressOffset>0x138</addressOffset>
+        </register>
+        <register>
+          <name>pmusleepi7</name>
+          <description>Sleep program instruction 7</description>
+          <addressOffset>0x13C</addressOffset>
+        </register>
+        <register>
+          <name>pmuie</name>
+          <description>PMU Interrupt Enables</description>
+          <addressOffset>0x140</addressOffset>
+        </register>
+        <register>
+          <name>pmucause</name>
+          <description>PMU Wakeup Cause</description>
+          <addressOffset>0x144</addressOffset>
+        </register>
+        <register>
+          <name>pmusleep</name>
+          <description>Initiate PMU Sleep Sequence</description>
+          <addressOffset>0x148</addressOffset>
+        </register>
+        <register>
+          <name>pmukey</name>
+          <description>PMU Key. Reads as 1 when PMU is unlocked</description>
+          <addressOffset>0x14C</addressOffset>
+        </register>
+        <register>
+          <name>AONCFG</name>
+          <description>AON Block Configuration Information</description>
+          <addressOffset>0x300</addressOffset>
+          <fields>
+            <field>
+              <name>HAS_BANDGAP</name>
+              <description>Bandgap feature is present</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>HAS_BOD</name>
+              <description>Brownout detector feature is present</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>HAS_LFROSC</name>
+              <description>Low Frequency Ring Oscillator feature is present</description>
+              <bitRange>[2:2]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>HAS_LFRCOSC</name>
+              <description>Low Frequency RC Oscillator feature is present</description>
+              <bitRange>[3:3]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>HAS_LFXOSC</name>
+              <description>Low Frequency Crystal Oscillator feature is present</description>
+              <bitRange>[4:4]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>HAS_POR</name>
+              <description>Power-On-Reset feature is present</description>
+              <bitRange>[5:5]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>HAS_LDO</name>
+              <description>Low Dropout Regulator feature is present</description>
+              <bitRange>[6:6]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_31_7</name>
+              <description>Field reserved_31_7</description>
+              <bitRange>[31:7]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>SiFiveBandgap</name>
+          <description>Bandgap configuration</description>
+          <addressOffset>0x210</addressOffset>
+          <fields>
+            <field>
+              <name>EN</name>
+              <description>Bandgap enable</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_7_1</name>
+              <description>Field reserved_7_1</description>
+              <bitRange>[7:1]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>DIS</name>
+              <description>Bandgap disable</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_15_9</name>
+              <description>Field reserved_15_9</description>
+              <bitRange>[15:9]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>TRIM</name>
+              <description>Bandgap trim value</description>
+              <bitRange>[19:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_23_20</name>
+              <description>Field reserved_23_20</description>
+              <bitRange>[23:20]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>lfrosccfg</name>
+          <description>Ring Oscillator Configuration and Status</description>
+          <addressOffset>0x70</addressOffset>
+          <fields>
+            <field>
+              <name>lfroscdiv</name>
+              <description>Ring Oscillator Divider Register</description>
+              <bitRange>[5:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_15_6</name>
+              <description>Field reserved_15_6</description>
+              <bitRange>[15:6]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>lfrosctrim</name>
+              <description>Ring Oscillator Trim Register</description>
+              <bitRange>[20:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_29_21</name>
+              <description>Field reserved_29_21</description>
+              <bitRange>[29:21]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>lfroscen</name>
+              <description>Ring Oscillator Enable</description>
+              <bitRange>[30:30]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>lfroscrdy</name>
+              <description>Ring Oscillator Ready</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>lfclkmux</name>
+          <description>Low-Frequency Clock Mux Control and Status</description>
+          <addressOffset>0x7C</addressOffset>
+          <fields>
+            <field>
+              <name>lfextclk_sel</name>
+              <description>Low Frequency Clock Source Selector</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>INTERNAL</name>
+                  <description>Use internal LF clock source</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>EXTERNAL</name>
+                  <description>Use external LF clock source</description>
+                  <value>1</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>reserved_30_1</name>
+              <description>Field reserved_30_1</description>
+              <bitRange>[30:1]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>lfextclk_mux_status</name>
+              <description>Setting of the aon_lfclksel pin</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>EXTERNAL</name>
+                  <description>Use external LF clock source</description>
+                  <value>0</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>SW</name>
+                  <description>Use clock source selected by lfextclk_sel</description>
+                  <value>1</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>prci_10008000</name>
+      <description>From sifive,fe310-g000,prci,mem peripheral generator</description>
+      <baseAddress>0x10008000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x8000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>hfrosccfg</name>
+          <description>Ring Oscillator Configuration and Status</description>
+          <addressOffset>0x0</addressOffset>
+          <fields>
+            <field>
+              <name>hfroscdiv</name>
+              <description>Ring Oscillator Divider Register</description>
+              <bitRange>[5:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_15_6</name>
+              <description>Field reserved_15_6</description>
+              <bitRange>[15:6]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>hfrosctrim</name>
+              <description>Ring Oscillator Trim Register</description>
+              <bitRange>[20:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_29_21</name>
+              <description>Field reserved_29_21</description>
+              <bitRange>[29:21]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>hfroscen</name>
+              <description>Ring Oscillator Enable</description>
+              <bitRange>[30:30]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>hfroscrdy</name>
+              <description>Ring Oscillator Ready</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>hfxosccfg</name>
+          <description>Crystal Oscillator Configuration and Status</description>
+          <addressOffset>0x4</addressOffset>
+          <fields>
+            <field>
+              <name>reserved_29_0</name>
+              <description>Field reserved_29_0</description>
+              <bitRange>[29:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>hfxoscen</name>
+              <description>Crystal Oscillator Enable</description>
+              <bitRange>[30:30]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>hfxoscrdy</name>
+              <description>Crystal Oscillator Ready</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>pllcfg</name>
+          <description>PLL Configuration and Status</description>
+          <addressOffset>0x8</addressOffset>
+          <fields>
+            <field>
+              <name>pllr</name>
+              <description>PLL R Value</description>
+              <bitRange>[2:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_3_3</name>
+              <description>Field reserved_3_3</description>
+              <bitRange>[3:3]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>pllf</name>
+              <description>PLL F Value</description>
+              <bitRange>[9:4]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pllq</name>
+              <description>PLL Q Value</description>
+              <bitRange>[11:10]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_15_12</name>
+              <description>Field reserved_15_12</description>
+              <bitRange>[15:12]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>pllsel</name>
+              <description>PLL Select</description>
+              <bitRange>[16:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pllrefsel</name>
+              <description>PLL Reference Select</description>
+              <bitRange>[17:17]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pllbypass</name>
+              <description>PLL Bypass</description>
+              <bitRange>[18:18]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_30_19</name>
+              <description>Field reserved_30_19</description>
+              <bitRange>[30:19]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>plllock</name>
+              <description>PLL Lock</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>plloutdiv</name>
+          <description>PLL Final Divide Configuration</description>
+          <addressOffset>0xC</addressOffset>
+          <fields>
+            <field>
+              <name>plloutdiv</name>
+              <description>PLL Final Divider Value</description>
+              <bitRange>[5:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_7_6</name>
+              <description>Field reserved_7_6</description>
+              <bitRange>[7:6]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>plloutdivby1</name>
+              <description>PLL Final Divide By 1</description>
+              <bitRange>[13:8]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>procmoncfg</name>
+          <description>Process Monitor Configuration and Status</description>
+          <addressOffset>0xF0</addressOffset>
+          <fields>
+            <field>
+              <name>procmon_div_sel</name>
+              <description>Proccess Monitor Divider</description>
+              <bitRange>[4:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_7_5</name>
+              <description>Field reserved_7_5</description>
+              <bitRange>[7:5]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>procmon_delay_sel</name>
+              <description>Process Monitor Delay Selector</description>
+              <bitRange>[12:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_15_13</name>
+              <description>Field reserved_15_13</description>
+              <bitRange>[15:13]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>procmon_en</name>
+              <description>Process Monitor Enable</description>
+              <bitRange>[16:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_23_17</name>
+              <description>Field reserved_23_17</description>
+              <bitRange>[23:17]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>procomon_sel</name>
+              <description>Process Monitor Select</description>
+              <bitRange>[25:24]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>reserved_27_26</name>
+              <description>Field reserved_27_26</description>
+              <bitRange>[27:26]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_28_28</name>
+              <description>Field reserved_28_28</description>
+              <bitRange>[28:28]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>reserved_31_29</name>
+              <description>Field reserved_31_29</description>
+              <bitRange>[31:29]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>pwm_10015000</name>
+      <description>From sifive,pwm0,control peripheral generator</description>
+      <baseAddress>0x10015000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x1000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>pwmcfg</name>
+          <displayName>PWM Configuration Register</displayName>
+          <description>PWM configuration register</description>
+          <addressOffset>0x0</addressOffset>
+          <fields>
+            <field>
+              <name>pwmscale</name>
+              <description>PWM Counter scale</description>
+              <bitRange>[3:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_7_4</name>
+              <description>Field Reserved_7_4</description>
+              <bitRange>[7:4]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>pwmsticky</name>
+              <description>PWM Sticky - disallow clearing pwmcmpXip bits</description>
+              <bitRange>[8:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmzerocmp</name>
+              <description>PWM Zero - counter resets to zero after match</description>
+              <bitRange>[9:9]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmdeglitch</name>
+              <description>PWM Deglitch - latch pwmcmpXip within same cycle</description>
+              <bitRange>[10:10]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_11_11</name>
+              <description>Field Reserved_11_11</description>
+              <bitRange>[11:11]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>pwmenalways</name>
+              <description>PWM enable always - run continuously</description>
+              <bitRange>[12:12]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmenoneshot</name>
+              <description>PWM enable one shot - run one cycle</description>
+              <bitRange>[13:13]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_14</name>
+              <description>Field Reserved_15_14</description>
+              <bitRange>[15:14]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>pwmcmp0center</name>
+              <description>PWM0 Compare Center</description>
+              <bitRange>[16:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp1center</name>
+              <description>PWM1 Compare Center</description>
+              <bitRange>[17:17]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp2center</name>
+              <description>PWM2 Compare Center</description>
+              <bitRange>[18:18]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp3center</name>
+              <description>PWM3 Compare Center</description>
+              <bitRange>[19:19]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp0invert</name>
+              <description>PWM0 Invert</description>
+              <bitRange>[20:20]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp1invert</name>
+              <description>PWM1 Invert</description>
+              <bitRange>[21:21]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp2invert</name>
+              <description>PWM2 Invert</description>
+              <bitRange>[22:22]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp3invert</name>
+              <description>PWM3 Invert</description>
+              <bitRange>[23:23]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp0gang</name>
+              <description>PWM0/PWM1 Compare Gang</description>
+              <bitRange>[24:24]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp1gang</name>
+              <description>PWM1/PWM2 Compare Gang</description>
+              <bitRange>[25:25]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp2gang</name>
+              <description>PWM2/PWM3 Compare Gang</description>
+              <bitRange>[26:26]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp3gang</name>
+              <description>PWM3/PWM0 Compare Gang</description>
+              <bitRange>[27:27]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp0ip</name>
+              <description>PWM0 Interrupt Pending</description>
+              <bitRange>[28:28]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp1ip</name>
+              <description>PWM1 Interrupt Pending</description>
+              <bitRange>[29:29]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp2ip</name>
+              <description>PWM2 Interrupt Pending</description>
+              <bitRange>[30:30]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pwmcmp3ip</name>
+              <description>PWM3 Interrupt Pending</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_4</name>
+          <displayName></displayName>
+          <description>Register Reserved_4</description>
+          <addressOffset>0x4</addressOffset>
+        </register>
+        <register>
+          <name>pwmcount</name>
+          <displayName>PWM Count Register</displayName>
+          <description>PWM count register</description>
+          <addressOffset>0x8</addressOffset>
+          <fields>
+            <field>
+              <name>pwmcount</name>
+              <description>PWM count register.</description>
+              <bitRange>[30:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_31</name>
+              <description>Field Reserved_31_31</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_C</name>
+          <displayName></displayName>
+          <description>Register Reserved_C</description>
+          <addressOffset>0xC</addressOffset>
+        </register>
+        <register>
+          <name>pwms</name>
+          <displayName>Scaled PWM Count Register</displayName>
+          <description>Scaled PWM count register</description>
+          <addressOffset>0x10</addressOffset>
+          <fields>
+            <field>
+              <name>pwms</name>
+              <description>Scaled PWM count register.</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_16</name>
+              <description>Field Reserved_31_16</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_14</name>
+          <displayName></displayName>
+          <description>Register Reserved_14</description>
+          <addressOffset>0x14</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_18</name>
+          <displayName></displayName>
+          <description>Register Reserved_18</description>
+          <addressOffset>0x18</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_1C</name>
+          <displayName></displayName>
+          <description>Register Reserved_1C</description>
+          <addressOffset>0x1C</addressOffset>
+        </register>
+        <register>
+          <name>pwmcmp0</name>
+          <displayName>PWM 0 Compare Register</displayName>
+          <description>PWM 0 compare register</description>
+          <addressOffset>0x20</addressOffset>
+          <fields>
+            <field>
+              <name>pwmcmp0</name>
+              <description>PWM 0 Compare Value</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_16</name>
+              <description>Field Reserved_31_16</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>pwmcmp1</name>
+          <displayName>PWM 1 Compare Register</displayName>
+          <description>PWM 1 compare register</description>
+          <addressOffset>0x24</addressOffset>
+          <fields>
+            <field>
+              <name>pwmcmp1</name>
+              <description>PWM 1 Compare Value</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_16</name>
+              <description>Field Reserved_31_16</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>pwmcmp2</name>
+          <displayName>PWM 2 Compare Register</displayName>
+          <description>PWM 2 compare register</description>
+          <addressOffset>0x28</addressOffset>
+          <fields>
+            <field>
+              <name>pwmcmp2</name>
+              <description>PWM 2 Compare Value</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_16</name>
+              <description>Field Reserved_31_16</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>pwmcmp3</name>
+          <displayName>PWM 3 Compare Register</displayName>
+          <description>PWM 3 compare register</description>
+          <addressOffset>0x2C</addressOffset>
+          <fields>
+            <field>
+              <name>pwmcmp3</name>
+              <description>PWM 3 Compare Value</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_16</name>
+              <description>Field Reserved_31_16</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>gpio_10012000</name>
+      <description>From sifive,gpio0,control peripheral generator</description>
+      <baseAddress>0x10012000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x1000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>input_val</name>
+          <displayName></displayName>
+          <description>Pin value</description>
+          <addressOffset>0x0</addressOffset>
+        </register>
+        <register>
+          <name>input_en</name>
+          <displayName></displayName>
+          <description>Pin input enable</description>
+          <addressOffset>0x4</addressOffset>
+        </register>
+        <register>
+          <name>output_en</name>
+          <displayName></displayName>
+          <description>Pin output enable</description>
+          <addressOffset>0x8</addressOffset>
+        </register>
+        <register>
+          <name>output_val</name>
+          <displayName></displayName>
+          <description>Output value</description>
+          <addressOffset>0xC</addressOffset>
+        </register>
+        <register>
+          <name>pue</name>
+          <displayName></displayName>
+          <description>Internal pull-up enable</description>
+          <addressOffset>0x10</addressOffset>
+        </register>
+        <register>
+          <name>ds</name>
+          <displayName></displayName>
+          <description>Pin drive strength</description>
+          <addressOffset>0x14</addressOffset>
+        </register>
+        <register>
+          <name>rise_ie</name>
+          <displayName></displayName>
+          <description>Rise interrupt enable</description>
+          <addressOffset>0x18</addressOffset>
+        </register>
+        <register>
+          <name>rise_ip</name>
+          <displayName></displayName>
+          <description>Rise interrupt pending</description>
+          <addressOffset>0x1C</addressOffset>
+        </register>
+        <register>
+          <name>fall_ie</name>
+          <displayName></displayName>
+          <description>Fall interrupt enable</description>
+          <addressOffset>0x20</addressOffset>
+        </register>
+        <register>
+          <name>fall_ip</name>
+          <displayName></displayName>
+          <description>Fall interrupt pending</description>
+          <addressOffset>0x24</addressOffset>
+        </register>
+        <register>
+          <name>high_ie</name>
+          <displayName></displayName>
+          <description>High interrupt enable</description>
+          <addressOffset>0x28</addressOffset>
+        </register>
+        <register>
+          <name>high_ip</name>
+          <displayName></displayName>
+          <description>High interrupt pending</description>
+          <addressOffset>0x2C</addressOffset>
+        </register>
+        <register>
+          <name>low_ie</name>
+          <displayName></displayName>
+          <description>Low interrupt enable</description>
+          <addressOffset>0x30</addressOffset>
+        </register>
+        <register>
+          <name>low_ip</name>
+          <displayName></displayName>
+          <description>Low interrupt pending</description>
+          <addressOffset>0x34</addressOffset>
+        </register>
+        <register>
+          <name>iof_en</name>
+          <displayName></displayName>
+          <description>I/O function enable</description>
+          <addressOffset>0x38</addressOffset>
+        </register>
+        <register>
+          <name>iof_sel</name>
+          <displayName></displayName>
+          <description>I/O function select</description>
+          <addressOffset>0x3C</addressOffset>
+        </register>
+        <register>
+          <name>out_xor</name>
+          <displayName></displayName>
+          <description>Output XOR (invert)</description>
+          <addressOffset>0x40</addressOffset>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>serial_10013000</name>
+      <description>From sifive,uart0,control peripheral generator</description>
+      <baseAddress>0x10013000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x1000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>txdata</name>
+          <displayName>Transmit Data Register</displayName>
+          <description>Transmit data register</description>
+          <addressOffset>0x0</addressOffset>
+          <fields>
+            <field>
+              <name>data</name>
+              <description>Transmit data</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_30_8</name>
+              <description>Field Reserved_30_8</description>
+              <bitRange>[30:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>full</name>
+              <description>Transmit FIFO full</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>rxdata</name>
+          <displayName>Receive Data Register</displayName>
+          <description>Receive data register</description>
+          <addressOffset>0x4</addressOffset>
+          <fields>
+            <field>
+              <name>data</name>
+              <description>Received data</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>Reserved_30_8</name>
+              <description>Field Reserved_30_8</description>
+              <bitRange>[30:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>empty</name>
+              <description>Receive FIFO empty</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>txctrl</name>
+          <displayName>Transmit Control Register</displayName>
+          <description>Transmit control register</description>
+          <addressOffset>0x8</addressOffset>
+          <fields>
+            <field>
+              <name>txen</name>
+              <description>Transmit enable</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>nstop</name>
+              <description>Number of stop bits</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_2</name>
+              <description>Field Reserved_15_2</description>
+              <bitRange>[15:2]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>txcnt</name>
+              <description>Transmit watermark level</description>
+              <bitRange>[18:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_19</name>
+              <description>Field Reserved_31_19</description>
+              <bitRange>[31:19]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>rxctrl</name>
+          <displayName>Receive Control Register</displayName>
+          <description>Receive control register</description>
+          <addressOffset>0xC</addressOffset>
+          <fields>
+            <field>
+              <name>rxen</name>
+              <description>Receive enable</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_1</name>
+              <description>Field Reserved_15_1</description>
+              <bitRange>[15:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>rxcnt</name>
+              <description>Receive watermark level</description>
+              <bitRange>[18:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_19</name>
+              <description>Field Reserved_31_19</description>
+              <bitRange>[31:19]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ie</name>
+          <displayName>UART Interrupt Enable Register</displayName>
+          <description>UART interrupt enable</description>
+          <addressOffset>0x10</addressOffset>
+          <fields>
+            <field>
+              <name>txwm</name>
+              <description>Transmit watermark interrupt enable</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>rxwm</name>
+              <description>Receive watermark interrupt enable</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_2</name>
+              <description>Field Reserved_31_2</description>
+              <bitRange>[31:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ip</name>
+          <displayName>UART Interrupt Pending Register</displayName>
+          <description>UART interrupt pending</description>
+          <addressOffset>0x14</addressOffset>
+          <fields>
+            <field>
+              <name>txwm</name>
+              <description>Transmit watermark interrupt pending</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>rxwm</name>
+              <description>Receive watermark interrupt pending</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>Reserved_31_2</name>
+              <description>Field Reserved_31_2</description>
+              <bitRange>[31:2]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>div</name>
+          <displayName>Baud Rate Divisor Register</displayName>
+          <description>Baud rate divisor</description>
+          <addressOffset>0x18</addressOffset>
+          <fields>
+            <field>
+              <name>div</name>
+              <description>Baud rate divisor.</description>
+              <bitRange>[15:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_16</name>
+              <description>Field Reserved_31_16</description>
+              <bitRange>[31:16]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>spi_10014000</name>
+      <description>From sifive,spi0,control peripheral generator</description>
+      <baseAddress>0x10014000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x1000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>sckdiv</name>
+          <displayName>Serial Clock Divisor Register</displayName>
+          <description>Serial clock divisor</description>
+          <addressOffset>0x0</addressOffset>
+          <fields>
+            <field>
+              <name>div</name>
+              <description>Divisor for serial clock.</description>
+              <bitRange>[11:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_12</name>
+              <description>Field Reserved_31_12</description>
+              <bitRange>[31:12]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>sckmode</name>
+          <displayName>Serial Clock Mode Register</displayName>
+          <description>Serial clock mode</description>
+          <addressOffset>0x4</addressOffset>
+          <fields>
+            <field>
+              <name>pha</name>
+              <description>Serial clock phase</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pol</name>
+              <description>Serial clock polarity</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_2</name>
+              <description>Field Reserved_31_2</description>
+              <bitRange>[31:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_8</name>
+          <displayName></displayName>
+          <description>Register Reserved_8</description>
+          <addressOffset>0x8</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_C</name>
+          <displayName></displayName>
+          <description>Register Reserved_C</description>
+          <addressOffset>0xC</addressOffset>
+        </register>
+        <register>
+          <name>csid</name>
+          <displayName>Chip Select ID Register</displayName>
+          <description>Chip select ID</description>
+          <addressOffset>0x10</addressOffset>
+          <fields>
+            <field>
+              <name>csid</name>
+              <description>Chip select ID.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>csdef</name>
+          <displayName>Chip Select Default Register</displayName>
+          <description>Chip select default</description>
+          <addressOffset>0x14</addressOffset>
+          <fields>
+            <field>
+              <name>csdef</name>
+              <description>Chip select default value. Reset to all-1s.</description>
+              <bitRange>[31:0]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>csmode</name>
+          <displayName>Chip Select Mode Register</displayName>
+          <description>Chip select mode</description>
+          <addressOffset>0x18</addressOffset>
+          <fields>
+            <field>
+              <name>mode</name>
+              <description>Chip select mode</description>
+              <bitRange>[1:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_2</name>
+              <description>Field Reserved_31_2</description>
+              <bitRange>[31:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_1C</name>
+          <displayName></displayName>
+          <description>Register Reserved_1C</description>
+          <addressOffset>0x1C</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_20</name>
+          <displayName></displayName>
+          <description>Register Reserved_20</description>
+          <addressOffset>0x20</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_24</name>
+          <displayName></displayName>
+          <description>Register Reserved_24</description>
+          <addressOffset>0x24</addressOffset>
+        </register>
+        <register>
+          <name>delay0</name>
+          <displayName>Delay Control Register 0</displayName>
+          <description>Delay control 0</description>
+          <addressOffset>0x28</addressOffset>
+          <fields>
+            <field>
+              <name>cssck</name>
+              <description>CS to SCK Delay</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_8</name>
+              <description>Field Reserved_15_8</description>
+              <bitRange>[15:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>sckcs</name>
+              <description>SCK to CS Delay</description>
+              <bitRange>[23:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_24</name>
+              <description>Field Reserved_31_24</description>
+              <bitRange>[31:24]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>delay1</name>
+          <displayName>Delay Control Register 1</displayName>
+          <description>Delay control 1</description>
+          <addressOffset>0x2C</addressOffset>
+          <fields>
+            <field>
+              <name>intercs</name>
+              <description>Minimum CS inactive time</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_8</name>
+              <description>Field Reserved_15_8</description>
+              <bitRange>[15:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>interxfr</name>
+              <description>Maximum interframe delay</description>
+              <bitRange>[23:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_24</name>
+              <description>Field Reserved_31_24</description>
+              <bitRange>[31:24]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_30</name>
+          <displayName></displayName>
+          <description>Register Reserved_30</description>
+          <addressOffset>0x30</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_34</name>
+          <displayName></displayName>
+          <description>Register Reserved_34</description>
+          <addressOffset>0x34</addressOffset>
+        </register>
+        <register>
+          <name>extradel</name>
+          <displayName>SPI extra delay Register</displayName>
+          <description>SPI extra sampling delay to increase the SPI frequency</description>
+          <addressOffset>0x38</addressOffset>
+          <fields>
+            <field>
+              <name>coarse</name>
+              <description>Coarse grain sample delay (multiples of system clocks)</description>
+              <bitRange>[11:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>fine</name>
+              <description>Fine grain sample delay (multiples of process-specific buffer delay)</description>
+              <bitRange>[16:12]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_17</name>
+              <description>Field Reserved_31_17</description>
+              <bitRange>[31:17]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>sampledel</name>
+          <displayName>Slave to SPI delay stages Register</displayName>
+          <description>Number of delay stages from slave to the SPI controller</description>
+          <addressOffset>0x3C</addressOffset>
+          <fields>
+            <field>
+              <name>sd</name>
+              <description>Number of delay stages from slave to SPI controller</description>
+              <bitRange>[4:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_5</name>
+              <description>Field Reserved_31_5</description>
+              <bitRange>[31:5]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>fmt</name>
+          <displayName>Frame Format Register</displayName>
+          <description>Frame format</description>
+          <addressOffset>0x40</addressOffset>
+          <fields>
+            <field>
+              <name>proto</name>
+              <description>SPI protocol</description>
+              <bitRange>[1:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>endian</name>
+              <description>SPI endianness</description>
+              <bitRange>[2:2]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>dir</name>
+              <description>SPI I/O direction. This is reset to 1 for flash-enabled SPI controllers, 0 otherwise.</description>
+              <bitRange>[3:3]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_4</name>
+              <description>Field Reserved_15_4</description>
+              <bitRange>[15:4]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>len</name>
+              <description>Number of bits per frame</description>
+              <bitRange>[19:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_20</name>
+              <description>Field Reserved_31_20</description>
+              <bitRange>[31:20]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_44</name>
+          <displayName></displayName>
+          <description>Register Reserved_44</description>
+          <addressOffset>0x44</addressOffset>
+        </register>
+        <register>
+          <name>txdata</name>
+          <displayName>Transmit Data Register</displayName>
+          <description>Tx FIFO Data</description>
+          <addressOffset>0x48</addressOffset>
+          <fields>
+            <field>
+              <name>data</name>
+              <description>Transmit data</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_30_8</name>
+              <description>Field Reserved_30_8</description>
+              <bitRange>[30:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>full</name>
+              <description>FIFO full flag</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-only</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>rxdata</name>
+          <displayName>Receive Data Register</displayName>
+          <description>Rx FIFO data</description>
+          <addressOffset>0x4C</addressOffset>
+          <fields>
+            <field>
+              <name>data</name>
+              <description>Received data</description>
+              <bitRange>[7:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>Reserved_30_8</name>
+              <description>Field Reserved_30_8</description>
+              <bitRange>[30:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>empty</name>
+              <description>FIFO empty flag</description>
+              <bitRange>[31:31]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>txmark</name>
+          <displayName>Transmit Watermark Register</displayName>
+          <description>Tx FIFO watermark</description>
+          <addressOffset>0x50</addressOffset>
+          <fields>
+            <field>
+              <name>txmark</name>
+              <description>Transmit watermark. The reset value is 1 for flash-enabled controllers, 0 otherwise.</description>
+              <bitRange>[2:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_3</name>
+              <description>Field Reserved_31_3</description>
+              <bitRange>[31:3]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>rxmark</name>
+          <displayName>Receive Watermark Register</displayName>
+          <description>Rx FIFO watermark</description>
+          <addressOffset>0x54</addressOffset>
+          <fields>
+            <field>
+              <name>rxmark</name>
+              <description>Receive watermark</description>
+              <bitRange>[2:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_3</name>
+              <description>Field Reserved_31_3</description>
+              <bitRange>[31:3]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_58</name>
+          <displayName></displayName>
+          <description>Register Reserved_58</description>
+          <addressOffset>0x58</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_5C</name>
+          <displayName></displayName>
+          <description>Register Reserved_5C</description>
+          <addressOffset>0x5C</addressOffset>
+        </register>
+        <register>
+          <name>fctrl</name>
+          <displayName>SPI Flash Interface Control Register</displayName>
+          <description>SPI flash interface control</description>
+          <addressOffset>0x60</addressOffset>
+          <fields>
+            <field>
+              <name>en</name>
+              <description>SPI Flash Mode Select</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_1</name>
+              <description>Field Reserved_31_1</description>
+              <bitRange>[31:1]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ffmt</name>
+          <displayName>SPI Flash Instruction Format Register</displayName>
+          <description>SPI flash instruction format</description>
+          <addressOffset>0x64</addressOffset>
+          <fields>
+            <field>
+              <name>cmd_en</name>
+              <description>Enable sending of command</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>addr_len</name>
+              <description>Number of address bytes (0 to 4)</description>
+              <bitRange>[3:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pad_cnt</name>
+              <description>Number of dummy cycles</description>
+              <bitRange>[7:4]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>cmd_proto</name>
+              <description>Protocol for transmitting command</description>
+              <bitRange>[9:8]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>addr_proto</name>
+              <description>Protocol for transmitting address and padding</description>
+              <bitRange>[11:10]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>data_proto</name>
+              <description>Protocol for receiving data bytes</description>
+              <bitRange>[13:12]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_15_14</name>
+              <description>Field Reserved_15_14</description>
+              <bitRange>[15:14]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>cmd_code</name>
+              <description>Value of command byte</description>
+              <bitRange>[23:16]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>pad_code</name>
+              <description>First 8 bits to transmit during dummy cycles</description>
+              <bitRange>[31:24]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>Reserved_68</name>
+          <displayName></displayName>
+          <description>Register Reserved_68</description>
+          <addressOffset>0x68</addressOffset>
+        </register>
+        <register>
+          <name>Reserved_6C</name>
+          <displayName></displayName>
+          <description>Register Reserved_6C</description>
+          <addressOffset>0x6C</addressOffset>
+        </register>
+        <register>
+          <name>ie</name>
+          <displayName>SPI Interrupt Enable Register</displayName>
+          <description>SPI interrupt enable</description>
+          <addressOffset>0x70</addressOffset>
+          <fields>
+            <field>
+              <name>txwm</name>
+              <description>Transmit watermark enable</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>rxwm</name>
+              <description>Receive watermark enable</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-write</access>
+            </field>
+            <field>
+              <name>Reserved_31_2</name>
+              <description>Field Reserved_31_2</description>
+              <bitRange>[31:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+        <register>
+          <name>ip</name>
+          <displayName>SPI Watermark Interrupt Pending Register</displayName>
+          <description>SPI interrupt pending</description>
+          <addressOffset>0x74</addressOffset>
+          <fields>
+            <field>
+              <name>txwm</name>
+              <description>Transmit watermark pending</description>
+              <bitRange>[0:0]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>rxwm</name>
+              <description>Receive watermark pending</description>
+              <bitRange>[1:1]</bitRange>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>Reserved_31_2</name>
+              <description>Field Reserved_31_2</description>
+              <bitRange>[31:2]</bitRange>
+              <access>read-write</access>
+            </field>
+          </fields>
+        </register>
+      </registers>
+    </peripheral>
+  </peripherals>
+</device>
