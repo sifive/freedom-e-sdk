@@ -141,7 +141,10 @@ update_target() {
     echo ""
 }
 
-pushd .. && make virtualenv && popd
+# Create the virtualenv, but be careful to only use the rules in scripts/virtualenv.mk
+# Since settings.mk doesn't necessarily exist yet, trying to run a make target might fail
+# with an "Unable to find BSP" error if we don't.
+make -C .. -f scripts/virtualenv.mk virtualenv
 
 for TARGET in $TARGET_LIST
 do
