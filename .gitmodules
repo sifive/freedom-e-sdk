@@ -118,3 +118,6 @@
 [submodule "scripts/ldscript-generator"]
 	path = scripts/ldscript-generator
 	url = https://github.com/sifive/ldscript-generator.git
+[submodule "scripts/cmsis-svd-generator"]
+	path = scripts/cmsis-svd-generator
+	url = https://github.com/sifive/cmsis-svd-generator.git

@@ -25,6 +25,11 @@
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
+        "commit": "6e3c6ef8087dce085434df15e9e6ebccbbeb2050",
+        "name": "cmsis-svd-generator",
+        "source": "git@github.com:sifive/cmsis-svd-generator.git"
+    },
+    {
         "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
