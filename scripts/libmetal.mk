@@ -17,6 +17,7 @@ BARE_HEADER_GENERATOR = freedom-bare_header-generator
 
 OVERLAY_GENERATOR = scripts/devicetree-overlay-generator/generate_overlay.py
 LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
+CMSIS_SVD_GENERATOR = scripts/cmsis-svd-generator/generate_svd.py
 
 # Metal BSP file generation
 #
@@ -28,6 +29,7 @@ LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
 
 $(OVERLAY_GENERATOR): virtualenv
 $(LDSCRIPT_GENERATOR): virtualenv
+$(CMSIS_SVD_GENERATOR): virtualenv
 
 $(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
 	. venv/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
@@ -40,6 +42,9 @@ $(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
 
 $(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
 	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --scratchpad
+
+$(BSP_DIR)/design.svd: $(BSP_DIR)/design.dts $(CMSIS_SVD_GENERATOR)
+	. venv/bin/activate && $(CMSIS_SVD_GENERATOR) -d $< -o $@
 
 ifeq ($(findstring spike,$(TARGET)),spike)
 $(BSP_DIR)/spike_options.sh:
