@@ -253,6 +253,10 @@ standalone: \
 		freedom-metal \
 		debug.mk \
 		release.mk \
+		requirements.txt \
+		scripts/devicetree-overlay-generator \
+		scripts/ldscript-generator \
+		scripts/cmsis-svd-generator \
 		scripts/elf2hex \
 		scripts/standalone.mk \
 		scripts/libmetal.mk \
@@ -260,19 +264,26 @@ standalone: \
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	cp -r freedom-metal $</
-
 	find $</freedom-metal -name ".git*" | xargs rm -rf
 
 ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
 	cp -r FreeRTOS-metal $</
-
 	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
 endif
 
 	mkdir -p $</scripts
-	cp -r scripts/elf2hex $</scripts
 
+	cp -r scripts/elf2hex $</scripts
 	find $</scripts/elf2hex -name ".git*" | xargs rm -rf
+
+	cp -r scripts/devicetree-overlay-generator $</scripts
+	find $</scripts/devicetree-overlay-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/ldscript-generator $</scripts
+	find $</scripts/ldscript-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/cmsis-svd-generator $</scripts
+	find $</scripts/cmsis-svd-generator -name ".git*" | xargs rm -rf
 
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
@@ -283,6 +294,7 @@ endif
 
 	cp debug.mk $</debug.mk
 	cp release.mk $</release.mk
+	cp requirements.txt $</requirements.txt
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
@@ -307,20 +319,33 @@ standalone: \
 		freedom-metal \
 		debug.mk \
 		release.mk \
+		requirements.txt \
+		scripts/devicetree-overlay-generator \
+		scripts/ldscript-generator \
+		scripts/cmsis-svd-generator \
 		scripts/standalone.mk \
 		scripts/libmetal.mk \
 		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	cp -r freedom-metal $</
-
 	find $</freedom-metal -name ".git*" | xargs rm -rf
 
 ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
 	cp -r FreeRTOS-metal $</
-
 	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
 endif
+
+	mkdir -p $</scripts
+
+	cp -r scripts/devicetree-overlay-generator $</scripts
+	find $</scripts/devicetree-overlay-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/ldscript-generator $</scripts
+	find $</scripts/ldscript-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/cmsis-svd-generator $</scripts
+	find $</scripts/cmsis-svd-generator -name ".git*" | xargs rm -rf
 
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
@@ -331,6 +356,7 @@ endif
 
 	cp debug.mk $</debug.mk
 	cp release.mk $</release.mk
+	cp requirements.txt $</requirements.txt
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
