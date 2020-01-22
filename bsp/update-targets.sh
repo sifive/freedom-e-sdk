@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap exit SIGINT
+
 help() {
     cat >&2 <<EOF
 $0: BSP Generator for the SiFive Freedom E SDK
