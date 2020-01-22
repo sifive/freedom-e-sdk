@@ -82,6 +82,7 @@ LDSCRIPT_GENERATOR=../scripts/ldscript-generator/generate_ldscript.py
 MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
 BARE_HEADER_GENERATOR=freedom-bare_header-generator
 OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
+CMSIS_SVD_GENERATOR=../scripts/cmsis-svd-generator/generate_svd.py
 
 CORE_DTS_FILENAME=core.dts
 DESIGN_DTS_FILENAME=design.dts
@@ -94,6 +95,7 @@ SETTINGS_FILENAME=settings.mk
 BARE_HEADER_FILENAME=metal-platform.h
 OPENOCDCFG_FILENAME=openocd.cfg
 OPENOCDCFG_CJTAG_FILENAME=openocd.cjtag.cfg
+CMSIS_SVD_FILENAME=design.svd
 
 update_target() {
     TARGET=$1
@@ -119,6 +121,7 @@ update_target() {
     . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
     pushd  $TARGET && $MAKEATTRIB_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME" && popd
     pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
+    . ../venv/bin/activate && $CMSIS_SVD_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$CMSIS_SVD_FILENAME || warn "Failed to produce $TARGET/$CMSIS_SVD_FILENAME"
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "vc707" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
