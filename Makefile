@@ -250,6 +250,7 @@ standalone: \
 		$(STANDALONE_DEST)/bsp \
 		$(STANDALONE_DEST)/src \
 		$(SRC_DIR) \
+		pip-cache \
 		freedom-metal \
 		debug.mk \
 		release.mk \
@@ -262,6 +263,8 @@ standalone: \
 		scripts/libmetal.mk \
 		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
+
+	cp -r pip-cache $</
 
 	cp -r freedom-metal $</
 	find $</freedom-metal -name ".git*" | xargs rm -rf
@@ -316,6 +319,7 @@ standalone: \
 		$(STANDALONE_DEST)/bsp \
 		$(STANDALONE_DEST)/src \
 		$(SRC_DIR) \
+		pip-cache \
 		freedom-metal \
 		debug.mk \
 		release.mk \
@@ -327,6 +331,8 @@ standalone: \
 		scripts/libmetal.mk \
 		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
+
+	cp -r pip-cache $</
 
 	cp -r freedom-metal $</
 	find $</freedom-metal -name ".git*" | xargs rm -rf
