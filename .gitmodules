@@ -127,3 +127,6 @@
 [submodule "scripts/cmsis-svd-generator"]
 	path = scripts/cmsis-svd-generator
 	url = https://github.com/sifive/cmsis-svd-generator.git
+[submodule "pip-cache"]
+	path = pip-cache
+	url = https://github.com/sifive/freedom-e-sdk-pip-cache.git
