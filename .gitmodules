@@ -130,3 +130,6 @@
 [submodule "pip-cache"]
 	path = pip-cache
 	url = https://github.com/sifive/freedom-e-sdk-pip-cache.git
+[submodule "scripts/openocdcfg-generator"]
+	path = scripts/openocdcfg-generator
+	url = https://github.com/sifive/openocdcfg-generator.git
