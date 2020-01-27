@@ -12,12 +12,12 @@ METAL_BUILD_DIR    = $(abspath $(BSP_DIR)/build/$(CONFIGURATION))
 METAL_LIB_DIR	   = $(abspath $(BSP_DIR)/install/lib/$(CONFIGURATION))
 
 METAL_HEADER_GENERATOR = freedom-metal_header-generator
-MAKEATTRIB_GENERATOR = freedom-makeattributes-generator
 BARE_HEADER_GENERATOR = freedom-bare_header-generator
 
 OVERLAY_GENERATOR = scripts/devicetree-overlay-generator/generate_overlay.py
 LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
 CMSIS_SVD_GENERATOR = scripts/cmsis-svd-generator/generate_svd.py
+SETTINGS_GENERATOR = scripts/esdk-settings-generator/generate_settings.py
 
 # Metal BSP file generation
 #
@@ -30,6 +30,7 @@ CMSIS_SVD_GENERATOR = scripts/cmsis-svd-generator/generate_svd.py
 $(OVERLAY_GENERATOR): virtualenv
 $(LDSCRIPT_GENERATOR): virtualenv
 $(CMSIS_SVD_GENERATOR): virtualenv
+$(SETTINGS_GENERATOR): virtualenv
 
 $(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
 	. venv/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
@@ -45,6 +46,9 @@ $(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
 
 $(BSP_DIR)/design.svd: $(BSP_DIR)/design.dts $(CMSIS_SVD_GENERATOR)
 	. venv/bin/activate && $(CMSIS_SVD_GENERATOR) -d $< -o $@
+
+$(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dts $(SETTINGS_GENERATOR)
+	. venv/bin/activate && $(SETTINGS_GENERATOR) -d $< -o $@ -t $(TARGET)
 
 ifeq ($(findstring spike,$(TARGET)),spike)
 $(BSP_DIR)/spike_options.sh:
@@ -68,9 +72,6 @@ $(METAL_HEADER): $(BSP_DIR)/design.dtb
 
 $(PLATFORM_HEADER): $(BSP_DIR)/design.dtb
 	cd $(dir $@) && $(BARE_HEADER_GENERATOR) -d $(notdir $<) -o $(notdir $@)
-
-$(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(MAKEATTRIB_GENERATOR) -d $(notdir $<) -o $(notdir $@) -b $(TARGET)
 
 .PHONY: bsp
 metal-bsp:\

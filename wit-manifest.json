@@ -40,6 +40,11 @@
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
+        "commit": "9cc7b5e8586cff76ac9f9283e5c65b3ca009a6d7",
+        "name": "esdk-settings-generator",
+        "source": "git@github.com:sifive/esdk-settings-generator.git"
+    },
+    {
         "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
