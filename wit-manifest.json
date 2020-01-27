@@ -35,6 +35,11 @@
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
+        "commit": "6695ab2dc28231b421410d6f342f7a61998cd08d",
+        "name": "openocdcfg-generator",
+        "source": "git@github.com:sifive/openocdcfg-generator.git"
+    },
+    {
         "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"

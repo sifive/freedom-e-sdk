@@ -83,7 +83,7 @@ MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=../scripts/ldscript-generator/generate_ldscript.py
 MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
 BARE_HEADER_GENERATOR=freedom-bare_header-generator
-OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
+OPENOCDCFG_GENERATOR=../scripts/openocdcfg-generator/generate_openocdcfg.py
 CMSIS_SVD_GENERATOR=../scripts/cmsis-svd-generator/generate_svd.py
 
 CORE_DTS_FILENAME=core.dts
@@ -128,12 +128,12 @@ update_target() {
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "vc707" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
             echo "generating $OPENOCDCFG_FILENAME"
-            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
+            $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
         fi
     fi
     if [[ "$TARGET_TYPE" =~ "arty" ]] ; then
         echo "generating $OPENOCDCFG_CJTAG_FILENAME"
-        $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
+        $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
     fi
 
     # Remove temporary .dtb
