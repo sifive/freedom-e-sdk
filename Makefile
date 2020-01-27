@@ -258,6 +258,8 @@ standalone: \
 		scripts/devicetree-overlay-generator \
 		scripts/ldscript-generator \
 		scripts/cmsis-svd-generator \
+		scripts/openocdcfg-generator \
+		scripts/esdk-settings-generator \
 		scripts/elf2hex \
 		scripts/standalone.mk \
 		scripts/libmetal.mk \
@@ -287,6 +289,12 @@ endif
 
 	cp -r scripts/cmsis-svd-generator $</scripts
 	find $</scripts/cmsis-svd-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/openocdcfg-generator $</scripts
+	find $</scripts/openocdcfg-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/esdk-settings-generator $</scripts
+	find $</scripts/esdk-settings-generator -name ".git*" | xargs rm -rf
 
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
@@ -327,6 +335,8 @@ standalone: \
 		scripts/devicetree-overlay-generator \
 		scripts/ldscript-generator \
 		scripts/cmsis-svd-generator \
+		scripts/openocdcfg-generator \
+		scripts/esdk-settings-generator \
 		scripts/standalone.mk \
 		scripts/libmetal.mk \
 		scripts/virtualenv.mk
@@ -352,6 +362,12 @@ endif
 
 	cp -r scripts/cmsis-svd-generator $</scripts
 	find $</scripts/cmsis-svd-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/openocdcfg-generator $</scripts
+	find $</scripts/openocdcfg-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/esdk-settings-generator $</scripts
+	find $</scripts/esdk-settings-generator -name ".git*" | xargs rm -rf
 
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
