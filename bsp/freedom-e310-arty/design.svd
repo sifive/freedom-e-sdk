@@ -11,7 +11,31 @@
   <resetMask>0xFFFFFFFF</resetMask>
   <peripherals>
     <peripheral>
-      <name>pwm_10015000</name>
+      <name>riscv_clint0_0</name>
+      <description>From riscv,clint0,control peripheral generator</description>
+      <baseAddress>0x2000000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x10000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>riscv_plic0_0</name>
+      <description>From riscv,plic0,control peripheral generator</description>
+      <baseAddress>0xC000000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x4000000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>sifive_pwm0_0</name>
       <description>From sifive,pwm0,control peripheral generator</description>
       <baseAddress>0x10015000</baseAddress>
       <addressBlock>
@@ -22,7 +46,6 @@
       <registers>
         <register>
           <name>pwmcfg</name>
-          <displayName>PWM Configuration Register</displayName>
           <description>PWM configuration register</description>
           <addressOffset>0x0</addressOffset>
           <fields>
@@ -31,12 +54,6 @@
               <description>PWM Counter scale</description>
               <bitRange>[3:0]</bitRange>
               <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_7_4</name>
-              <description>Field Reserved_7_4</description>
-              <bitRange>[7:4]</bitRange>
-              <access>read-only</access>
             </field>
             <field>
               <name>pwmsticky</name>
@@ -57,12 +74,6 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_11_11</name>
-              <description>Field Reserved_11_11</description>
-              <bitRange>[11:11]</bitRange>
-              <access>read-only</access>
-            </field>
-            <field>
               <name>pwmenalways</name>
               <description>PWM enable always - run continuously</description>
               <bitRange>[12:12]</bitRange>
@@ -73,12 +84,6 @@
               <description>PWM enable one shot - run one cycle</description>
               <bitRange>[13:13]</bitRange>
               <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_15_14</name>
-              <description>Field Reserved_15_14</description>
-              <bitRange>[15:14]</bitRange>
-              <access>read-only</access>
             </field>
             <field>
               <name>pwmcmp0center</name>
@@ -179,14 +184,7 @@
           </fields>
         </register>
         <register>
-          <name>Reserved_4</name>
-          <displayName></displayName>
-          <description>Register Reserved_4</description>
-          <addressOffset>0x4</addressOffset>
-        </register>
-        <register>
           <name>pwmcount</name>
-          <displayName>PWM Count Register</displayName>
           <description>PWM count register</description>
           <addressOffset>0x8</addressOffset>
           <fields>
@@ -196,23 +194,10 @@
               <bitRange>[30:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_31</name>
-              <description>Field Reserved_31_31</description>
-              <bitRange>[31:31]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_C</name>
-          <displayName></displayName>
-          <description>Register Reserved_C</description>
-          <addressOffset>0xC</addressOffset>
-        </register>
-        <register>
           <name>pwms</name>
-          <displayName>Scaled PWM Count Register</displayName>
           <description>Scaled PWM count register</description>
           <addressOffset>0x10</addressOffset>
           <fields>
@@ -222,35 +207,10 @@
               <bitRange>[15:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_16</name>
-              <description>Field Reserved_31_16</description>
-              <bitRange>[31:16]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_14</name>
-          <displayName></displayName>
-          <description>Register Reserved_14</description>
-          <addressOffset>0x14</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_18</name>
-          <displayName></displayName>
-          <description>Register Reserved_18</description>
-          <addressOffset>0x18</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_1C</name>
-          <displayName></displayName>
-          <description>Register Reserved_1C</description>
-          <addressOffset>0x1C</addressOffset>
-        </register>
-        <register>
           <name>pwmcmp0</name>
-          <displayName>PWM 0 Compare Register</displayName>
           <description>PWM 0 compare register</description>
           <addressOffset>0x20</addressOffset>
           <fields>
@@ -260,17 +220,10 @@
               <bitRange>[15:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_16</name>
-              <description>Field Reserved_31_16</description>
-              <bitRange>[31:16]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>pwmcmp1</name>
-          <displayName>PWM 1 Compare Register</displayName>
           <description>PWM 1 compare register</description>
           <addressOffset>0x24</addressOffset>
           <fields>
@@ -280,17 +233,10 @@
               <bitRange>[15:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_16</name>
-              <description>Field Reserved_31_16</description>
-              <bitRange>[31:16]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>pwmcmp2</name>
-          <displayName>PWM 2 Compare Register</displayName>
           <description>PWM 2 compare register</description>
           <addressOffset>0x28</addressOffset>
           <fields>
@@ -300,17 +246,10 @@
               <bitRange>[15:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_16</name>
-              <description>Field Reserved_31_16</description>
-              <bitRange>[31:16]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>pwmcmp3</name>
-          <displayName>PWM 3 Compare Register</displayName>
           <description>PWM 3 compare register</description>
           <addressOffset>0x2C</addressOffset>
           <fields>
@@ -320,18 +259,12 @@
               <bitRange>[15:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_16</name>
-              <description>Field Reserved_31_16</description>
-              <bitRange>[31:16]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
       </registers>
     </peripheral>
     <peripheral>
-      <name>gpio_10012000</name>
+      <name>sifive_gpio0_0</name>
       <description>From sifive,gpio0,control peripheral generator</description>
       <baseAddress>0x10012000</baseAddress>
       <addressBlock>
@@ -342,110 +275,93 @@
       <registers>
         <register>
           <name>input_val</name>
-          <displayName></displayName>
           <description>Pin value</description>
           <addressOffset>0x0</addressOffset>
         </register>
         <register>
           <name>input_en</name>
-          <displayName></displayName>
           <description>Pin input enable</description>
           <addressOffset>0x4</addressOffset>
         </register>
         <register>
           <name>output_en</name>
-          <displayName></displayName>
           <description>Pin output enable</description>
           <addressOffset>0x8</addressOffset>
         </register>
         <register>
           <name>output_val</name>
-          <displayName></displayName>
           <description>Output value</description>
           <addressOffset>0xC</addressOffset>
         </register>
         <register>
           <name>pue</name>
-          <displayName></displayName>
           <description>Internal pull-up enable</description>
           <addressOffset>0x10</addressOffset>
         </register>
         <register>
           <name>ds</name>
-          <displayName></displayName>
           <description>Pin drive strength</description>
           <addressOffset>0x14</addressOffset>
         </register>
         <register>
           <name>rise_ie</name>
-          <displayName></displayName>
           <description>Rise interrupt enable</description>
           <addressOffset>0x18</addressOffset>
         </register>
         <register>
           <name>rise_ip</name>
-          <displayName></displayName>
           <description>Rise interrupt pending</description>
           <addressOffset>0x1C</addressOffset>
         </register>
         <register>
           <name>fall_ie</name>
-          <displayName></displayName>
           <description>Fall interrupt enable</description>
           <addressOffset>0x20</addressOffset>
         </register>
         <register>
           <name>fall_ip</name>
-          <displayName></displayName>
           <description>Fall interrupt pending</description>
           <addressOffset>0x24</addressOffset>
         </register>
         <register>
           <name>high_ie</name>
-          <displayName></displayName>
           <description>High interrupt enable</description>
           <addressOffset>0x28</addressOffset>
         </register>
         <register>
           <name>high_ip</name>
-          <displayName></displayName>
           <description>High interrupt pending</description>
           <addressOffset>0x2C</addressOffset>
         </register>
         <register>
           <name>low_ie</name>
-          <displayName></displayName>
           <description>Low interrupt enable</description>
           <addressOffset>0x30</addressOffset>
         </register>
         <register>
           <name>low_ip</name>
-          <displayName></displayName>
           <description>Low interrupt pending</description>
           <addressOffset>0x34</addressOffset>
         </register>
         <register>
           <name>iof_en</name>
-          <displayName></displayName>
           <description>I/O function enable</description>
           <addressOffset>0x38</addressOffset>
         </register>
         <register>
           <name>iof_sel</name>
-          <displayName></displayName>
           <description>I/O function select</description>
           <addressOffset>0x3C</addressOffset>
         </register>
         <register>
           <name>out_xor</name>
-          <displayName></displayName>
           <description>Output XOR (invert)</description>
           <addressOffset>0x40</addressOffset>
         </register>
       </registers>
     </peripheral>
     <peripheral>
-      <name>serial_10013000</name>
+      <name>sifive_uart0_0</name>
       <description>From sifive,uart0,control peripheral generator</description>
       <baseAddress>0x10013000</baseAddress>
       <addressBlock>
@@ -456,7 +372,6 @@
       <registers>
         <register>
           <name>txdata</name>
-          <displayName>Transmit Data Register</displayName>
           <description>Transmit data register</description>
           <addressOffset>0x0</addressOffset>
           <fields>
@@ -464,12 +379,6 @@
               <name>data</name>
               <description>Transmit data</description>
               <bitRange>[7:0]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_30_8</name>
-              <description>Field Reserved_30_8</description>
-              <bitRange>[30:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
@@ -482,7 +391,6 @@
         </register>
         <register>
           <name>rxdata</name>
-          <displayName>Receive Data Register</displayName>
           <description>Receive data register</description>
           <addressOffset>0x4</addressOffset>
           <fields>
@@ -491,12 +399,6 @@
               <description>Received data</description>
               <bitRange>[7:0]</bitRange>
               <access>read-only</access>
-            </field>
-            <field>
-              <name>Reserved_30_8</name>
-              <description>Field Reserved_30_8</description>
-              <bitRange>[30:8]</bitRange>
-              <access>read-write</access>
             </field>
             <field>
               <name>empty</name>
@@ -508,7 +410,6 @@
         </register>
         <register>
           <name>txctrl</name>
-          <displayName>Transmit Control Register</displayName>
           <description>Transmit control register</description>
           <addressOffset>0x8</addressOffset>
           <fields>
@@ -525,28 +426,15 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_15_2</name>
-              <description>Field Reserved_15_2</description>
-              <bitRange>[15:2]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
               <name>txcnt</name>
               <description>Transmit watermark level</description>
               <bitRange>[18:16]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_31_19</name>
-              <description>Field Reserved_31_19</description>
-              <bitRange>[31:19]</bitRange>
               <access>read-write</access>
             </field>
           </fields>
         </register>
         <register>
           <name>rxctrl</name>
-          <displayName>Receive Control Register</displayName>
           <description>Receive control register</description>
           <addressOffset>0xC</addressOffset>
           <fields>
@@ -557,28 +445,15 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_15_1</name>
-              <description>Field Reserved_15_1</description>
-              <bitRange>[15:1]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
               <name>rxcnt</name>
               <description>Receive watermark level</description>
               <bitRange>[18:16]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_31_19</name>
-              <description>Field Reserved_31_19</description>
-              <bitRange>[31:19]</bitRange>
               <access>read-write</access>
             </field>
           </fields>
         </register>
         <register>
           <name>ie</name>
-          <displayName>UART Interrupt Enable Register</displayName>
           <description>UART interrupt enable</description>
           <addressOffset>0x10</addressOffset>
           <fields>
@@ -594,17 +469,10 @@
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_2</name>
-              <description>Field Reserved_31_2</description>
-              <bitRange>[31:2]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>ip</name>
-          <displayName>UART Interrupt Pending Register</displayName>
           <description>UART interrupt pending</description>
           <addressOffset>0x14</addressOffset>
           <fields>
@@ -620,17 +488,10 @@
               <bitRange>[1:1]</bitRange>
               <access>read-only</access>
             </field>
-            <field>
-              <name>Reserved_31_2</name>
-              <description>Field Reserved_31_2</description>
-              <bitRange>[31:2]</bitRange>
-              <access>read-only</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>div</name>
-          <displayName>Baud Rate Divisor Register</displayName>
           <description>Baud rate divisor</description>
           <addressOffset>0x18</addressOffset>
           <fields>
@@ -640,18 +501,12 @@
               <bitRange>[15:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_16</name>
-              <description>Field Reserved_31_16</description>
-              <bitRange>[31:16]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
       </registers>
     </peripheral>
     <peripheral>
-      <name>spi_10014000</name>
+      <name>sifive_spi0_0</name>
       <description>From sifive,spi0,control peripheral generator</description>
       <baseAddress>0x10014000</baseAddress>
       <addressBlock>
@@ -662,7 +517,6 @@
       <registers>
         <register>
           <name>sckdiv</name>
-          <displayName>Serial Clock Divisor Register</displayName>
           <description>Serial clock divisor</description>
           <addressOffset>0x0</addressOffset>
           <fields>
@@ -672,17 +526,10 @@
               <bitRange>[11:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_12</name>
-              <description>Field Reserved_31_12</description>
-              <bitRange>[31:12]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>sckmode</name>
-          <displayName>Serial Clock Mode Register</displayName>
           <description>Serial clock mode</description>
           <addressOffset>0x4</addressOffset>
           <fields>
@@ -698,29 +545,10 @@
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_2</name>
-              <description>Field Reserved_31_2</description>
-              <bitRange>[31:2]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_8</name>
-          <displayName></displayName>
-          <description>Register Reserved_8</description>
-          <addressOffset>0x8</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_C</name>
-          <displayName></displayName>
-          <description>Register Reserved_C</description>
-          <addressOffset>0xC</addressOffset>
-        </register>
-        <register>
           <name>csid</name>
-          <displayName>Chip Select ID Register</displayName>
           <description>Chip select ID</description>
           <addressOffset>0x10</addressOffset>
           <fields>
@@ -734,7 +562,6 @@
         </register>
         <register>
           <name>csdef</name>
-          <displayName>Chip Select Default Register</displayName>
           <description>Chip select default</description>
           <addressOffset>0x14</addressOffset>
           <fields>
@@ -748,7 +575,6 @@
         </register>
         <register>
           <name>csmode</name>
-          <displayName>Chip Select Mode Register</displayName>
           <description>Chip select mode</description>
           <addressOffset>0x18</addressOffset>
           <fields>
@@ -758,35 +584,10 @@
               <bitRange>[1:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_2</name>
-              <description>Field Reserved_31_2</description>
-              <bitRange>[31:2]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_1C</name>
-          <displayName></displayName>
-          <description>Register Reserved_1C</description>
-          <addressOffset>0x1C</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_20</name>
-          <displayName></displayName>
-          <description>Register Reserved_20</description>
-          <addressOffset>0x20</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_24</name>
-          <displayName></displayName>
-          <description>Register Reserved_24</description>
-          <addressOffset>0x24</addressOffset>
-        </register>
-        <register>
           <name>delay0</name>
-          <displayName>Delay Control Register 0</displayName>
           <description>Delay control 0</description>
           <addressOffset>0x28</addressOffset>
           <fields>
@@ -797,28 +598,15 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_15_8</name>
-              <description>Field Reserved_15_8</description>
-              <bitRange>[15:8]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
               <name>sckcs</name>
               <description>SCK to CS Delay</description>
               <bitRange>[23:16]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_31_24</name>
-              <description>Field Reserved_31_24</description>
-              <bitRange>[31:24]</bitRange>
               <access>read-write</access>
             </field>
           </fields>
         </register>
         <register>
           <name>delay1</name>
-          <displayName>Delay Control Register 1</displayName>
           <description>Delay control 1</description>
           <addressOffset>0x2C</addressOffset>
           <fields>
@@ -829,40 +617,15 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_15_8</name>
-              <description>Field Reserved_15_8</description>
-              <bitRange>[15:8]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
               <name>interxfr</name>
               <description>Maximum interframe delay</description>
               <bitRange>[23:16]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_24</name>
-              <description>Field Reserved_31_24</description>
-              <bitRange>[31:24]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_30</name>
-          <displayName></displayName>
-          <description>Register Reserved_30</description>
-          <addressOffset>0x30</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_34</name>
-          <displayName></displayName>
-          <description>Register Reserved_34</description>
-          <addressOffset>0x34</addressOffset>
-        </register>
-        <register>
           <name>extradel</name>
-          <displayName>SPI extra delay Register</displayName>
           <description>SPI extra sampling delay to increase the SPI frequency</description>
           <addressOffset>0x38</addressOffset>
           <fields>
@@ -878,17 +641,10 @@
               <bitRange>[16:12]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_17</name>
-              <description>Field Reserved_31_17</description>
-              <bitRange>[31:17]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>sampledel</name>
-          <displayName>Slave to SPI delay stages Register</displayName>
           <description>Number of delay stages from slave to the SPI controller</description>
           <addressOffset>0x3C</addressOffset>
           <fields>
@@ -898,17 +654,10 @@
               <bitRange>[4:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_5</name>
-              <description>Field Reserved_31_5</description>
-              <bitRange>[31:5]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>fmt</name>
-          <displayName>Frame Format Register</displayName>
           <description>Frame format</description>
           <addressOffset>0x40</addressOffset>
           <fields>
@@ -931,34 +680,15 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_15_4</name>
-              <description>Field Reserved_15_4</description>
-              <bitRange>[15:4]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
               <name>len</name>
               <description>Number of bits per frame</description>
               <bitRange>[19:16]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_20</name>
-              <description>Field Reserved_31_20</description>
-              <bitRange>[31:20]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_44</name>
-          <displayName></displayName>
-          <description>Register Reserved_44</description>
-          <addressOffset>0x44</addressOffset>
-        </register>
-        <register>
           <name>txdata</name>
-          <displayName>Transmit Data Register</displayName>
           <description>Tx FIFO Data</description>
           <addressOffset>0x48</addressOffset>
           <fields>
@@ -966,12 +696,6 @@
               <name>data</name>
               <description>Transmit data</description>
               <bitRange>[7:0]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>Reserved_30_8</name>
-              <description>Field Reserved_30_8</description>
-              <bitRange>[30:8]</bitRange>
               <access>read-write</access>
             </field>
             <field>
@@ -984,7 +708,6 @@
         </register>
         <register>
           <name>rxdata</name>
-          <displayName>Receive Data Register</displayName>
           <description>Rx FIFO data</description>
           <addressOffset>0x4C</addressOffset>
           <fields>
@@ -993,12 +716,6 @@
               <description>Received data</description>
               <bitRange>[7:0]</bitRange>
               <access>read-only</access>
-            </field>
-            <field>
-              <name>Reserved_30_8</name>
-              <description>Field Reserved_30_8</description>
-              <bitRange>[30:8]</bitRange>
-              <access>read-write</access>
             </field>
             <field>
               <name>empty</name>
@@ -1010,7 +727,6 @@
         </register>
         <register>
           <name>txmark</name>
-          <displayName>Transmit Watermark Register</displayName>
           <description>Tx FIFO watermark</description>
           <addressOffset>0x50</addressOffset>
           <fields>
@@ -1020,17 +736,10 @@
               <bitRange>[2:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_3</name>
-              <description>Field Reserved_31_3</description>
-              <bitRange>[31:3]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>rxmark</name>
-          <displayName>Receive Watermark Register</displayName>
           <description>Rx FIFO watermark</description>
           <addressOffset>0x54</addressOffset>
           <fields>
@@ -1040,29 +749,10 @@
               <bitRange>[2:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_3</name>
-              <description>Field Reserved_31_3</description>
-              <bitRange>[31:3]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
-          <name>Reserved_58</name>
-          <displayName></displayName>
-          <description>Register Reserved_58</description>
-          <addressOffset>0x58</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_5C</name>
-          <displayName></displayName>
-          <description>Register Reserved_5C</description>
-          <addressOffset>0x5C</addressOffset>
-        </register>
-        <register>
           <name>fctrl</name>
-          <displayName>SPI Flash Interface Control Register</displayName>
           <description>SPI flash interface control</description>
           <addressOffset>0x60</addressOffset>
           <fields>
@@ -1072,17 +762,10 @@
               <bitRange>[0:0]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_1</name>
-              <description>Field Reserved_31_1</description>
-              <bitRange>[31:1]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>ffmt</name>
-          <displayName>SPI Flash Instruction Format Register</displayName>
           <description>SPI flash instruction format</description>
           <addressOffset>0x64</addressOffset>
           <fields>
@@ -1123,12 +806,6 @@
               <access>read-write</access>
             </field>
             <field>
-              <name>Reserved_15_14</name>
-              <description>Field Reserved_15_14</description>
-              <bitRange>[15:14]</bitRange>
-              <access>read-write</access>
-            </field>
-            <field>
               <name>cmd_code</name>
               <description>Value of command byte</description>
               <bitRange>[23:16]</bitRange>
@@ -1143,20 +820,7 @@
           </fields>
         </register>
         <register>
-          <name>Reserved_68</name>
-          <displayName></displayName>
-          <description>Register Reserved_68</description>
-          <addressOffset>0x68</addressOffset>
-        </register>
-        <register>
-          <name>Reserved_6C</name>
-          <displayName></displayName>
-          <description>Register Reserved_6C</description>
-          <addressOffset>0x6C</addressOffset>
-        </register>
-        <register>
           <name>ie</name>
-          <displayName>SPI Interrupt Enable Register</displayName>
           <description>SPI interrupt enable</description>
           <addressOffset>0x70</addressOffset>
           <fields>
@@ -1172,17 +836,10 @@
               <bitRange>[1:1]</bitRange>
               <access>read-write</access>
             </field>
-            <field>
-              <name>Reserved_31_2</name>
-              <description>Field Reserved_31_2</description>
-              <bitRange>[31:2]</bitRange>
-              <access>read-write</access>
-            </field>
           </fields>
         </register>
         <register>
           <name>ip</name>
-          <displayName>SPI Watermark Interrupt Pending Register</displayName>
           <description>SPI interrupt pending</description>
           <addressOffset>0x74</addressOffset>
           <fields>
@@ -1197,12 +854,6 @@
               <description>Receive watermark pending</description>
               <bitRange>[1:1]</bitRange>
               <access>read-only</access>
-            </field>
-            <field>
-              <name>Reserved_31_2</name>
-              <description>Field Reserved_31_2</description>
-              <bitRange>[31:2]</bitRange>
-              <access>read-write</access>
             </field>
           </fields>
         </register>

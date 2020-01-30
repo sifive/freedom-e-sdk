@@ -11,7 +11,7 @@
   <resetMask>0xFFFFFFFF</resetMask>
   <peripherals>
     <peripheral>
-      <name>test_100000</name>
+      <name>sifive_test0_0</name>
       <description>From sifive,test0,control peripheral generator</description>
       <baseAddress>0x100000</baseAddress>
       <addressBlock>
@@ -22,7 +22,6 @@
       <registers>
         <register>
           <name>finisher</name>
-          <displayName>Test Finisher Register</displayName>
           <description>Test finisher register</description>
           <addressOffset>0x0</addressOffset>
           <fields>
@@ -40,6 +39,18 @@
             </field>
           </fields>
         </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>riscv_plic0_0</name>
+      <description>From riscv,plic0,control peripheral generator</description>
+      <baseAddress>0xC000000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x4000000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
       </registers>
     </peripheral>
   </peripherals>
