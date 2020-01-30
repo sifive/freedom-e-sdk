@@ -30,7 +30,7 @@
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "6e3c6ef8087dce085434df15e9e6ebccbbeb2050",
+        "commit": "85468a85e61270ff646eec2b02f0dfdea5c9b776",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
