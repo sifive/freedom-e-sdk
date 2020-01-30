@@ -56,7 +56,7 @@ $(BSP_DIR)/spike_options.sh:
 
 ifneq ($(shell which spike),)
 $(BSP_DIR)/core.dts: $(BSP_DIR)/spike_options.sh
-	. $< && scripts/spikedts $(dir $@)
+	. $< && scripts/spikedts $@
 endif # which spike
 endif # findstring spike,$(TARGET)
 
