@@ -20,7 +20,7 @@
         "source": "git@github.com:sifive/freedom-e-sdk-pip-cache.git"
     },
     {
-        "commit": "ee7cd39d60f5b70933a8d43458cc71897009a1d1",
+        "commit": "22254edd479f784e20a2afe08307f146c4567963",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
