@@ -40,7 +40,7 @@
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "9cc7b5e8586cff76ac9f9283e5c65b3ca009a6d7",
+        "commit": "454bb1b97b32fa5c70715b3a86b92521f9468512",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
