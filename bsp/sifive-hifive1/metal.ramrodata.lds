@@ -167,21 +167,22 @@ SECTIONS
     .data : ALIGN(8) {
         *(.data .data.*)
         *(.gnu.linkonce.d.*)
-        /* Read-only data is placed in RAM to improve performance, since
-         * read-only memory generally has higher latency than RAM */
-        *(.rdata)
-        *(.rodata .rodata.*)
-        *(.gnu.linkonce.r.*)
         . = ALIGN(8);
         PROVIDE( __global_pointer$ = . + 0x800 );
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
+        /* Read-only data is placed in RAM to improve performance, since
+         * read-only memory generally has higher latency than RAM */
         . = ALIGN(8);
         *(.srodata.cst16)
         *(.srodata.cst8)
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
+        . = ALIGN(8);
+        *(.rdata)
+        *(.rodata .rodata.*)
+        *(.gnu.linkonce.r.*)
     } >ram AT>rom
 
     PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );

@@ -178,7 +178,6 @@ SECTIONS
         PROVIDE( __global_pointer$ = . + 0x800 );
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
-        . = ALIGN(8);
     } >testram AT>testram
 
     PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
