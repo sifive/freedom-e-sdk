@@ -44,6 +44,11 @@
 /* Freedom metal includes. */
 #include <metal/machine.h>
 #include <metal/machine/platform.h>
+
+#include <metal/cpu.h>
+#include <metal/pmp.h>
+#include <metal/privilege.h>
+
 #include <metal/lock.h>
 #include <metal/uart.h>
 #include <metal/interrupt.h>
@@ -56,9 +61,8 @@ extern struct metal_led *led0_red, *led0_green, *led0_blue;
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
 #define	mainQUEUE_SEND_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
 
-/* The rate at which data is sent to the queue.  The 200ms value is converted
-to ticks using the pdMS_TO_TICKS() macro. */
-#define mainQUEUE_SEND_FREQUENCY_MS			pdMS_TO_TICKS( 1000 )
+/* The 1s value is converted to ticks using the pdMS_TO_TICKS() macro. */
+#define mainQUEUE_TICK_COUNT_FOR_1S			pdMS_TO_TICKS( 1000 )
 
 /* The maximum number items the queue can hold.  The priority of the receiving
 task is above the priority of the sending task, so the receiving task will
@@ -145,7 +149,8 @@ static void prvQueueSendTask( void *pvParameters )
 	xNextWakeTime = xTaskGetTickCount();
 
 	/* For automation test process we limite the number of message to send to 5 then we exit the program */
-	for( i=0 ; i<5 ; i++)
+//	for( i=0 ; i<5 ; i++)
+	for( ;; )
 	{
 		if ( led0_green != NULL ) 
 		{
@@ -154,7 +159,7 @@ static void prvQueueSendTask( void *pvParameters )
 		}
 
 		/* Place this task in the blocked state until it is time to run again. */
-		vTaskDelayUntil( &xNextWakeTime, mainQUEUE_SEND_FREQUENCY_MS );
+		vTaskDelayUntil( &xNextWakeTime, mainQUEUE_TICK_COUNT_FOR_1S );
 
 		/* Send to the queue - causing the queue receive task to unblock and
 		toggle the LED.  0 is used as the block time so the sending operation
@@ -211,6 +216,7 @@ static void prvSetupHardware( void )
 	const char * const pcWarningMsg = "At least one of LEDs is null.\n";
 	struct metal_cpu *cpu;
 	struct metal_interrupt *cpu_intr;
+	struct metal_pmp *pmp;
 
 	/* Remove compiler warning about unused parameter. */
 	( void ) pcErrorMsg;
@@ -262,6 +268,26 @@ static void prvSetupHardware( void )
 		metal_interrupt_init(clic);
 	}
 #endif
+
+	/* Initialize PMPs */
+	pmp = metal_pmp_get_device();
+	if(!pmp) {
+		printf("Unable to get PMP Device\n");
+		return;
+	}
+	metal_pmp_init(pmp);
+
+	/* Configure PMP 0 to allow access to all memory */
+	struct metal_pmp_config config = {
+		.L = METAL_PMP_UNLOCKED,
+		.A = METAL_PMP_TOR,
+		.X = 1,
+		.W = 1,
+		.R = 1,
+	};
+	if(metal_pmp_set_region(pmp, 0, config, -1) != 0) {
+		return;
+	}
 
 	// This demo will toggle LEDs colors so we define them here
 	led0_red = metal_led_get_rgb("LD0", "red");
