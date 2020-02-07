@@ -8,6 +8,8 @@ BSP_DIR ?= $(abspath bsp)
 SRC_DIR ?= $(abspath src)
 # FREERTOS_SOURCE_PATH sets the path to the FreeRTOS source directory
 export FREERTOS_SOURCE_PATH = $(abspath FreeRTOS-metal)
+# FREERTOS_SOURCE_PATH sets the path to the SEGGER SystemView source directory
+export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
 
 #############################################################
 # BSP loading

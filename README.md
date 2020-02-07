@@ -130,8 +130,12 @@ operating systems to RISC-V.
     - Demonstrates usage of the I2C API to communicate with I2C slaves.
   - mem-latency
     - A memory test that measure the latency at different cache layers and memory blocks
+  - example-freertos-minimal
+    - A simple FreeRTOS skeleton to build your FreeRTOS application.
   - example-freertos-blinky
     - A simple FreeRTOS blinky application.
+  - example-freertos-blinky-systemview
+    - A simple FreeRTOS blinky application with Segger SystemView feature enable (in order to have a realtime trace).
 
 ### Setting up the SDK ###
 
