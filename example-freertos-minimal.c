@@ -67,67 +67,13 @@ int main( void )
 /*-----------------------------------------------------------*/
 static void prvSetupHardware( void )
 {
-	const char * const pcErrorMsg = "No External controller\n";
 	const char * const pcWarningMsg = "At least one of LEDs is null.\n";
-	struct metal_cpu *cpu;
-	struct metal_interrupt *cpu_intr;
-
-	/* Remove compiler warning about unused parameter. */
-	( void ) pcErrorMsg;
-
-	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
-	if (cpu == NULL)
-	{
-		return;
-	}
-
-	cpu_intr = metal_cpu_interrupt_controller(cpu);
-	if (cpu_intr == NULL)
-	{
-		return;
-	}
-	metal_interrupt_init(cpu_intr);
-
-	if (metal_interrupt_enable(cpu_intr, 0) == -1)
-	{
-		return;
-	}
-
-#ifdef METAL_RISCV_PLIC0
-	{
-		struct metal_interrupt *plic;
-
-		// Check we this target has a plic. If not gracefull exit
-		plic = metal_interrupt_get_controller(METAL_PLIC_CONTROLLER, 0);
-		if (plic == NULL) {
-			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
-
-			for( ;; );
-		} 
-		metal_interrupt_init(plic);
-	}
-#endif
-
-#ifdef METAL_SIFIVE_CLIC0
-	{
-	    struct metal_interrupt *clic;
-
-		// Check we this target has a plic. If not gracefull exit
-		clic = metal_interrupt_get_controller(METAL_CLIC_CONTROLLER, 0);
-		if (clic == NULL) {
-			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
-
-			for( ;; );
-		} 
-		metal_interrupt_init(clic);
-	}
-#endif
 
 	// This demo will toggle LEDs colors so we define them here
 	led0_red = metal_led_get_rgb("LD0", "red");
 	led0_green = metal_led_get_rgb("LD0", "green");
 	led0_blue = metal_led_get_rgb("LD0", "blue");
-	if (LED_ERROR)
+	if ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL))
 	{
 		write( STDOUT_FILENO, pcWarningMsg, strlen( pcWarningMsg ) );
 	}
