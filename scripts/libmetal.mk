@@ -96,7 +96,7 @@ $(METAL_BUILD_DIR)/Makefile: \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(METAL_PREFIX) \
 		--libdir=$(METAL_LIB_DIR) \
-		--with-builtin-libgloss \
+		$(LIBMETAL_CONFIG) \
 		--with-machine-header=$(abspath $(METAL_HEADER)) \
 		--with-machine-inline=$(abspath $(METAL_INLINE)) \
 		--with-platform-header=$(abspath $(PLATFORM_HEADER))
