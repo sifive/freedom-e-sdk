@@ -19,11 +19,10 @@
 StackType_t *xISRStackTop;
 #if (__riscv_xlen == 64)
 uint64_t *__freertos_irq_stack_top;
-extern uint64_t metal_segment_stack_end;
 #elif (__riscv_xlen == 32)
 uint32_t *__freertos_irq_stack_top;
-extern uint32_t metal_segment_stack_end;
 #endif
+extern UBaseType_t _sp;
 
 
 #if( configAPPLICATION_ALLOCATED_HEAP == 1 )
@@ -37,19 +36,76 @@ __attribute__((constructor)) static void SEGGER_SysView_init(void);
 
 __attribute__((constructor)) static void FreeRTOS_init(void)
 {
-#if (__riscv_xlen == 64)
-  uint64_t Addr = (uint64_t)&metal_segment_stack_end;
-#elif (__riscv_xlen == 32)
-  uint32_t Addr = (uint32_t)&metal_segment_stack_end;
-#endif
+	struct metal_cpu *cpu;
+	struct metal_interrupt *cpu_intr;
+	struct metal_pmp *pmp;
+
+	const char * const pcErrorMsg = "No External controller\n";
+
+	/* Remove compiler warning about unused parameter. */
+	( void ) pcErrorMsg;
 
 #if( configAPPLICATION_ALLOCATED_HEAP == 1 )
 	ucHeap = (uint8_t *)&metal_segment_heap_target_start;
 #endif
 
-  Addr &= (~0x0f); /* align per ABI requirement */
+  /*
+   * Initilize freedom-metal interrupt managment.
+   *   Its SHOULD be made before calling vPortFreeRTOSInit because
+   *   the interrupt/exeception handler MUST be the freertos handler.
+   */
+	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
+	if (cpu == NULL)
+	{
+		return;
+	}
 
-  xISRStackTop = (StackType_t *)Addr;
+	cpu_intr = metal_cpu_interrupt_controller(cpu);
+	if (cpu_intr == NULL)
+	{
+		return;
+	}
+	metal_interrupt_init(cpu_intr);
+
+	if (metal_interrupt_enable(cpu_intr, 0) == -1)
+	{
+		return;
+	}
+
+#ifdef METAL_RISCV_PLIC0
+	{
+		struct metal_interrupt *plic;
+
+		// Check if this target has a plic. If not gracefull exit
+		plic = metal_interrupt_get_controller(METAL_PLIC_CONTROLLER, 0);
+		if (plic == NULL) {
+			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
+
+			for( ;; );
+		} 
+		metal_interrupt_init(plic);
+	}
+#endif
+
+#ifdef METAL_SIFIVE_CLIC0
+	{
+	    struct metal_interrupt *clic;
+
+		// Check we this target has a plic. If not gracefull exit
+		clic = metal_interrupt_get_controller(METAL_CLIC_CONTROLLER, 0);
+		if (clic == NULL) {
+			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
+
+			for( ;; );
+		} 
+		metal_interrupt_init(clic);
+	}
+#endif
+
+  /*
+   * Call vPortFreeRTOSInit in order to put the ISRStack on top of the stack space
+   */
+  vPortFreeRTOSInit((StackType_t)&_sp); 
 }
 
 

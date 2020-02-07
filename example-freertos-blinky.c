@@ -149,8 +149,7 @@ static void prvQueueSendTask( void *pvParameters )
 	xNextWakeTime = xTaskGetTickCount();
 
 	/* For automation test process we limite the number of message to send to 5 then we exit the program */
-//	for( i=0 ; i<5 ; i++)
-	for( ;; )
+	for( i=0 ; i<5 ; i++)
 	{
 		if ( led0_green != NULL ) 
 		{
@@ -212,82 +211,7 @@ static void prvQueueReceiveTask( void *pvParameters )
 
 static void prvSetupHardware( void )
 {
-	const char * const pcErrorMsg = "No External controller\n";
 	const char * const pcWarningMsg = "At least one of LEDs is null.\n";
-	struct metal_cpu *cpu;
-	struct metal_interrupt *cpu_intr;
-	struct metal_pmp *pmp;
-
-	/* Remove compiler warning about unused parameter. */
-	( void ) pcErrorMsg;
-
-	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
-	if (cpu == NULL)
-	{
-		return;
-	}
-
-	cpu_intr = metal_cpu_interrupt_controller(cpu);
-	if (cpu_intr == NULL)
-	{
-		return;
-	}
-	metal_interrupt_init(cpu_intr);
-
-	if (metal_interrupt_enable(cpu_intr, 0) == -1)
-	{
-		return;
-	}
-
-#ifdef METAL_RISCV_PLIC0
-	{
-		struct metal_interrupt *plic;
-
-		// Check we this target has a plic. If not gracefull exit
-		plic = metal_interrupt_get_controller(METAL_PLIC_CONTROLLER, 0);
-		if (plic == NULL) {
-			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
-
-			for( ;; );
-		} 
-		metal_interrupt_init(plic);
-	}
-#endif
-
-#ifdef METAL_SIFIVE_CLIC0
-	{
-	    struct metal_interrupt *clic;
-
-		// Check we this target has a plic. If not gracefull exit
-		clic = metal_interrupt_get_controller(METAL_CLIC_CONTROLLER, 0);
-		if (clic == NULL) {
-			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
-
-			for( ;; );
-		} 
-		metal_interrupt_init(clic);
-	}
-#endif
-
-	/* Initialize PMPs */
-	pmp = metal_pmp_get_device();
-	if(!pmp) {
-		printf("Unable to get PMP Device\n");
-		return;
-	}
-	metal_pmp_init(pmp);
-
-	/* Configure PMP 0 to allow access to all memory */
-	struct metal_pmp_config config = {
-		.L = METAL_PMP_UNLOCKED,
-		.A = METAL_PMP_TOR,
-		.X = 1,
-		.W = 1,
-		.R = 1,
-	};
-	if(metal_pmp_set_region(pmp, 0, config, -1) != 0) {
-		return;
-	}
 
 	// This demo will toggle LEDs colors so we define them here
 	led0_red = metal_led_get_rgb("LD0", "red");
