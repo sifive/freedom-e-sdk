@@ -38,8 +38,8 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 {
 	struct metal_cpu *cpu;
 	struct metal_interrupt *cpu_intr;
-	struct metal_pmp *pmp;
-
+  extern void vPortFreeRTOSInit( StackType_t xTopOfStack );
+	
 	const char * const pcErrorMsg = "No External controller\n";
 
 	/* Remove compiler warning about unused parameter. */
