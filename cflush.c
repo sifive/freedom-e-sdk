@@ -30,13 +30,12 @@ int main (void)
         metal_timer_get_cyclecount(metal_cpu_get_current_hartid(), &mc_count1);
 
         // Use cflush (Data) L1
-        metal_dcache_l1_flush(metal_cpu_get_current_hartid(), 0x0);
+        metal_dcache_l1_flush(metal_cpu_get_current_hartid(), (uintptr_t)NULL);
+        metal_dcache_l1_flush(metal_cpu_get_current_hartid(), (uintptr_t)&dummy);
 
         // Use cdiscard (Data) L1
-        metal_dcache_l1_discard(metal_cpu_get_current_hartid(), 0x0);
-
-        // Use cflush (Instruction) L1
-        metal_icache_l1_flush(metal_cpu_get_current_hartid());
+        metal_dcache_l1_discard(metal_cpu_get_current_hartid(), (uintptr_t)NULL);
+        metal_dcache_l1_discard(metal_cpu_get_current_hartid(), (uintptr_t)&test);
 
         mc[i] = mc_count1 - mc_count0;
     }
