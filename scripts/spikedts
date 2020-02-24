@@ -2,6 +2,6 @@
 
 set -x
 
-BSP_DIR=$1
+OUTPUT=$1
 
-spike $SPIKE_OPTIONS --dump-dts /dev/null > $BSP_DIR/design.dts
+spike $SPIKE_OPTIONS --dump-dts /dev/null > $OUTPUT

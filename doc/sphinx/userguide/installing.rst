@@ -28,6 +28,9 @@ To use this SDK, you will need the following software available on your machine:
 - Git
 - The RISC-V GNU Embedded Toolchain
 - RISC-V OpenOCD (for use with development board and FPGA targets)
+- Python >= 3.5
+- Python Virtualenv
+- Python Pip
 
 Install the RISC-V Toolchain and OpenOCD
 ----------------------------------------

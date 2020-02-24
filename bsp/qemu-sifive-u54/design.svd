@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device schemaVersion="1.3" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd">
+  <name>ucbbar_spike_bare_qemu</name>
+  <version>0.1</version>
+  <description>From ucbbar,spike-bare,qemu,model device generator</description>
+  <addressUnitBits>8</addressUnitBits>
+  <width>32</width>
+  <size>32</size>
+  <access>read-write</access>
+  <peripherals>
+    <peripheral>
+      <name>riscv_plic0_0</name>
+      <description>From riscv,plic0,control peripheral generator</description>
+      <baseAddress>0xC000000</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x4000000</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
+        <register>
+          <name>priority_1</name>
+          <description>PRIORITY Register for interrupt id 1</description>
+          <addressOffset>0x4</addressOffset>
+        </register>
+        <register>
+          <name>priority_2</name>
+          <description>PRIORITY Register for interrupt id 2</description>
+          <addressOffset>0x8</addressOffset>
+        </register>
+        <register>
+          <name>priority_3</name>
+          <description>PRIORITY Register for interrupt id 3</description>
+          <addressOffset>0xC</addressOffset>
+        </register>
+        <register>
+          <name>priority_4</name>
+          <description>PRIORITY Register for interrupt id 4</description>
+          <addressOffset>0x10</addressOffset>
+        </register>
+        <register>
+          <name>priority_5</name>
+          <description>PRIORITY Register for interrupt id 5</description>
+          <addressOffset>0x14</addressOffset>
+        </register>
+        <register>
+          <name>priority_6</name>
+          <description>PRIORITY Register for interrupt id 6</description>
+          <addressOffset>0x18</addressOffset>
+        </register>
+        <register>
+          <name>priority_7</name>
+          <description>PRIORITY Register for interrupt id 7</description>
+          <addressOffset>0x1C</addressOffset>
+        </register>
+        <register>
+          <name>priority_8</name>
+          <description>PRIORITY Register for interrupt id 8</description>
+          <addressOffset>0x20</addressOffset>
+        </register>
+        <register>
+          <name>priority_9</name>
+          <description>PRIORITY Register for interrupt id 9</description>
+          <addressOffset>0x24</addressOffset>
+        </register>
+        <register>
+          <name>priority_10</name>
+          <description>PRIORITY Register for interrupt id 10</description>
+          <addressOffset>0x28</addressOffset>
+        </register>
+        <register>
+          <name>priority_11</name>
+          <description>PRIORITY Register for interrupt id 11</description>
+          <addressOffset>0x2C</addressOffset>
+        </register>
+        <register>
+          <name>priority_12</name>
+          <description>PRIORITY Register for interrupt id 12</description>
+          <addressOffset>0x30</addressOffset>
+        </register>
+        <register>
+          <name>priority_13</name>
+          <description>PRIORITY Register for interrupt id 13</description>
+          <addressOffset>0x34</addressOffset>
+        </register>
+        <register>
+          <name>priority_14</name>
+          <description>PRIORITY Register for interrupt id 14</description>
+          <addressOffset>0x38</addressOffset>
+        </register>
+        <register>
+          <name>priority_15</name>
+          <description>PRIORITY Register for interrupt id 15</description>
+          <addressOffset>0x3C</addressOffset>
+        </register>
+        <register>
+          <name>priority_16</name>
+          <description>PRIORITY Register for interrupt id 16</description>
+          <addressOffset>0x40</addressOffset>
+        </register>
+        <register>
+          <name>priority_17</name>
+          <description>PRIORITY Register for interrupt id 17</description>
+          <addressOffset>0x44</addressOffset>
+        </register>
+        <register>
+          <name>priority_18</name>
+          <description>PRIORITY Register for interrupt id 18</description>
+          <addressOffset>0x48</addressOffset>
+        </register>
+        <register>
+          <name>priority_19</name>
+          <description>PRIORITY Register for interrupt id 19</description>
+          <addressOffset>0x4C</addressOffset>
+        </register>
+        <register>
+          <name>priority_20</name>
+          <description>PRIORITY Register for interrupt id 20</description>
+          <addressOffset>0x50</addressOffset>
+        </register>
+        <register>
+          <name>priority_21</name>
+          <description>PRIORITY Register for interrupt id 21</description>
+          <addressOffset>0x54</addressOffset>
+        </register>
+        <register>
+          <name>priority_22</name>
+          <description>PRIORITY Register for interrupt id 22</description>
+          <addressOffset>0x58</addressOffset>
+        </register>
+        <register>
+          <name>priority_23</name>
+          <description>PRIORITY Register for interrupt id 23</description>
+          <addressOffset>0x5C</addressOffset>
+        </register>
+        <register>
+          <name>priority_24</name>
+          <description>PRIORITY Register for interrupt id 24</description>
+          <addressOffset>0x60</addressOffset>
+        </register>
+        <register>
+          <name>priority_25</name>
+          <description>PRIORITY Register for interrupt id 25</description>
+          <addressOffset>0x64</addressOffset>
+        </register>
+        <register>
+          <name>priority_26</name>
+          <description>PRIORITY Register for interrupt id 26</description>
+          <addressOffset>0x68</addressOffset>
+        </register>
+        <register>
+          <name>priority_27</name>
+          <description>PRIORITY Register for interrupt id 27</description>
+          <addressOffset>0x6C</addressOffset>
+        </register>
+        <register>
+          <name>priority_28</name>
+          <description>PRIORITY Register for interrupt id 28</description>
+          <addressOffset>0x70</addressOffset>
+        </register>
+        <register>
+          <name>priority_29</name>
+          <description>PRIORITY Register for interrupt id 29</description>
+          <addressOffset>0x74</addressOffset>
+        </register>
+        <register>
+          <name>priority_30</name>
+          <description>PRIORITY Register for interrupt id 30</description>
+          <addressOffset>0x78</addressOffset>
+        </register>
+        <register>
+          <name>priority_31</name>
+          <description>PRIORITY Register for interrupt id 31</description>
+          <addressOffset>0x7C</addressOffset>
+        </register>
+        <register>
+          <name>priority_32</name>
+          <description>PRIORITY Register for interrupt id 32</description>
+          <addressOffset>0x80</addressOffset>
+        </register>
+        <register>
+          <name>priority_33</name>
+          <description>PRIORITY Register for interrupt id 33</description>
+          <addressOffset>0x84</addressOffset>
+        </register>
+        <register>
+          <name>priority_34</name>
+          <description>PRIORITY Register for interrupt id 34</description>
+          <addressOffset>0x88</addressOffset>
+        </register>
+        <register>
+          <name>priority_35</name>
+          <description>PRIORITY Register for interrupt id 35</description>
+          <addressOffset>0x8C</addressOffset>
+        </register>
+        <register>
+          <name>priority_36</name>
+          <description>PRIORITY Register for interrupt id 36</description>
+          <addressOffset>0x90</addressOffset>
+        </register>
+        <register>
+          <name>priority_37</name>
+          <description>PRIORITY Register for interrupt id 37</description>
+          <addressOffset>0x94</addressOffset>
+        </register>
+        <register>
+          <name>priority_38</name>
+          <description>PRIORITY Register for interrupt id 38</description>
+          <addressOffset>0x98</addressOffset>
+        </register>
+        <register>
+          <name>priority_39</name>
+          <description>PRIORITY Register for interrupt id 39</description>
+          <addressOffset>0x9C</addressOffset>
+        </register>
+        <register>
+          <name>priority_40</name>
+          <description>PRIORITY Register for interrupt id 40</description>
+          <addressOffset>0xA0</addressOffset>
+        </register>
+        <register>
+          <name>priority_41</name>
+          <description>PRIORITY Register for interrupt id 41</description>
+          <addressOffset>0xA4</addressOffset>
+        </register>
+        <register>
+          <name>priority_42</name>
+          <description>PRIORITY Register for interrupt id 42</description>
+          <addressOffset>0xA8</addressOffset>
+        </register>
+        <register>
+          <name>priority_43</name>
+          <description>PRIORITY Register for interrupt id 43</description>
+          <addressOffset>0xAC</addressOffset>
+        </register>
+        <register>
+          <name>priority_44</name>
+          <description>PRIORITY Register for interrupt id 44</description>
+          <addressOffset>0xB0</addressOffset>
+        </register>
+        <register>
+          <name>priority_45</name>
+          <description>PRIORITY Register for interrupt id 45</description>
+          <addressOffset>0xB4</addressOffset>
+        </register>
+        <register>
+          <name>priority_46</name>
+          <description>PRIORITY Register for interrupt id 46</description>
+          <addressOffset>0xB8</addressOffset>
+        </register>
+        <register>
+          <name>priority_47</name>
+          <description>PRIORITY Register for interrupt id 47</description>
+          <addressOffset>0xBC</addressOffset>
+        </register>
+        <register>
+          <name>priority_48</name>
+          <description>PRIORITY Register for interrupt id 48</description>
+          <addressOffset>0xC0</addressOffset>
+        </register>
+        <register>
+          <name>priority_49</name>
+          <description>PRIORITY Register for interrupt id 49</description>
+          <addressOffset>0xC4</addressOffset>
+        </register>
+        <register>
+          <name>priority_50</name>
+          <description>PRIORITY Register for interrupt id 50</description>
+          <addressOffset>0xC8</addressOffset>
+        </register>
+        <register>
+          <name>priority_51</name>
+          <description>PRIORITY Register for interrupt id 51</description>
+          <addressOffset>0xCC</addressOffset>
+        </register>
+        <register>
+          <name>priority_52</name>
+          <description>PRIORITY Register for interrupt id 52</description>
+          <addressOffset>0xD0</addressOffset>
+        </register>
+        <register>
+          <name>priority_53</name>
+          <description>PRIORITY Register for interrupt id 53</description>
+          <addressOffset>0xD4</addressOffset>
+        </register>
+        <register>
+          <name>pending_0</name>
+          <description>PENDING Register for interrupt ids 31 to 0</description>
+          <addressOffset>0x1000</addressOffset>
+        </register>
+        <register>
+          <name>pending_1</name>
+          <description>PENDING Register for interrupt ids 53 to 32</description>
+          <addressOffset>0x1004</addressOffset>
+        </register>
+        <register>
+          <name>enable_0_0</name>
+          <description>ENABLE Register for interrupt ids 31 to 0 for hart 0</description>
+          <addressOffset>0x2000</addressOffset>
+        </register>
+        <register>
+          <name>enable_1_0</name>
+          <description>ENABLE Register for interrupt ids 53 to 32 for hart 0</description>
+          <addressOffset>0x2004</addressOffset>
+        </register>
+        <register>
+          <name>threshold_0</name>
+          <description>PRIORITY THRESHOLD Register for hart 0</description>
+          <addressOffset>0x200000</addressOffset>
+        </register>
+        <register>
+          <name>claimplete_0</name>
+          <description>CLAIM and COMPLETE Register for hart 0</description>
+          <addressOffset>0x200004</addressOffset>
+        </register>
+      </registers>
+    </peripheral>
+  </peripherals>
+</device>

@@ -1,0 +1,157 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <0x2>;
+	#size-cells = <0x2>;
+	compatible = "ucbbar,spike-bare-dev";
+	model = "ucbbar,spike-bare,qemu";
+
+	cpus {
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		timebase-frequency = <0x989680>;
+
+		cpu0: cpu@0 {
+			device_type = "cpu";
+			reg = <0x0>;
+			status = "okay";
+			compatible = "riscv";
+			riscv,isa = "rv64imafdcsu";
+			mmu-type = "riscv,sv48";
+			clock-frequency = <0x3b9aca00>;
+			riscv,pmpregions = <8>;
+
+			interrupt-controller {
+				#interrupt-cells = <0x1>;
+				interrupt-controller;
+				compatible = "riscv,cpu-intc";
+				linux,phandle = <0x4>;
+				phandle = <0x4>;
+			};
+		};
+
+		cpu1: cpu@1 {
+			device_type = "cpu";
+			reg = <0x1>;
+			status = "okay";
+			compatible = "riscv";
+			riscv,isa = "rv64imafdcsu";
+			mmu-type = "riscv,sv48";
+			clock-frequency = <0x3b9aca00>;
+
+			interrupt-controller {
+				#interrupt-cells = <0x1>;
+				interrupt-controller;
+				compatible = "riscv,cpu-intc";
+				linux,phandle = <0x3>;
+				phandle = <0x3>;
+			};
+		};
+
+		cpu2: cpu@2 {
+			device_type = "cpu";
+			reg = <0x2>;
+			status = "okay";
+			compatible = "riscv";
+			riscv,isa = "rv64imafdcsu";
+			mmu-type = "riscv,sv48";
+			clock-frequency = <0x3b9aca00>;
+
+			interrupt-controller {
+				#interrupt-cells = <0x1>;
+				interrupt-controller;
+				compatible = "riscv,cpu-intc";
+				linux,phandle = <0x2>;
+				phandle = <0x2>;
+			};
+		};
+
+		cpu3: cpu@3 {
+			device_type = "cpu";
+			reg = <0x3>;
+			status = "okay";
+			compatible = "riscv";
+			riscv,isa = "rv64imafdcsu";
+			mmu-type = "riscv,sv48";
+			clock-frequency = <0x3b9aca00>;
+
+			interrupt-controller {
+				#interrupt-cells = <0x1>;
+				interrupt-controller;
+				compatible = "riscv,cpu-intc";
+				linux,phandle = <0x1>;
+				phandle = <0x1>;
+			};
+		};
+	};
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0x80000000>;
+	};
+
+	soc {
+		#address-cells = <0x2>;
+		#size-cells = <0x2>;
+		compatible = "simple-bus";
+		ranges;
+
+		uart@10013000 {
+			interrupts = <0x3>;
+			interrupt-parent = <0x5>;
+			clock-frequency = <0x1dcd6500>;
+			reg = <0x0 0x10013000 0x0 0x1000>;
+			compatible = "sifive,uart0";
+		};
+
+		test@100000 {
+			compatible = "sifive,test0";
+			reg = <0x0 0x100000 0x0 0x1000>;
+			reg-names = "control";
+		};
+
+		ethernet@100900fc {
+			#size-cells = <0x0>;
+			#address-cells = <0x1>;
+			clocks-names = "pclk", "hclk", "tx_clk";
+			clocks = <0x6 0x6 0x6>;
+			interrupts = <0x35>;
+			interrupt-parent = <0x5>;
+			phy-mode = "gmii";
+			reg-names = "control";
+			reg = <0x0 0x100900fc 0x0 0x2000>;
+			compatible = "cdns,macb";
+
+			ethernet-phy@0 {
+				reg = <0x0>;
+			};
+		};
+
+		ethclk {
+			linux,phandle = <0x6>;
+			phandle = <0x6>;
+			clock-frequency = <0x7735940>;
+			#clock-cells = <0x0>;
+			compatible = "fixed-clock";
+		};
+
+		interrupt-controller@c000000 {
+			linux,phandle = <0x5>;
+			phandle = <0x5>;
+			riscv,ndev = <0x35>;
+			riscv,max-priority = <0x7>;
+			reg-names = "control";
+			reg = <0x0 0xc000000 0x0 0x4000000>;
+			interrupts-extended = <0x4 0xb 0x4 0x9 0x3 0xb 0x3 0x9 0x2 0xb 0x2 0x9 0x1 0xb 0x1 0x9>;
+			interrupt-controller;
+			compatible = "riscv,plic0";
+			#interrupt-cells = <0x1>;
+		};
+
+		clint@2000000 {
+			interrupts-extended = <0x4 0x3 0x4 0x7 0x3 0x3 0x3 0x7 0x2 0x3 0x2 0x7 0x1 0x3 0x1 0x7>;
+			reg = <0x0 0x2000000 0x0 0x10000>;
+			compatible = "riscv,clint0";
+		};
+	};
+};

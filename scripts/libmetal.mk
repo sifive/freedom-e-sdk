@@ -12,9 +12,12 @@ METAL_BUILD_DIR    = $(abspath $(BSP_DIR)/build/$(CONFIGURATION))
 METAL_LIB_DIR	   = $(abspath $(BSP_DIR)/install/lib/$(CONFIGURATION))
 
 METAL_HEADER_GENERATOR = freedom-metal_header-generator
-LDSCRIPT_GENERATOR = freedom-ldscript-generator
-MAKEATTRIB_GENERATOR = freedom-makeattributes-generator
 BARE_HEADER_GENERATOR = freedom-bare_header-generator
+
+OVERLAY_GENERATOR = scripts/devicetree-overlay-generator/generate_overlay.py
+LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
+CMSIS_SVD_GENERATOR = scripts/cmsis-svd-generator/generate_svd.py
+SETTINGS_GENERATOR = scripts/esdk-settings-generator/generate_settings.py
 
 # Metal BSP file generation
 #
@@ -24,32 +27,44 @@ BARE_HEADER_GENERATOR = freedom-bare_header-generator
 # This allows user changes to the devicetree in $(BSP_DIR)/design.dts to be
 # propagated through to the end application with a single invocation of Make
 
+$(OVERLAY_GENERATOR): virtualenv
+$(LDSCRIPT_GENERATOR): virtualenv
+$(CMSIS_SVD_GENERATOR): virtualenv
+$(SETTINGS_GENERATOR): virtualenv
+
+$(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
+	. venv/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
+
+$(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@
+
+$(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --ramrodata
+
+$(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --scratchpad
+
+$(BSP_DIR)/design.svd: $(BSP_DIR)/design.dts $(CMSIS_SVD_GENERATOR)
+	. venv/bin/activate && $(CMSIS_SVD_GENERATOR) -d $< -o $@
+
+$(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dts $(SETTINGS_GENERATOR)
+	. venv/bin/activate && $(SETTINGS_GENERATOR) -d $< -o $@ -t $(TARGET)
+
 ifeq ($(findstring spike,$(TARGET)),spike)
 $(BSP_DIR)/spike_options.sh:
 	echo "export SPIKE_OPTIONS=\"\"" > $@
 
 ifneq ($(shell which spike),)
-$(BSP_DIR)/design.dts: $(BSP_DIR)/spike_options.sh
-	. $< && scripts/spikedts $(dir $@)
+$(BSP_DIR)/core.dts: $(BSP_DIR)/spike_options.sh
+	. $< && scripts/spikedts $@
 endif # which spike
 endif # findstring spike,$(TARGET)
-
 
 ifneq ($(shell which dtc),)
 ifneq ($(shell which $(METAL_HEADER_GENERATOR)),)
 
 $(BSP_DIR)/design.dtb: $(BSP_DIR)/design.dts
-	./scripts/fixup-dts --dts $<
 	cd $(dir $@) && dtc -I dts -O dtb -o $(notdir $@) $(notdir $<)
-
-$(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@)
-
-$(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@) --ramrodata
-
-$(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(LDSCRIPT_GENERATOR) -d $(notdir $<) -l $(notdir $@) --scratchpad
 
 $(METAL_INLINE): $(BSP_DIR)/design.dtb
 $(METAL_HEADER): $(BSP_DIR)/design.dtb
@@ -57,9 +72,6 @@ $(METAL_HEADER): $(BSP_DIR)/design.dtb
 
 $(PLATFORM_HEADER): $(BSP_DIR)/design.dtb
 	cd $(dir $@) && $(BARE_HEADER_GENERATOR) -d $(notdir $<) -o $(notdir $@)
-
-$(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dtb
-	cd $(dir $@) && $(MAKEATTRIB_GENERATOR) -d $(notdir $<) -o $(notdir $@) -b $(TARGET)
 
 .PHONY: bsp
 metal-bsp:\

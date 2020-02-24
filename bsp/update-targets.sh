@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap exit SIGINT
+
 help() {
     cat >&2 <<EOF
 $0: BSP Generator for the SiFive Freedom E SDK
@@ -74,15 +76,19 @@ else
     TARGET_LIST="$CUSTOM_TARGET "
 fi
 
+OVERLAY_GENERATOR=../scripts/devicetree-overlay-generator/generate_overlay.py
+
 DTC=dtc
 MEE_HEADER_GENERATOR=freedom-metal_header-generator
-LDSCRIPT_GENERATOR=freedom-ldscript-generator
-MAKEATTRIB_GENERATOR=freedom-makeattributes-generator
+LDSCRIPT_GENERATOR=../scripts/ldscript-generator/generate_ldscript.py
+SETTINGS_GENERATOR=../scripts/esdk-settings-generator/generate_settings.py
 BARE_HEADER_GENERATOR=freedom-bare_header-generator
-OPENOCDCFG_GENERATOR=freedom-openocdcfg-generator
+OPENOCDCFG_GENERATOR=../scripts/openocdcfg-generator/generate_openocdcfg.py
+CMSIS_SVD_GENERATOR=../scripts/cmsis-svd-generator/generate_svd.py
 
-DTS_FILENAME=design.dts
-DTB_FILENAME=temp.dtb
+CORE_DTS_FILENAME=core.dts
+DESIGN_DTS_FILENAME=design.dts
+DTB_FILENAME=design.dtb
 HEADER_FILENAME=metal.h
 LDS_DEFAULT_FILENAME=metal.default.lds
 LDS_RAMRODATA_FILENAME=metal.ramrodata.lds
@@ -91,6 +97,7 @@ SETTINGS_FILENAME=settings.mk
 BARE_HEADER_FILENAME=metal-platform.h
 OPENOCDCFG_FILENAME=openocd.cfg
 OPENOCDCFG_CJTAG_FILENAME=openocd.cjtag.cfg
+CMSIS_SVD_FILENAME=design.svd
 
 update_target() {
     TARGET=$1
@@ -100,34 +107,33 @@ update_target() {
 
     echo "Updating target $TARGET"
 
-    if [ $NO_FIXUP != 1 ]; then
-        if [ `echo "$TARGET_TYPE" | grep -c "rtl"` -ne 0 ] ; then
-            ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME --rtl || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
-        else 
-            ../scripts/fixup-dts --dts $TARGET/$DTS_FILENAME || warn "Failed to check $TARGET/$DTS_FILENAME for missing elements"
-        fi
+    # Generate overlay
+    if [ $NO_FIXUP -ne 1 ]; then
+        echo "Generating overlay $TARGET/$DESIGN_DTS_FILENAME"
+        . ../venv/bin/activate && $OVERLAY_GENERATOR --type $TARGET_TYPE --output $TARGET/$DESIGN_DTS_FILENAME --rename-include $CORE_DTS_FILENAME $TARGET/$CORE_DTS_FILENAME
     fi
 
     # Compile temporary .dtb
-    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DTS_FILENAME || warn "Failed to compile $TARGET/$DTS_FILENAME to dtb"
+    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DESIGN_DTS_FILENAME || warn "Failed to compile $TARGET/$DESIGN_DTS_FILENAME to dtb"
 
     # Produce parameterized files
     pushd $TARGET && $MEE_HEADER_GENERATOR -d $DTB_FILENAME -o $HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME" && popd
-    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_DEFAULT_FILENAME || warn "Failed to produce $LDS_DEFAULT_FILENAME" && popd
-    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME" && popd
-    pushd  $TARGET && $LDSCRIPT_GENERATOR -d $DTB_FILENAME -l $LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME" && popd
-    pushd  $TARGET && $MAKEATTRIB_GENERATOR -d $DTB_FILENAME -b $TARGET_TYPE -o $SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME" && popd
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
+    . ../venv/bin/activate && $SETTINGS_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -t $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
     pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
+    . ../venv/bin/activate && $CMSIS_SVD_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$CMSIS_SVD_FILENAME || warn "Failed to produce $TARGET/$CMSIS_SVD_FILENAME"
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "vc707" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
             echo "generating $OPENOCDCFG_FILENAME"
-            $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
+            . ../venv/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
         fi
     fi
     if [[ "$TARGET_TYPE" =~ "arty" ]] ; then
         echo "generating $OPENOCDCFG_CJTAG_FILENAME"
-        $OPENOCDCFG_GENERATOR -d $TARGET/$DTB_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
+        . ../venv/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
     fi
 
     # Remove temporary .dtb
@@ -136,6 +142,11 @@ update_target() {
     TARGET_TYPE=""
     echo ""
 }
+
+# Create the virtualenv, but be careful to only use the rules in scripts/virtualenv.mk
+# Since settings.mk doesn't necessarily exist yet, trying to run a make target might fail
+# with an "Unable to find BSP" error if we don't.
+make -C .. -f scripts/virtualenv.mk virtualenv
 
 for TARGET in $TARGET_LIST
 do

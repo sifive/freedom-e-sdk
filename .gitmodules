@@ -118,3 +118,21 @@
 [submodule "software/example-freertos-blinky-systemview"]
 	path = software/example-freertos-blinky-systemview
 	url = https://github.com/sifive/example-freertos-blinky-systemview.git
+[submodule "scripts/devicetree-overlay-generator"]
+	path = scripts/devicetree-overlay-generator
+	url = https://github.com/sifive/devicetree-overlay-generator.git
+[submodule "scripts/ldscript-generator"]
+	path = scripts/ldscript-generator
+	url = https://github.com/sifive/ldscript-generator.git
+[submodule "scripts/cmsis-svd-generator"]
+	path = scripts/cmsis-svd-generator
+	url = https://github.com/sifive/cmsis-svd-generator.git
+[submodule "pip-cache"]
+	path = pip-cache
+	url = https://github.com/sifive/freedom-e-sdk-pip-cache.git
+[submodule "scripts/openocdcfg-generator"]
+	path = scripts/openocdcfg-generator
+	url = https://github.com/sifive/openocdcfg-generator.git
+[submodule "scripts/esdk-settings-generator"]
+	path = scripts/esdk-settings-generator
+	url = https://github.com/sifive/esdk-settings-generator.git

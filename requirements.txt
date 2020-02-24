@@ -1,0 +1,12 @@
+mypy==0.750
+mypy-extensions==0.4.3
+pydevicetree==0.0.12
+pyparsing==2.4.5
+typed-ast==1.4.0
+typing-extensions==3.7.4.1
+Jinja2==2.10.1
+MarkupSafe==1.1.1
+setuptools>=30.3.0
+wheel
+setuptools_scm>=3.3.1
+pip

@@ -90,6 +90,12 @@ endif
 include scripts/standalone.mk
 
 #############################################################
+# Virtualenv Script Include
+#############################################################
+
+include scripts/virtualenv.mk
+
+#############################################################
 # Prints help message
 #############################################################
 .PHONY: help
@@ -244,21 +250,29 @@ standalone: \
 		$(STANDALONE_DEST)/bsp \
 		$(STANDALONE_DEST)/src \
 		$(SRC_DIR) \
+		pip-cache \
 		freedom-metal \
 		debug.mk \
 		release.mk \
+		requirements.txt \
+		scripts/devicetree-overlay-generator \
+		scripts/ldscript-generator \
+		scripts/cmsis-svd-generator \
+		scripts/openocdcfg-generator \
+		scripts/esdk-settings-generator \
 		scripts/elf2hex \
 		scripts/standalone.mk \
-		scripts/libmetal.mk
+		scripts/libmetal.mk \
+		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
-	cp -r freedom-metal $</
+	cp -r pip-cache $</
 
+	cp -r freedom-metal $</
 	find $</freedom-metal -name ".git*" | xargs rm -rf
 
 ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
 	cp -r FreeRTOS-metal $</
-
 	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
 endif
 
@@ -269,9 +283,24 @@ ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
 endif
 
 	mkdir -p $</scripts
-	cp -r scripts/elf2hex $</scripts
 
+	cp -r scripts/elf2hex $</scripts
 	find $</scripts/elf2hex -name ".git*" | xargs rm -rf
+
+	cp -r scripts/devicetree-overlay-generator $</scripts
+	find $</scripts/devicetree-overlay-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/ldscript-generator $</scripts
+	find $</scripts/ldscript-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/cmsis-svd-generator $</scripts
+	find $</scripts/cmsis-svd-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/openocdcfg-generator $</scripts
+	find $</scripts/openocdcfg-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/esdk-settings-generator $</scripts
+	find $</scripts/esdk-settings-generator -name ".git*" | xargs rm -rf
 
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
@@ -282,6 +311,7 @@ endif
 
 	cp debug.mk $</debug.mk
 	cp release.mk $</release.mk
+	cp requirements.txt $</requirements.txt
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
@@ -296,26 +326,35 @@ endif
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
+	cat scripts/virtualenv.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
 standalone: \
 		$(STANDALONE_DEST) \
 		$(STANDALONE_DEST)/bsp \
 		$(STANDALONE_DEST)/src \
 		$(SRC_DIR) \
+		pip-cache \
 		freedom-metal \
 		debug.mk \
 		release.mk \
+		requirements.txt \
+		scripts/devicetree-overlay-generator \
+		scripts/ldscript-generator \
+		scripts/cmsis-svd-generator \
+		scripts/openocdcfg-generator \
+		scripts/esdk-settings-generator \
 		scripts/standalone.mk \
-		scripts/libmetal.mk
+		scripts/libmetal.mk \
+		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
-	cp -r freedom-metal $</
+	cp -r pip-cache $</
 
+	cp -r freedom-metal $</
 	find $</freedom-metal -name ".git*" | xargs rm -rf
 
 ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
 	cp -r FreeRTOS-metal $</
-
 	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
 endif
 
@@ -325,6 +364,23 @@ ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
 	find $</Segger_SystemView-metal -name ".git*" | xargs rm -rf
 endif
 
+	mkdir -p $</scripts
+
+	cp -r scripts/devicetree-overlay-generator $</scripts
+	find $</scripts/devicetree-overlay-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/ldscript-generator $</scripts
+	find $</scripts/ldscript-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/cmsis-svd-generator $</scripts
+	find $</scripts/cmsis-svd-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/openocdcfg-generator $</scripts
+	find $</scripts/openocdcfg-generator -name ".git*" | xargs rm -rf
+
+	cp -r scripts/esdk-settings-generator $</scripts
+	find $</scripts/esdk-settings-generator -name ".git*" | xargs rm -rf
+
 ifeq ($(PORT_DIR),)
 	$(MAKE) -C $(SRC_DIR) clean
 else
@@ -334,6 +390,7 @@ endif
 
 	cp debug.mk $</debug.mk
 	cp release.mk $</release.mk
+	cp requirements.txt $</requirements.txt
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
@@ -348,6 +405,7 @@ endif
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
+	cat scripts/virtualenv.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
 
 endif # STANDALONE_DEST

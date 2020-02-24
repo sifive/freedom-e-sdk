@@ -266,18 +266,18 @@ struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
     .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
 };
 
-/* From led@0red */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0red = {
+/* From led@0 */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0 = {
     .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
 };
 
-/* From led@0green */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0green = {
+/* From led@1 */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_1 = {
     .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
 };
 
-/* From led@0blue */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0blue = {
+/* From led@2 */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_2 = {
     .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
 };
 
