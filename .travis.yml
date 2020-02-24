@@ -23,23 +23,25 @@ before_install:
 
 # Update the container and install dependencies
 install:
-  - docker exec -t host bash -c "yes | apt-get update"
-  - docker exec -t host bash -c "yes | apt-get upgrade"
-  - docker exec -t host bash -c "yes | apt-get install build-essential git wget jq python3 python3-venv python3-pip"
+  - docker exec -t host bash -c "apt-get update"
+  - docker exec -t host bash -c "apt-get upgrade -y"
+  - docker exec -t host bash -c "apt-get install -y build-essential git wget rsync jq python3 python3-venv python3-pip"
 # Install QEMU dependencies
-  - docker exec -t host bash -c "yes | apt-get install libpixman-1-0 libnuma1 libpng12-0 libglib2.0-0 libjpeg8"
+  - docker exec -t host bash -c "apt-get install -y libpixman-1-0 libnuma1 libpng12-0 libglib2.0-0 libjpeg8"
 # Download RISC-V embedded toolchain
-  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
-  - docker exec -t host bash -c "cd /travis && tar xzvf riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "tar xzvf riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "mkdir -p /tools && rsync -a riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/* /tools/"
 # Download RISC-V QEMU
-  - docker exec -t host bash -c "cd /travis && wget https://static.dev.sifive.com/dev-tools/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
-  - docker exec -t host bash -c "cd /travis && tar xzvf riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "wget https://static.dev.sifive.com/dev-tools/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "tar xzvf riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz"
+  - docker exec -t host bash -c "mkdir -p /tools && rsync -a riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14/* /tools/"
 
 # Here's where we actually run the test.
 script:
 # check that submodules match wit-manifest.json
   - docker exec -t host bash -c "cd /travis && ./scripts/check-submodules"
 # Build all software for all targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && cd /travis && RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/all-targets-build"
+  - docker exec -t host bash -c "cd /travis && PATH=/tools/bin:\$PATH RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/all-targets-build"
 # Test by running software on all QEMU targets
-  - docker exec -t host bash -c "export RISCV_PATH=/travis/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14 && export PATH=$PATH:/travis/riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14/bin && cd /travis && ./scripts/test-qemu-targets"
+  - docker exec -t host bash -c "cd /travis && PATH=/tools/bin:\$PATH RISCV_CFLAGS=\"$RISCV_CFLAGS\" ./scripts/test-qemu-targets"
