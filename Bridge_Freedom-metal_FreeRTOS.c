@@ -16,18 +16,9 @@
 # include "SEGGER_SYSVIEW_FreeRTOS.h"
 #endif
 
-StackType_t *xISRStackTop;
-#if (__riscv_xlen == 64)
-uint64_t *__freertos_irq_stack_top;
-#elif (__riscv_xlen == 32)
-uint32_t *__freertos_irq_stack_top;
-#endif
-extern UBaseType_t _sp;
+static __attribute__ ((aligned(16))) StackType_t xISRStack[ configMINIMAL_STACK_SIZE ] __attribute__ ((section (".heap"))) = { 0 };
+__attribute__ ((aligned(4))) uint8_t ucHeap[ configTOTAL_HEAP_SIZE ] __attribute__ ((section (".heap")));
 
-
-#if( configAPPLICATION_ALLOCATED_HEAP == 1 )
-uint8_t ucHeap;
-#endif
 
 __attribute__((constructor)) static void FreeRTOS_init(void);
 #ifdef SEGGER_SYSTEMVIEW
@@ -38,20 +29,16 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 {
 	struct metal_cpu *cpu;
 	struct metal_interrupt *cpu_intr;
-  extern void vPortFreeRTOSInit( StackType_t xTopOfStack );
+	extern BaseType_t xPortFreeRTOSInit( StackType_t xIsrStack );
 	
 	const char * const pcErrorMsg = "No External controller\n";
 
 	/* Remove compiler warning about unused parameter. */
 	( void ) pcErrorMsg;
 
-#if( configAPPLICATION_ALLOCATED_HEAP == 1 )
-	ucHeap = (uint8_t *)&metal_segment_heap_target_start;
-#endif
-
   /*
    * Initilize freedom-metal interrupt managment.
-   *   Its SHOULD be made before calling vPortFreeRTOSInit because
+   *   Its SHOULD be made before calling xPortFreeRTOSInit because
    *   the interrupt/exeception handler MUST be the freertos handler.
    */
 	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
@@ -102,10 +89,12 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 	}
 #endif
 
-  /*
-   * Call vPortFreeRTOSInit in order to put the ISRStack on top of the stack space
-   */
-  vPortFreeRTOSInit((StackType_t)&_sp); 
+	/*
+	* Call xPortFreeRTOSInit in order to set xISRTopStack
+	*/
+	if ( 0 != xPortFreeRTOSInit((StackType_t)&( xISRStack[ ( configMINIMAL_STACK_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 1 ] ))) {
+		_exit(-1);
+	}
 }
 
 

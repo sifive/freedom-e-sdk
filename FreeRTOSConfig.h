@@ -28,8 +28,6 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
-#include "portISR_CONTEXT.h"
-
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
@@ -56,9 +54,23 @@
  */
 #define configTICK_RATE_HZ			( ( TickType_t ) 100 )
 #define configMAX_PRIORITIES			( 7 )
-#define configMINIMAL_STACK_SIZE		( ( size_t ) 128 + PORT_CONTEXT_lastIDX )
-#define configAPPLICATION_ALLOCATED_HEAP 	0
+/*
+ * configMINIMAL_STACK_SIZE must be a value greater than the stack use by 
+ * the minimal task + the sizeof the register saved.
+ * The size of the register is differrent from a core to another, e.g. on RiscV
+ * it could be 32 base register + 32 register for FPU and some other for the
+ * specific extensions.
+ */
+#define configMINIMAL_STACK_SIZE		( ( size_t ) 164 )
+
+/*
+ * ucHeap buffer is defined by the application and store into section .heap with freedom metal
+ * so configAPPLICATION_ALLOCATED_HEAP must be set to 1
+ */
+#define configAPPLICATION_ALLOCATED_HEAP 	1
+
 #define configTOTAL_HEAP_SIZE          		( ( size_t ) 8192 )
+
 #define configMAX_TASK_NAME_LEN			( 16 )
 #define configUSE_TRACE_FACILITY		1
 #define configUSE_16_BIT_TICKS			0
@@ -72,8 +84,6 @@
 #define configUSE_COUNTING_SEMAPHORES		1
 #define configGENERATE_RUN_TIME_STATS		0
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
-
-#define configUSE_USER_MODE					1
 
 /**************************************************************
  * Required for thread-safety of newlib sprintf, strtok, etc...
@@ -92,8 +102,13 @@
 #define configUSE_TIMERS			1
 #define configTIMER_TASK_PRIORITY		( configMAX_PRIORITIES - 1 )
 #define configTIMER_QUEUE_LENGTH		4
-/* Minimal value for configTIMER_TASK_STACK_DEPTH is 80 + PORT_CONTEXT_lastIDX  to avoid stack overflow */
-#define configTIMER_TASK_STACK_DEPTH		( 100 + PORT_CONTEXT_lastIDX )
+/*
+ * configTIMER_TASK_STACK_DEPTH must be a value greater than 80 + the sizeof the register saved.
+ * The size of the register is differrent from a core to another, e.g. on RiscV
+ * it could be 32 base register + 32 register for FPU and some other for the
+ * specific extensions.
+ */
+#define configTIMER_TASK_STACK_DEPTH		( 114 )
 
 /* Task priorities.  Allow these to be overridden. */
 #ifndef uartPRIMARY_PRIORITY

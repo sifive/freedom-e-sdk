@@ -45,10 +45,6 @@
 #include <metal/machine.h>
 #include <metal/machine/platform.h>
 
-#include <metal/cpu.h>
-#include <metal/pmp.h>
-#include <metal/privilege.h>
-
 #include <metal/lock.h>
 #include <metal/uart.h>
 #include <metal/interrupt.h>
@@ -75,7 +71,7 @@ find the queue full. */
 /*-----------------------------------------------------------*/
 /*
  * Functions:
- * 		- prvSetupHardware: Setupe Hardware according CPU and Board.
+ * 		- prvSetupHardware: Setup Hardware according CPU and Board.
  */
 static void prvSetupHardware( void );
 
@@ -99,11 +95,13 @@ struct metal_led *led0_red, *led0_green, *led0_blue;
 /*-----------------------------------------------------------*/
 int main( void )
 {
-	const char * const pcMessage = "FreeRTOS Demo\r\n";
+	TaskHandle_t xHandle_ReceiveTask, xHandle_SendTask;
+	const char * const pcMessage = "FreeRTOS Demo start\r\n";
+	const char * const pcMessageEnd = "FreeRTOS Demo end\r\n";
 
 	prvSetupHardware();
 	write( STDOUT_FILENO, pcMessage, strlen( pcMessage ) );
-
+	
 	/* Create the queue. */
 	xQueue = xQueueCreate( mainQUEUE_LENGTH, sizeof( uint32_t ) );
 
@@ -116,21 +114,25 @@ int main( void )
 					configMINIMAL_STACK_SIZE, 		/* The size of the stack to allocate to the task. */
 					NULL, 					/* The parameter passed to the task - not used in this case. */
 					mainQUEUE_RECEIVE_TASK_PRIORITY, 	/* The priority assigned to the task. */
-					NULL );					/* The task handle is not required, so NULL is passed. */
+					&xHandle_ReceiveTask );					/* The task handle is not required, so NULL is passed. */
 
-		xTaskCreate( prvQueueSendTask, "TX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_SEND_TASK_PRIORITY, NULL );
+		xTaskCreate( prvQueueSendTask, "TX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_SEND_TASK_PRIORITY, &xHandle_SendTask );
 
 		/* Start the tasks and timer running. */
 		vTaskStartScheduler();
-	}
 
 	/* If all is well, the scheduler will now be running, and the following
 	line will never be reached.  If the following line does execute, then
 	there was insufficient FreeRTOS heap memory available for the Idle and/or
-	timer tasks to be created.  See the memory management section on the
-	FreeRTOS web site for more details on the FreeRTOS heap
-	http://www.freertos.org/a00111.html. */
-	for( ;; );
+	timer tasks to be created. 
+	or task have stoppped the Scheduler */
+
+		vTaskDelete( xHandle_SendTask );
+		vTaskDelete( xHandle_ReceiveTask );
+	}
+
+	write( STDOUT_FILENO, pcMessageEnd, strlen( pcMessageEnd ) );
+
 }
 /*-----------------------------------------------------------*/
 
@@ -167,7 +169,7 @@ static void prvQueueSendTask( void *pvParameters )
 		xReturned = xQueueSend( xQueue, &ulValueToSend, 0U );
 		configASSERT( xReturned == pdPASS );
 	}
-	_exit(0);
+	vTaskEndScheduler();
 }
 /*-----------------------------------------------------------*/
 
