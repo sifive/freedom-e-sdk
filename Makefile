@@ -313,6 +313,18 @@ endif
 	cp release.mk $</release.mk
 	cp requirements.txt $</requirements.txt
 
+	cp -r venv $</venv
+	touch $</venv/.stamp
+
+	touch $</bsp/design.dts
+	touch $</bsp/metal.default.lds
+	touch $</bsp/metal.ramrodata.lds
+	touch $</bsp/metal.scratchpad.lds
+	touch $</bsp/metal.h
+	touch $</bsp/metal-platform.h
+	touch $</bsp/design.svd
+	touch $</bsp/settings.mk
+
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
 ifneq ($(PORT_DIR),)
@@ -391,6 +403,19 @@ endif
 	cp debug.mk $</debug.mk
 	cp release.mk $</release.mk
 	cp requirements.txt $</requirements.txt
+
+	cp -r venv $</venv
+	touch $</venv/.stamp
+
+	touch $</bsp/design.dts
+	touch $</bsp/metal.default.lds
+	touch $</bsp/metal.ramrodata.lds
+	touch $</bsp/metal.scratchpad.lds
+	touch $</bsp/metal.h
+	touch $</bsp/metal-platform.h
+	touch $</bsp/openocd.cfg
+	touch $</bsp/design.svd
+	touch $</bsp/settings.mk
 
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
