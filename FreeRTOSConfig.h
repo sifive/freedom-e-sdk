@@ -28,6 +28,8 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#include "Bridge_Freedom-metal_FreeRTOS.h"
+
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
