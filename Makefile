@@ -83,7 +83,7 @@ $(OBJ_DIR)/%.o: %.cpp
 # Reduce default size of the stack and the heap
 #
 _ADD_LDFLAGS  += -Wl,--defsym,__stack_size=0x200
-_ADD_LDFLAGS  += -Wl,--defsym,__heap_size=0x4D0
+_ADD_LDFLAGS  += -Wl,--defsym,__heap_size=0x200
 
 # ----------------------------------------------------------------------
 # create dedicated directory for Object files

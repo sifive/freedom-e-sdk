@@ -20,6 +20,7 @@
 /* Freedom metal includes. */
 #include <metal/machine.h>
 #include <metal/machine/platform.h>
+
 #include <metal/lock.h>
 #include <metal/uart.h>
 #include <metal/interrupt.h>
@@ -31,7 +32,7 @@ extern struct metal_led *led0_red, *led0_green, *led0_blue;
 /*-----------------------------------------------------------*/
 /*
  * Functions:
- * 		- prvSetupHardware: Setupe Hardware according CPU and Board.
+ * 		- prvSetupHardware: Setup Hardware according CPU and Board.
  */
 static void prvSetupHardware( void );
 
@@ -45,7 +46,8 @@ struct metal_led *led0_red, *led0_green, *led0_blue;
 /*-----------------------------------------------------------*/
 int main( void )
 {
-	const char * const pcMessage = "FreeRTOS Demo\r\n";
+	const char * const pcMessage = "FreeRTOS Demo start\r\n";
+	const char * const pcMessageEnd = "FreeRTOS Demo end\r\n";
 
 	prvSetupHardware();
 	write( STDOUT_FILENO, pcMessage, strlen( pcMessage ) );
@@ -53,15 +55,18 @@ int main( void )
 	/* At this point, you can create queue,semaphore, task requested for your application */
 
 	/* Start the tasks and timer running. */
-	vTaskStartScheduler();
+	/* Here No task are defined, so if we start the Scheduler 2 tasks will running (Timer and Idle) */
+	/* This task will run forever without doing nothing, it is why the following line is commented */
+	//vTaskStartScheduler();
 
 	/* If all is well, the scheduler will now be running, and the following
 	line will never be reached.  If the following line does execute, then
 	there was insufficient FreeRTOS heap memory available for the Idle and/or
-	timer tasks to be created.  See the memory management section on the
-	FreeRTOS web site for more details on the FreeRTOS heap
-	http://www.freertos.org/a00111.html. */
-	for( ;; );
+	timer tasks to be created. 
+	or task have stoppped the Scheduler */
+
+	write( STDOUT_FILENO, pcMessageEnd, strlen( pcMessageEnd ) );
+
 }
 
 /*-----------------------------------------------------------*/
