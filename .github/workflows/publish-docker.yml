@@ -1,0 +1,38 @@
+name: publish-docker
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+#       - name: 'Authenticate to Docker registry'
+#         run: |
+#           docker login -u sifive -p ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }} docker.pkg.github.com
+# 
+      - name: 'Clone freedom-e-sdk'
+        uses: actions/checkout@v2
+        with:
+          path: freedom-e-sdk
+
+      - name: 'Checkout submodules'
+        run: |
+          git -C freedom-e-sdk submodule update --init --recursive --depth=1
+
+      - name: 'Build freedom-e-sdk container'
+        run: |
+          docker build -t freedom-e-sdk \
+            -f freedom-e-sdk/docker/Dockerfile \
+            freedom-e-sdk
+
+      - name: 'Tag container for push'
+        run: |
+          docker tag freedom-e-sdk docker.pkg.github.com/sifive/freedom-e-sdk/freedom-e-sdk:latest
+
+#       - name: 'Push container to registry'
+#         run: |
+#           docker push docker.pkg.github.com/sifive/freedom-e-sdk/freedom-e-sdk:latest
