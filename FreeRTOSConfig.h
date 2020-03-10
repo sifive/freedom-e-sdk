@@ -63,7 +63,8 @@
  * it could be 32 base register + 32 register for FPU and some other for the
  * specific extensions.
  */
-#define configMINIMAL_STACK_SIZE		( ( size_t ) 164 )
+//#define configMINIMAL_STACK_SIZE		( ( size_t ) 164 )
+#define configMINIMAL_STACK_SIZE		( ( size_t ) 256 )
 
 /*
  * ucHeap buffer is defined by the application and store into section .heap with freedom metal
@@ -110,7 +111,8 @@
  * it could be 32 base register + 32 register for FPU and some other for the
  * specific extensions.
  */
-#define configTIMER_TASK_STACK_DEPTH		( 114 )
+//#define configTIMER_TASK_STACK_DEPTH		( 114 )
+#define configTIMER_TASK_STACK_DEPTH		( 256 )
 
 /* Task priorities.  Allow these to be overridden. */
 #ifndef uartPRIMARY_PRIORITY

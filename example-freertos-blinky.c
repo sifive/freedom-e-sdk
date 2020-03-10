@@ -54,8 +54,18 @@
 extern struct metal_led *led0_red, *led0_green, *led0_blue;
 
 /* Priorities used by the tasks. */
+#if( portUSING_MPU_WRAPPERS == 1 )
+/* Adding portPRIVILEGE_BIT on task priority permit to this task to be executed into privilleged mode
+ * if not, the task will not have access to the global variable. if you need to have access to global 
+ * variable, you need to define region and change the function to call to create a task. in order to
+ * avoid confusion, it is made in a different example (see example-freertos-blinky-pmp)
+ */
+#define mainQUEUE_RECEIVE_TASK_PRIORITY		( ( tskIDLE_PRIORITY + 2 ) | portPRIVILEGE_BIT )
+#define	mainQUEUE_SEND_TASK_PRIORITY		( ( tskIDLE_PRIORITY + 1 ) | portPRIVILEGE_BIT )
+#else
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
 #define	mainQUEUE_SEND_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
+#endif
 
 /* The 1s value is converted to ticks using the pdMS_TO_TICKS() macro. */
 #define mainQUEUE_TICK_COUNT_FOR_1S			pdMS_TO_TICKS( WAIT_MS )
