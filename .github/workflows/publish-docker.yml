@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Authenticate to Docker registry'
-        run: |
-          docker login -u sifive -p ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }} docker.pkg.github.com
-
+#       - name: 'Authenticate to Docker registry'
+#         run: |
+#           docker login -u sifive -p ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }} docker.pkg.github.com
+# 
       - name: 'Clone freedom-e-sdk'
         uses: actions/checkout@v2
         with:
@@ -33,6 +33,6 @@ jobs:
         run: |
           docker tag freedom-e-sdk docker.pkg.github.com/sifive/freedom-e-sdk/freedom-e-sdk:latest
 
-      - name: 'Push container to registry'
-        run: |
-          docker push docker.pkg.github.com/sifive/freedom-e-sdk/freedom-e-sdk:latest
+#       - name: 'Push container to registry'
+#         run: |
+#           docker push docker.pkg.github.com/sifive/freedom-e-sdk/freedom-e-sdk:latest
