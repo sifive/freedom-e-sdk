@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+set -x
+
+pushd $(dirname "$0")/../bsp && ./update-targets.sh && popd
+
+DIFF=$(git diff)
+
+if [ "${DIFF}" != "" ] ; then
+    >&2 echo "BSP files change if bsp/update-targets.sh is run."
+    >&2 echo "Please re-run update-targets.sh to keep BSP files up-to-date."
+    exit 1
+fi
