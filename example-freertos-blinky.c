@@ -58,7 +58,7 @@ extern struct metal_led *led0_red, *led0_green, *led0_blue;
 #define	mainQUEUE_SEND_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
 
 /* The 1s value is converted to ticks using the pdMS_TO_TICKS() macro. */
-#define mainQUEUE_TICK_COUNT_FOR_1S			pdMS_TO_TICKS( 1000 )
+#define mainQUEUE_TICK_COUNT_FOR_1S			pdMS_TO_TICKS( WAIT_MS )
 
 /* The maximum number items the queue can hold.  The priority of the receiving
 task is above the priority of the sending task, so the receiving task will

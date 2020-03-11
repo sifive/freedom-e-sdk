@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 #
 
 # Provide a default for no verbose output
-HIDE ?= @
+#HIDE ?= @
 
 PROGRAM ?= example-freertos-blinky
 
@@ -59,7 +59,7 @@ OBJS += ${_ASM_OBJ_FILES}
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.S
 	@echo "Assemble: $<"
-	$(HIDE)$(CC) -D__ASSEMBLY__ -c -o $@ $(ASFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CC) -D__ASSEMBLY__ -c -o $@ $(ASFLAGS) $(XCFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
 	@echo
 
 # ----------------------------------------------------------------------
@@ -67,7 +67,7 @@ $(OBJ_DIR)/%.o: %.S
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.c
 	@echo "Compile: $<"
-	$(HIDE)$(CC) -c -o $@ $(CFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CC) -c -o $@ $(CFLAGS) $(XCFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
 	@echo
 
 # ----------------------------------------------------------------------
@@ -75,7 +75,7 @@ $(OBJ_DIR)/%.o: %.c
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.cpp
 	@echo "Compile: $<"
-	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(XCFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
 
 # ----------------------------------------------------------------------
 # Add custom flags for link
@@ -102,7 +102,7 @@ directories: $(BUILD_DIRECTORIES)
 $(PROGRAM): \
 	directories \
 	$(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
+	$(CC) $(CFLAGS) $(XCFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
 	@echo
 
 clean::
