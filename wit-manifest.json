@@ -40,7 +40,7 @@
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "cff1b713ac789bea21bcb794c6e376dd7d8ca8dc",
+        "commit": "c974863998bf05d96d25bbb153a6f6e80ffd90e2",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -220,7 +220,7 @@
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
     {
-        "commit": "4d6cd59095ebf927a2d134838ce58d3af4498a6e",
+        "commit": "f0187939df63420c7373d3da777e7e423047c2be",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
     },
