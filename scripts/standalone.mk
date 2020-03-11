@@ -170,6 +170,10 @@ endif
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
 endif
 
+ifeq ($(filter freertos,$(PROGRAM)),)
+RISCV_XCFLAGS += -DWAIT_MS=$(TARGET_FREERTOS_WAIT_MS)
+endif
+
 #############################################################
 # Software
 #############################################################
