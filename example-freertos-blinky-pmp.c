@@ -53,6 +53,8 @@
 
 extern struct metal_led *led0_red, *led0_green, *led0_blue;
 
+extern pmp_info_t xPmpInfo;
+
 /* Priorities used by the tasks. */
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
 #define	mainQUEUE_SEND_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
@@ -135,6 +137,10 @@ int main( void )
 			.uxPriority = mainQUEUE_SEND_TASK_PRIORITY,
 			.puxStackBuffer = NULL,
 		};
+
+        if(0 == xPmpInfo.granularity) {
+		    init_pmp (&xPmpInfo);
+        }
 
 		/* 
 		 * Prepare xRegions for Receive Task 
