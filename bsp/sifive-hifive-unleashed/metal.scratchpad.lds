@@ -12,9 +12,9 @@ ENTRY(_enter)
 
 MEMORY
 {
-    rom (irx!wa) : ORIGIN = 0x20000000, LENGTH = 0x10000000
-    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x1f80000000
     itim (airwx) : ORIGIN = 0x1808000, LENGTH = 0x8000
+    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x1f80000000
+    rom (irx!wa) : ORIGIN = 0x20000000, LENGTH = 0x10000000
 }
 
 SECTIONS

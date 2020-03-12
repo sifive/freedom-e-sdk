@@ -25,7 +25,7 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "c3c867cc55aaeaaeee3ca2c49092ffd87aa9b01c",
+        "commit": "171cbb82c006793538ca687cab91ffcd38f63e55",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },

@@ -32,6 +32,10 @@ jobs:
         run: |
           docker run --rm freedom-e-sdk ./scripts/check-submodules
 
+      - name: 'Check BSP files are up-to-date'
+        run: |
+          docker run --rm freedom-e-sdk ./scripts/check-bsps-updated
+
       - name: 'Build all examples on all targets'
         run: |
           docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/all-targets-build
