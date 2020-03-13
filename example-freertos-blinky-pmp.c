@@ -110,6 +110,7 @@ int main( void )
 	prvSetupHardware();
 	write( STDOUT_FILENO, pcMessage, strlen( pcMessage ) );
 	
+#if( portUSING_MPU_WRAPPERS == 1 )
 	/* Create the queue. */
 	xQueue = xQueueCreate( mainQUEUE_LENGTH, sizeof( uint32_t ) );
 
@@ -235,7 +236,7 @@ int main( void )
 		vTaskDelete( xHandle_SendTask );
 		vTaskDelete( xHandle_ReceiveTask );
 	}
-
+#endif
 	write( STDOUT_FILENO, pcMessageEnd, strlen( pcMessageEnd ) );
 
 }
@@ -274,6 +275,10 @@ static void prvQueueSendTask( void *pvParameters )
 		xReturned = xQueueSend( xQueue, &ulValueToSend, 0U );
 		configASSERT( xReturned == pdPASS );
 	}
+
+#if( portUSING_MPU_WRAPPERS == 1 )
+	xPortRaisePrivilege();
+#endif
 	vTaskEndScheduler();
 }
 /*-----------------------------------------------------------*/
