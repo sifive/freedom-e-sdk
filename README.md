@@ -306,4 +306,4 @@ Run `make help` for more commands.
 
 Documentation, Forums, and much more available at
 
-[dev.sifive.com](https://dev.sifive.com)
+[www.sifive.com](https://www.sifive.com)
