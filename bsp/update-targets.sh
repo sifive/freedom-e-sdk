@@ -72,7 +72,8 @@ else
         echo "[INFO] $0: "$CUSTOM_TARGET" not found! Creating one" >&2
 	mkdir -p $CUSTOM_TARGET
     fi
-    cp $DTSFILE "$CUSTOM_TARGET/design.dts"
+    # cp $DTSFILE "$CUSTOM_TARGET/design.dts"
+    cp $DTSFILE "$CUSTOM_TARGET/core.dts"
     TARGET_LIST="$CUSTOM_TARGET "
 fi
 
@@ -93,6 +94,7 @@ HEADER_FILENAME=metal.h
 LDS_DEFAULT_FILENAME=metal.default.lds
 LDS_RAMRODATA_FILENAME=metal.ramrodata.lds
 LDS_SCRATCHPAD_FILENAME=metal.scratchpad.lds
+LDS_FREERTOS_FILENAME=metal.freertos.lds
 SETTINGS_FILENAME=settings.mk
 BARE_HEADER_FILENAME=metal-platform.h
 OPENOCDCFG_FILENAME=openocd.cfg
@@ -121,6 +123,7 @@ update_target() {
     . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
     . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
     . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
+    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_FREERTOS_FILENAME --freertos || warn "Failed to produce $TARGET/$LDS_FREERTOS_FILENAME"
     . ../venv/bin/activate && $SETTINGS_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -t $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
     pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
     . ../venv/bin/activate && $CMSIS_SVD_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$CMSIS_SVD_FILENAME || warn "Failed to produce $TARGET/$CMSIS_SVD_FILENAME"
