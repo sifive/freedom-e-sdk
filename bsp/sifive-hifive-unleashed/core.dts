@@ -435,6 +435,8 @@
 		};
 		L45: pwm@10020000 {
 			compatible = "sifive,pwm0";
+			sifive,comparator-widthbits = <16>;
+			sifive,ncomparators = <4>;
 			interrupt-parent = <&L4>;
 			interrupts = <42 43 44 45>;
 			reg = <0x0 0x10020000 0x0 0x1000>;
@@ -445,6 +447,8 @@
 		};
 		L46: pwm@10021000 {
 			compatible = "sifive,pwm0";
+			sifive,comparator-widthbits = <16>;
+			sifive,ncomparators = <4>;
 			interrupt-parent = <&L4>;
 			interrupts = <46 47 48 49>;
 			reg = <0x0 0x10021000 0x0 0x1000>;

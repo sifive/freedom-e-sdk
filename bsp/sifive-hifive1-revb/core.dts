@@ -167,7 +167,7 @@
                         reg = <0x10013000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0x30000 0x30000>;
+                        pinmux = <&gpio0 0x0 0x30000>;
                 };
                 spi0: spi@10014000 {
                         compatible = "sifive,spi0";
@@ -186,11 +186,14 @@
                 };
                 pwm0: pwm@10015000 {
                         compatible = "sifive,pwm0";
+                        sifive,comparator-widthbits = <8>;
+                        sifive,ncomparators = <4>;
                         interrupt-parent = <&plic>;
                         interrupts = <40 41 42 43>;
                         reg = <0x10015000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x0F 0x0F>;
                 };
                 i2c0: i2c@10016000 {
                         compatible = "sifive,i2c0";
@@ -199,7 +202,7 @@
                         reg = <0x10016000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0x3000 0x3000>;
+                        pinmux = <&gpio0 0x0 0x3000>;
                 };
                 uart1: serial@10023000 {
                         compatible = "sifive,uart0";
@@ -208,7 +211,7 @@
                         reg = <0x10023000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0x840000 0x840000>;
+                        pinmux = <&gpio0 0x0 0x840000>;
                 };
                 spi1: spi@10024000 {
                         compatible = "sifive,spi0";
@@ -217,15 +220,18 @@
                         reg = <0x10024000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0x0003C 0x0003C>;
+                        pinmux = <&gpio0 0x0 0x0003C>;
                 };
                 pwm1: pwm@10025000 {
                         compatible = "sifive,pwm0";
+                        sifive,comparator-widthbits = <16>;
+                        sifive,ncomparators = <4>;
                         interrupt-parent = <&plic>;
                         interrupts = <44 45 46 47>;
                         reg = <0x10025000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x780000 0x780000>;
                 };
                 spi2: spi@10034000 {
                         compatible = "sifive,spi0";
@@ -234,15 +240,18 @@
                         reg = <0x10034000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0xFC000000 0xFC000000>;
+                        pinmux = <&gpio0 0x0 0xFC000000>;
                 };
                 pwm2: pwm@10035000 {
                         compatible = "sifive,pwm0";
+                        sifive,comparator-widthbits = <16>;
+                        sifive,ncomparators = <4>;
                         interrupt-parent = <&plic>;
                         interrupts = <48 49 50 51>;
                         reg = <0x10035000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x3C00 0x3C00>;
                 };
                 dtim: dtim@80000000 {
                         compatible = "sifive,dtim0";

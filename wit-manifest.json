@@ -1,11 +1,11 @@
 [
     {
-        "commit": "38aa006c23057b2c76b0f1b9380709ac368e9f85",
+        "commit": "44eacf2325f92925e7488aa4f199e6eff7a5505e",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "754b64d28e40b23407f93443aadaa2870b5a43d8",
+        "commit": "06801853deb7e0f4f165ccf652ae647e3ecdd3ec",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -233,5 +233,10 @@
         "commit": "111f47834fe7143303c99a5adb2f127d6ba438f3",
         "name": "example-freertos-blinky-systemview",
         "source": "git@github.com:sifive/example-freertos-blinky-systemview.git"
+    },
+    {
+        "commit": "356d0f75492e8233d3b4ea17b39379208811920d",
+        "name": "example-pwm",
+        "source": "git@github.com:sifive/example-pwm.git"
     }
 ]

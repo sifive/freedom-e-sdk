@@ -87,6 +87,20 @@ extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_output_selecto
 extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_source_selector(struct metal_i2c *i2c);
 
 
+/* --------------------- sifive_pwm0 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_control_base(struct metal_pwm *pwm);
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_control_size(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_num_interrupts(struct metal_pwm *pwm);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_pwm0_interrupt_parent(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_interrupt_lines(struct metal_pwm *pwm, int idx);
+extern __inline__ struct metal_clock * __metal_driver_sifive_pwm0_clock(struct metal_pwm *pwm);
+extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_pwm0_pinmux(struct metal_pwm *pwm);
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_pinmux_output_selector(struct metal_pwm *pwm);
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_pinmux_source_selector(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_compare_width(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_comparator_count(struct metal_pwm *pwm);
+
+
 /* --------------------- sifive_rtc0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_base(const struct metal_rtc *const rtc);
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_size(const struct metal_rtc *const rtc);
@@ -284,6 +298,21 @@ struct __metal_driver_sifive_gpio_led __metal_dt_led_2 = {
 /* From i2c@10016000 */
 struct __metal_driver_sifive_i2c0 __metal_dt_i2c_10016000 = {
     .i2c.vtable = &__metal_driver_vtable_sifive_i2c0.i2c,
+};
+
+/* From pwm@10015000 */
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000 = {
+    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
+};
+
+/* From pwm@10025000 */
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10025000 = {
+    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
+};
+
+/* From pwm@10035000 */
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10035000 = {
+    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
 };
 
 /* From aon@10000000 */

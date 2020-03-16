@@ -87,6 +87,20 @@ extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_output_selecto
 extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_source_selector(struct metal_i2c *i2c);
 
 
+/* --------------------- sifive_pwm0 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_control_base(struct metal_pwm *pwm);
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_control_size(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_num_interrupts(struct metal_pwm *pwm);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_pwm0_interrupt_parent(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_interrupt_lines(struct metal_pwm *pwm, int idx);
+extern __inline__ struct metal_clock * __metal_driver_sifive_pwm0_clock(struct metal_pwm *pwm);
+extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_pwm0_pinmux(struct metal_pwm *pwm);
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_pinmux_output_selector(struct metal_pwm *pwm);
+extern __inline__ unsigned long __metal_driver_sifive_pwm0_pinmux_source_selector(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_compare_width(struct metal_pwm *pwm);
+extern __inline__ int __metal_driver_sifive_pwm0_comparator_count(struct metal_pwm *pwm);
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 
@@ -332,6 +346,16 @@ struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10060000 = {
 /* From i2c@10030000 */
 struct __metal_driver_sifive_i2c0 __metal_dt_i2c_10030000 = {
     .i2c.vtable = &__metal_driver_vtable_sifive_i2c0.i2c,
+};
+
+/* From pwm@10020000 */
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10020000 = {
+    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
+};
+
+/* From pwm@10021000 */
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10021000 = {
+    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
 };
 
 /* From spi@10040000 */
