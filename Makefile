@@ -19,6 +19,25 @@ ifneq ($(BOARD),)
 TARGET ?= $(BOARD)
 endif
 
+# If the make command goal is any of the Freedom Studio goals
+# then there is no need to include any of the other makefiles
+# as we are not really building anything real.
+ifeq ($(MAKECMDGOALS),standalone)
+NO_INCLUDES = true
+endif
+ifeq ($(MAKECMDGOALS),list-targets)
+NO_INCLUDES = true
+endif
+ifeq ($(MAKECMDGOALS),list-target-tags)
+NO_INCLUDES = true
+endif
+ifeq ($(MAKECMDGOALS),list-programs)
+NO_INCLUDES = true
+endif
+ifeq ($(MAKECMDGOALS),list-options)
+NO_INCLUDES = true
+endif
+
 # Default PROGRAM and TARGET
 PROGRAM ?= hello
 TARGET ?= $(shell find $(TARGET_ROOT)/bsp/* -type d | head -n 1 | rev | cut -d '/' -f 1 | rev)
@@ -87,13 +106,17 @@ endif
 #  - Setting the toolchain path with CROSS_COMPILE and RISCV_PATH
 #  - Providing the software and $(PROGRAM_ELF) Make targets for Metal
 
+ifeq ($(NO_INCLUDES),)
 include scripts/standalone.mk
+endif
 
-#############################################################
+##############################################################
 # Virtualenv Script Include
-#############################################################
+##############################################################
 
+ifeq ($(NO_INCLUDES),)
 include scripts/virtualenv.mk
+endif
 
 #############################################################
 # Help Script Include
@@ -189,7 +212,9 @@ list-options: list-programs list-targets
 # Import rules to build Freedom Metal
 #############################################################
 
+ifeq ($(NO_INCLUDES),)
 include scripts/libmetal.mk
+endif
 
 #############################################################
 # Standalone Project Export
@@ -252,6 +277,7 @@ ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
 endif
 
 	mkdir -p $</scripts
+	cp scripts/virtualenv.mk $</scripts
 
 	cp -r scripts/elf2hex $</scripts
 	find $</scripts/elf2hex -name ".git*" | xargs rm -rf
@@ -287,6 +313,16 @@ endif
 	cp release.mk $</release.mk
 	cp requirements.txt $</requirements.txt
 
+	touch $</bsp/core.dts
+	touch $</bsp/design.dts
+	touch $</bsp/metal.default.lds
+	touch $</bsp/metal.ramrodata.lds
+	touch $</bsp/metal.scratchpad.lds
+	touch $</bsp/metal.h
+	touch $</bsp/metal-platform.h
+	touch $</bsp/design.svd
+	touch $</bsp/settings.mk
+
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
 ifneq ($(PORT_DIR),)
@@ -300,7 +336,6 @@ endif
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-	cat scripts/virtualenv.mk >> $</Makefile
 	cat scripts/upload_debug.mk >> $</Makefile
 	cat scripts/help.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
@@ -347,6 +382,7 @@ ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
 endif
 
 	mkdir -p $</scripts
+	cp scripts/virtualenv.mk $</scripts
 
 	cp scripts/upload $</scripts
 	cp scripts/debug $</scripts
@@ -379,6 +415,16 @@ endif
 	cp release.mk $</release.mk
 	cp requirements.txt $</requirements.txt
 
+	touch $</bsp/core.dts
+	touch $</bsp/design.dts
+	touch $</bsp/metal.default.lds
+	touch $</bsp/metal.ramrodata.lds
+	touch $</bsp/metal.scratchpad.lds
+	touch $</bsp/metal.h
+	touch $</bsp/metal-platform.h
+	touch $</bsp/design.svd
+	touch $</bsp/settings.mk
+
 	echo "PROGRAM = $(PROGRAM)" > $</Makefile
 	echo "TARGET = ${TARGET}" >> $</Makefile
 ifneq ($(PORT_DIR),)
@@ -392,7 +438,6 @@ endif
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
-	cat scripts/virtualenv.mk >> $</Makefile
 	cat scripts/upload_debug.mk >> $</Makefile
 	cat scripts/help.mk >> $</Makefile
 endif # rtl in TARGET_TAGS

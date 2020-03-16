@@ -27,27 +27,28 @@ SETTINGS_GENERATOR = scripts/esdk-settings-generator/generate_settings.py
 # This allows user changes to the devicetree in $(BSP_DIR)/design.dts to be
 # propagated through to the end application with a single invocation of Make
 
-$(OVERLAY_GENERATOR): virtualenv
-$(LDSCRIPT_GENERATOR): virtualenv
-$(CMSIS_SVD_GENERATOR): virtualenv
-$(SETTINGS_GENERATOR): virtualenv
-
 $(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. venv/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
 
 $(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@
 
 $(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --ramrodata
 
 $(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --scratchpad
 
 $(BSP_DIR)/design.svd: $(BSP_DIR)/design.dts $(CMSIS_SVD_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. venv/bin/activate && $(CMSIS_SVD_GENERATOR) -d $< -o $@
 
 $(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dts $(SETTINGS_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. venv/bin/activate && $(SETTINGS_GENERATOR) -d $< -o $@ -t $(TARGET)
 
 ifeq ($(findstring spike,$(TARGET)),spike)

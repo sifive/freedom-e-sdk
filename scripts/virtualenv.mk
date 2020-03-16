@@ -6,13 +6,15 @@ virtualenv: venv/.stamp
 # from the Python Package Index by running `make virtualenv-from-pypi`
 
 .PHONY: virtualenv-from-pypi
+
+# invoke python3 pip in order to bypass 127 character limit in shebang
 virtualenv-from-pypi: venv/bin/activate requirements.txt
-	. $< && pip install --upgrade pip
-	. $< && pip install -r requirements.txt
+	. $< && venv/bin/python3 venv/bin/pip install --upgrade pip
+	. $< && venv/bin/python3 venv/bin/pip install -r requirements.txt
 
 venv/.stamp: venv/bin/activate requirements.txt
-	. $< && pip install --no-index --find-links pip-cache --upgrade pip
-	. $< && pip install --no-index --find-links pip-cache -r requirements.txt
+	. $< && venv/bin/python3 venv/bin/pip install --no-index --find-links pip-cache --upgrade pip
+	. $< && venv/bin/python3 venv/bin/pip install --no-index --find-links pip-cache -r requirements.txt
 	touch $@
 
 venv/bin/activate:

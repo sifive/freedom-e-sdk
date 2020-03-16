@@ -1,0 +1,45 @@
+name: tests
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        riscv_cflags: [
+          "",
+          "-std=c99 -Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter",
+        ]
+
+    steps:
+      - name: 'Clone freedom-e-sdk'
+        uses: actions/checkout@v2
+        with:
+          path: freedom-e-sdk
+
+      - name: 'Checkout submodules'
+        run: |
+          git -C freedom-e-sdk submodule update --init --recursive --depth=1
+
+      - name: 'Build freedom-e-sdk container'
+        run: |
+          docker build -t freedom-e-sdk \
+            -f freedom-e-sdk/docker/Dockerfile \
+            freedom-e-sdk
+
+      - name: 'Check wit-manifest.json matches git submodules'
+        run: |
+          docker run --rm freedom-e-sdk ./scripts/check-submodules
+
+      - name: 'Check BSP files are up-to-date'
+        run: |
+          docker run --rm freedom-e-sdk ./scripts/check-bsps-updated
+
+      - name: 'Build all examples on all targets'
+        run: |
+          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/all-targets-build
+
+      - name: 'Run examples on QEMU'
+        run: |
+          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/test-qemu-targets
