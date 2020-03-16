@@ -1,2 +1,3 @@
 # example-pwm
-Example code for Freedom metal PWM APIs.
+
+Demonstrates usage of the PWM API for waveform generation.
