@@ -1,0 +1,50 @@
+#############################################################
+# Prints help message
+#############################################################
+.PHONY: help
+help::
+	@echo " SiFive Freedom E Software Development Kit "
+	@echo " Makefile targets:"
+	@echo ""
+	@echo " (PROGRAM and TARGET ignored in standalone projects)"
+	@echo ""
+	@echo " software [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "          [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    Builds the requested PROGRAM for the TARGET using the"
+	@echo "    specified build CONFIGURATION."
+	@echo ""
+	@echo " metal [TARGET=$(TARGET)] [CONFIGURATION=$(CONFIGURATION)]"
+	@echo "    Builds the Freedom Metal library for TARGET."
+	@echo ""
+	@echo " metal-bsp [TARGET=$(TARGET)]"
+	@echo "    Generates the BSP files for TARGET. Requires dtc"
+	@echo "    and freedom-devicetree-tools to be in your PATH"
+	@echo ""
+	@echo " clean [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    Cleans compiled objects for a specified "
+	@echo "    software program."
+	@echo ""
+	@echo " upload [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "        [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    For board and FPGA TARGETs, uploads the program to the"
+	@echo "    on-board flash."
+	@echo ""
+	@echo " debug [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    For board and FPGA TARGETs, attaches GDB to the"
+	@echo "    running program."
+	@echo ""
+	@echo " simulate [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
+	@echo "          [CONFIGURATION=$(CONFIGURATION)]:"
+	@echo "    Simulates the program in the QEMU emulator."
+	@echo ""
+	@echo " open-docs"
+	@echo "    Opens the Freedom E SDK documentation in your HTML"
+	@echo "    viewer of choice. The documentation can also be found"
+	@echo "    online at"
+	@echo "      https://sifive.github.io/freedom-e-sdk-docs/index.html"
+
+.PHONY: open-docs
+open-docs: scripts/open-docs
+	$^

@@ -96,58 +96,21 @@ include scripts/standalone.mk
 include scripts/virtualenv.mk
 
 #############################################################
-# Prints help message
+# Help Script Include
 #############################################################
-.PHONY: help
-help:
-	@echo " SiFive Freedom E Software Development Kit "
-	@echo " Makefile targets:"
-	@echo ""
-	@echo " software [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
-	@echo "          [CONFIGURATION=$(CONFIGURATION)]:"
-	@echo "    Builds the requested PROGRAM for the TARGET using the"
-	@echo "    specified build CONFIGURATION."
-	@echo ""
-	@echo " metal [TARGET=$(TARGET)] [CONFIGURATION=$(CONFIGURATION)]"
-	@echo "    Builds the Freedom Metal library for TARGET."
-	@echo ""
-	@echo " metal-bsp [TARGET=$(TARGET)]"
-	@echo "    Generates the BSP files for TARGET. Requires dtc"
-	@echo "    and freedom-devicetree-tools to be in your PATH"
-	@echo ""
-	@echo " clean [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
-	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
-	@echo "    Cleans compiled objects for a specified "
-	@echo "    software program."
-	@echo ""
-	@echo " upload [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
-	@echo "        [CONFIGURATION=$(CONFIGURATION)]:"
-	@echo "    For board and FPGA TARGETs, uploads the program to the"
-	@echo "    on-board flash."
-	@echo ""
-	@echo " debug [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
-	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
-	@echo "    For board and FPGA TARGETs, attaches GDB to the"
-	@echo "    running program."
-	@echo ""
-	@echo " simulate [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
-	@echo "          [CONFIGURATION=$(CONFIGURATION)]:"
-	@echo "    Simulates the program in the QEMU emulator."
+
+include scripts/help.mk
+
+help::
 	@echo ""
 	@echo " standalone STANDALONE_DEST=/path/to/desired/location"
 	@echo "            [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]:"
 	@echo "    Exports a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
-	@echo ""
-	@echo " open-docs"
-	@echo "    Opens the Freedom E SDK documentation in your HTML"
-	@echo "    viewer of choice. The documentation can also be found"
-	@echo "    online at"
-	@echo "      https://sifive.github.io/freedom-e-sdk-docs/index.html"
 
-.PHONY: open-docs
+
 open-docs: scripts/open-docs
-	$^
+	$^ $(TARGET_ROOT)
 
 .PHONY: clean
 clean:
@@ -263,7 +226,13 @@ standalone: \
 		scripts/elf2hex \
 		scripts/standalone.mk \
 		scripts/libmetal.mk \
-		scripts/virtualenv.mk
+		scripts/virtualenv.mk \
+		scripts/upload_debug.mk \
+		scripts/help.mk \
+		scripts/upload \
+		scripts/debug \
+		scripts/simulate \
+		scripts/open-docs
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	cp -r pip-cache $</
@@ -287,6 +256,11 @@ endif
 	cp -r scripts/elf2hex $</scripts
 	find $</scripts/elf2hex -name ".git*" | xargs rm -rf
 
+	cp scripts/upload $</scripts
+	cp scripts/debug $</scripts
+	cp scripts/simulate $</scripts
+	cp scripts/open-docs $</scripts
+
 	cp -r scripts/devicetree-overlay-generator $</scripts
 	find $</scripts/devicetree-overlay-generator -name ".git*" | xargs rm -rf
 
@@ -327,6 +301,8 @@ endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 	cat scripts/virtualenv.mk >> $</Makefile
+	cat scripts/upload_debug.mk >> $</Makefile
+	cat scripts/help.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
 standalone: \
 		$(STANDALONE_DEST) \
@@ -345,7 +321,13 @@ standalone: \
 		scripts/esdk-settings-generator \
 		scripts/standalone.mk \
 		scripts/libmetal.mk \
-		scripts/virtualenv.mk
+		scripts/virtualenv.mk \
+		scripts/upload_debug.mk \
+		scripts/help.mk \
+		scripts/upload \
+		scripts/debug \
+		scripts/simulate \
+		scripts/open-docs
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
 	cp -r pip-cache $</
@@ -366,6 +348,11 @@ endif
 
 	mkdir -p $</scripts
 
+	cp scripts/upload $</scripts
+	cp scripts/debug $</scripts
+	cp scripts/simulate $</scripts
+	cp scripts/open-docs $</scripts
+
 	cp -r scripts/devicetree-overlay-generator $</scripts
 	find $</scripts/devicetree-overlay-generator -name ".git*" | xargs rm -rf
 
@@ -406,53 +393,14 @@ endif
 	cat scripts/standalone.mk >> $</Makefile
 	cat scripts/libmetal.mk >> $</Makefile
 	cat scripts/virtualenv.mk >> $</Makefile
+	cat scripts/upload_debug.mk >> $</Makefile
+	cat scripts/help.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
 
 endif # STANDALONE_DEST
 
 #############################################################
-# Upload and Debug
+# Import rules to upload and debug
 #############################################################
 
-ifneq ($(RISCV_OPENOCD_PATH),)
-RISCV_OPENOCD=$(RISCV_OPENOCD_PATH)/bin/openocd
-else
-#if RISCV_OPENOCD_PATH is not set, just look on the PATH
-RISCV_OPENOCD=openocd
-endif
-
-ifneq ($(filter jlink,$(TARGET_TAGS)),)
-upload: $(PROGRAM_HEX)
-	scripts/upload --hex $(PROGRAM_HEX) --jlink $(SEGGER_JLINK_EXE)
-else
-upload: $(PROGRAM_ELF)
-	scripts/upload --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
-endif
-
-ifneq ($(filter jlink,$(TARGET_TAGS)),)
-debug: $(PROGRAM_ELF)
-	scripts/debug --elf $(PROGRAM_ELF) --jlink $(SEGGER_JLINK_GDB_SERVER) --gdb $(RISCV_GDB)
-else
-debug: $(PROGRAM_ELF)
-	scripts/debug --elf $(PROGRAM_ELF) --openocd $(RISCV_OPENOCD) --gdb $(RISCV_GDB) --openocd-config bsp/$(TARGET)/openocd.cfg
-endif
-
-ifeq ($(findstring qemu,$(TARGET)),qemu)
-ifeq ($(findstring rv32,$(RISCV_ARCH)),rv32)
-simulate: $(PROGRAM_ELF)
-	scripts/simulate --elf $(PROGRAM_ELF) --qemu $(QEMU_RISCV32) --qemu-config bsp/$(TARGET)/qemu.cfg
-else # findstring rv32
-simulate: $(PROGRAM_ELF)
-	scripts/simulate --elf $(PROGRAM_ELF) --qemu $(QEMU_RISCV64) --qemu-config bsp/$(TARGET)/qemu.cfg
-endif # findstring rv32
-else # findstring qemu
-ifeq ($(findstring spike,$(TARGET)),spike)
-simulate: $(PROGRAM_ELF) $(BSP_DIR)/spike_options.sh
-	. $(BSP_DIR)/spike_options.sh && scripts/simulate --elf $(PROGRAM_ELF) --spike $(shell which spike) ; echo "Spike exited with code $$?"
-else
-simulate:
-	@echo "No supported emulator for target $(TARGET)!"
-endif # findstring spike
-endif # findstring qemu
-
-
+include scripts/upload_debug.mk
