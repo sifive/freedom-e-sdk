@@ -43,6 +43,10 @@ $(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
 	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --scratchpad
 
+$(BSP_DIR)/metal.freertos.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. venv/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --freertos
+
 $(BSP_DIR)/design.svd: $(BSP_DIR)/design.dts $(CMSIS_SVD_GENERATOR)
 	$(MAKE) -f scripts/virtualenv.mk virtualenv
 	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(CMSIS_SVD_GENERATOR) -d $< -o $@
@@ -80,6 +84,7 @@ metal-bsp:\
 	   $(BSP_DIR)/metal.default.lds \
 	   $(BSP_DIR)/metal.ramrodata.lds \
 	   $(BSP_DIR)/metal.scratchpad.lds \
+	   $(BSP_DIR)/metal.privilege.lds \
 	   $(BSP_DIR)/settings.mk
 else
 .PHONY: bsp
