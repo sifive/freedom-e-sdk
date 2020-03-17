@@ -10,35 +10,8 @@ OBJ_DIR ?= ./$(CONFIGURATION)/build
 
 C_SOURCES = $(wildcard *.c)
 
-# ----------------------------------------------------------------------
-# FREERTOS 
-# ----------------------------------------------------------------------
-FREERTOS_SOURCE_PATH ?= ../../FreeRTOS-metal
-#     Include FREERTOS source
-include $(FREERTOS_SOURCE_PATH)/FreeRTOS.mk
-
-
-#     Add FreeRTOS include 
-_COMMON_CFLAGS  += -I./
-_COMMON_CFLAGS  += ${FREERTOS_INCLUDES}
-_COMMON_CFLAGS  += -DportHANDLE_INTERRUPT=FreedomMetal_InterruptHandler
-_COMMON_CFLAGS  += -DportHANDLE_EXCEPTION=FreedomMetal_ExceptionHandler
-
-#     Add define needed for FreeRTOS 
-_COMMON_CFLAGS  += -DMTIME_CTRL_ADDR=0x2000000
-
-ifeq ($(TARGET),sifive-hifive-unleashed)
-_COMMON_CFLAGS  += -DMTIME_RATE_HZ=1000000
-else
-_COMMON_CFLAGS  += -DMTIME_RATE_HZ=32768
-endif
-
-#     Update our list of C source files.
-C_SOURCES += ${FREERTOS_C_SOURCES}
-C_SOURCES += ${FREERTOS_HEAP_4_C}
-
-#     Update our list of S source files.
-S_SOURCES += ${FREERTOS_S_SOURCES}
+#     Add local include 
+override CFLAGS  += -I./
 
 # ----------------------------------------------------------------------
 # Build List of Object according C/CPP/S source file list
@@ -55,11 +28,51 @@ OBJS += ${_CXX_OBJ_FILES}
 OBJS += ${_ASM_OBJ_FILES}
 
 # ----------------------------------------------------------------------
+# Add custom flags for link
+# ----------------------------------------------------------------------
+# Reduce default size of the stack and the heap
+#
+_ADD_LDFLAGS  += -Wl,--defsym,__stack_size=0x200
+_ADD_LDFLAGS  += -Wl,--defsym,__heap_size=0x200
+
+# ----------------------------------------------------------------------
+# Add custom flags for FreeRTOS
+# ----------------------------------------------------------------------
+FREERTOS_SOURCE_PATH ?= ../../FreeRTOS-metal
+FREERTOS_DIR = $(abspath $(FREERTOS_SOURCE_PATH))
+include $(FREERTOS_DIR)/scripts/FreeRTOS.mk
+
+export portHANDLE_INTERRUPT=FreedomMetal_InterruptHandler
+export portHANDLE_EXCEPTION=FreedomMetal_ExceptionHandler
+export FREERTOS_CONFIG_DIR = $(abspath ./)
+export MTIME_CTRL_ADDR=0x2000000
+ifeq ($(TARGET),sifive-hifive-unleashed)
+        export MTIME_RATE_HZ=1000000
+else
+        export MTIME_RATE_HZ=32768
+endif
+export HEAP = 4
+
+override CFLAGS +=      $(foreach dir,$(FREERTOS_INCLUDES),-I $(dir)) \
+                                        -I $(FREERTOS_CONFIG_DIR) \
+                                        -I $(join $(abspath  $(BUILD_DIRECTORIES)),/FreeRTOS/include)
+
+override LDLIBS += -lFreeRTOS
+override LDFLAGS += -L$(join $(abspath  $(BUILD_DIRECTORIES)),/FreeRTOS/lib)
+
+
+# ----------------------------------------------------------------------
+# Update LDLIBS
+# ----------------------------------------------------------------------
+FILTER_PATTERN = -Wl,--end-group
+override LDLIBS := $(filter-out $(FILTER_PATTERN),$(LDLIBS)) -Wl,--end-group
+
+# ----------------------------------------------------------------------
 # Compile Object Files From Assembly
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.S
 	@echo "Assemble: $<"
-	$(HIDE)$(CC) -D__ASSEMBLY__ -c -o $@ $(ASFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CC) -o $@ $(ASFLAGS) $(XCFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
 	@echo
 
 # ----------------------------------------------------------------------
@@ -75,21 +88,13 @@ $(OBJ_DIR)/%.o: %.c
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.cpp
 	@echo "Compile: $<"
-	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
-
-# ----------------------------------------------------------------------
-# Add custom flags for link
-# ----------------------------------------------------------------------
-# Reduce default size of the stack and the heap
-#
-_ADD_LDFLAGS  += -Wl,--defsym,__stack_size=0x200
-_ADD_LDFLAGS  += -Wl,--defsym,__heap_size=0x200
+	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(XCFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
 
 # ----------------------------------------------------------------------
 # create dedicated directory for Object files
 # ----------------------------------------------------------------------
 BUILD_DIRECTORIES = \
-        $(OBJ_DIR) 
+	$(OBJ_DIR) 
 
 # ----------------------------------------------------------------------
 # Build rules
@@ -99,10 +104,14 @@ $(BUILD_DIRECTORIES):
 
 directories: $(BUILD_DIRECTORIES)
 
+libfreertos:
+	make -f Makefile -C $(FREERTOS_DIR) BUILD_DIR=$(join $(abspath  $(BUILD_DIRECTORIES)),/FreeRTOS) libFreeRTOS.a VERBOSE=$(VERBOSE)
+
 $(PROGRAM): \
 	directories \
+	libfreertos \
 	$(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
+	$(CC) $(CFLAGS) $(XCFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
 	@echo
 
 clean::

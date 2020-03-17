@@ -162,7 +162,7 @@ void FreedomMetal_ExceptionHandler( void )
 		}
 	}
 
-	for( ;; ); // return i dangerous, we just got a critical exception.
+	for( ;; ); // return is dangerous, we just got a critical exception.
 	return;
 }
 
