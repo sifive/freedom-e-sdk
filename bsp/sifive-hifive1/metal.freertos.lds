@@ -2,18 +2,20 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 OUTPUT_ARCH("riscv")
 
-/* Default Linker Script
+/* Privileged mode Linker Script
  *
- * This is the default linker script for all Freedom Metal applications.
+ * This linker script is based on metal.default.lds. It introduce specific
+ * section to isolate (acessible only from machine mode) and others that can be
+ * used in every execution mode. This linker script it tailored for FreeRTOS
+ * applications.
  */
 
 ENTRY(_enter)
 
 MEMORY
 {
-    itim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x2000
-    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x4000
-    rom (irx!wa) : ORIGIN = 0x20010000, LENGTH = 0x6a120
+    ram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x4000
+    rom (irx!wa) : ORIGIN = 0x20400000, LENGTH = 0x1fc00000
 }
 
 SECTIONS
@@ -109,9 +111,16 @@ SECTIONS
         PROVIDE_HIDDEN ( metal_destructors_end = .);
     } >rom
 
+	.privileged_functions : ALIGN (4) {
+        __privileged_functions_start__ = .;
+        KEEP(*(privileged_functions))
+        . = ALIGN(4);
+		__privileged_functions_end__ = .;
+	} >rom
  
 
     .ctors : {
+        __unprivileged_section_start__ = .;
         KEEP (*crtbegin.o(.ctors))
         KEEP (*crtbegin?.o(.ctors))
         KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))
@@ -146,6 +155,7 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
+        __unprivileged_section_end__ = .;
 
     } >rom
 
@@ -161,7 +171,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >itim AT>rom
+    } >ram AT>rom
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -176,6 +186,7 @@ SECTIONS
      */
 
     .data : ALIGN(8) {
+        __unprivileged_data_section_start__ = .;
         *(.data .data.*)
         *(.gnu.linkonce.d.*)
         . = ALIGN(8);
@@ -194,12 +205,21 @@ SECTIONS
         *(.bss .bss.*)
         *(.gnu.linkonce.b.*)
         *(COMMON)
+        __unprivileged_data_section_end__ = .;
     } >ram
 
     PROVIDE( metal_segment_bss_source_start = LOADADDR(.bss) );
     PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
     PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
+    .privileged_data (NOLOAD) : ALIGN(8) {
+        __privileged_data_start__ = .;
+		*(privileged_data)
+		/* Non kernel data is kept out of the first _Privileged_Data_Region_Size
+		bytes of SRAM. */
+        . = ALIGN(4);
+		__privileged_data_end__ = .;
+	} >ram
  
 
     .stack (NOLOAD) : ALIGN(16) {
