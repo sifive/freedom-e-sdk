@@ -2,18 +2,19 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 OUTPUT_ARCH("riscv")
 
-/* Default Linker Script
+/* Privileged mode Linker Script
  *
- * This is the default linker script for all Freedom Metal applications.
+ * This linker script is based on metal.default.lds. It introduce specific
+ * section to isolate (acessible only from machine mode) and others that can be
+ * used in every execution mode. This linker script it tailored for FreeRTOS
+ * applications.
  */
 
 ENTRY(_enter)
 
 MEMORY
 {
-    itim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x2000
-    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x4000
-    rom (irx!wa) : ORIGIN = 0x20010000, LENGTH = 0x6a120
+    testram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x80000000
 }
 
 SECTIONS
@@ -55,7 +56,7 @@ SECTIONS
      * hart which runs application code unless the application overrides the
      * secondary_main() function to start execution on secondary harts.
      */
-    PROVIDE(__metal_boot_hart = 0);
+    PROVIDE(__metal_boot_hart = 1);
 
     /* The chicken bit is used by pre-main initialization to enable/disable
      * certain core features */
@@ -75,17 +76,17 @@ SECTIONS
         KEEP (*(.text.metal.init.*))
         KEEP (*(SORT_NONE(.init)))
         KEEP (*(.text.libgloss.start))
-    } >rom
+    } >testram
 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
-    } >rom
+    } >testram
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array))
         PROVIDE_HIDDEN (__preinit_array_end = .);
-    } >rom
+    } >testram
 
     .init_array : ALIGN(8) {
         PROVIDE_HIDDEN (__init_array_start = .);
@@ -96,7 +97,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
         KEEP (*(.metal.init_array));
         PROVIDE_HIDDEN ( metal_constructors_end = .);
-    } >rom
+    } >testram
 
     .fini_array : ALIGN(8) {
         PROVIDE_HIDDEN (__fini_array_start = .);
@@ -107,18 +108,25 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
         KEEP (*(.metal.fini_array));
         PROVIDE_HIDDEN ( metal_destructors_end = .);
-    } >rom
+    } >testram
 
+	.privileged_functions : ALIGN (4) {
+        __privileged_functions_start__ = .;
+        KEEP(*(privileged_functions))
+        . = ALIGN(4);
+		__privileged_functions_end__ = .;
+	} >testram
  
 
     .ctors : {
+        __unprivileged_section_start__ = .;
         KEEP (*crtbegin.o(.ctors))
         KEEP (*crtbegin?.o(.ctors))
         KEEP (*(EXCLUDE_FILE (*crtend.o *crtend?.o ) .ctors))
         KEEP (*(SORT(.ctors.*)))
         KEEP (*(.ctors))
         KEEP (*(.metal.ctors .metal.ctors.*))
-    } >rom
+    } >testram
 
     .dtors : {
         KEEP (*crtbegin.o(.dtors))
@@ -127,14 +135,14 @@ SECTIONS
         KEEP (*(SORT(.dtors.*)))
         KEEP (*(.dtors))
         KEEP (*(.metal.dtors .metal.dtors.*))
-    } >rom
+    } >testram
 
     .text : {
         *(.text.unlikely .text.unlikely.*)
         *(.text.startup .text.startup.*)
         *(.text .text.*)
         *(.gnu.linkonce.t.*)
-    } >rom
+    } >testram
 
     .rodata : {
         *(.rdata)
@@ -146,8 +154,9 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
+        __unprivileged_section_end__ = .;
 
-    } >rom
+    } >testram
 
     /* ITIM SECTION
      *
@@ -161,7 +170,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >itim AT>rom
+    } >testram AT>testram
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -176,13 +185,14 @@ SECTIONS
      */
 
     .data : ALIGN(8) {
+        __unprivileged_data_section_start__ = .;
         *(.data .data.*)
         *(.gnu.linkonce.d.*)
         . = ALIGN(8);
         PROVIDE( __global_pointer$ = . + 0x800 );
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
-    } >ram AT>rom
+    } >testram AT>testram
 
     PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
     PROVIDE( metal_segment_data_target_start = ADDR(.data) );
@@ -194,20 +204,32 @@ SECTIONS
         *(.bss .bss.*)
         *(.gnu.linkonce.b.*)
         *(COMMON)
-    } >ram
+        __unprivileged_data_section_end__ = .;
+    } >testram
 
     PROVIDE( metal_segment_bss_source_start = LOADADDR(.bss) );
     PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
     PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
+    .privileged_data (NOLOAD) : ALIGN(8) {
+        __privileged_data_start__ = .;
+		*(privileged_data)
+		/* Non kernel data is kept out of the first _Privileged_Data_Region_Size
+		bytes of SRAM. */
+        . = ALIGN(4);
+		__privileged_data_end__ = .;
+	} >testram
  
 
     .stack (NOLOAD) : ALIGN(16) {
         PROVIDE(metal_segment_stack_begin = .);
         . += __stack_size; /* Hart 0 */
         PROVIDE( _sp = . );
+        . += __stack_size; /* Hart 1 */
+        . += __stack_size; /* Hart 2 */
+        . += __stack_size; /* Hart 3 */
         PROVIDE(metal_segment_stack_end = .);
-    } >ram
+    } >testram
 
     .heap (NOLOAD) : ALIGN(4) {
         PROVIDE( metal_segment_heap_target_start = . );
@@ -216,5 +238,5 @@ SECTIONS
         . = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size;
         PROVIDE( metal_segment_heap_target_end = . );
         PROVIDE( _heap_end = . );
-    } >ram
+    } >testram
 }
