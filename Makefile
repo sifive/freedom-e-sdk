@@ -4,7 +4,7 @@
 # Provide a default for no verbose output
 HIDE ?= @
 
-PROGRAM ?= example-freertos-blinky-pmp
+PROGRAM ?= example-freertos-pmp-blinky
 
 OBJ_DIR ?= ./$(CONFIGURATION)/build
 

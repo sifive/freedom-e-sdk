@@ -104,8 +104,8 @@ struct metal_led *led0_red, *led0_green, *led0_blue;
 int main( void )
 {
 	TaskHandle_t xHandle_ReceiveTask, xHandle_SendTask;
-	const char * const pcMessage = "FreeRTOS Demo start\r\n";
-	const char * const pcMessageEnd = "FreeRTOS Demo end\r\n";
+	const char * const pcMessage = "FreeRTOS-PMP Demo start\r\n";
+	const char * const pcMessageEnd = "FreeRTOS-PMP Demo end\r\n";
 
 	prvSetupHardware();
 	write( STDOUT_FILENO, pcMessage, strlen( pcMessage ) );
