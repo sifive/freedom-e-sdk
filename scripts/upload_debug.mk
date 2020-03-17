@@ -3,7 +3,7 @@
 #############################################################
 
 ifneq ($(RISCV_OPENOCD_PATH),)
-RISCV_OPENOCD=$(RISCV_OPENOCD_PATH)/openocd
+RISCV_OPENOCD=$(RISCV_OPENOCD_PATH)/bin/openocd
 else
 #if RISCV_OPENOCD_PATH is not set, just look on the PATH
 RISCV_OPENOCD=openocd
