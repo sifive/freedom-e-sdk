@@ -72,7 +72,7 @@ else
         echo "[INFO] $0: "$CUSTOM_TARGET" not found! Creating one" >&2
 	mkdir -p $CUSTOM_TARGET
     fi
-    cp $DTSFILE "$CUSTOM_TARGET/design.dts"
+    cp $DTSFILE "$CUSTOM_TARGET/core.dts"
     TARGET_LIST="$CUSTOM_TARGET "
 fi
 
