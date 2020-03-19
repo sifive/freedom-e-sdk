@@ -1,6 +1,11 @@
 
+# By default, the Python virtualenv is created in the `venv` folder at the root
+# of freedom-e-sdk. If you want your virtualenv to be placed somewhere else,
+# set the FREEDOM_E_SDK_VENV_PATH environment variable.
+FREEDOM_E_SDK_VENV_PATH ?= venv
+
 .PHONY: virtualenv
-virtualenv: venv/.stamp
+virtualenv: $(FREEDOM_E_SDK_VENV_PATH)/.stamp
 
 # Just in case the cached dependencies fail, users can install Python packages
 # from the Python Package Index by running `make virtualenv-from-pypi`
@@ -8,17 +13,17 @@ virtualenv: venv/.stamp
 .PHONY: virtualenv-from-pypi
 
 # invoke python3 pip in order to bypass 127 character limit in shebang
-virtualenv-from-pypi: venv/bin/activate requirements.txt
-	. $< && venv/bin/python3 venv/bin/pip install --upgrade pip
-	. $< && venv/bin/python3 venv/bin/pip install -r requirements.txt
+virtualenv-from-pypi: $(FREEDOM_E_SDK_VENV_PATH)/bin/activate requirements.txt
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install --upgrade pip
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install -r requirements.txt
 
-venv/.stamp: venv/bin/activate requirements.txt
-	. $< && venv/bin/python3 venv/bin/pip install --no-index --find-links pip-cache --upgrade pip
-	. $< && venv/bin/python3 venv/bin/pip install --no-index --find-links pip-cache -r requirements.txt
+$(FREEDOM_E_SDK_VENV_PATH)/.stamp: $(FREEDOM_E_SDK_VENV_PATH)/bin/activate requirements.txt
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install --no-index --find-links pip-cache --upgrade pip
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install --no-index --find-links pip-cache -r requirements.txt
 	touch $@
 
-venv/bin/activate:
-	python3 -m venv venv
+$(FREEDOM_E_SDK_VENV_PATH)/bin/activate:
+	python3 -m venv $(FREEDOM_E_SDK_VENV_PATH)
 
 # The pip-cache directory holds a cache of all the Python package dependencies, being careful
 # that all are platform-indepentent.
@@ -39,5 +44,5 @@ clean-pip-cache:
 
 .PHONY: clean-virtualenv
 clean-virtualenv:
-	-rm -rf venv
+	-rm -rf $(FREEDOM_E_SDK_VENV_PATH)
 

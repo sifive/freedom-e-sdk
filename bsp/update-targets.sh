@@ -78,6 +78,10 @@ fi
 
 OVERLAY_GENERATOR=../scripts/devicetree-overlay-generator/generate_overlay.py
 
+if [ "${FREEDOM_E_SDK_VENV_PATH}" == "" ]; then
+    FREEDOM_E_SDK_VENV_PATH="../venv"
+fi
+
 DTC=dtc
 MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=../scripts/ldscript-generator/generate_ldscript.py
@@ -110,7 +114,7 @@ update_target() {
     # Generate overlay
     if [ $NO_FIXUP -ne 1 ]; then
         echo "Generating overlay $TARGET/$DESIGN_DTS_FILENAME"
-        . ../venv/bin/activate && $OVERLAY_GENERATOR --type $TARGET_TYPE --output $TARGET/$DESIGN_DTS_FILENAME --rename-include $CORE_DTS_FILENAME $TARGET/$CORE_DTS_FILENAME
+        . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $OVERLAY_GENERATOR --type $TARGET_TYPE --output $TARGET/$DESIGN_DTS_FILENAME --rename-include $CORE_DTS_FILENAME $TARGET/$CORE_DTS_FILENAME
     fi
 
     # Compile temporary .dtb
@@ -118,22 +122,22 @@ update_target() {
 
     # Produce parameterized files
     pushd $TARGET && $MEE_HEADER_GENERATOR -d $DTB_FILENAME -o $HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME" && popd
-    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
-    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
-    . ../venv/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
-    . ../venv/bin/activate && $SETTINGS_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -t $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
+    . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
+    . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
+    . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
+    . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $SETTINGS_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -t $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
     pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
-    . ../venv/bin/activate && $CMSIS_SVD_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$CMSIS_SVD_FILENAME || warn "Failed to produce $TARGET/$CMSIS_SVD_FILENAME"
+    . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $CMSIS_SVD_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$CMSIS_SVD_FILENAME || warn "Failed to produce $TARGET/$CMSIS_SVD_FILENAME"
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "vc707" || "$TARGET_TYPE" =~ "hifive" ]] ; then
         if [ `grep -c "jlink" $TARGET/$SETTINGS_FILENAME` -ne 1 ] ; then
             echo "generating $OPENOCDCFG_FILENAME"
-            . ../venv/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
+            . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_FILENAME"
         fi
     fi
     if [[ "$TARGET_TYPE" =~ "arty" ]] ; then
         echo "generating $OPENOCDCFG_CJTAG_FILENAME"
-        . ../venv/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
+        . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
     fi
 
     # Remove temporary .dtb
