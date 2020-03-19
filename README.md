@@ -143,6 +143,8 @@ operating systems to RISC-V.
       atomic instruction set.
   - example-i2c
     - Demonstrates usage of the I2C API to communicate with I2C slaves.
+  - example-pwm
+    - Demonstrates usage of the PWM API to generate waveforms.
   - mem-latency
     - A memory test that measure the latency at different cache layers and memory blocks
   - example-freertos-minimal

@@ -213,6 +213,10 @@ The example programs can be found under the ``software/`` directory.
 
   - Demonstrates usage of the I2C API to communicate with I2C slaves.
 
+- example-pwm
+
+  - Demonstrates usage of the PWM API for waveform generation.
+
 - mem-latency
 
   - A memory test that measure the latency at different cache layers and memory blocks

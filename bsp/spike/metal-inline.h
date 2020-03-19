@@ -62,6 +62,9 @@ extern __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu);
 /* --------------------- sifive_i2c0 ------------ */
 
 
+/* --------------------- sifive_pwm0 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 

@@ -140,12 +140,16 @@
                         reg-names = "mem";
                 };
 
-                pwm@10015000 {
+                pwm0: pwm@10015000 {
                         compatible = "sifive,pwm0";
+                        sifive,comparator-widthbits = <8>;
+                        sifive,ncomparators = <4>;
                         interrupt-parent = <&plic>;
                         interrupts = <23 24 25 26>;
                         reg = <0x10015000 0x1000>;
                         reg-names = "control";
+                        clocks = <&hfclk>;
+                        pinmux = <&gpio0 0x0F 0x0F>;
                 };
                 gpio0: gpio@10012000 {
                         compatible = "sifive,gpio0";
@@ -161,7 +165,7 @@
                         reg = <0x10013000 0x1000>;
                         reg-names = "control";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0x30000 0x30000>;
+                        pinmux = <&gpio0 0x0 0x30000>;
                 };
                 spi0: spi@10014000 {
                         compatible = "sifive,spi0";
@@ -170,7 +174,7 @@
                         reg = <0x10014000 0x1000 0x20000000 0x20000000>;
                         reg-names = "control", "mem";
                         clocks = <&hfclk>;
-                        pinmux = <&gpio0 0x0003C 0x0003C>;
+                        pinmux = <&gpio0 0x0 0x0003C>;
                         #address-cells = <1>;
                         #size-cells = <1>;
                         flash@0 {
