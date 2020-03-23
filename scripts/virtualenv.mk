@@ -32,7 +32,7 @@ $(FREEDOM_E_SDK_VENV_PATH)/bin/activate:
 pip-cache: $(FREEDOM_E_SDK_PIP_CACHE_PATH)/.stamp
 
 $(FREEDOM_E_SDK_PIP_CACHE_PATH)/.stamp: $(FREEDOM_E_SDK_VENV_PATH)/bin/activate requirements.txt
-	. $< && python3 scripts/download-python-packages.py requirements.txt
+	. $< && python3 scripts/download-python-packages.py requirements.txt $(FREEDOM_E_SDK_PIP_CACHE_PATH)
 	touch $@
 
 .PHONY: clean-pip-cache
