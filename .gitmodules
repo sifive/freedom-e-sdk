@@ -141,4 +141,4 @@
 	url = https://github.com/sifive/example-clic-nonvector-interrupts.git
 [submodule "software/example-freertos-pmp-blinky"]
 	path = software/example-freertos-pmp-blinky
-	url = git@github.com:sifive/example-freertos-pmp-blinky
+	url = https://github.com/sifive/example-freertos-pmp-blinky.git
