@@ -42,14 +42,15 @@ FREERTOS_SOURCE_PATH ?= ../../FreeRTOS-metal
 FREERTOS_DIR = $(abspath $(FREERTOS_SOURCE_PATH))
 include $(FREERTOS_DIR)/scripts/FreeRTOS.mk
 
-export portHANDLE_INTERRUPT=FreedomMetal_InterruptHandler
-export portHANDLE_EXCEPTION=FreedomMetal_ExceptionHandler
 export FREERTOS_CONFIG_DIR = $(abspath ./)
-export MTIME_CTRL_ADDR=0x2000000
+MAKE_CONFIG += 	freeRTOS.define.portHANDLE_INTERRUPT = FreedomMetal_InterruptHandler \
+				freeRTOS.define.portHANDLE_EXCEPTION = FreedomMetal_ExceptionHandler \
+				freeRTOS.define.MTIME_CTRL_ADDR = 0x2000000
+
 ifeq ($(TARGET),sifive-hifive-unleashed)
-        export MTIME_RATE_HZ=1000000
+	MAKE_CONFIG += freeRTOS.define.MTIME_RATE_HZ = 1000000
 else
-        export MTIME_RATE_HZ=32768
+	MAKE_CONFIG += freeRTOS.define.MTIME_RATE_HZ = 32768
 endif
 export HEAP = 4
 
@@ -60,7 +61,6 @@ override CFLAGS +=      $(foreach dir,$(FREERTOS_INCLUDES),-I $(dir)) \
 override LDLIBS += -lFreeRTOS
 override LDFLAGS += -L$(join $(abspath  $(BUILD_DIRECTORIES)),/FreeRTOS/lib)
 
-
 # ----------------------------------------------------------------------
 # Update LDLIBS
 # ----------------------------------------------------------------------
@@ -70,6 +70,12 @@ override LDLIBS := $(filter-out $(FILTER_PATTERN),$(LDLIBS)) -Wl,--end-group
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 override CFLAGS += -D_RTL_
 endif
+
+# ----------------------------------------------------------------------
+# Export MAKE_CONFIG string (use to pass arguments, for example to generate 
+# configuration header)
+# ----------------------------------------------------------------------
+export MAKE_CONFIG
 
 # ----------------------------------------------------------------------
 # Compile Object Files From Assembly
@@ -107,7 +113,11 @@ $(BUILD_DIRECTORIES):
 directories: $(BUILD_DIRECTORIES)
 
 libfreertos:
-	make -f Makefile -C $(FREERTOS_DIR) BUILD_DIR=$(join $(abspath  $(BUILD_DIRECTORIES)),/FreeRTOS) libFreeRTOS.a VERBOSE=$(VERBOSE) PMP=ENABLE
+	make -f Makefile -C $(FREERTOS_DIR) \
+		BUILD_DIR=$(join $(abspath  $(BUILD_DIRECTORIES)),/FreeRTOS) \
+		libFreeRTOS.a \
+		VERBOSE=$(VERBOSE) \
+		PMP=ENABLE
 
 $(PROGRAM): \
 	directories \
