@@ -4,3 +4,4 @@
 /enter.bash
 *.dtb
 venv/
+pip-cache/
