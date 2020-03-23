@@ -15,11 +15,6 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "e73944211dfc5b5493f6c1e19fe8bd0cd1464257",
-        "name": "pip-cache",
-        "source": "git@github.com:sifive/freedom-e-sdk-pip-cache.git"
-    },
-    {
         "commit": "726d8761fba8108d4038c050dbd80d539766a11b",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
