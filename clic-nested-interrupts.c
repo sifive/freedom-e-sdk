@@ -127,7 +127,7 @@ int main (void)
 
     // Lets set up timer interrupt to be lower than SIP/CSIP so it can be preempted
     tmr_id = metal_cpu_timer_get_interrupt_id(cpu);
-    metal_interrupt_set_preemptive_level(clic, tmr_id, 127, 127);
+    metal_interrupt_set_preemptive_level(clic, tmr_id, 127);
     // Because we uses SELECTIVE HARDWARE VECTOR, need to enable each vector interrupt
     metal_interrupt_vector_enable(clic, tmr_id);
     rc = metal_interrupt_register_vector_handler(clic, tmr_id, timer_isr, cpu);
@@ -141,8 +141,8 @@ int main (void)
     // so SIP should get chosen before CSIP.
     sip_irq = 3;
     csip_irq = 12;
-    metal_interrupt_set_preemptive_level(clic, sip_irq, 255, 255);
-    metal_interrupt_set_preemptive_level(clic, csip_irq, 223, 223);
+    metal_interrupt_set_preemptive_level(clic, sip_irq, 255);
+    metal_interrupt_set_preemptive_level(clic, csip_irq, 223);
     metal_interrupt_vector_enable(clic, sip_irq);
     metal_interrupt_vector_enable(clic, csip_irq);
     rc = metal_interrupt_register_vector_handler(clic, sip_irq, sip_isr, NULL);
