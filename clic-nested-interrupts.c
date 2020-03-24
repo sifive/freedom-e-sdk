@@ -1,19 +1,12 @@
-/* Copyright 2019 SiFive, Inc */
+/* Copyright 2020 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 
 #include <stdio.h>
 #include <string.h>
 #include <metal/cpu.h>
+#include <metal/csr.h>
 #include <metal/led.h>
 #include <metal/button.h>
-#include <metal/switch.h>
-
-/*
- * Use the following #define to test selective vector per IRQ.
- * Without it Timer and CSIP will operate in non-vector although
- * the whole CLIC is configured in SELECTIVE_VECTOR mode
-#define SELECTIVE_VECTOR
-  */
 
 #define RTC_FREQ	32768
 
@@ -21,7 +14,6 @@ struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr;
 struct metal_interrupt *clic;
 int tmr_id, sip_irq, csip_irq;
-int count = 0;
 struct metal_led *led0_red, *led0_green;
 
 void display_instruction (void) {
@@ -30,46 +22,61 @@ void display_instruction (void) {
     printf("\n");
     printf("Coreplex IP Eval Kit 'clic-nested-interrupts' example.\n\n");
     printf("A 5s debounce timer is used to trigger SIP and CSIP interupts.\n");
+    printf("Which preempted the timer ISR, with SIP has higher priority to CSIP interupt.\n");
     printf("\n");
 }
 
-#ifdef SELECTIVE_VECTOR
 void timer_isr (void) __attribute__((interrupt, aligned(64)));
 void timer_isr (void) {
-#else
-void timer_isr (int id, void *data) {
-#endif
+    volatile uintptr_t saved_mcause;
+    volatile uintptr_t saved_mepc;
+
     printf("**** In Timer handler, let trigger CSIP IRQ ****\n");
+
+    // Trigger the SIP and CSIP interrupts
     metal_interrupt_set(clic, csip_irq);
+    metal_interrupt_set(clic, sip_irq);
+
+    /* Save originally interrupt context before re-enabling interrupts */
+    METAL_CPU_GET_CSR(mepc, saved_mepc);
+    METAL_CPU_GET_CSR(mcause, saved_mcause);
+
+    /* Enable Preemptive Interrupts */
+    __asm__ volatile ("csrrsi x0, mstatus, %0" : : "I"(0x8));
+
+    /* Allow preemption to take place here */
+    for (int i=0; i<10;i++)
+        __asm__ volatile ("nop");
+
+    /* Disable Preemptive Interrupts */
+    __asm__ volatile ("csrrci x0, mstatus, %0" : : "I"(0x8));
+
+    /* Restore originally interrupt context */
+    METAL_CPU_SET_CSR(mepc, saved_mepc);
+    METAL_CPU_SET_CSR(mcause, saved_mcause);
+
+    metal_cpu_set_mtimecmp(cpu, metal_cpu_get_mtime(cpu) + 5*RTC_FREQ);
+    printf("Clear and re-arm timer another 5 seconds.\n");
     printf("**** Exiting Timer handler ****\n");
 }
 
-#ifdef SELECTIVE_VECTOR
 void csip_isr(void) __attribute__((interrupt, aligned(64)));
 void csip_isr(void) {
-#else
-void csip_isr(int id, void *data) {
-#endif
-    printf("Got CSIP interrupt on via IRQ %d!\n", id);
-    if (++count & 0x01) {
-         metal_interrupt_set(clic, sip_irq);
-    }
-    metal_interrupt_clear(clic, csip_irq);
+    printf("Got CSIP interrupt!\n");
+
     metal_led_toggle(led0_red);
+    metal_interrupt_clear(clic, csip_irq);
+
     printf("Clear CSIP interrupt.\n");
-    metal_cpu_set_mtimecmp(cpu, metal_cpu_get_mtime(cpu) + 1*RTC_FREQ);
-    printf("Clear and re-arm timer another 1 seconds.\n");
 }
 
-#ifdef SELECTIVE_VECTOR
 void sip_isr(void) __attribute__((interrupt, aligned(64)));
 void sip_isr(void) {
-#else
-void sip_isr(int id, void *data) {
-#endif
-    printf("Got SIP interrupt on via IRQ %d!\n", id);
-    metal_interrupt_clear(clic, sip_irq);
+    printf("Got SIP interrupt!\n");
+
     metal_led_toggle(led0_green);
+    metal_interrupt_clear(clic, sip_irq);
+
     printf("Clear SIP interrupt.\n");
 }
 
@@ -115,44 +122,43 @@ int main (void)
     // This mode REQUIRE enabling/disabling specific interrupt BEFORE interrupt registration!!
     metal_interrupt_set_vector_mode(clic, METAL_SELECTIVE_VECTOR_MODE);
 
+    // Also lets set 1 bit levels
+    metal_interrupt_set_threshold(clic, 1);
+
+    // Lets set up timer interrupt to be lower than SIP/CSIP so it can be preempted
     tmr_id = metal_cpu_timer_get_interrupt_id(cpu);
-    metal_interrupt_set_preemptive_level(clic, tmr_id, 127, 255);
-#ifdef SELECTIVE_VECTOR
+    metal_interrupt_set_preemptive_level(clic, tmr_id, 127, 127);
+    // Because we uses SELECTIVE HARDWARE VECTOR, need to enable each vector interrupt
     metal_interrupt_vector_enable(clic, tmr_id);
     rc = metal_interrupt_register_vector_handler(clic, tmr_id, timer_isr, cpu);
-#else
-    metal_interrupt_vector_disable(clic, tmr_id);
-    rc = metal_interrupt_register_handler(clic, tmr_id, timer_isr, cpu);
-#endif
     if (rc < 0) {
         printf("Failed. TIMER interrupt handler registration failed\n");
         return (rc * -1);
     }
 
+    // Similarly setup SIP and CSIP to a higher level then Timer
+    // Also SIP (255) has higher priority than CSIP (223),
+    // so SIP should get chosen before CSIP.
     sip_irq = 3;
     csip_irq = 12;
     metal_interrupt_set_preemptive_level(clic, sip_irq, 255, 255);
-    metal_interrupt_set_preemptive_level(clic, csip_irq, 255, 127);
-#ifdef SELECTIVE_VECTOR
+    metal_interrupt_set_preemptive_level(clic, csip_irq, 223, 223);
     metal_interrupt_vector_enable(clic, sip_irq);
-    rc = metal_interrupt_register_vector_handler(clic, sip_irq, sip_isr, NULL);
     metal_interrupt_vector_enable(clic, csip_irq);
+    rc = metal_interrupt_register_vector_handler(clic, sip_irq, sip_isr, NULL);
     rc = metal_interrupt_register_vector_handler(clic, csip_irq, csip_isr, NULL);
-#else
-    metal_interrupt_vector_disable(clic, sip_irq);
-    rc = metal_interrupt_register_handler(clic, sip_irq, sip_isr, NULL);
-    metal_interrupt_vector_disable(clic, csip_irq);
-    rc = metal_interrupt_register_handler(clic, csip_irq, csip_isr, NULL);
-#endif
     if (rc < 0) {
         printf("SW interrupt handler registration failed\n");
         return (rc * -1);
     }
+
+    // Enable SIP and CSIP interrupts
     if ((metal_interrupt_enable(clic, sip_irq) == -1) || 
         (metal_interrupt_enable(clic, csip_irq) == -1)) {
         printf("SW interrupt enabling failed\n");
         return 5;
     }
+
     // Set timeout of 5s, and enable timer interrupt
     metal_cpu_set_mtimecmp(cpu, metal_cpu_get_mtime(cpu) + 5*RTC_FREQ);
     metal_interrupt_enable(clic, tmr_id);
@@ -165,6 +171,7 @@ int main (void)
         return 6;
     }
 
+    // Wait For Interrupt
     while (1) {
         __asm__ volatile ("wfi");
     }
