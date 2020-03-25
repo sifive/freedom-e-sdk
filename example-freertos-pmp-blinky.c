@@ -50,6 +50,7 @@
 #include <metal/interrupt.h>
 #include <metal/clock.h>
 #include <metal/led.h>
+#include <metal/gpio.h>
 
 extern struct metal_led *led0_red, *led0_green, *led0_blue;
 
@@ -75,6 +76,15 @@ writes to the queue.  Therefore the queue will never have more than one item in
 it at any time, and even with a queue length of 1, the sending task will never
 find the queue full. */
 #define mainQUEUE_LENGTH					( 1 )
+
+#if( portUSING_MPU_WRAPPERS == 1 )
+/**
+ * @brief Calls the port specific code to raise the privilege.
+ *
+ * @return pdFALSE if privilege was raised, pdTRUE otherwise.
+ */
+BaseType_t xPortRaisePrivilege( void ) FREERTOS_SYSTEM_CALL;
+#endif
 
 /*-----------------------------------------------------------*/
 /*
@@ -177,7 +187,6 @@ int main( void )
                                 xTaskRXDefinition.xRegions[2].ulLengthInBytes);
 
         // allocate stack (It will take 2 PMP Slot - So it is not needed to put align the StackBuffer)
-        xTaskRXDefinition.usStackDepth = 256; 
         xTaskRXDefinition.puxStackBuffer = ( StackType_t * ) pvPortMalloc( xTaskRXDefinition.usStackDepth * sizeof( StackType_t ) );
 
         xTaskCreateRestricted(  &xTaskRXDefinition,
@@ -207,18 +216,18 @@ int main( void )
                         ( size_t ) __unprivileged_data_section_end__,
                         (size_t *) &xTaskTXDefinition.xRegions[1].pvBaseAddress);
 
+#ifdef METAL_SIFIVE_GPIO0
         // allow access to GPIO (Each peripheral are on 4Kb mapping area)
         xTaskTXDefinition.xRegions[2].ulLengthInBytes = 0x1000;
         xTaskTXDefinition.xRegions[2].ulParameters = ((portPMP_REGION_READ_WRITE) |
                                                      (portPMP_REGION_ADDR_MATCH_NAPOT));
 
         napot_addr_modifier (	xPmpInfo.granularity,
-	                            (size_t) __metal_driver_sifive_gpio0_base(__metal_driver_sifive_gpio_led_gpio(led0_green)),
+                                (size_t) METAL_SIFIVE_GPIO0_0_BASE_ADDRESS,
                                 (size_t *) &xTaskTXDefinition.xRegions[2].pvBaseAddress,
                                 xTaskTXDefinition.xRegions[2].ulLengthInBytes);
-
+#endif
         // allocate stack (It will take 2 PMP Slot - So it is not needed to put align the StackBuffer)
-        xTaskTXDefinition.usStackDepth = 256; 
         xTaskTXDefinition.puxStackBuffer = ( StackType_t * ) pvPortMalloc( xTaskTXDefinition.usStackDepth * sizeof( StackType_t ) );
 
         xTaskCreateRestricted(  &xTaskTXDefinition,
