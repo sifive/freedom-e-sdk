@@ -240,6 +240,47 @@ git pull origin master
 git submodule update --init --recursive
 ```
 
+### Python ###
+
+Freedom E SDK includes a number of Python scripts used during the build process
+to parameterize the build of Freedom Metal to the target. The dependencies of
+these scripts are tracked in `requirements.txt`. Freedom E SDK manages its own
+virtualenv, but there are some options which allow users to configure the
+virtualenv to best suit your needs.
+
+#### Predownloading Python Dependencies ####
+
+By default, Freedom E SDK will download Python packages from the Python Package
+Index when it creates the virtualenv. If you prefer to download dependencies
+ahead-of-time, you can run
+
+```
+make pip-cache
+```
+
+to download all Python packages. This mechanism downloads all of the dependencies
+pre-compiled for all platforms and Python versions supported by Freedom E SDK, so
+if you're trying to bring up Freedom E SDK on a system without an internet connection
+you can create the "pip cache" and then copy it to the connectionless machine with
+Freedom E SDK.
+
+The location of the "pip cache" can be controlled with the environment variable
+`FREEDOM_E_SDK_PIP_CACHE_PATH`
+
+```
+export FREEDOM_E_SDK_PIP_CACHE_PATH=/path/to/pip-cache
+```
+
+#### Virtualenv Location ####
+
+By default, the virtualenv is created in the `venv` folder at the root of
+Freedom E SDK. To change the location of the virtualenv, set the environment
+variable `FREEDOM_E_SDK_VENV_PATH`
+
+```
+export FREEDOM_E_SDK_VENV_PATH=/path/to/venv
+```
+
 ### Using the Tools ###
 
 #### Building an Example ####
