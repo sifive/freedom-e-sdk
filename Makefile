@@ -76,7 +76,7 @@ export MAKE_CONFIG
 # ----------------------------------------------------------------------
 # Compile Object Files From Assembly
 # ----------------------------------------------------------------------
-$(OBJ_DIR)/%.o: %.S
+$(OBJ_DIR)/%.o: %.S libfreertos
 	@echo "Assemble: $<"
 	$(HIDE)$(CC) -o $@ $(ASFLAGS) $(XCFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
 	@echo
@@ -84,7 +84,7 @@ $(OBJ_DIR)/%.o: %.S
 # ----------------------------------------------------------------------
 # Compile Object Files From C
 # ----------------------------------------------------------------------
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.c libfreertos
 	@echo "Compile: $<"
 	$(HIDE)$(CC) -c -o $@ $(CFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
 	@echo
@@ -92,7 +92,7 @@ $(OBJ_DIR)/%.o: %.c
 # ----------------------------------------------------------------------
 # Compile Object Files From CPP
 # ----------------------------------------------------------------------
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: %.cpp libfreertos
 	@echo "Compile: $<"
 	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(XCFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
 
