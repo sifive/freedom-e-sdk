@@ -176,15 +176,17 @@ int main( void )
                         ( size_t ) __unprivileged_data_section_end__,
                         (size_t *) &xTaskRXDefinition.xRegions[1].pvBaseAddress);
 
-        // allow access to all peripheral
-        xTaskRXDefinition.xRegions[2].ulLengthInBytes = 0x10000000;
+#ifdef METAL_SIFIVE_UART0
+    // allow access to UART peripheral
+        xTaskRXDefinition.xRegions[2].ulLengthInBytes = METAL_SIFIVE_UART0_0_SIZE;
         xTaskRXDefinition.xRegions[2].ulParameters = ((portPMP_REGION_READ_WRITE) |
                                                      (portPMP_REGION_ADDR_MATCH_NAPOT));
 
         napot_addr_modifier (	xPmpInfo.granularity,
-                                (size_t) 0x10000000,
+                                (size_t) METAL_SIFIVE_UART0_0_BASE_ADDRESS,
                                 (size_t *) &xTaskRXDefinition.xRegions[2].pvBaseAddress,
                                 xTaskRXDefinition.xRegions[2].ulLengthInBytes);
+#endif
 
         // allocate stack (It will take 2 PMP Slot - So it is not needed to put align the StackBuffer)
         xTaskRXDefinition.puxStackBuffer = ( StackType_t * ) pvPortMalloc( xTaskRXDefinition.usStackDepth * sizeof( StackType_t ) );
@@ -218,7 +220,7 @@ int main( void )
 
 #ifdef METAL_SIFIVE_GPIO0
         // allow access to GPIO (Each peripheral are on 4Kb mapping area)
-        xTaskTXDefinition.xRegions[2].ulLengthInBytes = 0x1000;
+        xTaskTXDefinition.xRegions[2].ulLengthInBytes = METAL_SIFIVE_GPIO0_0_SIZE;
         xTaskTXDefinition.xRegions[2].ulParameters = ((portPMP_REGION_READ_WRITE) |
                                                      (portPMP_REGION_ADDR_MATCH_NAPOT));
 
@@ -271,7 +273,7 @@ static void prvQueueSendTask( void *pvParameters )
 		if ( led0_green != NULL ) 
 		{
 			/* Switch off the Green led */
-			metal_led_on(led0_green);
+			metal_led_toggle(led0_green);
 		}
 
 		/* Place this task in the blocked state until it is time to run again. */
@@ -315,12 +317,6 @@ static void prvQueueReceiveTask( void *pvParameters )
 		{
 			write( STDOUT_FILENO, pcPassMessage, strlen( pcPassMessage ) );
 			ulReceivedValue = 0U;
-
-			if ( led0_green != NULL ) 
-			{
-				/* Switch on the Green led */
-				metal_led_off(led0_green);
-			}
 		}
 		else
 		{
