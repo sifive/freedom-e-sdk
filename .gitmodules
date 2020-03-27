@@ -103,6 +103,9 @@
 [submodule "software/example-pwm"]
 	path = software/example-pwm
 	url = https://github.com/sifive/example-pwm.git
+[submodule "software/clic-nested-interrupts"]
+        path = software/clic-nested-interrupts
+        url = https://github.com/sifive/example-clic-nested-interrupts.git 
 [submodule "software/mem-latency"]
 	path = software/mem-latency
 	url = https://github.com/sifive/benchmark-mem-latency.git
