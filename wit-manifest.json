@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "f2581d1843bd749eebfaccf6b0651ff289efd9f0",
+        "commit": "64d7e084090f2cf9d4b1a2f18fe171f39427f267",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -50,7 +50,7 @@
         "source": "git@github.com:sifive/benchmark-coremark.git"
     },
     {
-        "commit": "28c62c70af86650140ec4ab4b9bd3216c604f7d3",
+        "commit": "567272ae0f13a4b627f3d97f6a1ca09f20c0109d",
         "name": "example-cflush",
         "source": "git@github.com:sifive/example-cflush.git"
     },
@@ -233,5 +233,10 @@
         "commit": "356d0f75492e8233d3b4ea17b39379208811920d",
         "name": "example-pwm",
         "source": "git@github.com:sifive/example-pwm.git"
+    },
+    {
+        "commit": "50f45ddac9908edd56e257c70028d798fd1cbfed",
+        "name": "example-clic-nested-interrupts",
+        "source": "git@github.com:sifive/example-clic-nested-interrupts.git"
     }
 ]
