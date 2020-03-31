@@ -18,7 +18,7 @@ int main (void)
 
     if (metal_dcache_l1_available(metal_cpu_get_current_hartid()) == 0) {
         // abort since hardware dont support it
-        return 1;
+        return 0;
     }
 
     // This example demo how to use cflush (Data) L1 and use FENCE to ensure flush complete
