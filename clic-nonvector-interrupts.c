@@ -1,4 +1,4 @@
-/* Copyright 2019 SiFive, Inc */
+/* Copyright 2020 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 
 #include <stdio.h>
@@ -6,7 +6,6 @@
 #include <metal/cpu.h>
 #include <metal/led.h>
 #include <metal/button.h>
-#include <metal/switch.h>
 
 #define RTC_FREQ	32768
 
@@ -98,13 +97,13 @@ int main (void)
     csip_irq = 12;
     rc = metal_interrupt_register_handler(clic, csip_irq, csip_isr, NULL);
     if (rc < 0) {
-        printf("SW1 interrupt handler registration failed\n");
+        printf("CSIP interrupt handler registration failed\n");
         return (rc * -1);
     }
 
-    // Lets enable Switches interrupts
+    // Lets enable CSIP interrupts
     if (metal_interrupt_enable(clic, csip_irq) == -1) {
-        printf("SW1 interrupt enable failed\n");
+        printf("CSIP interrupt enable failed\n");
         return 5;
     }
     // Set timeout of 10s, and enable timer interrupt
