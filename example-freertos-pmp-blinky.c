@@ -84,6 +84,7 @@ find the queue full. */
  * @return pdFALSE if privilege was raised, pdTRUE otherwise.
  */
 BaseType_t xPortRaisePrivilege( void ) FREERTOS_SYSTEM_CALL;
+extern pmp_info_t xPmpInfo;
 #endif
 
 /*-----------------------------------------------------------*/
@@ -116,11 +117,17 @@ int main( void )
 	TaskHandle_t xHandle_ReceiveTask, xHandle_SendTask;
 	const char * const pcMessage = "FreeRTOS-PMP Demo start\r\n";
 	const char * const pcMessageEnd = "FreeRTOS-PMP Demo end\r\n";
+	const char * const pcMessageEndError = "FreeRTOS-PMP Demo end - Error no enough PMP entry\r\n";
 
 	prvSetupHardware();
 	write( STDOUT_FILENO, pcMessage, strlen( pcMessage ) );
 	
 #if( portUSING_MPU_WRAPPERS == 1 )
+	if (xPmpInfo.nb_pmp < 8)
+	{
+		write( STDOUT_FILENO, pcMessageEndError, strlen( pcMessageEndError ) );
+		_exit(1);
+	}
 	/* Create the queue. */
 	xQueue = xQueueCreate( mainQUEUE_LENGTH, sizeof( uint32_t ) );
 
