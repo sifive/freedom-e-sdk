@@ -1,7 +1,7 @@
 # Copyright 2019 SiFive, Inc #
 # SPDX-License-Identifier: Apache-2.0 #
 
-PROGRAM ?= clic-vector-interrupts
+PROGRAM ?= clic-nonvector-interrupts
 
 override CFLAGS += -Xlinker --defsym=__stack_size=0x800
 
