@@ -60,14 +60,14 @@
         "source": "git@github.com:sifive/example-clic-hardware-vector-interrupts.git"
     },
     {
-        "commit": "f88ddeebc5ecd84989b685082951e6e9ad3a7655",
+        "commit": "f9e82a7274b7168629a800df67b3d50919256d4e",
         "name": "example-clic-selective-vector-interrupts",
         "source": "git@github.com:sifive/example-clic-selective-vector-interrupts.git"
     },
     {
-        "commit": "557e83049d6d515885c7fb1f4f22924316ec9a98",
-        "name": "example-clic-vector-interrupts",
-        "source": "git@github.com:sifive/example-clic-vector-interrupts.git"
+        "commit": "0d9e0833492948f44a4abf1bac677329c4b9f336",
+        "name": "example-clic-nonvector-interrupts",
+        "source": "git@github.com:sifive/example-clic-nonvector-interrupts.git"
     },
     {
         "commit": "e81774503fd4670830cb54508a4607c9a33fbc31",
