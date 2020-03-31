@@ -1,4 +1,4 @@
-/* Copyright 2019 SiFive, Inc */
+/* Copyright 2020 SiFive, Inc */
 /* SPDX-License-Identifier: Apache-2.0 */
 
 #include <stdio.h>
@@ -6,14 +6,11 @@
 #include <metal/cpu.h>
 #include <metal/led.h>
 #include <metal/button.h>
-#include <metal/switch.h>
 
 /*
- * Use the following #define to test selective vector per IRQ.
- * Without it Timer and CSIP will operate in non-vector although
- * the whole CLIC is configured in SELECTIVE_VECTOR mode
-#define SELECTIVE_VECTOR
-  */
+ * Default is Timer, SIP and CSIP will operate in vector mode.
+ * User can use #define SELECTIVE_NONVECTOR for nonvector node.
+ */
 
 #define RTC_FREQ	32768
 
@@ -33,7 +30,7 @@ void display_instruction (void) {
     printf("\n");
 }
 
-#ifdef SELECTIVE_VECTOR
+#ifndef SELECTIVE_NONVECTOR
 void timer_isr (void) __attribute__((interrupt, aligned(64)));
 void timer_isr (void) {
 #else
@@ -43,13 +40,14 @@ void timer_isr (int id, void *data) {
     metal_interrupt_set(clic, csip_irq);
 }
 
-#ifdef SELECTIVE_VECTOR
+#ifndef SELECTIVE_NONVECTOR
 void csip_isr(void) __attribute__((interrupt, aligned(64)));
 void csip_isr(void) {
+    printf("Got CSIP interrupt on via Vector!\n");
 #else
 void csip_isr(int id, void *data) {
 #endif
-    printf("Got CSIP interrupt on via IRQ %d!\n", id);
+    printf("Got CSIP interrupt on via NonVector!\n");
     metal_interrupt_clear(clic, csip_irq);
     printf("Clear and re-arm timer another 10 seconds.\n");
     metal_led_toggle(led0_green);
@@ -95,15 +93,15 @@ int main (void)
     }
     metal_interrupt_init(clic);
 
-    // Lets set CLIC in Selective Vector mode. Note this must be done AFTER init!!
-    // This mode REQUIRE enabling/disabling specific interrupt BEFORE interrupt registration!!
-    metal_interrupt_set_vector_mode(clic, METAL_SELECTIVE_VECTOR_MODE);
-
+    // Selective Vector/NONVector mode  must be done AFTER init!!
+    // REQUIRE enabling/disabling specific interrupt BEFORE interrupt registration!!
     tmr_id = metal_cpu_timer_get_interrupt_id(cpu);
-#ifdef SELECTIVE_VECTOR
+#ifndef SELECTIVE_NONVECTOR
+    metal_interrupt_set_vector_mode(clic, METAL_SELECTIVE_VECTOR_MODE);
     metal_interrupt_vector_enable(clic, tmr_id);
     rc = metal_interrupt_register_vector_handler(clic, tmr_id, timer_isr, cpu);
 #else
+    metal_interrupt_set_vector_mode(clic, METAL_SELECTIVE_NONVECTOR_MODE);
     metal_interrupt_vector_disable(clic, tmr_id);
     rc = metal_interrupt_register_handler(clic, tmr_id, timer_isr, cpu);
 #endif
@@ -113,7 +111,7 @@ int main (void)
     }
 
     csip_irq = 12;
-#ifdef SELECTIVE_VECTOR
+#ifndef SELECTIVE_NONVECTOR
     metal_interrupt_vector_enable(clic, csip_irq);
     rc = metal_interrupt_register_vector_handler(clic, csip_irq, csip_isr, NULL);
 #else
@@ -121,11 +119,11 @@ int main (void)
     rc = metal_interrupt_register_handler(clic, csip_irq, csip_isr, NULL);
 #endif
     if (rc < 0) {
-        printf("SW1 interrupt handler registration failed\n");
+        printf("CSIP interrupt handler registration failed\n");
         return (rc * -1);
     }
     if (metal_interrupt_enable(clic, csip_irq) == -1) {
-        printf("SW1 interrupt enable failed\n");
+        printf("CSIP interrupt enable failed\n");
         return 5;
     }
     // Set timeout of 10s, and enable timer interrupt
