@@ -47,9 +47,10 @@ int main() {
 	if (beu == NULL) {
 		return 3;
 	}
+	int beu_int_id = metal_buserror_get_local_interrupt_id(beu);
 
 	/* Register beu_local_handler for the bus error unit interrupt */
-	int rc = metal_interrupt_register_handler(cpu_intr, METAL_BUSERROR_LOCAL_INTERRUPT_ID, beu_local_handler, beu);
+	int rc = metal_interrupt_register_handler(cpu_intr, beu_int_id, beu_local_handler, beu);
 	if (rc != 0) {
 		return -1 * rc;
 	}
