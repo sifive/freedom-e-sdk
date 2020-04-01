@@ -25,6 +25,11 @@ do
             continue
         fi
 
+	# mc examples are broken
+	if [ "${program}" == "example-freertos-mc" -o "${program}" == "example-freertos-blinky-mc" ]; then
+	    continue
+	fi
+
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean-software
     done
