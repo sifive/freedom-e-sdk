@@ -240,7 +240,7 @@
         "source": "git@github.com:sifive/example-clic-nested-interrupts.git"
     },
     {
-        "commit": "b3f1390f7bd29b0f1e667ee74946f69b04f68a49",
+        "commit": "27a9b3b44b07598e8be6492edb27c09b611eec8f",
         "name": "example-freertos-pmp-blinky",
         "source": "git@github.com:sifive/example-freertos-pmp-blinky.git"
     }
