@@ -4,8 +4,13 @@
 #include <stdio.h>
 #include <metal/cpu.h>
 #include <metal/drivers/sifive_buserror0.h>
+#include <metal/machine.h>
 
-#define BADADDR 0x1000
+#ifndef METAL_SIFIVE_ERROR0
+#error Example requires a sifive,error0 device to drive bus errors
+#endif
+
+#define BADADDR METAL_SIFIVE_ERROR0_0_BASE_ADDRESS
 
 struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr;
@@ -18,10 +23,10 @@ void beu_local_handler(int id, void *data) {
 
 	metal_buserror_event_t event = metal_buserror_get_cause(beu);
 
-	if (event == METAL_BUSERROR_EVENT_LOAD_STORE_ERROR) {
-		printf("Handled TileLink load or store bus error\n");
+	if (event & METAL_BUSERROR_EVENT_ANY) {
+		printf("Handled TileLink bus error\n");
 		local_int_handled = 1;
-		metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_LOAD_STORE_ERROR);
+		metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_ALL);
 	}
 
 	metal_buserror_clear_cause(beu);
@@ -43,6 +48,7 @@ int main() {
 		return 3;
 	}
 
+	/* Register beu_local_handler for the bus error unit interrupt */
 	int rc = metal_interrupt_register_handler(cpu_intr, METAL_BUSERROR_LOCAL_INTERRUPT_ID, beu_local_handler, beu);
 	if (rc != 0) {
 		return -1 * rc;
@@ -52,31 +58,33 @@ int main() {
 	metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_ALL);
 	metal_buserror_clear_cause(beu);
 
-	/* Enable the TileLink bus load/store error event */
-	metal_buserror_set_event_enabled(beu, METAL_BUSERROR_EVENT_LOAD_STORE_ERROR, true);
+	/* Enable all bus error events */
+	metal_buserror_set_event_enabled(beu, METAL_BUSERROR_EVENT_ALL, true);
 
-	/* Trigger a load/store error event */
-	uint8_t bad = *((uint8_t *)BADADDR);
+	/* Trigger an error event */
+	uint8_t bad = *((volatile uint8_t *)BADADDR);
 
 	/* Check if the event is accrued and clear it*/
-	if (metal_buserror_is_event_accrued(beu, METAL_BUSERROR_EVENT_LOAD_STORE_ERROR)) {
-		printf("Detected accrued load or store bus error\n");
+	if (metal_buserror_is_event_accrued(beu, METAL_BUSERROR_EVENT_ANY)) {
+		printf("Detected accrued bus error\n");
 		accrued = 1;
-		metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_LOAD_STORE_ERROR);
+		metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_ALL);
 	}
-	if (!metal_buserror_is_event_accrued(beu, METAL_BUSERROR_EVENT_LOAD_STORE_ERROR)) {
-		printf("Cleared accrued load or store bus error\n");
+	if (!metal_buserror_is_event_accrued(beu, METAL_BUSERROR_EVENT_ANY)) {
+		printf("Cleared accrued bus error\n");
 	}
 
-	/* Clear any accrued events and the cause register */
-	metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_ALL);
-	metal_buserror_clear_cause(beu);
+	/* Enable hart-local interrupts for error events */
+	metal_buserror_set_local_interrupt(beu, METAL_BUSERROR_EVENT_ALL, true);
 
-	/* Enable the hart-local interrupt */
-	metal_buserror_set_local_interrupt(beu, METAL_BUSERROR_EVENT_LOAD_STORE_ERROR, true);
+	/* Trigger an error event */
+	bad = *((volatile uint8_t *)BADADDR);
 
-	/* Trigger a load/store error event */
-	bad = *((uint8_t *)BADADDR);
-
-	return accrued && local_int_handled;
+	if (!accrued) {
+		return 4;
+	}
+	if (!local_int_handled) {
+		return 5;
+	}
+	return 0;
 }
