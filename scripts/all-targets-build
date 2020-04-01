@@ -18,7 +18,10 @@ do
     for program in "${programs[@]}"
     do
         # Coremark and Dhrystone don't fit
-        if [ "${program}" == "dhrystone" -o "${program}" == "coremark" -o "${program}" == "example-freertos-blinky-systemview" ] ; then
+        if [ "${program}" == "dhrystone" -o \
+             "${program}" == "coremark" -o  \
+             "${program}" == "example-freertos-blinky-systemview" -o \
+             "${program}" == "example-buserror" ] ; then
             continue
         fi
 
