@@ -25,7 +25,7 @@ SECTIONS
      *
      *     -Xlinker --defsym=__stack_size=0xf00
      *
-     * where 0xf00 can be replaced with the value of your choice.
+     * where 0xf00 can be replaced with a multiple of 16 of your choice.
      *
      * __stack_size is PROVIDE-ed as a symbol so that initialization code
      * initializes the stack pointers for each hart at the right offset from
@@ -79,17 +79,9 @@ SECTIONS
         KEEP (*(.text.libgloss.start))
     } >testram
 
-    .text : {
-        *(.text.unlikely .text.unlikely.*)
-        *(.text.startup .text.startup.*)
-        *(.text .text.*)
-        *(.gnu.linkonce.t.*)
-    } >testram
-
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
     } >testram
-
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
@@ -119,6 +111,8 @@ SECTIONS
         PROVIDE_HIDDEN ( metal_destructors_end = .);
     } >testram
 
+ 
+
     .ctors : {
         KEEP (*crtbegin.o(.ctors))
         KEEP (*crtbegin?.o(.ctors))
@@ -136,6 +130,14 @@ SECTIONS
         KEEP (*(.dtors))
         KEEP (*(.metal.dtors .metal.dtors.*))
     } >testram
+
+    .text : {
+        *(.text.unlikely .text.unlikely.*)
+        *(.text.startup .text.startup.*)
+        *(.text .text.*)
+        *(.gnu.linkonce.t.*)
+    } >testram
+
 
     /* ITIM SECTION
      *
@@ -188,7 +190,7 @@ SECTIONS
     PROVIDE( metal_segment_data_target_start = ADDR(.data) );
     PROVIDE( metal_segment_data_target_end = ADDR(.data) + SIZEOF(.data) );
 
-    .bss : ALIGN(8) {
+    .bss (NOLOAD): ALIGN(8) {
         *(.sbss*)
         *(.gnu.linkonce.sb.*)
         *(.bss .bss.*)
@@ -200,7 +202,9 @@ SECTIONS
     PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
     PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
-    .stack : {
+ 
+
+    .stack (NOLOAD) : ALIGN(16) {
         PROVIDE(metal_segment_stack_begin = .);
         . += __stack_size; /* Hart 0 */
         PROVIDE( _sp = . );
@@ -210,7 +214,7 @@ SECTIONS
         PROVIDE(metal_segment_stack_end = .);
     } >testram
 
-    .heap : {
+    .heap (NOLOAD) : ALIGN(4) {
         PROVIDE( metal_segment_heap_target_start = . );
         /* If __heap_max is defined, grow the heap to use the rest of RAM,
          * otherwise set the heap size to __heap_size */

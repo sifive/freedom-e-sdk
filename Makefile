@@ -341,6 +341,7 @@ endif
 	touch $</bsp/metal.default.lds
 	touch $</bsp/metal.ramrodata.lds
 	touch $</bsp/metal.scratchpad.lds
+	touch $</bsp/metal.freertos.lds
 	touch $</bsp/metal.h
 	touch $</bsp/metal-platform.h
 	touch $</bsp/design.svd
@@ -427,6 +428,7 @@ endif
 	touch $</bsp/metal.default.lds
 	touch $</bsp/metal.ramrodata.lds
 	touch $</bsp/metal.scratchpad.lds
+	touch $</bsp/metal.freertos.lds
 	touch $</bsp/metal.h
 	touch $</bsp/metal-platform.h
 	touch $</bsp/design.svd

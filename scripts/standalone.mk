@@ -54,6 +54,12 @@ LINK_TARGET = ramrodata
 endif
 endif
 
+ifneq ($(findstring freertos,$(PROGRAM)),)
+ifeq ($(LINK_TARGET),)
+LINK_TARGET = freertos
+endif
+endif
+
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = default
 endif

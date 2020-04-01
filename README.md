@@ -312,6 +312,16 @@ been created for its optimal run.
 make PROGRAM=dhrystone TARGET=coreip-e31-arty LINK_TARGET=ramrodata software
 ```
 
+##### Building an Example with FreeRTOS ####
+
+A link target exist specificly for freertos, even if default target might work
+on some examples.
+Here is an exemple of use :
+
+```
+make PROGRAM=example-freertos-blinky-pmp TARGET=sifive-hifive1-revb LINK_TARGET=freertos software
+```
+
 #### Uploading to the Target Board ####
 
 ```
