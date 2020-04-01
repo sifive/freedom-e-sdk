@@ -34,6 +34,7 @@ extern __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu);
 extern __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu);
 extern __inline__ struct metal_interrupt * __metal_driver_cpu_interrupt_controller(struct metal_cpu *cpu);
 extern __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu);
+extern __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct metal_cpu *cpu);
 
 
 /* --------------------- sifive_plic0 ------------ */
@@ -44,6 +45,9 @@ extern __inline__ int __metal_driver_sifive_plic0_max_priority(struct metal_inte
 extern __inline__ struct metal_interrupt * __metal_driver_sifive_plic0_interrupt_parents(struct metal_interrupt *controller, int idx);
 extern __inline__ int __metal_driver_sifive_plic0_interrupt_lines(struct metal_interrupt *controller, int idx);
 extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
+
+
+/* --------------------- sifive_buserror0 ------------ */
 
 
 /* --------------------- sifive_ccache0 ------------ */
