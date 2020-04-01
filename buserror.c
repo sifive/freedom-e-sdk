@@ -16,7 +16,7 @@ struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr;
 
 int accrued = 0;
-int local_int_handled = 0;
+volatile int local_int_handled = 0;
 
 void beu_local_handler(int id, void *data) {
 	struct metal_buserror *beu = (struct metal_buserror *)data;
@@ -69,6 +69,7 @@ int main() {
 		printf("Detected accrued bus error\n");
 		accrued = 1;
 		metal_buserror_clear_event_accrued(beu, METAL_BUSERROR_EVENT_ALL);
+		metal_buserror_clear_cause(beu);
 	}
 	if (!metal_buserror_is_event_accrued(beu, METAL_BUSERROR_EVENT_ANY)) {
 		printf("Cleared accrued bus error\n");
@@ -76,15 +77,19 @@ int main() {
 
 	/* Enable hart-local interrupts for error events */
 	metal_buserror_set_local_interrupt(beu, METAL_BUSERROR_EVENT_ALL, true);
+	rc = metal_interrupt_enable(cpu_intr, 0);
+	if (rc != 0) {
+		return 4;
+	}
 
 	/* Trigger an error event */
 	bad = *((volatile uint8_t *)BADADDR);
 
 	if (!accrued) {
-		return 4;
+		return 5;
 	}
 	if (!local_int_handled) {
-		return 5;
+		return 6;
 	}
 	return 0;
 }
