@@ -47,11 +47,13 @@ endif
 
 ifeq ($(RISCV_LIBC),nano)
 LIBMETAL_EXTRA=-lmetal-gloss
+METAL_WITH_EXTRA=--with-builtin-libgloss
 SPEC=nano
 endif
 
 ifeq ($(RISCV_LIBC),picolibc)
 LIBMETAL_EXTRA=-lmetal-pico
+METAL_WITH_EXTRA=--with-builtin-libmetal-pico
 SPEC=picolibc
 endif
 
