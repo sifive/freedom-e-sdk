@@ -30,9 +30,13 @@ extern __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu);
 extern __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu);
 extern __inline__ struct metal_interrupt * __metal_driver_cpu_interrupt_controller(struct metal_cpu *cpu);
 extern __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu);
+extern __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct metal_cpu *cpu);
 
 
 /* --------------------- sifive_plic0 ------------ */
+
+
+/* --------------------- sifive_buserror0 ------------ */
 
 
 /* --------------------- sifive_ccache0 ------------ */

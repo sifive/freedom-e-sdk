@@ -310,6 +310,25 @@ static __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
 	}
 }
 
+static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct metal_cpu *cpu)
+{
+	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
+		return NULL;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
+		return NULL;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
+		return NULL;
+	}
+	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
+		return NULL;
+	}
+	else {
+		return NULL;
+	}
+}
+
 
 
 /* --------------------- sifive_plic0 ------------ */
@@ -434,6 +453,9 @@ static __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid)
 	}
 }
 
+
+
+/* --------------------- sifive_buserror0 ------------ */
 
 
 /* --------------------- sifive_ccache0 ------------ */
