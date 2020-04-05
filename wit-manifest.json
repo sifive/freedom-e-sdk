@@ -233,5 +233,15 @@
         "commit": "356d0f75492e8233d3b4ea17b39379208811920d",
         "name": "example-pwm",
         "source": "git@github.com:sifive/example-pwm.git"
+    },
+    {
+        "commit": "50f45ddac9908edd56e257c70028d798fd1cbfed",
+        "name": "example-clic-nested-interrupts",
+        "source": "git@github.com:sifive/example-clic-nested-interrupts.git"
+    },
+    {
+        "commit": "0d9e0833492948f44a4abf1bac677329c4b9f336",
+        "name": "example-clic-nonvector-interrupts",
+        "source": "git@github.com:sifive/example-clic-nonvector-interrupts.git"
     }
 ]
