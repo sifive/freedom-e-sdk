@@ -147,6 +147,8 @@ operating systems to RISC-V.
     - Demonstrates usage of the PWM API to generate waveforms.
   - mem-latency
     - A memory test that measure the latency at different cache layers and memory blocks
+  - example-hardware-performance-monitor
+    - Demonstrates usage of the Risc-V hardware performance counter APIs.
   - example-freertos-minimal
     - A simple FreeRTOS skeleton to build your FreeRTOS application.
   - example-freertos-blinky
