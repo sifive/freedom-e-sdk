@@ -1,2 +1,2 @@
-# example-hwperfmon
-Demonstrates usage of the Risc-V hardware performance counter APIs.
+# example-hpm
+Demonstrates usage of the RISC-V hardware performance counter APIs.
