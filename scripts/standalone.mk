@@ -10,6 +10,8 @@ SRC_DIR ?= $(abspath src)
 export FREERTOS_SOURCE_PATH = $(abspath FreeRTOS-metal)
 # FREERTOS_SOURCE_PATH sets the path to the SEGGER SystemView source directory
 export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
+# Set FREERTOS_METAL_VENV_PATH to re-use Freedom E SDK's virtualenv
+export FREERTOS_METAL_VENV_PATH = $(FREEDOM_E_SDK_VENV_PATH)
 
 #############################################################
 # BSP loading
@@ -215,7 +217,8 @@ $(PROGRAM_ELF): \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
-		LDLIBS="$(RISCV_LDLIBS)"
+		LDLIBS="$(RISCV_LDLIBS)" \
+		FREERTOS_METAL_VENV_PATH="$(FREERTOS_METAL_VENV_PATH)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
 	touch -c $@

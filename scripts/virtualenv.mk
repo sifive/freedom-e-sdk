@@ -2,7 +2,7 @@
 # By default, the Python virtualenv is created in the `venv` folder at the root
 # of freedom-e-sdk. If you want your virtualenv to be placed somewhere else,
 # set the FREEDOM_E_SDK_VENV_PATH environment variable.
-FREEDOM_E_SDK_VENV_PATH ?= venv
+FREEDOM_E_SDK_VENV_PATH ?= $(CURDIR)/venv
 
 .PHONY: virtualenv
 virtualenv: $(FREEDOM_E_SDK_VENV_PATH)/.stamp

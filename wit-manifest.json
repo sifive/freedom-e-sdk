@@ -205,7 +205,7 @@
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
     {
-        "commit": "5446e8fcfe89d240c50399640ef37ced78715794",
+        "commit": "4ea863345d4f77a6aabdb06da4443d7d7abc7f88",
         "name": "FreeRTOS-metal",
         "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
