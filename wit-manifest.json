@@ -145,7 +145,7 @@
         "source": "git@github.com:sifive/example-sifive-welcome.git"
     },
     {
-        "commit": "b10a32d2b079e8e454648bd605b49954ed0fd505",
+        "commit": "b72fda55491be700009954eff9056f8a29a1bbac",
         "name": "example-software-interrupt",
         "source": "git@github.com:sifive/example-software-interrupt.git"
     },
