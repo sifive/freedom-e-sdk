@@ -78,6 +78,15 @@ else
 $(error Unable to determine XLEN from $(RISCV_ARCH))
 endif
 
+MTIME_RATE_HZ_DEF=32768
+ifeq ($(findstring qemu,$(TARGET)),qemu)
+MTIME_RATE_HZ_DEF=10000000
+else
+ifeq ($(findstring unleashed,$(TARGET)),unleashed)
+MTIME_RATE_HZ_DEF=1000000
+endif
+endif
+
 #############################################################
 # Toolchain
 #############################################################
@@ -132,6 +141,9 @@ RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CCASFLAGS += --specs=nano.specs
 RISCV_CFLAGS    += --specs=nano.specs
 RISCV_CXXFLAGS  += --specs=nano.specs
+# Set the MTIME frequency
+RISCV_CFLAGS    += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
+RISCV_CXXFLAGS  += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
