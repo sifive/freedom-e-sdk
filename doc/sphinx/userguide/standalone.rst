@@ -10,5 +10,5 @@ Legacy Freedom E SDK.
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] STANDALONE_DEST=/path/to/desired/location standalone
+   make PROGRAM=hello TARGET=sifive-hifive1 STANDALONE_DEST=/path/to/desired/location standalone
 

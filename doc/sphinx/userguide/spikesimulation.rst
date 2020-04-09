@@ -13,7 +13,7 @@ target in Freedom E SDK
 
 .. code-block:: bash
 
-   make TARGET=spike [PROGRAM=hello] [CONFIGURATION=debug] software
+   make TARGET=spike PROGRAM=hello CONFIGURATION=debug software
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
@@ -47,7 +47,7 @@ easy as invoking the ``simulate`` make target:
 
 .. code-block:: bash
 
-   make TARGET=spike [PROGRAM=hello] [CONFIGURATION=debug] simulate
+   make TARGET=spike PROGRAM=hello CONFIGURATION=debug simulate
 
 Cleaning a Target Program Build Directory
 -----------------------------------------
@@ -56,5 +56,5 @@ The ``clean`` target can be used to restore a target program's directory to a cl
 
 .. code-block:: bash
 
-   make TARGET=spike [PROGRAM=hello] [CONFIGURATION=debug] clean
+   make TARGET=spike PROGRAM=hello CONFIGURATION=debug clean
 
