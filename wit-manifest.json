@@ -15,7 +15,7 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "c294344b115b926d0c7b03073593cc417a6f5db7",
+        "commit": "69650c55fe381b642e493e93a7408038e1b5d434",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
@@ -30,12 +30,12 @@
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
-        "commit": "e91034b8b8e7994b2c23f9e7e7cfff36bf031a91",
+        "commit": "b766f5cd74f6ab0980079dfded145144189e4325",
         "name": "openocdcfg-generator",
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "c974863998bf05d96d25bbb153a6f6e80ffd90e2",
+        "commit": "9e82c3473032481e6a6d969b9d168b2bbe109744",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
