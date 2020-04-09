@@ -15,12 +15,9 @@ target in Freedom E SDK
 
    make TARGET=spike PROGRAM=hello CONFIGURATION=debug software
 
-The square brackets in the above command indicate optional parameters for the
-Make invocation. As you can see, the default values of these parameters tell
-the build script to build the ``hello`` example for the ``spike`` target
-using the ``debug`` build configuration. If, for example, you wished to build
-the ``timer-interrupt`` example for using the ``release`` build configuration,
-you would instead run the command
+One can choose to replace the ``hello`` PROGRAM with any other examples,
+like ``timer-interrupt`` example, and the ``debug`` build CONFIGRATION
+with the ``release`` for an optimize build configuration.
 
 .. code-block:: bash
 
