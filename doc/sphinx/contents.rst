@@ -48,12 +48,22 @@ within a single target directory in ``bsp/<target>/``. For example, the HiFive 1
 board support files for Freedom Metal are entirely within ``bsp/sifive-hifive1/``
 and consist of the following:
 
-* ``design.dts``
+* ``core.dts``
 
   - The DeviceTree description of the target. This file is used to parameterize
     the Freedom Metal library to the target device. It is included as reference
     so that users of Freedom Metal are aware of what features and peripherals
     are available on the target.
+
+* ``design.dts``
+
+  - The DeviceTree Overlay for describing the chosen node, and testrams.
+
+* ``design.svd``
+
+  - CMSIS SVD XML file used for describing the design peripherals, their
+    registers register-fields in the device with offset information on where
+    they are all mapped into the memory space.
 
 * ``metal.h``
 
@@ -100,70 +110,100 @@ Example Programs
 
 The example programs can be found under the ``software/`` directory.
 
-- empty
+- atomics
 
-  - An empty project. Serves as a good starting point for your own program.
-
-- hello
-
-  - Prints "Hello, World!" to stdout, if a serial device is present on the target.
-
-- sifive-welcome
-
-  - Prints a welcome message and interacts with the LEDs.
-
-- return-pass
-
-  - Returns status code 0 indicating program success.
-
-- return-fail
-
-  - Returns status code 1 indicating program failure.
-
-- example-itim
-
-  - Demonstrates how to statically link application code into the Instruction
-    Tightly Integrated Memory (ITIM) if an ITIM is present on the target.
-
-- software-interrupt
-
-  - Demonstrates how to register a handler for and trigger a software interrupt
-
-- timer-interrupt
-
-  - Demonstrates how to register a handler for and trigger a timer interrupt
-
-- local-interrupt
-
-  - Demonstrates how to register a handler for and trigger a local interrupt
-
-- example-pmp
-
-  - Demonstrates how to configure a Physical Memory Protection (PMP) region
-
-- example-spi
-
-  - Demonstrates how to use the SPI API to transfer bytes to a peripheral
-
-- dhrystone
-
-  - "Dhrystone" Benchmark Program by Reinhold P. Weicker
-
-- coremark
-
-  - "CoreMark" Benchmark Program that measures the performance of embedded
-    microcrontrollers (MCU)
+  - Demonstrates how to use the Metal Atomic API to leverage the RISC-V atomic
+    instruction set.
 
 - cflush
 
   - A simple example demo how to use cflush (Data) L1 and use FENCE to ensure flush
     complete. 
 
+- clic-hardware-vector-interrupts
+
+  - A simple example demonstrating the use of CLIC hardware vector interrupts
+
+- clic-nested-interrupts
+
+  - A simple example demonstrating how to use CLIC preemptive vector interrupts
+
+- clic-nonvector-interrupts
+
+  - A simple example demonstrating how to use CLIC non vector interrupts
+
+- clic-selective-vector-interrupts
+
+  - A simple example demonstrating how to use CLIC selective vector interrupts
+
+- coremark
+
+  - "CoreMark" Benchmark Program that measures the performance of embedded
+    microcrontrollers (MCU)
+
+- csr
+
+  - A simple example demonstrating the use of metal APIs for CSR register set
+    and get.
+
+- dhrystone
+
+  - "Dhrystone" Benchmark Program by Reinhold P. Weicker
+
+- empty
+
+  - An empty project. Serves as a good starting point for your own program.
+
+- example-buserror
+
+  - Demonstrates how to use the SiFive Bus Error Unit in Freedom Metal
+
+- example-freertos-blinky
+
+  - A simple blinky starter application create just two tasks, one queue
+
+- example-freertos-blinky-systemview
+
+  - A simple blinky starter application create just two tasks, one queue
+    (based on example-freertos-blinky example) in addition this example
+    init and use the SEGGER sytemView trace.
+
+- example-freertos-minimal
+
+  - A simple starter example application to start FreeRTOS application
+
+- example-freertos-pmp-blinky
+
+  - A simple blinky starter application create just two tasks, one queue.
+    In this example we use the PMP in order to restrict the acces to peripheral,
+    in order to access to global variable we grant access to bss to each task.
+
+- example-i2c
+
+  - Demonstrates usage of the I2C API to communicate with I2C slaves.
+
+- example-itim
+
+  - Demonstrates how to statically link application code into the Instruction
+    Tightly Integrated Memory (ITIM) if an ITIM is present on the target.
+
+- example-pmp
+
+  - Demonstrates how to configure a Physical Memory Protection (PMP) region
+
+- example-pwm
+
+  - Demonstrates usage of the PWM API for waveform generation.
+
 - example-rtc
 
   - Demonstrates how to use the RTC API to start a Real-Time Clock, set a compare
     value, and handle an interrupt when the clock matches the compare value.
 
+- example-spi
+
+  - Demonstrates how to use the SPI API to transfer bytes to a peripheral
+    
 - example-watchdog
 
   - Demonstrates how to use the Watchdog API to set a watchdog timer to trigger an
@@ -178,49 +218,67 @@ The example programs can be found under the ``software/`` directory.
   - Demonstrates how to register a handler for the "syscall from user mode" exception,
     drop to the user mode privilege level, and then issue a syscall.
 
-- plic-interrupts
+- example-watchdog
 
-  - A simple example demonstrating how PLIC interrupts get uses on an Arty board. 
+  - Demonstrates how to use the Watchdog API to set a watchdog timer to trigger an
+    interrupt on timeout.
 
-- test-coreip
+- hello
 
-  - Assembly test code which executes instructions and checks for expected results.
-    The tests are designed to work on SiFive CPU designs in RTL simulation or on the
-    Arty FPGA board. 
+  - Prints "Hello, World!" to stdout, if a serial device is present on the target.
 
-- clic-nonvector-interrupts
+- local-interrupt
 
-  - A simple example demonstrating how to use CLIC non vector interrupts
+  - Demonstrates how to register a handler for and trigger a local interrupt
 
-- clic-selective-vector-interrupts
+- local-vector-interrupt
 
-  - A simple example demonstrating how to use CLIC selective vector interrupts
+  - A simple example using "Timer and Software Interrupts" in CLINT vector mode.
 
-- clic-hardware-vector-interrupts
+- mem-latency
 
-  - A simple example demonstrating the use of CLIC hardware vector interrupts
-
-- clic-nested-interrupts
-
-  - A simple example demonstrating how to use CLIC preemptive vector interrupts
+  - A memory test that measure the latency at different cache layers and memory blocks
 
 - minimal-boot
 
   - Demonstrates how to replace the Metal constructors and replace them with your own.
 
-- atomics
+- multicore-hello
 
-  - Demonstrates how to use the Metal Atomic API to leverage the RISC-V atomic
-    instruction set.
+  - An example which demonstrates how to run code on multiple CPU harts and to use
+    the Metal Lock API to use a spinlock as a mutex.
 
-- example-i2c
+- plic-interrupts
+  
+  - A simple example demonstrating how PLIC interrupts get uses on an Arty board.
 
-  - Demonstrates usage of the I2C API to communicate with I2C slaves.
+- return-fail
 
-- example-pwm
+  - Returns status code 1 indicating program failure.
 
-  - Demonstrates usage of the PWM API for waveform generation.
+- return-pass
 
-- mem-latency
+  - Returns status code 0 indicating program success.
 
-  - A memory test that measure the latency at different cache layers and memory blocks
+- sifive-welcome
+
+  - Prints a welcome message and interacts with the LEDs.
+
+- software-interrupt
+
+  - Demonstrates how to register a handler for and trigger a software interrupt
+
+- test-coreip
+
+  - Assembly test code which executes instructions and checks for expected results.
+    The tests are designed to work on SiFive CPU designs in RTL simulation or on the
+    Arty FPGA board.
+
+- timer-interrupt
+
+  - Demonstrates how to register a handler for and trigger a timer interrupt
+
+- uart-interrupt
+
+  - A simple "UART Interrupt" example using metal-interrupts APIs for ARTY board.
+

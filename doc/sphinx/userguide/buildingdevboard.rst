@@ -8,7 +8,7 @@ To compile a bare-metal RISC-V program:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] software
+   make PROGRAM=hello TARGET=sifive-hifive1 CONFIGURATION=debug software
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
@@ -33,7 +33,7 @@ the development board into your computer and running the following command:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] upload
+   make PROGRAM=hello TARGET=sifive-hifive1 CONFIGURATION=debug upload
 
 Debugging a Target Program
 --------------------------
@@ -50,7 +50,7 @@ the development board into your computer and running the following command:
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] debug
+   make PROGRAM=hello TARGET=sifive-hifive1 CONFIGURATION=debug debug
 
 Cleaning a Target Program Build Directory
 -----------------------------------------
@@ -59,5 +59,5 @@ The ``clean`` target can be used to restore a target program's directory to a cl
 
 .. code-block:: bash
 
-   make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] clean
+   make PROGRAM=hello TARGET=sifive-hifive1 CONFIGURATION=debug clean
 
