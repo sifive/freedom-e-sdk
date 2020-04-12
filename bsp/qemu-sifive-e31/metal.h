@@ -1095,7 +1095,7 @@ static __inline__ struct metal_clock * __metal_driver_sifive_fe310_g000_lfrosc_p
 static __inline__ unsigned long int __metal_driver_sifive_fe310_g000_lfrosc_config_reg(const struct metal_clock *clock)
 {
 	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_6) {
-		return 112;
+		return 268435568;
 	}
 	else {
 		return 0;

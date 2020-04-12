@@ -1,8 +1,8 @@
 [
     {
-        "commit": "25b6abe2c925248e57958d60f9c95e258df7af4d",
+        "commit": "1a18125bca36f177caaebaa0ae5e98dcfbb7f977",
         "name": "freedom-devicetree-tools",
-        "source": "git@github.com:sifive/freedom-devicetree-tools.git"
+        "source": "git@github.com:sctincman/freedom-devicetree-tools.git"
     },
     {
         "commit": "6fd4b0a4e1c12b9ab159aea42fbe5ff7e6f7e81f",
@@ -25,9 +25,9 @@
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "c13d2fc23383cdbef08f4c7e070a5d775eaada71",
+        "commit": "9761b662d963067a1eaea9f0dbe1fbac332591c2",
         "name": "cmsis-svd-generator",
-        "source": "git@github.com:sifive/cmsis-svd-generator.git"
+        "source": "git@github.com:sctincman/cmsis-svd-generator.git"
     },
     {
         "commit": "b766f5cd74f6ab0980079dfded145144189e4325",

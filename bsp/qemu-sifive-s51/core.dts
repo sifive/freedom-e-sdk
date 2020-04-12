@@ -89,7 +89,7 @@
                 aon: aon@10000000 {
                         compatible = "sifive,aon0";
                         reg = <0x10000000 0x8000>;
-                        reg-names = "mem";
+                        reg-names = "control";
                 };
 
                 prci: prci@10008000 {
