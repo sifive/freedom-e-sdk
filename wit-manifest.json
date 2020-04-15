@@ -40,7 +40,7 @@
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
     {
-        "commit": "e3e7e91d48ae15f4a8e395cf998b0abbf5b70542",
+        "commit": "0ddff533cc9052c524990d5ace4560372053314b",
         "name": "benchmark-dhrystone",
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
     },
