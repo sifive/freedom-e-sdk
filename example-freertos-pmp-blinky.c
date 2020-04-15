@@ -118,6 +118,7 @@ int main( void )
 	const char * const pcMessage = "FreeRTOS-PMP Demo start\r\n";
 	const char * const pcMessageEnd = "FreeRTOS-PMP Demo end\r\n";
 	const char * const pcMessageEndError = "FreeRTOS-PMP Demo end - Error no enough PMP entry\r\n";
+    const char * const pcMessageGranularityError = "FreeRTOS-PMP Demo end - Error platform granularity no supported\r\n";
 
 	prvSetupHardware();
 	write( STDOUT_FILENO, pcMessage, strlen( pcMessage ) );
@@ -126,8 +127,15 @@ int main( void )
 	if (xPmpInfo.nb_pmp < 8)
 	{
 		write( STDOUT_FILENO, pcMessageEndError, strlen( pcMessageEndError ) );
-		_exit(1);
-	}
+		_exit(0);
+	} else if (xPmpInfo.granularity > 4) {
+        /* 
+         * platfrom granularity > 4 bytes is not supported yet, some
+         * modifications are needed on FreeRTOS port to do so.
+         */
+        write( STDOUT_FILENO, pcMessageGranularityError, strlen( pcMessageGranularityError ) );
+		_exit(0);
+    }
 	/* Create the queue. */
 	xQueue = xQueueCreate( mainQUEUE_LENGTH, sizeof( uint32_t ) );
 
