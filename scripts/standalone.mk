@@ -11,9 +11,9 @@ export FREERTOS_SOURCE_PATH = $(abspath FreeRTOS-metal)
 # FREERTOS_SOURCE_PATH sets the path to the SEGGER SystemView source directory
 export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
 # Set FREEDOM_E_SDK_VENV_PATH to use a project-local virtualenv
-export FREEDOM_E_SDK_VENV_PATH = venv
+export FREEDOM_E_SDK_VENV_PATH ?=  $(abspath .)/venv
 # Set FREERTOS_METAL_VENV_PATH to use same venv as FREEDOM_E_SDK_VENV_PATH
-export FREERTOS_METAL_VENV_PATH = $(FREEDOM_E_SDK_VENV_PATH)
+export FREERTOS_METAL_VENV_PATH ?= $(FREEDOM_E_SDK_VENV_PATH)
 
 
 #############################################################
