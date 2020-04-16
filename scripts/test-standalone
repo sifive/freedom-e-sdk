@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+PROGRAMS=(hello example-freertos-minimal )
+TARGET=qemu-sifive-e31
+
+for PROGRAM in ${PROGRAMS[@]} ; do
+    STANDALONE_DEST="${PROGRAM}-standalone"
+
+    make PROGRAM=${PROGRAM} TARGET=${TARGET} STANDALONE_DEST=${STANDALONE_DEST} standalone
+
+    pushd ${STANDALONE_DEST} && make software && popd
+done
