@@ -43,3 +43,7 @@ jobs:
       - name: 'Run examples on QEMU'
         run: |
           docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/test-qemu-targets
+
+      - name: 'Build examples as standalone projects'
+        run: |
+          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/test-standalone
