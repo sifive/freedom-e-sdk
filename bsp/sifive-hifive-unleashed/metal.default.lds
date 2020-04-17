@@ -16,6 +16,14 @@ MEMORY
     rom (irx!wa) : ORIGIN = 0x20000000, LENGTH = 0x10000000
 }
 
+PHDRS
+{
+    rom PT_LOAD;
+    ram_init PT_LOAD;
+    tls PT_TLS;
+    ram PT_LOAD;
+}
+
 SECTIONS
 {
     /* Each hart is allocated its own stack of size __stack_size. This value
@@ -75,17 +83,17 @@ SECTIONS
         KEEP (*(.text.metal.init.*))
         KEEP (*(SORT_NONE(.init)))
         KEEP (*(.text.libgloss.start))
-    } >rom
+    } >rom :rom
 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
-    } >rom
+    } >rom :rom
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array))
         PROVIDE_HIDDEN (__preinit_array_end = .);
-    } >rom
+    } >rom :rom
 
     .init_array : ALIGN(8) {
         PROVIDE_HIDDEN (__init_array_start = .);
@@ -96,7 +104,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
         KEEP (*(.metal.init_array));
         PROVIDE_HIDDEN ( metal_constructors_end = .);
-    } >rom
+    } >rom :rom
 
     .fini_array : ALIGN(8) {
         PROVIDE_HIDDEN (__fini_array_start = .);
@@ -107,7 +115,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
         KEEP (*(.metal.fini_array));
         PROVIDE_HIDDEN ( metal_destructors_end = .);
-    } >rom
+    } >rom :rom
 
  
 
@@ -118,7 +126,7 @@ SECTIONS
         KEEP (*(SORT(.ctors.*)))
         KEEP (*(.ctors))
         KEEP (*(.metal.ctors .metal.ctors.*))
-    } >rom
+    } >rom :rom
 
     .dtors : {
         KEEP (*crtbegin.o(.dtors))
@@ -127,14 +135,14 @@ SECTIONS
         KEEP (*(SORT(.dtors.*)))
         KEEP (*(.dtors))
         KEEP (*(.metal.dtors .metal.dtors.*))
-    } >rom
+    } >rom : rom
 
     .text : {
         *(.text.unlikely .text.unlikely.*)
         *(.text.startup .text.startup.*)
         *(.text .text.*)
         *(.gnu.linkonce.t.*)
-    } >rom
+    } >rom :rom
 
     .rodata : {
         *(.rdata)
@@ -147,7 +155,7 @@ SECTIONS
         *(.srodata.cst2)
         *(.srodata .srodata.*)
 
-    } >rom
+    } >rom :rom
 
     /* ITIM SECTION
      *
@@ -161,7 +169,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >itim AT>rom
+    } >itim AT>rom :rom
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -182,11 +190,31 @@ SECTIONS
         PROVIDE( __global_pointer$ = . + 0x800 );
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
-    } >ram AT>rom
+    } >ram AT>rom :ram_init
+
+    .tdata : {
+        PROVIDE( __tls_base = . );
+	*(.tdata .tdata.* .gnu.linkonce.td.*)
+    } >ram AT>rom :tls :ram_init
+
+    PROVIDE( __tdata_source = LOADADDR(.tdata) );
+    PROVIDE( __tdata_size = SIZEOF(.tdata) );
 
     PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
     PROVIDE( metal_segment_data_target_start = ADDR(.data) );
-    PROVIDE( metal_segment_data_target_end = ADDR(.data) + SIZEOF(.data) );
+    PROVIDE( metal_segment_data_target_end = ADDR(.tdata) + SIZEOF(.tdata) );
+
+    .tbss : {
+	*(.tbss .tbss.* .gnu.linkonce.tb.*)
+	*(.tcommon .tcommon.*)
+	PROVIDE( __tls_end = . );
+    } >ram AT>ram :tls :ram
+    PROVIDE( __tbss_size = SIZEOF(.tbss) );
+    PROVIDE( __tls_size = __tls_end - __tls_base );
+
+    .tbss_space : {
+	. = . + __tbss_size;
+    } >ram :ram
 
     .bss (NOLOAD): ALIGN(8) {
         *(.sbss*)
@@ -194,10 +222,10 @@ SECTIONS
         *(.bss .bss.*)
         *(.gnu.linkonce.b.*)
         *(COMMON)
-    } >ram
+    } >ram :ram
 
-    PROVIDE( metal_segment_bss_source_start = LOADADDR(.bss) );
-    PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
+    PROVIDE( metal_segment_bss_source_start = LOADADDR(.tbss) );
+    PROVIDE( metal_segment_bss_target_start = ADDR(.tbss) );
     PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
  
@@ -211,14 +239,16 @@ SECTIONS
         . += __stack_size; /* Hart 3 */
         . += __stack_size; /* Hart 4 */
         PROVIDE(metal_segment_stack_end = .);
-    } >ram
+    } >ram :ram
 
     .heap (NOLOAD) : ALIGN(4) {
+	PROVIDE( __end = . );
         PROVIDE( metal_segment_heap_target_start = . );
         /* If __heap_max is defined, grow the heap to use the rest of RAM,
          * otherwise set the heap size to __heap_size */
         . = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size;
         PROVIDE( metal_segment_heap_target_end = . );
         PROVIDE( _heap_end = . );
-    } >ram
+	PROVIDE( __heap_end = . );
+    } >ram :ram
 }

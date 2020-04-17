@@ -11,6 +11,10 @@ jobs:
           "",
           "-std=c99 -Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter",
         ]
+        riscv_libc: [
+          "",
+          "picolibc",
+        ]
 
     steps:
       - name: 'Clone freedom-e-sdk'
@@ -38,12 +42,12 @@ jobs:
 
       - name: 'Build all examples on all targets'
         run: |
-          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/all-targets-build
+          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" -e RISCV_LIBC="${{ matrix.riscv_libc }}" freedom-e-sdk ./scripts/all-targets-build
 
       - name: 'Run examples on QEMU'
         run: |
-          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/test-qemu-targets
+          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" -e RISCV_LIBC="${{ matrix.riscv_libc }}" freedom-e-sdk ./scripts/test-qemu-targets
 
       - name: 'Build examples as standalone projects'
         run: |
-          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" freedom-e-sdk ./scripts/test-standalone
+          docker run --rm -e RISCV_CFLAGS="${{ matrix.riscv_cflags }}" -e RISCV_LIBC="${{ matrix.riscv_libc }}" freedom-e-sdk ./scripts/test-standalone

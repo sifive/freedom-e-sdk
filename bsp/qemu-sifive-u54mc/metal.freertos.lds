@@ -17,6 +17,14 @@ MEMORY
     testram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x80000000
 }
 
+PHDRS
+{
+    rom PT_LOAD;
+    ram_init PT_LOAD;
+    tls PT_TLS;
+    ram PT_LOAD;
+}
+
 SECTIONS
 {
     /* Each hart is allocated its own stack of size __stack_size. This value
@@ -76,17 +84,17 @@ SECTIONS
         KEEP (*(.text.metal.init.*))
         KEEP (*(SORT_NONE(.init)))
         KEEP (*(.text.libgloss.start))
-    } >testram
+    } >testram :rom
 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
-    } >testram
+    } >testram :rom
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array))
         PROVIDE_HIDDEN (__preinit_array_end = .);
-    } >testram
+    } >testram :rom
 
     .init_array : ALIGN(8) {
         PROVIDE_HIDDEN (__init_array_start = .);
@@ -97,7 +105,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
         KEEP (*(.metal.init_array));
         PROVIDE_HIDDEN ( metal_constructors_end = .);
-    } >testram
+    } >testram :rom
 
     .fini_array : ALIGN(8) {
         PROVIDE_HIDDEN (__fini_array_start = .);
@@ -108,7 +116,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
         KEEP (*(.metal.fini_array));
         PROVIDE_HIDDEN ( metal_destructors_end = .);
-    } >testram
+    } >testram :rom
 
 	.privileged_functions : ALIGN (4) {
         __privileged_functions_start__ = .;
@@ -126,7 +134,7 @@ SECTIONS
         KEEP (*(SORT(.ctors.*)))
         KEEP (*(.ctors))
         KEEP (*(.metal.ctors .metal.ctors.*))
-    } >testram
+    } >testram :rom
 
     .dtors : {
         KEEP (*crtbegin.o(.dtors))
@@ -135,14 +143,14 @@ SECTIONS
         KEEP (*(SORT(.dtors.*)))
         KEEP (*(.dtors))
         KEEP (*(.metal.dtors .metal.dtors.*))
-    } >testram
+    } >testram : rom
 
     .text : {
         *(.text.unlikely .text.unlikely.*)
         *(.text.startup .text.startup.*)
         *(.text .text.*)
         *(.gnu.linkonce.t.*)
-    } >testram
+    } >testram :rom
 
     .rodata : {
         *(.rdata)
@@ -156,7 +164,7 @@ SECTIONS
         *(.srodata .srodata.*)
         __unprivileged_section_end__ = .;
 
-    } >testram
+    } >testram :rom
 
     /* ITIM SECTION
      *
@@ -170,7 +178,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >testram AT>testram
+    } >testram AT>testram :rom
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -192,11 +200,31 @@ SECTIONS
         PROVIDE( __global_pointer$ = . + 0x800 );
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
-    } >testram AT>testram
+    } >testram AT>testram :ram_init
+
+    .tdata : {
+        PROVIDE( __tls_base = . );
+	*(.tdata .tdata.* .gnu.linkonce.td.*)
+    } >testram AT>testram :tls :ram_init
+
+    PROVIDE( __tdata_source = LOADADDR(.tdata) );
+    PROVIDE( __tdata_size = SIZEOF(.tdata) );
 
     PROVIDE( metal_segment_data_source_start = LOADADDR(.data) );
     PROVIDE( metal_segment_data_target_start = ADDR(.data) );
-    PROVIDE( metal_segment_data_target_end = ADDR(.data) + SIZEOF(.data) );
+    PROVIDE( metal_segment_data_target_end = ADDR(.tdata) + SIZEOF(.tdata) );
+
+    .tbss : {
+	*(.tbss .tbss.* .gnu.linkonce.tb.*)
+	*(.tcommon .tcommon.*)
+	PROVIDE( __tls_end = . );
+    } >testram AT>testram :tls :ram
+    PROVIDE( __tbss_size = SIZEOF(.tbss) );
+    PROVIDE( __tls_size = __tls_end - __tls_base );
+
+    .tbss_space : {
+	. = . + __tbss_size;
+    } >testram :ram
 
     .bss (NOLOAD): ALIGN(8) {
         *(.sbss*)
@@ -205,10 +233,10 @@ SECTIONS
         *(.gnu.linkonce.b.*)
         *(COMMON)
         __unprivileged_data_section_end__ = .;
-    } >testram
+    } >testram :ram
 
-    PROVIDE( metal_segment_bss_source_start = LOADADDR(.bss) );
-    PROVIDE( metal_segment_bss_target_start = ADDR(.bss) );
+    PROVIDE( metal_segment_bss_source_start = LOADADDR(.tbss) );
+    PROVIDE( metal_segment_bss_target_start = ADDR(.tbss) );
     PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
     .privileged_data (NOLOAD) : ALIGN(8) {
@@ -229,14 +257,16 @@ SECTIONS
         . += __stack_size; /* Hart 2 */
         . += __stack_size; /* Hart 3 */
         PROVIDE(metal_segment_stack_end = .);
-    } >testram
+    } >testram :ram
 
     .heap (NOLOAD) : ALIGN(4) {
+	PROVIDE( __end = . );
         PROVIDE( metal_segment_heap_target_start = . );
         /* If __heap_max is defined, grow the heap to use the rest of RAM,
          * otherwise set the heap size to __heap_size */
         . = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size;
         PROVIDE( metal_segment_heap_target_end = . );
         PROVIDE( _heap_end = . );
-    } >testram
+	PROVIDE( __heap_end = . );
+    } >testram :ram
 }
