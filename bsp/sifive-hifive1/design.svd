@@ -10,7 +10,7 @@
   <peripherals>
     <peripheral>
       <name>sifive_aon0_0</name>
-      <description>From sifive,aon0,mem peripheral generator</description>
+      <description>From sifive,aon0,control peripheral generator</description>
       <baseAddress>0x10000000</baseAddress>
       <addressBlock>
         <offset>0</offset>
