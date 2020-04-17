@@ -10,8 +10,11 @@ SRC_DIR ?= $(abspath src)
 export FREERTOS_SOURCE_PATH = $(abspath FreeRTOS-metal)
 # FREERTOS_SOURCE_PATH sets the path to the SEGGER SystemView source directory
 export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
-# Set FREERTOS_METAL_VENV_PATH to re-use Freedom E SDK's virtualenv
-export FREERTOS_METAL_VENV_PATH = $(FREEDOM_E_SDK_VENV_PATH)
+# Set FREEDOM_E_SDK_VENV_PATH to use a project-local virtualenv
+export FREEDOM_E_SDK_VENV_PATH ?=  $(abspath .)/venv
+# Set FREERTOS_METAL_VENV_PATH to use same venv as FREEDOM_E_SDK_VENV_PATH
+export FREERTOS_METAL_VENV_PATH ?= $(FREEDOM_E_SDK_VENV_PATH)
+
 
 #############################################################
 # BSP loading
