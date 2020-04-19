@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "9aecdc912c4b0bb6ba92213ab9e07269c436a67f",
+        "commit": "1ac939f99aeb96b632c89bc4cdd9e78a0b1633af",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -245,7 +245,7 @@
         "source": "git@github.com:sifive/example-buserror.git"
     },
     {
-        "commit": "b4d3bcb4f7891b233b82b171944fae7bd55786ef",
+        "commit": "2a5f9fdbc620500baee026ac64f267aaa1604b0c",
         "name": "example-hpm",
         "source": "git@github.com:sifive/example-hpm.git"
     }
