@@ -282,3 +282,6 @@ The example programs can be found under the ``software/`` directory.
 
   - A simple "UART Interrupt" example using metal-interrupts APIs for ARTY board.
 
+- example-hpm
+
+  -Demonstrates usage of the RISC-V hardware performance counter APIs.
