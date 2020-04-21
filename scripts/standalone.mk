@@ -119,8 +119,13 @@ RISCV_CFLAGS    += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMOD
 RISCV_CXXFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_ASFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
+ifeq ($(PROGRAM),dhrystone)
+RISCV_CFLAGS   += -fno-function-sections -fno-data-sections
+RISCV_CXXFLAGS += -fno-function-sections -fno-data-sections
+else
 RISCV_CFLAGS   += -ffunction-sections -fdata-sections
 RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
+endif
 # Include the Metal headers
 RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
