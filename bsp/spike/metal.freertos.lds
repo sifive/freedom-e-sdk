@@ -23,6 +23,7 @@ PHDRS
     ram_init PT_LOAD;
     tls PT_TLS;
     ram PT_LOAD;
+    itim_init PT_LOAD;
 }
 
 SECTIONS
@@ -178,7 +179,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >testram AT>testram :rom
+    } >testram AT>testram :itim_init
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -190,6 +191,11 @@ SECTIONS
      * memory into a read-write-capable memory such as data tightly-integrated
      * memory (DTIM) or another main memory, as well as the BSS, stack, and
      * heap.
+     *
+     * You might notice that .data, .tdata, .tbss, .tbss_space, and .bss all
+     * have an apparently unnecessary ALIGN at their top. This is because
+     * the implementation of _start in Freedom Metal libgloss depends on the
+     * ADDR and LOADADDR being 8-byte aligned.
      */
 
     .data : ALIGN(8) {
@@ -202,7 +208,7 @@ SECTIONS
         *(.gnu.linkonce.s.*)
     } >testram AT>testram :ram_init
 
-    .tdata : {
+    .tdata : ALIGN(8) {
         PROVIDE( __tls_base = . );
 	*(.tdata .tdata.* .gnu.linkonce.td.*)
     } >testram AT>testram :tls :ram_init
@@ -214,7 +220,7 @@ SECTIONS
     PROVIDE( metal_segment_data_target_start = ADDR(.data) );
     PROVIDE( metal_segment_data_target_end = ADDR(.tdata) + SIZEOF(.tdata) );
 
-    .tbss : {
+    .tbss : ALIGN(8) {
 	*(.tbss .tbss.* .gnu.linkonce.tb.*)
 	*(.tcommon .tcommon.*)
 	PROVIDE( __tls_end = . );
@@ -222,7 +228,7 @@ SECTIONS
     PROVIDE( __tbss_size = SIZEOF(.tbss) );
     PROVIDE( __tls_size = __tls_end - __tls_base );
 
-    .tbss_space : {
+    .tbss_space : ALIGN(8) {
 	. = . + __tbss_size;
     } >testram :ram
 
@@ -257,13 +263,14 @@ SECTIONS
     } >testram :ram
 
     .heap (NOLOAD) : ALIGN(4) {
-	PROVIDE( __end = . );
+        PROVIDE( __end = . );
+        PROVIDE( __heap_start = . );
         PROVIDE( metal_segment_heap_target_start = . );
         /* If __heap_max is defined, grow the heap to use the rest of RAM,
          * otherwise set the heap size to __heap_size */
         . = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size;
         PROVIDE( metal_segment_heap_target_end = . );
         PROVIDE( _heap_end = . );
-	PROVIDE( __heap_end = . );
+        PROVIDE( __heap_end = . );
     } >testram :ram
 }
