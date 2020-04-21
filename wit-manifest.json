@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "1ac939f99aeb96b632c89bc4cdd9e78a0b1633af",
+        "commit": "086fb242d9c7fde198880c0313c047ca80bbe6d0",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -50,7 +50,7 @@
         "source": "git@github.com:sifive/benchmark-coremark.git"
     },
     {
-        "commit": "567272ae0f13a4b627f3d97f6a1ca09f20c0109d",
+        "commit": "912739096c6a0d561f5dacdeae948c1141e1a658",
         "name": "example-cflush",
         "source": "git@github.com:sifive/example-cflush.git"
     },

@@ -245,6 +245,7 @@ $(PROGRAM_ELF): \
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
 		PORT_DIR=$(PORT_DIR) \
+		PROGRAM=$(PROGRAM) \
 		AR=$(RISCV_AR) \
 		CC=$(RISCV_GCC) \
 		CXX=$(RISCV_GXX) \
