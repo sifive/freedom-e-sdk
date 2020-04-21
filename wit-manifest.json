@@ -50,7 +50,7 @@
         "source": "git@github.com:sifive/benchmark-coremark.git"
     },
     {
-        "commit": "567272ae0f13a4b627f3d97f6a1ca09f20c0109d",
+        "commit": "912739096c6a0d561f5dacdeae948c1141e1a658",
         "name": "example-cflush",
         "source": "git@github.com:sifive/example-cflush.git"
     },
