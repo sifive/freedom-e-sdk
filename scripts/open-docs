@@ -1,7 +1,12 @@
 #!/bin/bash
 
-SDK_PATH="$( cd "$(dirname "$0")/.." ; pwd -P )"
-DOCS_PATH=$SDK_PATH/doc/html/index.html
+DOCS_PATH="https://sifive.github.io/freedom-e-sdk-docs/index.html"
+
+SDK_PATH="$1"
+
+if [ "$SDK_PATH" != "" ]; then
+    DOCS_PATH=$SDK_PATH/doc/html/index.html
+fi
 
 XDG_OPEN=`which xdg-open`
 OPEN=`which open`
