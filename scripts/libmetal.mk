@@ -109,7 +109,7 @@ $(METAL_BUILD_DIR)/Makefile: \
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
-		CFLAGS="$(RISCV_CFLAGS)" \
+		CFLAGS="$(METAL_CFLAGS)" \
 		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(METAL_PREFIX) \
