@@ -240,7 +240,7 @@ int main(int argc, char *argv[]) {
 #elif __riscv_xlen == 32
     printf("HCA test arch=32!\n");
 #endif
-    printf("HCA base@ = 0x%08X\n",METAL_SIFIVE_HCA_0_BASE_ADDRESS);
+    printf("HCA base@ = 0x%08X\n",metal_sifive_scl.hca_base);
 
     printf("AES - ECB\n");
     oldcount = getcycles();
