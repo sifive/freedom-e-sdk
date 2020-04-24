@@ -208,7 +208,7 @@ metal_scl_t metal_sifive_scl = {
     .hash_func = {
         .sha = default_sha
     },
-    .rng_func = {
+    .trng_func = {
         .init = default_trng_init,
         .get_data = default_trng_getdata
     },
