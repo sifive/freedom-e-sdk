@@ -8,7 +8,7 @@
 #include <metal/io.h>
 #include <metal/machine/platform.h>
 
-#include <scl/scl_api.h>
+#include <api/scl_api.h>
 
 #define UNIT32_BE(data, k)      ( (*(data + k) << 24) + (*(data + k + 1) << 16) + (*(data + k + 2) << 8) + (*(data + k + 3)) )
 
@@ -155,6 +155,8 @@ uint64_t MsgL24B1024[16] = {
     0x0000000000000018
 };
 
+#define CCM_TQ(t, q)     (t + (q <<4))
+
 #if METAL_SIFIVE_HCA_VERSION >= HCA_VERSION(0,5,0)
 metal_scl_t metal_sifive_scl = {
 # if defined(HCA_HAS_AES)        
@@ -191,7 +193,7 @@ metal_scl_t metal_sifive_scl = {
         .get_data = scl_hca_trng_getdata
     },
 # else
-    .rng_func = {
+    .trng_func = {
         .init = default_trng_init,
         .get_data = default_trng_getdata
     },
@@ -245,8 +247,8 @@ int main(int argc, char *argv[]) {
 
     printf("AES - ECB\n");
     oldcount = getcycles();
-    metal_sifive_scl.aes_setkey(&metal_sifive_scl, SCL_AES_KEY128, key128_2);
-    metal_sifive_scl.aes_cipher(&metal_sifive_scl, SCL_HCA_AES_ECB, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, 1, (uint8_t *)plaintext_le, (uint8_t *)tmp);
+    metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, key128_2);
+    metal_sifive_scl.aes_func.cipher(&metal_sifive_scl, SCL_HCA_AES_ECB, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, 1, (uint8_t *)plaintext_le, (uint8_t *)tmp);
     cyclecount = getcycles()-oldcount;
    
 #if __riscv_xlen == 64
@@ -260,8 +262,8 @@ int main(int argc, char *argv[]) {
     memset(tmp8,0,64*sizeof(uint8_t));
     printf("AES - ECB \n");
     oldcount = getcycles();
-    metal_sifive_scl.aes_setkey(&metal_sifive_scl, SCL_AES_KEY128, key128_2);
-    metal_sifive_scl.aes_cipher(&metal_sifive_scl, SCL_HCA_AES_ECB, SCL_AES_ENCRYPT, SCL_HCA_BIG_ENDIAN_MODE, 1, plaintext_8_be, tmp8);
+    metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, key128_2);
+    metal_sifive_scl.aes_func.cipher(&metal_sifive_scl, SCL_HCA_AES_ECB, SCL_AES_ENCRYPT, SCL_HCA_BIG_ENDIAN_MODE, 1, plaintext_8_be, tmp8);
     cyclecount = getcycles()-oldcount;
     printf("0x%08X%08X 0x%08X%08X\n",UNIT32_BE(tmp8,0), UNIT32_BE(tmp8,4), UNIT32_BE(tmp8,8), UNIT32_BE(tmp8,12));
     printf("cyc: %u\n", (unsigned int)cyclecount);
@@ -269,9 +271,9 @@ int main(int argc, char *argv[]) {
     memset(tmp,0,8*sizeof(uint64_t));
     printf("AES - CTR\n");
     oldcount = getcycles();
-    metal_sifive_scl.aes_setkey(&metal_sifive_scl, SCL_AES_KEY128, key8);
-    metal_sifive_scl.aes_setiv(&metal_sifive_scl, F51_IV);
-    metal_sifive_scl.aes_cipher(&metal_sifive_scl, SCL_HCA_AES_CTR, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, 3, F51_plaintext_le, tmp);
+    metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, key8);
+    metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, F51_IV);
+    metal_sifive_scl.aes_func.cipher(&metal_sifive_scl, SCL_HCA_AES_CTR, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, 3, F51_plaintext_le, tmp);
     cyclecount = getcycles()-oldcount;
    
 #if __riscv_xlen == 64
@@ -291,9 +293,9 @@ int main(int argc, char *argv[]) {
     memset(tag,0,2*sizeof(uint64_t));
     printf("AES - GCM\n");
     oldcount = getcycles();
-    metal_sifive_scl.aes_setkey(&metal_sifive_scl, SCL_AES_KEY128, NIST_key128_GCM);
-    metal_sifive_scl.aes_setiv(&metal_sifive_scl, NIST_IV_GCM);
-    metal_sifive_scl.aes_auth(&metal_sifive_scl, SCL_HCA_AES_GCM, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, 0, 48, NIST_AAD_GCM, 32, NIST_DATA_GCM, tmp, tag);
+    metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, NIST_key128_GCM);
+    metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_GCM);
+    metal_sifive_scl.aes_func.auth(&metal_sifive_scl, SCL_HCA_AES_GCM, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, 0, 48, NIST_AAD_GCM, 32, NIST_DATA_GCM, tmp, tag);
     cyclecount = getcycles()-oldcount;
    
 #if __riscv_xlen == 64
@@ -318,9 +320,9 @@ int main(int argc, char *argv[]) {
     memset(tag,0,2*sizeof(uint64_t));
     printf("AES - CCM\n");
     oldcount = getcycles();
-    metal_sifive_scl.aes_setkey(&metal_sifive_scl, SCL_AES_KEY128, NIST_key128_CCM);
-    metal_sifive_scl.aes_setiv(&metal_sifive_scl, NIST_IV_CCM);
-    metal_sifive_scl.aes_auth(&metal_sifive_scl, SCL_HCA_AES_CCM, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), 24, NIST_AAD_CCM, 24, NIST_DATA_CCM, tmp, tag);
+    metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, NIST_key128_CCM);
+    metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_CCM);
+    metal_sifive_scl.aes_func.auth(&metal_sifive_scl, SCL_HCA_AES_CCM, SCL_AES_ENCRYPT, SCL_HCA_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), 24, NIST_AAD_CCM, 24, NIST_DATA_CCM, tmp, tag);
     cyclecount = getcycles()-oldcount;
    
 #if __riscv_xlen == 64
@@ -343,7 +345,7 @@ int main(int argc, char *argv[]) {
     memset(tmp,0,8*sizeof(uint64_t));
     printf("SHA256\n");
     oldcount = getcycles();
-    metal_sifive_scl.hash_sha(&metal_sifive_scl, SCL_HCA_HASH_SHA256, SCL_HCA_LITTLE_ENDIAN_MODE, 1, MsgL24B512, tmp);
+    metal_sifive_scl.hash_func.sha(&metal_sifive_scl, SCL_HCA_HASH_SHA256, SCL_HCA_LITTLE_ENDIAN_MODE, 1, MsgL24B512, tmp);
     cyclecount = getcycles()-oldcount;
 #if __riscv_xlen == 64
     printf("0x%016lX 0x%016lX 0x%016lX 0x%016lX\n", *(tmp + 3), *(tmp + 2), *(tmp + 1), *tmp);
@@ -356,7 +358,7 @@ int main(int argc, char *argv[]) {
     memset(tmp,0,8*sizeof(uint64_t));
     printf("SHA224\n");
     oldcount = getcycles();
-    metal_sifive_scl.hash_sha(&metal_sifive_scl, SCL_HCA_HASH_SHA224, SCL_HCA_LITTLE_ENDIAN_MODE, 1, MsgL24B512, tmp);
+    metal_sifive_scl.hash_func.sha(&metal_sifive_scl, SCL_HCA_HASH_SHA224, SCL_HCA_LITTLE_ENDIAN_MODE, 1, MsgL24B512, tmp);
     cyclecount = getcycles()-oldcount;
 #if __riscv_xlen == 64
     printf("0x%016lX 0x%016lX 0x%016lX 0x%016lX\n", *(tmp + 3), *(tmp + 2), *(tmp + 1), *tmp);
@@ -370,24 +372,24 @@ int main(int argc, char *argv[]) {
     memset(tmp,0,8*sizeof(uint64_t));
     printf("TRNG - TEST\n");
     oldcount = getcycles();
-    metal_sifive_scl.trng_init(&metal_sifive_scl);
+    metal_sifive_scl.trng_func.init(&metal_sifive_scl);
     cyclecount = getcycles()-oldcount;
     printf("     INIT cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = getcycles();
-    metal_sifive_scl.trng_getdata(&metal_sifive_scl, &val);
+    metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = getcycles()-oldcount;
     printf("0x%08X\n", val);
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = getcycles();
-    metal_sifive_scl.trng_getdata(&metal_sifive_scl, &val);
+    metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = getcycles()-oldcount;
     printf("0x%08X\n", val);
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = getcycles();
-    metal_sifive_scl.trng_getdata(&metal_sifive_scl, &val);
+    metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = getcycles()-oldcount;
     printf("0x%08X\n", val);
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
