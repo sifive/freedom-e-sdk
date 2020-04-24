@@ -292,7 +292,7 @@ int main(int argc, char *argv[]) {
     oldcount = getcycles();
     metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, NIST_key128_GCM);
     metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_GCM);
-    metal_sifive_scl.aes_func.auth(&metal_sifive_scl, SCL_AES_GCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, 0, 48, NIST_AAD_GCM, 32, (uint8_t *)NIST_DATA_GCM, (uint8_t *)tmp, tag);
+    metal_sifive_scl.aes_func.auth(&metal_sifive_scl, SCL_AES_GCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, 0, 48, (uint8_t *)NIST_AAD_GCM, 32, (uint8_t *)NIST_DATA_GCM, (uint8_t *)tmp, tag);
     cyclecount = getcycles()-oldcount;
    
 #if __riscv_xlen == 64
@@ -319,7 +319,7 @@ int main(int argc, char *argv[]) {
     oldcount = getcycles();
     metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, NIST_key128_CCM);
     metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_CCM);
-    metal_sifive_scl.aes_func.auth(&metal_sifive_scl, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), 24, NIST_AAD_CCM, 24, (uint8_t *)NIST_DATA_CCM, (uint8_t *)tmp, tag);
+    metal_sifive_scl.aes_func.auth(&metal_sifive_scl, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), 24, (uint8_t *)NIST_AAD_CCM, 24, (uint8_t *)NIST_DATA_CCM, (uint8_t *)tmp, tag);
     cyclecount = getcycles()-oldcount;
    
 #if __riscv_xlen == 64
@@ -355,7 +355,7 @@ int main(int argc, char *argv[]) {
     memset(tmp,0,8*sizeof(uint64_t));
     printf("SHA224\n");
     oldcount = getcycles();
-    metal_sifive_scl.hash_func.sha(&metal_sifive_scl, SCL_HASH_SHA224, SCL_LITTLE_ENDIAN_MODE, 1, MsgL24B512, tmp);
+    metal_sifive_scl.hash_func.sha(&metal_sifive_scl, SCL_HASH_SHA224, SCL_LITTLE_ENDIAN_MODE, 1, (uint8_t *)MsgL24B512, (uint8_t *)tmp);
     cyclecount = getcycles()-oldcount;
 #if __riscv_xlen == 64
     printf("0x%016lX 0x%016lX 0x%016lX 0x%016lX\n", *(tmp + 3), *(tmp + 2), *(tmp + 1), *tmp);
