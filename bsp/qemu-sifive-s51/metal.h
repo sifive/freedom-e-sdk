@@ -1205,11 +1205,6 @@ struct __metal_driver_cpu *__metal_cpu_table[] = {
 
 #define __METAL_DT_INTERRUPT_CONTROLLER_C000000_HANDLE (&__metal_dt_interrupt_controller_c000000.controller)
 
-/* From local_external_interrupts_0 */
-#define __METAL_DT_SIFIVE_LOCAL_EXINTR0_HANDLE (&__metal_dt_local_external_interrupts_0.irc)
-
-#define __METAL_DT_LOCAL_EXTERNAL_INTERRUPTS_0_HANDLE (&__metal_dt_local_external_interrupts_0.irc)
-
 #define __MEE_DT_MAX_GPIOS 1
 
 __asm__ (".weak __metal_gpio_table");

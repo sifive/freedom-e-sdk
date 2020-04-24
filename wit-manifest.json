@@ -1,6 +1,6 @@
 [
     {
-        "commit": "25b6abe2c925248e57958d60f9c95e258df7af4d",
+        "commit": "ee5b2c85cea96c937c0871ebb8e3b1482d1b1de8",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
@@ -250,12 +250,12 @@
         "source": "git@github.com:sifive/example-hpm.git"
     },
     {
-        "commit": "81e3a091cf424c427c9ffbde88a0324332156dc5",
+        "commit": "12e6ebb520e253751b1f9923339f26abcde27e30",
         "name": "scl-metal",
         "source": "git@github.com:sifive/scl-metal.git"
     },
     {
-        "commit": "165df8dd31887e9300e548066f1bdfcd962e2495",
+        "commit": "e902018d6aff78a64dc795f9633a7b1e8a2d120b",
         "name": "example-hca-metal",
         "source": "git@github.com:sifive/example-hca-metal.git"
     } 
