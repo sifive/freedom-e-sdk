@@ -243,7 +243,7 @@ int main(int argc, char *argv[]) {
 #if __riscv_xlen == 64
     printf("HCA base@ = 0x%016lX\n",metal_sifive_scl.hca_base);
 #elif __riscv_xlen == 32
-    printf("HCA base@ = 0x%08X\n",metal_sifive_scl.hca_base);
+    printf("HCA base@ = 0x%08lX\n",metal_sifive_scl.hca_base);
 #endif
 
     printf("AES - ECB\n");
@@ -256,7 +256,7 @@ int main(int argc, char *argv[]) {
     printf("0x%016lX 0x%016lX\n", *(tmp + 1), *tmp);
 #elif __riscv_xlen == 32
     data = (uint32_t *)tmp;
-    printf("0x%08X%08X 0x%08X%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
+    printf("0x%08lX%08X 0x%08lX%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
 #endif
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
@@ -266,7 +266,7 @@ int main(int argc, char *argv[]) {
     metal_sifive_scl.aes_func.setkey(&metal_sifive_scl, SCL_AES_KEY128, key128_2);
     metal_sifive_scl.aes_func.cipher(&metal_sifive_scl, SCL_AES_ECB, SCL_ENCRYPT, SCL_BIG_ENDIAN_MODE, 1, plaintext_8_be, tmp8);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
-    printf("0x%08X%08X 0x%08X%08X\n",UNIT32_BE(tmp8,0), UNIT32_BE(tmp8,4), UNIT32_BE(tmp8,8), UNIT32_BE(tmp8,12));
+    printf("0x%08lX%08X 0x%08lX%08X\n",UNIT32_BE(tmp8,0), UNIT32_BE(tmp8,4), UNIT32_BE(tmp8,8), UNIT32_BE(tmp8,12));
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
     memset(tmp,0,8*sizeof(uint64_t));
@@ -283,9 +283,9 @@ int main(int argc, char *argv[]) {
     printf("0x%016lX 0x%016lX\n", *(tmp + 5), *(tmp + 4));
 #elif __riscv_xlen == 32
     data = (uint32_t *)tmp;
-    printf("0x%08X%08X 0x%08X%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
-    printf("0x%08X%08X 0x%08X%08X\n",*(data + 7), *(data + 6), *(data + 5), *(data + 4));
-    printf("0x%08X%08X 0x%08X%08X\n",*(data + 11), *(data + 10), *(data + 9), *(data + 8));
+    printf("0x%08lX%08X 0x%08lX%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
+    printf("0x%08lX%08X 0x%08lX%08X\n",*(data + 7), *(data + 6), *(data + 5), *(data + 4));
+    printf("0x%08lX%08X 0x%08lX%08X\n",*(data + 11), *(data + 10), *(data + 9), *(data + 8));
 #endif
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
@@ -308,11 +308,11 @@ int main(int argc, char *argv[]) {
 #elif __riscv_xlen == 32
     data = (uint32_t *)tmp;
     printf("Data:\n");
-    printf("  0x%08X%08X 0x%08X%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
-    printf("  0x%08X%08X 0x%08X%08X\n",*(data + 7), *(data + 6), *(data + 5), *(data + 4));
+    printf("  0x%08lX%08X 0x%08lX%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
+    printf("  0x%08lX%08X 0x%08lX%08X\n",*(data + 7), *(data + 6), *(data + 5), *(data + 4));
     data = (uint32_t *)tag;
     printf("Tag:\n");
-    printf("  0x%08X%08X 0x%08X%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
+    printf("  0x%08lX%08X 0x%08lX%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
 #endif
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
@@ -335,11 +335,11 @@ int main(int argc, char *argv[]) {
 #elif __riscv_xlen == 32
     data = (uint32_t *)tmp;
     printf("Data:\n");
-    printf("  0x%08X%08X 0x%08X%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
-    printf("  0x%08X%08X 0x%08X%08X\n",*(data + 7), *(data + 6), *(data + 5), *(data + 4));
+    printf("  0x%08lX%08X 0x%08lX%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
+    printf("  0x%08lX%08X 0x%08lX%08X\n",*(data + 7), *(data + 6), *(data + 5), *(data + 4));
     data = (uint32_t *)tag;
     printf("Tag:\n");
-    printf("  0x%08X%08X 0x%08X%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
+    printf("  0x%08lX%08X 0x%08lX%08X\n",*(data + 3), *(data + 2), *(data + 1), *data);
 #endif
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
@@ -352,7 +352,7 @@ int main(int argc, char *argv[]) {
     printf("0x%016lX 0x%016lX 0x%016lX 0x%016lX\n", *(tmp + 3), *(tmp + 2), *(tmp + 1), *tmp);
 #elif __riscv_xlen == 32
     data = (uint32_t *)tmp;
-    printf("0x%08X%08X 0x%08X%08X 0x%08X%08X 0x%08X%08X\n", *(data + 7), *(data + 6), *(data + 5), *(data + 4), *(data + 3), *(data + 2), *(data + 1), *data);
+    printf("0x%08lX%08X 0x%08lX%08X 0x%08lX%08X 0x%08lX%08X\n", *(data + 7), *(data + 6), *(data + 5), *(data + 4), *(data + 3), *(data + 2), *(data + 1), *data);
 #endif
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
@@ -365,7 +365,7 @@ int main(int argc, char *argv[]) {
     printf("0x%016lX 0x%016lX 0x%016lX 0x%016lX\n", *(tmp + 3), *(tmp + 2), *(tmp + 1), *tmp);
 #elif __riscv_xlen == 32
     data = (uint32_t *)tmp;
-    printf("0x%08X%08X 0x%08X%08X 0x%08X%08X 0x%08X%08X\n", *(data + 7), *(data + 6), *(data + 5), *(data + 4), *(data + 3), *(data + 2), *(data + 1), *data);
+    printf("0x%08lX%08X 0x%08lX%08X 0x%08lX%08X 0x%08lX%08X\n", *(data + 7), *(data + 6), *(data + 5), *(data + 4), *(data + 3), *(data + 2), *(data + 1), *data);
 #endif
     printf("cyc: %u\n", (unsigned int)cyclecount);
 
@@ -380,18 +380,18 @@ int main(int argc, char *argv[]) {
     oldcount = metal_cpu_get_timer(cpu);
     metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
-    printf("0x%08X\n", val);
+    printf("0x%08lX\n", val);
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = metal_cpu_get_timer(cpu);
     metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
-    printf("0x%08X\n", val);
+    printf("0x%08lX\n", val);
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = metal_cpu_get_timer(cpu);
     metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
-    printf("0x%08X\n", val);
+    printf("0x%08lX\n", val);
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 }
