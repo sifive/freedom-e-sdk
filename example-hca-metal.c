@@ -380,18 +380,30 @@ int main(int argc, char *argv[]) {
     oldcount = metal_cpu_get_timer(cpu);
     metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+#if __riscv_xlen == 64
     printf("0x%08X\n", val);
+#elif __riscv_xlen == 32
+    printf("0x%08lX\n", val);
+#endif
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = metal_cpu_get_timer(cpu);
     metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+#if __riscv_xlen == 64
     printf("0x%08X\n", val);
+#elif __riscv_xlen == 32
+    printf("0x%08lX\n", val);
+#endif
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
     oldcount = metal_cpu_get_timer(cpu);
     metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
     cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+#if __riscv_xlen == 64
     printf("0x%08X\n", val);
+#elif __riscv_xlen == 32
+    printf("0x%08lX\n", val);
+#endif
     printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 }
