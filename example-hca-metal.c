@@ -7,6 +7,7 @@
 
 #include <metal/io.h>
 #include <metal/machine/platform.h>
+#include <metal/cpu.h>
 
 #include <api/scl_api.h>
 #include <api/scl_hca.h>
@@ -224,7 +225,6 @@ metal_scl_t metal_sifive_scl = {
 int main(int argc, char *argv[]) {
     uint32_t val;
     uint64_t oldcount, cyclecount;
-    uint8_t *ptr8 = (uint8_t *)F51_plaintext_le;
     uint64_t tmp[8] = {0};
     uint8_t tmp8[64] = {0};
     uint64_t tag[2] = {0};
