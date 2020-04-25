@@ -304,6 +304,12 @@ ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
 	find $</Segger_SystemView-metal -name ".git*" | xargs rm -rf
 endif
 
+ifneq ($(shell grep scl.mk $(SRC_DIR)/Makefile),)
+	cp -r scl-metal $</
+
+	find $</scl-metal -name ".git*" | xargs rm -rf
+endif
+
 	mkdir -p $</scripts
 	cp scripts/virtualenv.mk $</scripts
 
@@ -392,6 +398,12 @@ ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
 	cp -r Segger_SystemView-metal $</
 
 	find $</Segger_SystemView-metal -name ".git*" | xargs rm -rf
+endif
+
+ifneq ($(shell grep scl.mk $(SRC_DIR)/Makefile),)
+	cp -r scl-metal $</
+
+	find $</scl-metal -name ".git*" | xargs rm -rf
 endif
 
 	mkdir -p $</scripts
@@ -495,5 +507,3 @@ simulate:
 	@echo "No supported emulator for target $(TARGET)!"
 endif # findstring spike
 endif # findstring qemu
-
-
