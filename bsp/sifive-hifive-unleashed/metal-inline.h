@@ -284,26 +284,31 @@ struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
 /* From cpu@0 */
 struct __metal_driver_cpu __metal_dt_cpu_0 = {
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
+    .hpm_count = 0,
 };
 
 /* From cpu@1 */
 struct __metal_driver_cpu __metal_dt_cpu_1 = {
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
+    .hpm_count = 0,
 };
 
 /* From cpu@2 */
 struct __metal_driver_cpu __metal_dt_cpu_2 = {
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
+    .hpm_count = 0,
 };
 
 /* From cpu@3 */
 struct __metal_driver_cpu __metal_dt_cpu_3 = {
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
+    .hpm_count = 0,
 };
 
 /* From cpu@4 */
 struct __metal_driver_cpu __metal_dt_cpu_4 = {
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
+    .hpm_count = 0,
 };
 
 /* From interrupt_controller */
