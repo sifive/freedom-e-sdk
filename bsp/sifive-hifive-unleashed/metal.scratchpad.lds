@@ -71,6 +71,20 @@ SECTIONS
      * certain core features */
     PROVIDE(__metal_chicken_bit = 1);
 
+    /* The memory_ecc_scrub bit is used by _entry code to enable/disable
+     * memories scrubbing to zero  */
+    PROVIDE(__metal_eccscrub_bit = 0);
+
+    /* The RAM memories map for ECC scrubbing */
+    PROVIDE( metal_dtim_0_memory_start = 0x1000000 );
+    PROVIDE( metal_dtim_0_memory_end = 0x1000000 + 0x2000 );
+    PROVIDE( metal_itim_0_memory_start = 0x1800000 );
+    PROVIDE( metal_itim_0_memory_end = 0x1800000 + 0x4000 );
+    PROVIDE( metal_itim_1_memory_start = 0x1808000 );
+    PROVIDE( metal_itim_1_memory_end = 0x1808000 + 0x20000 );
+    PROVIDE( metal_memory_0_memory_start = 0x80000000 );
+    PROVIDE( metal_memory_0_memory_end = 0x80000000 + 0x1f80000000 );
+
     /* ROM SECTION
      *
      * The following sections contain data which lives in read-only memory, if
