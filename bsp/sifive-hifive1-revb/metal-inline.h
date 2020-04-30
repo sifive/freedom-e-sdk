@@ -265,6 +265,7 @@ struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
 /* From cpu@0 */
 struct __metal_driver_cpu __metal_dt_cpu_0 = {
     .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
+    .hpm_count = 0,
 };
 
 /* From interrupt_controller */
