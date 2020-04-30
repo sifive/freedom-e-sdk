@@ -24,7 +24,7 @@ copyright = '2019, SiFive Inc.'
 author = 'SiFive Inc.'
 
 # The short X.Y version
-version = "master"
+version = os.environ['RELEASE_TAG']
 # The full version, including alpha/beta/rc tags
 release = version
 

@@ -1,0 +1,89 @@
+on:
+  push:
+    # Require one of the following patterns to match the tag
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+.[0-9]+' # ex. v20.00.00.00
+      - 'v[0-9]+.[0-9]+.RC.[0-9]+'     # ex. v20.00.RC.00
+
+name: Create Release
+
+env:
+  PROJECT_NAME: freedom-e-sdk
+  # Release is a prerelease if the tag contains rc
+  PRERELEASE: ${{ contains(github.ref, 'RC') }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Perform a recursive, PAT-authenticated checkout of all freedom-e-sdk
+      # submodules. This allows us to create and push tags to each submodule,
+      # triggering their own release workflow.
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      # In order to generate release notes, we need a deep clone of the
+      # repository so that we can find the most recent tag and generate
+      # statistics based on it.
+      - name: 'Fetch History'
+        run: git fetch --prune --unshallow
+
+      # We tag submodules before creating the release notes or the release
+      # to make sure that they get tagged.
+      - name: 'Tag Submodules for Release'
+        run: |
+          tag=$(echo ${{ github.ref }} | cut -d '/' -f 3)
+          ./scripts/tag-submodules.sh ${tag}
+
+      - name: 'Create Release Notes'
+        id: create-release-notes
+        run: |
+          tag=$(echo ${{ github.ref }} | cut -d '/' -f 3)
+          release_notes=$(./scripts/create-release-notes.sh ${{ env.PROJECT_NAME }} ${tag})
+          # The string passed to Actions must urlencode newlines.
+          release_notes="${release_notes//$'\n'/'%0A'}"
+          # Use a magic "workflow command" to set the output for the step.
+          echo "::set-output name=release-notes::${release_notes}"
+
+      - name: 'Create Release'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ env.PROJECT_NAME }} ${{ github.ref }}
+          body: ${{ steps.create-release-notes.outputs.release-notes }}
+          draft: false
+          prerelease: ${{ env.PRERELEASE }}
+
+      - name: 'Clean Documentation Output Folder'
+        run: |
+          cd doc/html
+          git fetch
+          git checkout master
+          git reset --hard origin/master
+          rm -rf * .buildinfo .doctrees
+
+      - name: 'Build Sphinx Documenattion'
+        run: |
+          tag=$(echo ${{ github.ref }} | cut -d '/' -f 3)
+          docker run \
+            --rm \
+            -v $(pwd)/doc:/docs \
+            -e RELEASE_TAG="${tag}" \
+            sphinxdoc/sphinx \
+            make html
+
+      - name: 'Publish Documentation'
+        run: |
+          tag=$(echo ${{ github.ref }} | cut -d '/' -f 3)
+          cd doc/html
+          git config user.email "no-reply@sifive.com"
+          git config user.name "actions-bot"
+          git add .
+          git commit -m "Documentation for ${{ env.PROJECT_NAME }} ${tag}"
+          git push
