@@ -9,5 +9,5 @@ RISCV_CXXFLAGS += -O0
 
 # Enable debug
 RISCV_ASFLAGS += -g
-RISCV_CFLAGS += -g -mno-relax
-RISCV_CXXFLAGS += -g -mno-relax
+RISCV_CFLAGS += -g
+RISCV_CXXFLAGS += -g
