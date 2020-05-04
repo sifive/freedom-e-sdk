@@ -40,14 +40,11 @@ jobs:
           ./scripts/tag-submodules.sh ${tag}
 
       - name: 'Create Release Notes'
+        uses: sifive/action-release-notes@v1
         id: create-release-notes
-        run: |
-          tag=$(echo ${{ github.ref }} | cut -d '/' -f 3)
-          release_notes=$(./scripts/create-release-notes.sh ${{ env.PROJECT_NAME }} ${tag})
-          # The string passed to Actions must urlencode newlines.
-          release_notes="${release_notes//$'\n'/'%0A'}"
-          # Use a magic "workflow command" to set the output for the step.
-          echo "::set-output name=release-notes::${release_notes}"
+        with:
+          project-name: ${{ env.PROJECT_NAME }}
+          release: ${{ github.ref }}
 
       - name: 'Create Release'
         uses: actions/create-release@v1
