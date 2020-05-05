@@ -37,7 +37,6 @@ Original Author: Shay Gal-on
 	volatile ee_s32 seed4_volatile=ITERATIONS;
 	volatile ee_s32 seed5_volatile=0;
 
-	unsigned long long timebase = 0;
 /* Porting : Timing functions
 	How to capture time and convert to seconds must be ported to whatever is supported by the platform.
 	e.g. Read value from on board RTC, read value from cpu clock cycles performance counter etc.
@@ -56,7 +55,7 @@ CORETIMETYPE barebones_clock() {
 #define MYTIMEDIFF(fin,ini) ((fin)-(ini))
 #define TIMER_RES_DIVIDER 1
 #define SAMPLE_TIME_IMPLEMENTATION 1
-#define EE_TICKS_PER_SEC (timebase/ TIMER_RES_DIVIDER)
+#define EE_TICKS_PER_SEC (CLOCKS_PER_SEC / TIMER_RES_DIVIDER)
 
 /** Define Host specific (POSIX), or target specific global time variables. */
 static CORETIMETYPE start_time_val, stop_time_val;
@@ -99,7 +98,7 @@ CORE_TICKS get_time(void) {
 	Default implementation implemented by the EE_TICKS_PER_SEC macro above.
 */
 secs_ret time_in_secs(CORE_TICKS ticks) {
-	secs_ret retval=((unsigned int)ticks) / (unsigned int)EE_TICKS_PER_SEC;
+	secs_ret retval=((secs_ret)ticks) / (secs_ret)EE_TICKS_PER_SEC;
 	return retval;
 }
 
@@ -117,8 +116,6 @@ void portable_init(core_portable *p, int *argc, char *argv[])
 	if (sizeof(ee_u32) != 4) {
 		ee_printf("ERROR! Please define ee_u32 to a 32b unsigned type!\n");
 	}
-	//get timer frequency
-	metal_timer_get_timebase_frequency(0, &timebase);
 
 	p->portable_id=1;
 }
