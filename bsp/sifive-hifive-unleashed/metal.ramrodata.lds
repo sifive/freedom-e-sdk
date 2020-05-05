@@ -27,6 +27,7 @@ PHDRS
     tls PT_TLS;
     ram PT_LOAD;
     itim_init PT_LOAD;
+    text PT_LOAD;
 }
 
 SECTIONS
@@ -159,7 +160,6 @@ SECTIONS
     } >rom : rom
 
 
-
     /* ITIM SECTION
      *
      * The following sections contain data which is copied from read-only
@@ -171,20 +171,96 @@ SECTIONS
      */
 
     .itim : ALIGN(8) {
-        /* The .text sections are placed in the ITIM to improve the performance
-         * of all post-init and non-constructor application code. Note that
-         * this may cause the program to fail to link if the ITIM is not large
-         * enough to contain the entire .text section. */
-        *(.text.unlikely .text.unlikely.*)
-        *(.text.startup .text.startup.*)
-        *(.text .text.*)
-        *(.gnu.linkonce.t.*)
         *(.itim .itim.*)
+        /* The following takes advantage of -ffunction sections to link benchmark
+         * code into the ITIM when the ITIM is big enough to take advantage of it.
+         */
+        *(.text.startup.main)
+
+        /* Dhrystone */
+        *(.text.Func_1)
+        *(.text.Func_2)
+        *(.text.Func_3)
+        *(.text.malloc)
+        *(.text.memchr)
+        *(.text.memcpy)
+        *(.text.memmove)
+        *(.text.Proc_1)
+        *(.text.Proc_2)
+        *(.text.Proc_3)
+        *(.text.Proc_4)
+        *(.text.Proc_5)
+        *(.text.Proc_6)
+        *(.text.Proc_7)
+        *(.text.Proc_8)
+        *(.text.time)
+        *(.text.strcmp)
+        *strcmp.o(.text)
+
+        /* Coremark */
+        *(.text.barebones_clock)
+        *(.text.calc_func)
+        *(.text.check_data_types)
+        *(.text.clock)
+        *(.text.cmp_complex)
+        *(.text.cmp_idx)
+        *(.text.copy_info)
+        *(.text.core_bench_list)
+        *(.text.core_bench_matrix)
+        *(.text.core_bench_state)
+        *(.text.core_init_matrix)
+        *(.text.core_init_state)
+        *(.text.core_list_find)
+        *(.text.core_list_init)
+        *(.text.core_list_insert_new)
+        *(.text.core_list_mergesort)
+        *(.text.core_list_remove)
+        *(.text.core_list_reverse)
+        *(.text.core_list_undo_remove)
+        *(.text.core_state_transition)
+        *(.text.crc16)
+        *(.text.crcu16)
+        *(.text.crcu32)
+        *(.text.crcu8)
+        *(.text.get_seed_32)
+        *(.text.get_time)
+        *(.text.iterate)
+        *(.text.matrix_add_const)
+        *(.text.matrix_mul_const)
+        *(.text.matrix_mul_matrix)
+        *(.text.matrix_mul_matrix_bitextract)
+        *(.text.matrix_mul_vect)
+        *(.text.matrix_sum)
+        *(.text.matrix_test)
+        *(.text.memchr)
+        *(.text.memcpy)
+        *(.text.memmove)
+        *(.text.portable_fini)
+        *(.text.portable_init)
+        *(.text.start_time)
+        *(.text.stop_time)
+        *(.text.time_in_secs)
+        *(.text.unlikely.core_bench_list)
+        *(.text.unlikely.core_list_init)
+        *(.text.unlikely.core_list_mergesort)
     } >itim AT>rom :itim_init
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
     PROVIDE( metal_segment_itim_target_end = ADDR(.itim) + SIZEOF(.itim) );
+
+    /* TEXT SECTION
+     *
+     * The following section contains the code of the program, excluding
+     * everything that's been allocated into the ITIM already
+     */
+
+    .text : {
+        *(.text.unlikely .text.unlikely.*)
+        *(.text.startup .text.startup.*)
+        *(.text .text.*)
+        *(.gnu.linkonce.t.*)
+    } >rom :text
 
     /* RAM SECTION
      *
