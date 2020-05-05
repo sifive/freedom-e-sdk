@@ -162,11 +162,19 @@ help:
 	@echo "    Exports a program for a single target into a standalone"
 	@echo "    project directory at STANDALONE_DEST."
 	@echo ""
+	@echo " version"
+	@echo "    Report the release version for Freedom-E-SDK, Metal library"
+	@echo "    and its tools if it has one."
+	@echo ""
 	@echo " open-docs"
 	@echo "    Opens the Freedom E SDK documentation in your HTML"
 	@echo "    viewer of choice. The documentation can also be found"
 	@echo "    online at"
 	@echo "      https://sifive.github.io/freedom-e-sdk-docs/index.html"
+
+.PHONY: version
+version: scripts/report-version
+	$^
 
 .PHONY: open-docs
 open-docs: scripts/open-docs
