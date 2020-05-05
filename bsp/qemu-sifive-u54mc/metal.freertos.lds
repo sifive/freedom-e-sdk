@@ -24,6 +24,7 @@ PHDRS
     tls PT_TLS;
     ram PT_LOAD;
     itim_init PT_LOAD;
+    text PT_LOAD;
 }
 
 SECTIONS
@@ -156,13 +157,6 @@ SECTIONS
         KEEP (*(.metal.dtors .metal.dtors.*))
     } >testram : rom
 
-    .text : {
-        *(.text.unlikely .text.unlikely.*)
-        *(.text.startup .text.startup.*)
-        *(.text .text.*)
-        *(.gnu.linkonce.t.*)
-    } >testram :rom
-
     .rodata : {
         *(.rdata)
         *(.rodata .rodata.*)
@@ -194,6 +188,19 @@ SECTIONS
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
     PROVIDE( metal_segment_itim_target_end = ADDR(.itim) + SIZEOF(.itim) );
+
+    /* TEXT SECTION
+     *
+     * The following section contains the code of the program, excluding
+     * everything that's been allocated into the ITIM already
+     */
+
+    .text : {
+        *(.text.unlikely .text.unlikely.*)
+        *(.text.startup .text.startup.*)
+        *(.text .text.*)
+        *(.gnu.linkonce.t.*)
+    } >testram :text
 
     /* RAM SECTION
      *
