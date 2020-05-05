@@ -201,5 +201,4 @@ void portable_fini(core_portable *p);
 
 int ee_printf(const char *fmt, ...);
 
-extern int metal_timer_get_timebase_frequency(int hartid, unsigned long long *timebase);
 #endif /* CORE_PORTME_H */
