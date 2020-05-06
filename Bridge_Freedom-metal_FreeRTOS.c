@@ -54,11 +54,6 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 	}
 	metal_interrupt_init(cpu_intr);
 
-	if (metal_interrupt_enable(cpu_intr, 0) == -1)
-	{
-		return;
-	}
-
 #ifdef METAL_RISCV_PLIC0
 	{
 		struct metal_interrupt *plic;
