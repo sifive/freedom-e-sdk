@@ -15,12 +15,12 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "da15fdd5a3db78dc4298d1c343c18c8868cbd140",
+        "commit": "af03f434ee865209e5e1ce76a1f3283c377dae8c",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "fbb56a8cc29eb5e4f31a8169069ae2ab8002a011",
+        "commit": "3a1d07ecaa90471a798e2b2003d7b33038d6c7ae",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
@@ -170,7 +170,7 @@
         "source": "git@github.com:sifive/example-local-vector-interrupts.git"
     },
     {
-        "commit": "bb2e9c95c4bbfd38d68b97ad614389fb5dd27e77",
+        "commit": "e6869562bcc7fb0210aeaa721cf2ee2c988e12d9",
         "name": "example-csr-access",
         "source": "git@github.com:sifive/example-csr-access.git"
     },
