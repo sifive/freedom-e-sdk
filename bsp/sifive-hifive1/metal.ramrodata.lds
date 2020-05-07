@@ -272,4 +272,13 @@ SECTIONS
         PROVIDE( _heap_end = . );
         PROVIDE( __heap_end = . );
     } >ram :ram
+
+    /* C++ exception handling information is
+     * not useful with our current runtime environment,
+     * and it consumes flash space. Discard it until
+     * we have something that can use it
+     */
+    /DISCARD/ : {
+	*(.eh_frame .eh_frame.*)
+    }
 }
