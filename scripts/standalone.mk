@@ -113,10 +113,48 @@ RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
 RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
+
+# Set selected C library
+ifeq ($(RISCV_LIBC),)
+RISCV_LIBC=nano
+endif
+
+ifeq ($(RISCV_LIBC),nano)
+LIBMETAL_EXTRA=-lmetal-gloss
+METAL_WITH_EXTRA=--with-builtin-libgloss
+PROG_EXTRA_LIB=libmetal-gloss.a
+SPEC=nano
+METAL_CFLAGS   := $(RISCV_CFLAGS) -Os
+endif
+
+ifeq ($(RISCV_LIBC),picolibc)
+LIBMETAL_EXTRA=-lmetal-pico
+METAL_WITH_EXTRA=--with-builtin-libmetal-pico
+PROG_EXTRA_LIB=libmetal-pico.a
+SPEC=picolibc
+METAL_CFLAGS   := $(RISCV_CFLAGS) -Os
+endif
+
+ifeq ($(RISCV_LIBC),segger)
+ifeq ($(RISCV_XLEN),32)
+LIBMETAL_EXTRA=-lmetal-segger
+METAL_WITH_EXTRA=--with-builtin-libmetal-segger
+PROG_EXTRA_LIB=libmetal-segger.a
+SPEC=metal-segger
+METAL_CFLAGS   := $(RISCV_CFLAGS) -Os -D__SEGGER_LIBC__ -isystem =/include/segger
+else # RISCV_XLEN==64 only support nano now
+$(error $(RISCV_LIBC) is not unsupported in $(RISCV_XLEN)-bit system now)
+endif # RISCV_XLEN
+endif # RISCV_LIBC
+
+ifeq ($(SPEC),)
+$(error RISCV_LIBC set to an unsupported value: $(RISCV_LIBC))
+endif
+
 # Use newlib-nano
-RISCV_CCASFLAGS += --specs=nano.specs
-RISCV_CFLAGS    += --specs=nano.specs
-RISCV_CXXFLAGS  += --specs=nano.specs
+RISCV_CCASFLAGS += --specs=$(SPEC).specs
+RISCV_CFLAGS    += --specs=$(SPEC).specs
+RISCV_CXXFLAGS  += --specs=$(SPEC).specs
 
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
@@ -128,7 +166,7 @@ RISCV_LDFLAGS += -nostartfiles -nostdlib
 RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
 
 # Link to the relevant libraries
-RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -lmetal -lmetal-gloss -Wl,--end-group
+RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -lmetal $(LIBMETAL_EXTRA) -Wl,--end-group
 
 # Load the configuration Makefile
 CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
@@ -187,7 +225,7 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
+		$(BSP_DIR)/install/lib/$(CONFIGURATION)/$(PROG_EXTRA_LIB) \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \

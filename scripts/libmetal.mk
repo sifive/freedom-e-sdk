@@ -19,19 +19,19 @@ $(METAL_BUILD_DIR)/Makefile:
 	@rm -rf $(dir $@)
 	@mkdir -p $(dir $@)
 	cd $(dir $@) && \
-		CFLAGS="$(RISCV_CFLAGS)" \
+		CFLAGS="$(METAL_CFLAGS)" \
 		$(abspath $(METAL_SOURCE_PATH)/configure) \
 		--host=$(CROSS_COMPILE) \
 		--prefix=$(METAL_PREFIX) \
 		--libdir=$(METAL_LIB_DIR) \
 		--disable-maintainer-mode \
 		--with-preconfigured \
+		$(METAL_WITH_EXTRA) \
 		--with-machine-name=$(TARGET) \
 		--with-machine-header=$(abspath $(METAL_HEADER)) \
                 --with-machine-inline=$(abspath $(METAL_INLINE)) \
 		--with-platform-header=$(abspath $(PLATFORM_HEADER)) \
-		--with-machine-ldscript=$(abspath $(METAL_LDSCRIPT)) \
-		--with-builtin-libgloss
+		--with-machine-ldscript=$(abspath $(METAL_LDSCRIPT))
 	touch -c $@
 
 $(METAL_LIB_DIR)/stamp: $(BSP_DIR)/build/$(CONFIGURATION)/Makefile
