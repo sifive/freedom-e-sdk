@@ -49,15 +49,12 @@ int main (void)
 
     metal_cpu_software_set_ipi(cpu, metal_cpu_get_current_hartid());
 
-    /* Quick Hack for U8 cores to delay 5000 cycles to ensure IRQ received */
-    // Correct fix is to have METAL_DELAY_COUNT from settings.mk passed in
-    // For U8 Core, METAL_DELAY_COUNT = 5000. Others METAL_DELAY_COUNT = 0
     unsigned long long start;
     unsigned long long count;
     metal_timer_get_cyclecount(metal_cpu_get_current_hartid(), &start);
     do {
         metal_timer_get_cyclecount(metal_cpu_get_current_hartid(), &count);
-    } while (count < (start + 5000));
+    } while (count < (start + METAL_WAIT_CYCLE));
 
     return sw_status;
 }
