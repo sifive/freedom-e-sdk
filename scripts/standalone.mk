@@ -220,6 +220,10 @@ ifeq ($(findstring freertos,$(PROGRAM)),freertos)
 RISCV_XCFLAGS += -DWAIT_MS=$(TARGET_FREERTOS_WAIT_MS)
 endif
 
+ifneq ($(filter rtl,$(TARGET_TAGS)),)
+RISCV_XCFLAGS += -DHCA_BYPASS_TRNG
+endif
+
 #############################################################
 # Software
 #############################################################
