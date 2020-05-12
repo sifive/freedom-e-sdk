@@ -53,7 +53,7 @@ endif
 $(BUILD_DIRECTORY)/%.o: $(SOURCE_DIR)/%.c
 	$(info TEST_FLAGS_SCL:$(TEST_FLAGS_SCL))
 	$(HIDE) mkdir -p $(dir $@)
-	$(HIDE) $(CC) -c -o $@ $(CFLAGS) $<
+	$(HIDE) $(CC) -c -o $@ $(CFLAGS) $(XCFLAGS) $<
 
 $(BUILD_DIRECTORY)/%.o: $(SOURCE_DIR)/%.S
 	$(HIDE) mkdir -p $(dir $@)
@@ -68,7 +68,7 @@ libscl.a:
 $(PROGRAM): \
 	libscl.a \
 	$(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
+	$(CC) $(CFLAGS) $(XCFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
 	@echo
 
 clean::
