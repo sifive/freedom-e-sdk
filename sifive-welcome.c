@@ -9,7 +9,7 @@
 
 #define RTC_FREQ    32768
 
-struct metal_cpu *cpu0;
+struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr, *tmr_intr;
 int tmr_id;
 volatile uint32_t timer_isr_flag;
@@ -66,7 +66,7 @@ void wait_for_timer(struct metal_led *which_led) {
     metal_led_on(which_led);
 
     // Set timer
-    metal_cpu_set_mtimecmp(cpu0, metal_cpu_get_mtime(cpu0) + RTC_FREQ);
+    metal_cpu_set_mtimecmp(cpu, metal_cpu_get_mtime(cpu) + RTC_FREQ);
 
     // Enable Timer interrupt
     metal_interrupt_enable(tmr_intr, tmr_id);
@@ -105,12 +105,12 @@ int main (void)
     metal_led_off(led0_blue);
 
     // Lets get the CPU and and its interrupt
-    cpu0 = metal_cpu_get(0);
-    if (cpu0 == NULL) {
+    cpu = metal_cpu_get(metal_cpu_get_current_hartid());
+    if (cpu == NULL) {
         printf("CPU null.\n");
         return 2;
     }
-    cpu_intr = metal_cpu_interrupt_controller(cpu0);
+    cpu_intr = metal_cpu_interrupt_controller(cpu);
     if (cpu_intr == NULL) {
         printf("CPU interrupt controller is null.\n");
         return 3;
@@ -121,14 +121,14 @@ int main (void)
     display_banner();
 
     // Setup Timer and its interrupt so we can toggle LEDs on 1s cadence
-    tmr_intr = metal_cpu_timer_interrupt_controller(cpu0);
+    tmr_intr = metal_cpu_timer_interrupt_controller(cpu);
     if (tmr_intr == NULL) {
         printf("TIMER interrupt controller is  null.\n");
         return 4;
     }
     metal_interrupt_init(tmr_intr);
-    tmr_id = metal_cpu_timer_get_interrupt_id(cpu0);
-    rc = metal_interrupt_register_handler(tmr_intr, tmr_id, timer_isr, cpu0);
+    tmr_id = metal_cpu_timer_get_interrupt_id(cpu);
+    rc = metal_interrupt_register_handler(tmr_intr, tmr_id, timer_isr, cpu);
     if (rc < 0) {
         printf("TIMER interrupt handler registration failed\n");
         return (rc * -1);
