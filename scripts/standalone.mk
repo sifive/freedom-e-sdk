@@ -153,9 +153,14 @@ RISCV_CFLAGS    += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMOD
 RISCV_CXXFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_ASFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
+ifeq ($(RISCV_SERIES),sifive-8-series)
 ifeq ($(PROGRAM),dhrystone)
 RISCV_CFLAGS   += -fno-function-sections -fno-data-sections
 RISCV_CXXFLAGS += -fno-function-sections -fno-data-sections
+else
+RISCV_CFLAGS   += -ffunction-sections -fdata-sections
+RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
+endif
 else
 RISCV_CFLAGS   += -ffunction-sections -fdata-sections
 RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
@@ -210,9 +215,11 @@ endif
 
 ifeq ($(PROGRAM),coremark)
 ifeq ($(RISCV_SERIES),sifive-8-series)
-ifeq ($(RISCV_SERIES),sifive-7-series)
+# 8-series currently uses 7-series mtune, but this may change
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
 endif
+ifeq ($(RISCV_SERIES),sifive-7-series)
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
 endif
 ifneq ($(RISCV_SERIES),sifive-8-series)
 ifneq ($(RISCV_SERIES),sifive-7-series)
