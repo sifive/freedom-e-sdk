@@ -187,8 +187,13 @@ metal_scl_t metal_sifive_scl = {
 # endif
 # if defined(HCA_HAS_TRNG)
     .trng_func = {
+#  if defined(HCA_BYPASS_TRNG)
+        .init = default_trng_init,
+        .get_data = default_trng_getdata
+#  else
         .init = scl_hca_trng_init,
         .get_data = scl_hca_trng_getdata
+#  endif
     },
 # else
     .trng_func = {
@@ -373,37 +378,43 @@ int main(int argc, char *argv[]) {
     memset(tmp,0,8*sizeof(uint64_t));
     printf("TRNG - TEST\n");
     oldcount = metal_cpu_get_timer(cpu);
-    metal_sifive_scl.trng_func.init(&metal_sifive_scl);
-    cyclecount = metal_cpu_get_timer(cpu)-oldcount;
-    printf("     INIT cyc: %u\n", (unsigned int)cyclecount);
+    if (SCL_OK == metal_sifive_scl.trng_func.init(&metal_sifive_scl)) {
+        cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+        printf("     INIT cyc: %u\n", (unsigned int)cyclecount);
 
-    oldcount = metal_cpu_get_timer(cpu);
-    metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
-    cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+        oldcount = metal_cpu_get_timer(cpu);
+        if (SCL_OK == metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val)) {
+            cyclecount = metal_cpu_get_timer(cpu)-oldcount;
 #if __riscv_xlen == 64
-    printf("0x%08X\n", val);
+            printf("0x%08X\n", val);
 #elif __riscv_xlen == 32
-    printf("0x%08lX\n", val);
+            printf("0x%08lX\n", val);
 #endif
-    printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
+            printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
-    oldcount = metal_cpu_get_timer(cpu);
-    metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
-    cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+            oldcount = metal_cpu_get_timer(cpu);
+            metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
+            cyclecount = metal_cpu_get_timer(cpu)-oldcount;
 #if __riscv_xlen == 64
-    printf("0x%08X\n", val);
+            printf("0x%08X\n", val);
 #elif __riscv_xlen == 32
-    printf("0x%08lX\n", val);
+            printf("0x%08lX\n", val);
 #endif
-    printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
+            printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
 
-    oldcount = metal_cpu_get_timer(cpu);
-    metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
-    cyclecount = metal_cpu_get_timer(cpu)-oldcount;
+            oldcount = metal_cpu_get_timer(cpu);
+            metal_sifive_scl.trng_func.get_data(&metal_sifive_scl, &val);
+            cyclecount = metal_cpu_get_timer(cpu)-oldcount;
 #if __riscv_xlen == 64
-    printf("0x%08X\n", val);
+            printf("0x%08X\n", val);
 #elif __riscv_xlen == 32
-    printf("0x%08lX\n", val);
+            printf("0x%08lX\n", val);
 #endif
-    printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
+            printf("    get_data cyc: %u\n", (unsigned int)cyclecount);
+        } else {
+            printf("TRNG - get_data Fail\n");   
+        }
+    } else {
+        printf("TRNG - Init Fail\n");   
+    }
 }
