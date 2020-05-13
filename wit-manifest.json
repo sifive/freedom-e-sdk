@@ -140,7 +140,7 @@
         "source": "git@github.com:sifive/example-return-pass.git"
     },
     {
-        "commit": "52434ebc25f427d5058aab82d3af3431b0d953e0",
+        "commit": "e8675dc71ff898cbf1aab09d4541e3681bdf718b",
         "name": "example-sifive-welcome",
         "source": "git@github.com:sifive/example-sifive-welcome.git"
     },
@@ -160,7 +160,7 @@
         "source": "git@github.com:sifive/example-scie-tests.git"
     },
     {
-        "commit": "66a95838f54f6b6e91f1bd600da9b53680787c86",
+        "commit": "b35002858273caf588f2b903cd0a07aafd85331a",
         "name": "example-local-interrupt",
         "source": "git@github.com:sifive/example-local-interrupt.git"
     },
