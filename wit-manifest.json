@@ -255,7 +255,7 @@
         "source": "git@github.com:sifive/scl-metal.git"
     },
     {
-        "commit": "e902018d6aff78a64dc795f9633a7b1e8a2d120b",
+        "commit": "b25d255a361ec7f6a624bce1101736faaf466db2",
         "name": "example-hca-metal",
         "source": "git@github.com:sifive/example-hca-metal.git"
     }
