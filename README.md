@@ -172,6 +172,10 @@ To use this SDK, you will need the following software available on your machine:
 * Python Virtualenv
 * Python Pip
 
+##### Freedom Tools Compatability with v20.05.00.00 release #####
+
+This release has been tested, verified and regressed with [Freedom Tools - v2019.08.0](https://github.com/sifive/freedom-tools/releases/tag/v2019.08.0) release.
+
 ##### Install the RISC-V Toolchain and OpenOCD #####
 
 The RISC-V GNU Toolchain and OpenOCD are available from the SiFive Website at
