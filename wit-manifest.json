@@ -35,7 +35,7 @@
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "e15884b71bbd8d562d1f5228e021c6b6c1201990",
+        "commit": "9728da6024564a8cb7df66baf70920c4ed5af4e0",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -145,7 +145,7 @@
         "source": "git@github.com:sifive/example-sifive-welcome.git"
     },
     {
-        "commit": "b10a32d2b079e8e454648bd605b49954ed0fd505",
+        "commit": "125c460addac602cd5b7d25960918cc0fd6a419a",
         "name": "example-software-interrupt",
         "source": "git@github.com:sifive/example-software-interrupt.git"
     },

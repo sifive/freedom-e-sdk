@@ -153,8 +153,18 @@ RISCV_CFLAGS    += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMOD
 RISCV_CXXFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_ASFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
+ifeq ($(RISCV_SERIES),sifive-8-series)
+ifeq ($(PROGRAM),dhrystone)
+RISCV_CFLAGS   += -fno-function-sections -fno-data-sections
+RISCV_CXXFLAGS += -fno-function-sections -fno-data-sections
+else
 RISCV_CFLAGS   += -ffunction-sections -fdata-sections
 RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
+endif
+else
+RISCV_CFLAGS   += -ffunction-sections -fdata-sections
+RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
+endif
 # Include the Metal headers
 RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
 RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
@@ -204,13 +214,20 @@ RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
 endif
 
 ifeq ($(PROGRAM),coremark)
+ifeq ($(RISCV_SERIES),sifive-8-series)
+# 8-series currently uses 7-series mtune, but this may change
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
+endif
 ifeq ($(RISCV_SERIES),sifive-7-series)
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
-else
+endif
+ifneq ($(RISCV_SERIES),sifive-8-series)
+ifneq ($(RISCV_SERIES),sifive-7-series)
 ifeq ($(RISCV_XLEN),32)
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-reg-struct-return -fno-rename-registers --param case-values-threshold=8 -fno-crossjumping -freorder-blocks-and-partition -fno-tree-loop-if-convert -fno-tree-sink -fgcse-sm -fno-strict-overflow
 else
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts
+endif
 endif
 endif
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
@@ -223,6 +240,9 @@ endif
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 RISCV_XCFLAGS += -DHCA_BYPASS_TRNG
 endif
+
+# A method to pass cycle delay
+RISCV_XCFLAGS += -DMETAL_WAIT_CYCLE=$(TARGET_INTR_WAIT_CYCLE)
 
 #############################################################
 # Software
