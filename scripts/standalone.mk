@@ -219,16 +219,19 @@ ifeq ($(RISCV_SERIES),sifive-8-series)
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
 endif
 ifeq ($(RISCV_SERIES),sifive-7-series)
-RISCV_XCFLAGS += -O2 -fno-tree-loop-distribute-patterns -fno-common -funroll-loops -finline-functions -funroll-all-loops -falign-functions=8 -falign-jumps=8 -falign-loops=8 -finline-limit=1000 -mtune=sifive-7-series -ffast-math --param fsm-scale-path-stmts=3
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops -falign-functions=8 -falign-jumps=8 -falign-loops=8 -finline-limit=1000 -mtune=sifive-7-series -ffast-math
 else
 ifeq ($(RISCV_XLEN),32)
-RISCV_XCFLAGS += -O2 -fno-tree-loop-distribute-patterns -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-reg-struct-return -fno-rename-registers --param case-values-threshold=8 -fno-crossjumping -freorder-blocks-and-partition -fno-tree-loop-if-convert -fno-tree-sink -fgcse-sm -fno-strict-overflow --param fsm-scale-path-stmts=3
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-reg-struct-return -fno-rename-registers --param case-values-threshold=8 -fno-crossjumping -freorder-blocks-and-partition -fno-tree-loop-if-convert -fno-tree-sink -fgcse-sm -fno-strict-overflow
 else
-RISCV_XCFLAGS += -O2 -fno-tree-loop-distribute-patterns -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts --param fsm-scale-path-stmts=3
-endif
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts
 endif
 endif
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
+GCC_VER_GTE10 := $(shell echo `gcc -dumpversion | cut -f1-2 -d.` \>= 10 | bc )
+ifeq ($(GCC_VER_GTE10),1)
+RISCV_XCFLAGS += -fno-tree-loop-distribute-patterns --param fsm-scale-path-stmts=3
+endif
 endif
 
 ifeq ($(findstring freertos,$(PROGRAM)),freertos)
