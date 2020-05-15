@@ -168,6 +168,9 @@ RISCV_CXXFLAGS  += --specs=$(SPEC).specs
 RISCV_CFLAGS    += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 RISCV_CXXFLAGS  += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 
+# gcc10 default use -fno-common, but libmetal has lots of multiple definitions
+RISCV_CFLAGS += -fcommon
+
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
 # Turn on linker map file generation
