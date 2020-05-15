@@ -62,7 +62,7 @@ ifeq ($(SPEC),)
 $(error RISCV_LIBC set to an unsupported value: $(RISCV_LIBC))
 endif
 
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 ifeq ($(LINK_TARGET),)
   ifneq ($(TARGET),freedom-e310-arty)
   ifneq ($(TARGET),sifive-hifive1)
@@ -74,7 +74,7 @@ ifeq ($(LINK_TARGET),)
 endif
 endif
 
-ifeq ($(PROGRAM),coremark)
+ifeq ($(findstring coremark,$(PROGRAM)),coremark)
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = ramrodata
 endif
@@ -153,7 +153,7 @@ RISCV_CXXFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMOD
 RISCV_ASFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
 ifeq ($(RISCV_SERIES),sifive-8-series)
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 RISCV_CFLAGS   += -fno-function-sections -fno-data-sections
 RISCV_CXXFLAGS += -fno-function-sections -fno-data-sections
 else
@@ -198,7 +198,7 @@ include $(CONFIGURATION).mk
 
 # Benchmark CFLAGS go after loading the CONFIGURATION so that they can override the optimization level
 
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 ifeq ($(DHRY_OPTION),)
 # Ground rules (default)
 RISCV_XCFLAGS += -mexplicit-relocs -fno-inline
@@ -212,7 +212,7 @@ endif
 RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
 endif
 
-ifeq ($(PROGRAM),coremark)
+ifeq ($(findstring coremark,$(PROGRAM)),coremark)
 ifeq ($(RISCV_SERIES),sifive-8-series)
 # 8-series currently uses 7-series mtune, but this may change
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
@@ -266,7 +266,7 @@ $(PROGRAM_ELF): \
 		$(METAL_SRC) $(METAL_HELPER_SRC) \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
-	$(MAKE) $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+	$(MAKE) $(METAL_MK)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
 		PORT_DIR=$(PORT_DIR) \
 		PROGRAM=$(PROGRAM) \
@@ -311,15 +311,21 @@ clean: clean-software
 # Metal Code Generation
 #############################################################
 
-include $(SRC_DIR)/$(CONFIGURATION)/metal.mk
-
-# If the program has a .ini file, pass it to the Metal code generator
+ifneq ($(wildcard $(BSP_DIR)/metal.mk),)
+# If the BSP has metal.mk, use the pregenerated code
+METAL_MK = $(BSP_DIR)/metal.mk
+else
+# If the BSP does not have metal.mk, we'll be generating the
+# Freedom Metal sources on a per-application basis, potentially
+# with a per-application config.
 APPLICATION_CONFIG = $(wildcard $(SRC_DIR)/*.ini)
 ifneq ($(APPLICATION_CONFIG),)
 METAL_CODEGEN_FLAGS += --application-config $(APPLICATION_CONFIG)
 endif
 
-$(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLICATION_CONFIG) $(METAL_MK_DEPEND)
+METAL_MK = $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+
+$(METAL_MK): $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLICATION_CONFIG) $(METAL_MK_DEPEND)
 	@mkdir -p $(dir $@)
 	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
 	  python3 $(FREEDOM_METAL)/scripts/codegen.py \
@@ -328,12 +334,15 @@ $(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLIC
 	    --output-dir $(dir $@) \
 	    $(METAL_CODEGEN_FLAGS)
 	@touch $@
+endif
 
-$(METAL_SRC): $(SRC_DIR)/$(CONFIGURATION)/metal.mk
-$(METAL_HELPER_SRC): $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+include $(METAL_MK)
 
-RISCV_CFLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
-RISCV_CXX_FLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
+$(METAL_SRC): $(METAL_MK)
+$(METAL_HELPER_SRC): $(METAL_MK)
+
+RISCV_CFLAGS += -I$(dir $(METAL_MK)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
+RISCV_CXX_FLAGS += -I$(dir $(METAL_MK)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
 
 #############################################################
 # Metal BSP Support Files

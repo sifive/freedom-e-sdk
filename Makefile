@@ -61,12 +61,12 @@ else
 endif
 
 # Default to use relase configuration For Benchmark programs, like Coremark and Dhrystone.
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 CONFIGURATION = release
 endif
 
 # Coremark require PORT_DIR set for different OS, freedom-metal for us!
-ifeq ($(PROGRAM),coremark)
+ifeq ($(findstring coremark,$(PROGRAM)),coremark)
 CONFIGURATION = release
 ifeq ($(PORT_DIR),)
 PORT_DIR = freedom-metal
