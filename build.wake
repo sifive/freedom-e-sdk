@@ -1,0 +1,430 @@
+#
+# Utility Functions
+#
+
+# This expects a sorted list of paths.
+# If a path is a prefix of the path that follows it, it is filtered out.
+def filterDirs sortedFiles =
+  def helper acc list = match list
+    head1, head2, tail =
+      def isPrefixOf path = matches (regExpCat (path.quote, `(/.+)?`, Nil))
+      if isPrefixOf head1 head2
+      then helper acc (head2, tail)
+      else helper (head1, acc) (head2, tail)
+    _ = list ++ acc
+  helper Nil sortedFiles
+  | reverse
+
+def getDestDirs srcDir destDir inputs =
+  def srcDirRegex = regExpCat (`^`, "{srcDir}/..".simplify.quote, `/+`, Nil)
+  inputs
+  | mapFlat (
+    _
+    | getPathName
+    | simplify
+    | replace srcDirRegex ""
+    | extract `(.*/)[^/]*`
+    | map ("{destDir}/{_}")
+  )
+  | distinctBy scmp
+
+def copyDir srcDir destDir fileInputs =
+  def dirInputs =
+    getDestDirs srcDir destDir fileInputs
+    | map mkdir
+  def inputs = dirInputs ++ fileInputs
+  def from_ = simplify "{srcDir}/.."
+  def srcs =
+    fileInputs
+    | map (
+      _
+      | getPathName
+      | from_.relative
+      | simplify
+    )
+    | filter (! matches `\.\./.*` _)
+    | sortBy (_ <~ _)
+    | filterDirs
+  def cmdline =
+    "rsync", "--inplace", "--relative",
+    "--ignore-times", srcs ++ (relative from_ destDir, Nil)
+  makePlan cmdline inputs
+  | setPlanDirectory from_
+  | runJob
+  | getJobOutputs
+
+def filterWakeAndDotFiles =
+  _
+  | filter (!matches `(.*/)*\..*` _.getPathName)
+  | filter (!matches `.*\.wake` _.getPathName)
+
+#
+# Plan Resources
+#
+
+global def defaultFreedomESDKResources =
+  "riscv-tools/2019.08.0",
+  "python/python/3.7.1",
+  Nil
+
+#
+# Virtualenv Creation
+#
+# Freedom E SDK depends on a number of Python libraries. Here we enable
+# the installation of a single, workspace-wide virtualenv which can be
+# preinstalled using either the `preinstallFreedomESDKVirtualenv` target
+# or the global `preinstall` topic. If the virtualenv has not been
+# preinstalled, it will be created on-demand when needed during the
+# creation of a `FreedomESDKTarget`.
+#
+
+global def freedomESDKBuildDir = "build/freedom-e-sdk"
+global def freedomESDKVenvDir = "{freedomESDKBuildDir}/venv"
+
+def makeFreedomESDKVirtualenvJob Unit =
+  def runDir = here
+
+  def inputs =
+    source "freedom-e-sdk/scripts/virtualenv.mk",
+    source "freedom-e-sdk/requirements.txt",
+    mkdir freedomESDKVenvDir,
+    Nil
+
+  def cmd =
+    def venvDir = relative runDir freedomESDKVenvDir
+    "bash", "-c", "%
+      export FREEDOM_E_SDK_VENV_PATH=$(pwd)/%{venvDir}
+      make -f scripts/virtualenv.mk virtualenv
+      # Remove e.g. .fuse/31337 from the paths in the virtualenv
+      find ${FREEDOM_E_SDK_VENV_PATH}/bin -type f | xargs sed -i 's%.fuse/[[:digit:]]\+/%%g'
+      # Remove e.g. .build/31337 from the paths in the virtualenv (when Wake doesn't use FUSE)
+      find ${FREEDOM_E_SDK_VENV_PATH}/bin -type f | xargs sed -i 's%.build/[[:digit:]]\+/%%g'
+      %", Nil
+
+  makePlan cmd inputs
+  | setPlanDirectory runDir
+  | setPlanResources defaultFreedomESDKResources
+  | setPlanKeep True
+
+# preinstallFreedomESDKVirtualenv allows Freedom E SDK users to
+# preinstall the virtualenv in their workspace at the time of their
+# choosing with `wake -x preinstallFreedomESDKVirtualenv Unit`
+global target preinstallFreedomESDKVirtualenv Unit =
+  makeFreedomESDKVirtualenvJob Unit
+  | runJob
+  | getJobStderr
+
+publish preinstall = (preinstallFreedomESDKVirtualenv), Nil
+
+# Wake rules which depend upon the Freedom E SDK virtualenv should
+# add `installFreedomESDKVirtualenv` to their Plan inputs.
+global target installFreedomESDKVirtualenv Unit =
+  makeFreedomESDKVirtualenvJob Unit
+  | runJob
+  | getJobOutputs
+
+#
+# Freedom E SDK Installation
+#
+
+global tuple FreedomESDK =
+  global Dir:            String
+  global InstalledFiles: List Path
+
+# makeFreedomESDK assembles the components of Freedom E SDK into the directory
+# hierarchy expected by the SDK from their flat layout in the wit workspace.
+# The resulting sdk is located in {destDir}/freedom-e-sdk.
+global def makeFreedomESDK destDir =
+  def sdkDir = "{destDir}/freedom-e-sdk"
+  def scriptsDir = "{sdkDir}/scripts"
+
+  def sdkSources =
+    source "freedom-e-sdk/bsp/update-targets.sh",
+    sources "freedom-e-sdk" `.*`
+    | filter (!matches `freedom-e-sdk/(freedom-devicetree-tools|freedom-metal|bsp|software|doc|pip-cache)(/.*)?` _.getPathName)
+    | filter (!matches `freedom-e-sdk/scripts/(elf2hex|devicetree-overlay-generator|ldscript-generator)(/.*)?` _.getPathName)
+    | filter (!matches `freedom-e-sdk/scripts/(cmsis-svd-generator|openocdcfg-generator|esdk-settings-generator)(/.*)?` _.getPathName)
+    | filterWakeAndDotFiles
+
+  def metalSources =
+    sources "freedom-metal" `.*`
+    | filter (!matches `freedom-metal/doc(/.*)?` _.getPathName)
+    | filterWakeAndDotFiles
+
+  def sifiveCryptoLibSources =
+    sources "scl-metal" `.*`
+    | filterWakeAndDotFiles
+
+  def freeRTOSSources =
+    sources "FreeRTOS-metal" `.*`
+    | filterWakeAndDotFiles
+
+  def systemViewSources =
+    sources "Segger_SystemView-metal" `.*`
+    | filterWakeAndDotFiles
+
+  def elf2hexSources =
+    sources "elf2hex" `.*`
+    | filterWakeAndDotFiles
+
+  def installedFiles = 
+    copyDir "freedom-e-sdk"                   destDir     sdkSources
+    ++ copyDir "freedom-metal"                sdkDir      metalSources
+    ++ copyDir "scl-metal"                    sdkDir      sifiveCryptoLibSources
+    ++ installFreedomDevicetreeTools          sdkDir
+    ++ copyDir "FreeRTOS-metal"               sdkDir      freeRTOSSources
+    ++ copyDir "Segger_SystemView-metal"      sdkDir      systemViewSources
+    ++ copyDir "elf2hex"                      scriptsDir  elf2hexSources
+    ++ installDevicetreeOverlayGenerator      scriptsDir
+    ++ installLdScriptGenerator               scriptsDir
+    ++ installSVDGenerator                    scriptsDir
+    ++ installOpenOCDConfigGenerator          scriptsDir
+    ++ installESDKSettingsGenerator           scriptsDir
+
+  FreedomESDK sdkDir Nil
+  | setFreedomESDKInstalledFiles installedFiles
+
+#
+# Freedom E SDK Target Creation
+#
+
+global tuple FreedomESDKTarget =
+  global SDK:            FreedomESDK
+  global Name:           String
+  global Type:           FreedomESDKTargetType
+  global InstalledFiles: List Path
+
+global data FreedomESDKTargetType =
+  RTLTargetType
+  ArtyTargetType
+  VC707TargetType
+  VCU118TargetType
+  QEMUTargetType
+  HiFiveTargetType
+  SpikeTargetType
+
+def targetTypeToString = match _
+  RTLTargetType  = "rtl"
+  ArtyTargetType = "arty"
+  VC707TargetType = "vc707"
+  VCU118TargetType = "vcu118"
+  QEMUTargetType = "qemu"
+  HiFiveTargetType = "hifive"
+  SpikeTargetType = "spike"
+
+# makeFreedomESDKTargetFromCoreDTS creates a FreedomESDKTarget given:
+#  - sdk: an instance of FreedomESDK, created by makeFreedomESDK
+#  - targetName: the name of the target as a String
+#  - coreDTS: a single Devicetree Source file which describes the hardware
+#             of the target device. This DTS will be used to generate a
+#             Devicetree Overlay
+#  - targetType: one of FreedomESDKTargetType, used to configure the BSP
+#                file generators.
+global def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
+  def sdkDir = sdk.getFreedomESDKDir
+  def bspDir = "{sdkDir}/bsp/{targetName}"
+  def runDir = "{sdkDir}/bsp"
+  def updateTargets = "{runDir}/update-targets.sh"
+
+  def cmdline =
+    def venvPath = relative runDir freedomESDKVenvDir
+    def updateTargetsScript = relative runDir updateTargets
+    def fdtPath = relative runDir freedomDevicetreeToolsPath
+    def targetDTS = relative runDir coreDTS.getPathName
+    def sdkPath = relative runDir sdkDir
+    "bash", "-c", "%
+      export PATH=$(pwd)/%{fdtPath}:$PATH
+      export FREEDOM_E_SDK_VENV_PATH=$(pwd)/%{venvPath}
+      touch ${FREEDOM_E_SDK_VENV_PATH}/.stamp
+      $(pwd)/%{updateTargetsScript} \
+        --target-name %{targetName} \
+        --target-dts=%{targetDTS} \
+        --sdk-path=%{sdkPath} \
+        --target-type %{targetType.targetTypeToString}
+      %", Nil
+
+  def inputs =
+    mkdir bspDir,
+    coreDTS,
+    sdk.getFreedomESDKInstalledFiles
+    ++ freedomDevicetreeToolsInstall Unit
+    ++ installFreedomESDKVirtualenv Unit
+
+  def fnOutputs _ =
+    def alwaysOutputs =
+      "{bspDir}/core.dts",
+      "{bspDir}/design.dts",
+      "{bspDir}/design.svd",
+      "{bspDir}/metal.h",
+      "{bspDir}/metal.default.lds",
+      "{bspDir}/metal.ramrodata.lds",
+      "{bspDir}/metal.scratchpad.lds",
+      "{bspDir}/metal.freertos.lds",
+      "{bspDir}/settings.mk",
+      "{bspDir}/metal-platform.h",
+      "{bspDir}/metal-inline.h",
+      Nil
+    match targetType
+      ArtyTargetType = "{bspDir}/openocd.cfg", alwaysOutputs
+      VC707TargetType = "{bspDir}/openocd.cfg", alwaysOutputs
+      VCU118TargetType = "{bspDir}/openocd.cfg", alwaysOutputs
+      HiFiveTargetType = "{bspDir}/openocd.cfg", alwaysOutputs
+      _ = alwaysOutputs
+
+  def installedFiles =
+    makePlan cmdline inputs
+    | setPlanResources defaultFreedomESDKResources
+    | setPlanFnOutputs fnOutputs
+    | setPlanLocalOnly True
+    | setPlanDirectory runDir
+    | runJob
+    | getJobOutputs
+
+  FreedomESDKTarget sdk targetName targetType installedFiles
+  | makeFreedomMetal
+
+def makeFreedomMetal sdkTarget =
+  def sdk = sdkTarget.getFreedomESDKTargetSDK
+  def sdkDir = sdk.getFreedomESDKDir
+  def targetName = sdkTarget.getFreedomESDKTargetName
+  def bspDir = "{sdkDir}/bsp/{targetName}"
+
+  def cmdline =
+    "bash", "-c", "%
+      make -C %{sdkDir} \
+        metal \
+        RANLIB='riscv64-unknown-elf-ranlib -D' \
+        ARFLAGS=Dcr \
+        CONFIGURATION=release \
+        TARGET=%{targetName}
+      %", Nil
+
+  def inputs =
+    sdk.getFreedomESDKInstalledFiles ++ sdkTarget.getFreedomESDKTargetInstalledFiles
+
+  def fnOutputs _ =
+    def bspDir = "{sdkDir}/bsp/{targetName}"
+    def libInstallDir = "{bspDir}/install/lib/release"
+    "{libInstallDir}/libmetal.a",
+    "{libInstallDir}/libmetal-gloss.a",
+    Nil
+
+  def installedFiles =
+    makePlan cmdline inputs
+    | setPlanResources defaultFreedomESDKResources
+    | setPlanFnOutputs fnOutputs
+    | setPlanLocalOnly True
+    | runJob
+    | getJobOutputs
+
+  sdkTarget
+  | editFreedomESDKTargetInstalledFiles (installedFiles ++ _)
+
+#
+# Program Install and Build
+#
+
+# installFreedomESDKProgram installs the FreedomESDKProgram sources
+# into the SDK
+global target installFreedomESDKProgram sdk program =
+  def dest = "{sdk.getFreedomESDKDir}/software"
+  def name = program.getFreedomESDKProgramName
+  def sourceDir = program.getFreedomESDKProgramSourceDir
+  def regex = regExpCat (sourceDir.quote, `/\..*`, Nil)
+  program.getFreedomESDKProgramSources
+  | filter (! matches regex _.getPathName)
+  | map (\p installAs (replace sourceDir.quote name "{dest}/{p.getPathName}") p)
+
+# Build an ELF of a FreedomESDKProgram for a FreedomESDKTarget
+global def makeFreedomESDKProgramHex sdkTarget program =
+  makeProgram sdkTarget program
+  | getPairSecond
+
+# Build a hex of a FreedomESDKProgram for a FreedomESDKTarget
+global def makeFreedomESDKProgramElf sdkTarget program =
+  makeProgram sdkTarget program
+  | getPairFirst
+
+# This rule can be used to detect when the build of a FreedomESDKProgram
+# fails for a given FreedomESDKTarget as a result of the program overflowing
+# some region of memory.
+global def freedomESDKProgramOverflowsMemory sdkTarget program =
+  def programJob = makeProgramJob sdkTarget program
+  def jobStderr = programJob.runJob.getJobStderr | getWhenFail ""
+  def sectionWillNotFit = `.*ld: .* section .* will not fit in region.*`
+  def regionOverflowed = `.*ld: region .* overflowed by .* bytes.*`
+
+  (matches sectionWillNotFit jobStderr) && (matches regionOverflowed jobStderr)
+
+# This rule can be used to detect when the build of a FreedomESDKProgram
+# fails for a given FreedomESDKTarget as a result of the memory layout
+# of the Target interacting with the default Freedom E SDK linker
+# scripts in a way which is incompatible with the available code models
+# in the RISC-V toolchain.
+global def freedomESDKProgramCannotLinkUnderCodeModel sdkTarget program =
+  def programJob = makeProgramJob sdkTarget program
+  def jobStderr = programJob.runJob.getJobStderr | getWhenFail ""
+  def relocationTruncated = `.*relocation truncated to fit.*`
+
+  matches relocationTruncated jobStderr
+
+target makeProgram sdkTarget program =
+  def targetName = sdkTarget.getFreedomESDKTargetName
+
+  def outputs =
+    makeProgramJob sdkTarget program
+    | runJob
+    | getJobOutputs
+
+  def filterFiles regex = filter (matches regex _.getPathName) outputs
+  def getFile regex = filterFiles regex | head
+  def elfResult = getFile `.*\.elf`
+  def hexResult = getFile `.*\.hex`
+
+  match elfResult hexResult
+    (Some elf) (Some hex) = Pair elf hex
+    _ _ =
+      def badPath =
+        "{targetName}: Unexpected software ouputs: {format outputs}"
+        .makeError
+        .makeBadPath
+      Pair badPath badPath
+
+def makeProgramJob sdkTarget program =
+  def sdk = sdkTarget.getFreedomESDKTargetSDK
+  def sdkDir = sdk.getFreedomESDKDir
+  def targetName = sdkTarget.getFreedomESDKTargetName
+  def programName = program.getFreedomESDKProgramName
+  def programSourceList = program.getFreedomESDKProgramSources
+
+  def cmdline =
+    def venvPath = freedomESDKVenvDir
+    "bash", "-c", "%
+      export FREEDOM_E_SDK_VENV_PATH=$(pwd)/%{venvPath}
+      export FREERTOS_METAL_VENV_PATH=$(pwd)/%{venvPath}
+      touch ${FREEDOM_E_SDK_VENV_PATH}/.stamp
+      make -C %{sdkDir} software \
+        ARFLAGS=Dcr \
+        CONFIGURATION=release \
+        TARGET=%{targetName} \
+        PROGRAM=%{programName}
+      %", Nil
+
+  def inputs =
+    def sdkInstall = sdk.getFreedomESDKInstalledFiles
+    def targetInstall = sdkTarget.getFreedomESDKTargetInstalledFiles
+    def programInstall = installFreedomESDKProgram sdk program
+    def virtualenvInstall = installFreedomESDKVirtualenv Unit
+    sdkInstall
+    ++ targetInstall
+    ++ programInstall
+    ++ virtualenvInstall
+
+  def fnOutputs _ = files "{sdkDir}/software/{programName}/release" `[^/]*.(elf|hex)`
+
+  makePlan cmdline inputs
+  | setPlanResources defaultFreedomESDKResources
+  | setPlanFnOutputs fnOutputs
+  | setPlanLocalOnly True
+  | editPlanEnvironment ("RANLIB='riscv64-unknown-elf-ranlib -D'", _)
+

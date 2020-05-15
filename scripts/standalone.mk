@@ -63,7 +63,7 @@ ifeq ($(SPEC),)
 $(error RISCV_LIBC set to an unsupported value: $(RISCV_LIBC))
 endif
 
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 ifeq ($(LINK_TARGET),)
   ifneq ($(TARGET),freedom-e310-arty)
   ifneq ($(TARGET),sifive-hifive1)
@@ -75,7 +75,7 @@ ifeq ($(LINK_TARGET),)
 endif
 endif
 
-ifeq ($(PROGRAM),coremark)
+ifeq ($(findstring coremark,$(PROGRAM)),coremark)
 ifeq ($(LINK_TARGET),)
 LINK_TARGET = ramrodata
 endif
@@ -154,7 +154,7 @@ RISCV_CXXFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMOD
 RISCV_ASFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
 ifeq ($(RISCV_SERIES),sifive-8-series)
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 RISCV_CFLAGS   += -fno-function-sections -fno-data-sections
 RISCV_CXXFLAGS += -fno-function-sections -fno-data-sections
 else
@@ -199,7 +199,7 @@ include $(CONFIGURATION).mk
 
 # Benchmark CFLAGS go after loading the CONFIGURATION so that they can override the optimization level
 
-ifeq ($(PROGRAM),dhrystone)
+ifeq ($(findstring dhrystone,$(PROGRAM)),dhrystone)
 ifeq ($(DHRY_OPTION),)
 # Ground rules (default)
 RISCV_XCFLAGS += -mexplicit-relocs -fno-inline
@@ -213,7 +213,7 @@ endif
 RISCV_XCFLAGS += -DDHRY_ITERS=$(TARGET_DHRY_ITERS)
 endif
 
-ifeq ($(PROGRAM),coremark)
+ifeq ($(findstring coremark,$(PROGRAM)),coremark)
 ifeq ($(RISCV_SERIES),sifive-8-series)
 # 8-series currently uses 7-series mtune, but this may change
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math

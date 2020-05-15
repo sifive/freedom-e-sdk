@@ -1,0 +1,43 @@
+
+# This target tests the Freedom E SDK Wake API by
+#  1. Installing the SDK using the Wake API
+#  2. Creating a new target with the qemu-sifive-e31 core.dts
+#  3. Building allFreedomESDKPrograms
+#  4. Checking to make sure all programs built ELFs successfully
+global target testFreedomESDKWakeAPI Unit =
+  # Install Freedom E SDK into destDir
+  def destDir = "build/freedom-e-sdk/test-wake"
+  def sdk = makeFreedomESDK destDir
+
+  def targetName = "qemu-sifive-e31"
+  def coreDTS = source "{here}/bsp/{targetName}/core.dts"
+  def targetType = QEMUTargetType
+
+  # QEMU targets need qemu.cfg installed with them in order to simulate. This test
+  # doesn't currently try to run simulation, but I'm installing the necessary file
+  # here for completeness and to demonstrate how to add additional files to installed
+  # `FreedomESDKTarget`s.
+  def qemuCfg = source "{here}/bsp/{targetName}/qemu.cfg"
+
+  def sdkTarget =
+    def installedQEMUCfg =
+      installAs "{destDir}/freedom-e-sdk/bsp/{targetName}/qemu.cfg" qemuCfg
+    makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType
+    | editFreedomESDKTargetInstalledFiles (installedQEMUCfg, _)
+
+  # Get the programs for the target
+  def programs = allFreedomESDKPrograms sdkTarget
+
+  def results =
+    def programs = allFreedomESDKPrograms sdkTarget
+    def programELFs = map (\p makeFreedomESDKProgramElf sdkTarget p) programs
+    # map to List Result and reduce to a Result
+    map getPathResult programELFs
+    | findFail
+
+  # Pretty-print results
+  match results
+    Pass paths =
+      def _ = map (\p println p.getPathName) paths
+      Pass "All ELFs built successfully for {targetName}"
+    Fail error = Fail error
