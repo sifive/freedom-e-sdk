@@ -138,6 +138,9 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_select
 extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
 
 
+/* --------------------- sifive_simuart0 ------------ */
+
+
 /* --------------------- sifive_wdog0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_wdog0_control_base(const struct metal_watchdog *const watchdog);
 extern __inline__ unsigned long __metal_driver_sifive_wdog0_control_size(const struct metal_watchdog *const watchdog);
@@ -279,6 +282,8 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .controller.vtable = &__metal_driver_vtable_riscv_plic0.plic_vtable,
     .init_done = 0,
 };
+
+struct metal_pmp __metal_dt_pmp;
 
 /* From gpio@10012000 */
 struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
