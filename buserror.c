@@ -6,11 +6,11 @@
 #include <metal/drivers/sifive_buserror0.h>
 #include <metal/machine.h>
 
-#ifndef METAL_SIFIVE_ERROR0
+#ifndef METAL_SIFIVE_BUSERROR0
 #error Example requires a sifive,error0 device to drive bus errors
 #endif
 
-#define BADADDR METAL_SIFIVE_ERROR0_0_BASE_ADDRESS
+#define BADADDR METAL_SIFIVE_BUSERROR0_0_BASE_ADDRESS
 
 struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr;
