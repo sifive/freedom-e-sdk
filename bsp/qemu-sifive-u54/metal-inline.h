@@ -139,7 +139,6 @@ struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
 
 /* From cpu@0 */
 struct __metal_driver_cpu __metal_dt_cpu_0 = {
-    .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
     .hpm_count = 0,
 };
 
@@ -156,10 +155,7 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
 };
 
 /* From test@100000 */
-struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
-    .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
-};
-
+struct __metal_driver_sifive_test0 __metal_dt_test_100000;
 /* From uart@10013000 */
 struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,

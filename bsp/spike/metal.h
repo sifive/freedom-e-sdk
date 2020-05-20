@@ -348,7 +348,7 @@ __asm__ (".weak __metal_wdog_table");
 struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] = {
 					NULL };
 /* From htif */
-#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_htif_shutdown.shutdown)
+#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_htif_shutdown)
 
 #endif /* MACROS_ELSE_METAL_H*/
 

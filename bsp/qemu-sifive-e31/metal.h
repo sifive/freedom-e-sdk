@@ -1253,9 +1253,9 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 					&__metal_dt_spi_10014000};
 
 /* From test@100000 */
-#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_test_100000.shutdown)
+#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_test_100000)
 
-#define __METAL_DT_TEST_100000_HANDLE (&__metal_dt_test_100000.shutdown)
+#define __METAL_DT_TEST_100000_HANDLE (&__metal_dt_test_100000)
 
 #define __METAL_DT_MAX_UARTS 1
 

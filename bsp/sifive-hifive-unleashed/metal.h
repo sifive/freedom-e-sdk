@@ -1336,9 +1336,9 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 					&__metal_dt_spi_10050000};
 
 /* From teststatus@4000 */
-#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_teststatus_4000.shutdown)
+#define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_teststatus_4000)
 
-#define __METAL_DT_TESTSTATUS_4000_HANDLE (&__metal_dt_teststatus_4000.shutdown)
+#define __METAL_DT_TESTSTATUS_4000_HANDLE (&__metal_dt_teststatus_4000)
 
 #define __METAL_DT_MAX_UARTS 2
 
@@ -1353,9 +1353,9 @@ __asm__ (".weak __metal_wdog_table");
 struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] = {
 					NULL };
 /* From cache_controller@2010000 */
-#define __METAL_DT_SIFIVE_FU540_C000_L2_HANDLE (&__metal_dt_cache_controller_2010000.cache)
+#define __METAL_DT_SIFIVE_FU540_C000_L2_HANDLE (&__metal_dt_cache_controller_2010000)
 
-#define __METAL_DT_CACHE_CONTROLLER_2010000_HANDLE (&__metal_dt_cache_controller_2010000.cache)
+#define __METAL_DT_CACHE_CONTROLLER_2010000_HANDLE (&__metal_dt_cache_controller_2010000)
 
 #endif /* MACROS_ELSE_METAL_H*/
 

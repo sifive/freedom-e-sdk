@@ -191,7 +191,6 @@ struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
 
 /* From cpu@0 */
 struct __metal_driver_cpu __metal_dt_cpu_0 = {
-    .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
     .hpm_count = 0,
 };
 
@@ -214,20 +213,11 @@ struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_externa
 };
 
 /* From gpio@10012000 */
-struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
-    .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
-};
-
+struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000;
 /* From pwm@10015000 */
-struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000 = {
-    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
-};
-
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000;
 /* From spi@10014000 */
-struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
-    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
-};
-
+struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000;
 /* From serial@10013000 */
 struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,

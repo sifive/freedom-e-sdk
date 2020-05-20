@@ -226,7 +226,6 @@ struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000 = {
 
 /* From cpu@0 */
 struct __metal_driver_cpu __metal_dt_cpu_0 = {
-    .cpu.vtable = &__metal_driver_vtable_cpu.cpu_vtable,
     .hpm_count = 0,
 };
 
@@ -249,55 +248,28 @@ struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_externa
 };
 
 /* From gpio@10012000 */
-struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
-    .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
-};
-
+struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000;
 /* From led@0 */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0 = {
-    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
-};
-
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0;
 /* From led@1 */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_1 = {
-    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
-};
-
+struct __metal_driver_sifive_gpio_led __metal_dt_led_1;
 /* From led@2 */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_2 = {
-    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
-};
-
+struct __metal_driver_sifive_gpio_led __metal_dt_led_2;
 /* From pwm@10015000 */
-struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000 = {
-    .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
-};
-
+struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000;
 /* From aon@10000000 */
-struct __metal_driver_sifive_rtc0 __metal_dt_rtc_10000000 = {
-    .rtc.vtable = &__metal_driver_vtable_sifive_rtc0.rtc,
-};
-
+struct __metal_driver_sifive_rtc0 __metal_dt_rtc_10000000;
 /* From spi@10014000 */
-struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
-    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
-};
-
+struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000;
 /* From test@100000 */
-struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
-    .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
-};
-
+struct __metal_driver_sifive_test0 __metal_dt_test_100000;
 /* From serial@10013000 */
 struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
 };
 
 /* From aon@10000000 */
-struct __metal_driver_sifive_wdog0 __metal_dt_aon_10000000 = {
-    .watchdog.vtable = &__metal_driver_vtable_sifive_wdog0.watchdog,
-};
-
+struct __metal_driver_sifive_wdog0 __metal_dt_aon_10000000;
 /* From clock@3 */
 struct __metal_driver_sifive_fe310_g000_hfrosc __metal_dt_clock_3 = {
     .clock.vtable = &__metal_driver_vtable_sifive_fe310_g000_hfrosc.clock,
