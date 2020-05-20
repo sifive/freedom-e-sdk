@@ -1,0 +1,34 @@
+name: wake-api-test
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      WIT_WORKSPACE: wit-workspace
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: wit-packages/freedom-e-sdk
+
+      - name: 'Init Wit Workspace'
+        uses: sifive/wit/actions/wit@v0.13.0
+        with:
+          command: init
+          arguments: |
+            ${{ env.WIT_WORKSPACE }}
+            -a ./wit-packages/freedom-e-sdk
+            -a git@github.com:sifive/environment-blockci-sifive.git::0.4.0
+          force_github_https: true
+
+      - name: 'Run Wake API Test'
+        run: |
+          set -euo pipefail
+          docker run \
+            --volume="$GITHUB_WORKSPACE/$WIT_WORKSPACE:/mnt/workspace" \
+            --workdir="/mnt/workspace" \
+            --rm \
+            sifive/environment-blockci:0.4.0
+            wake -v -x testFreedomESDKWakeAPI Unit
