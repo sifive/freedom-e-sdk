@@ -1,5 +1,10 @@
 [
     {
+        "commit": "e46103f52166bfde4ba33ff048937b896e6235d1",
+        "name": "api-languages-sifive",
+        "source": "git@github.com:sifive/api-languages-sifive.git"
+    },
+    {
         "commit": "db4ba0f4a25cee3f892e48c4fe3b58570f148290",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
