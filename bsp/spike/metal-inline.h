@@ -78,9 +78,10 @@ extern __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_test0 ------------ */
 
 
-/* --------------------- sifive_trace ------------ */
-
 /* --------------------- sifive_uart0 ------------ */
+
+
+/* --------------------- sifive_simuart0 ------------ */
 
 
 /* --------------------- sifive_wdog0 ------------ */
@@ -137,12 +138,6 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller = {
 struct __metal_driver_ucb_htif0_shutdown __metal_dt_htif_shutdown = {
     .vtable = &__metal_driver_vtable_ucb_htif0_shutdown,
     .shutdown.vtable = &__metal_driver_vtable_ucb_htif0_shutdown.shutdown,
-};
-
-/* From htif */
-struct __metal_driver_ucb_htif0_uart __metal_dt_htif_uart = {
-    .vtable = &__metal_driver_vtable_ucb_htif0_uart,
-    .uart.vtable = &__metal_driver_vtable_ucb_htif0_uart.uart,
 };
 
 

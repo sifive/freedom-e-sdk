@@ -62,6 +62,8 @@
 
 #define METAL_MAX_UART_INTERRUPTS 0
 
+#define METAL_MAX_SIMUART_INTERRUPTS 0
+
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
@@ -82,9 +84,6 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller;
 
 /* From htif */
 struct __metal_driver_ucb_htif0_shutdown __metal_dt_htif_shutdown;
-
-/* From htif */
-struct __metal_driver_ucb_htif0_uart __metal_dt_htif_uart;
 
 
 
@@ -249,9 +248,10 @@ static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_test0 ------------ */
 
 
-/* --------------------- sifive_trace ------------ */
-
 /* --------------------- sifive_uart0 ------------ */
+
+
+/* --------------------- sifive_simuart0 ------------ */
 
 
 /* --------------------- sifive_wdog0 ------------ */
@@ -281,10 +281,7 @@ __asm__ (".weak __metal_memory_table");
 struct metal_memory *__metal_memory_table[] = {
 					&__metal_dt_mem_memory_80000000};
 
-/* From htif */
-#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_htif_uart.uart)
-
-#define __METAL_DT_STDOUT_UART_BAUD 115200
+#define METAL_STDOUT_UCB_HTIF0 
 
 /* From clint@2000000 */
 #define __METAL_DT_RISCV_CLINT0_HANDLE (&__metal_dt_clint_2000000.controller)
@@ -341,6 +338,11 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 __asm__ (".weak __metal_uart_table");
 struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
+					NULL };
+#define __METAL_DT_MAX_SIMUARTS 0
+
+__asm__ (".weak __metal_simuart_table");
+struct __metal_driver_sifive_simuart0 *__metal_simuart_table[] = {
 					NULL };
 #define __METAL_DT_MAX_WDOGS 0
 

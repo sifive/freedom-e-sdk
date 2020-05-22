@@ -83,6 +83,8 @@
 
 #define METAL_MAX_UART_INTERRUPTS 1
 
+#define METAL_MAX_SIMUART_INTERRUPTS 0
+
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
@@ -1060,8 +1062,6 @@ static __inline__ unsigned long __metal_driver_sifive_spi0_pinmux_source_selecto
 /* --------------------- sifive_test0 ------------ */
 
 
-/* --------------------- sifive_trace ------------ */
-
 /* --------------------- sifive_uart0 ------------ */
 static __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart)
 {
@@ -1180,6 +1180,9 @@ static __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 	}
 }
 
+
+
+/* --------------------- sifive_simuart0 ------------ */
 
 
 /* --------------------- sifive_wdog0 ------------ */
@@ -1386,10 +1389,12 @@ struct metal_memory *__metal_memory_table[] = {
 					&__metal_dt_mem_itim_8000000,
 					&__metal_dt_mem_spi_10014000};
 
-/* From serial@10013000 */
-#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_serial_10013000.uart)
+#define METAL_STDOUT_SIFIVE_UART0 
 
-#define __METAL_DT_SERIAL_10013000_HANDLE (&__metal_dt_serial_10013000.uart)
+/* From serial@10013000 */
+#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_serial_10013000)
+
+#define __METAL_DT_SERIAL_10013000_HANDLE (&__metal_dt_serial_10013000)
 
 #define __METAL_DT_STDOUT_UART_BAUD 115200
 
@@ -1472,6 +1477,11 @@ struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
 					&__metal_dt_serial_10013000,
 					&__metal_dt_serial_10023000};
 
+#define __METAL_DT_MAX_SIMUARTS 0
+
+__asm__ (".weak __metal_simuart_table");
+struct __metal_driver_sifive_simuart0 *__metal_simuart_table[] = {
+					NULL };
 #define __METAL_DT_MAX_WDOGS 1
 
 __asm__ (".weak __metal_wdog_table");

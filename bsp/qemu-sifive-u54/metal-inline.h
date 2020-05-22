@@ -85,8 +85,6 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 /* --------------------- sifive_test0 ------------ */
 
 
-/* --------------------- sifive_trace ------------ */
-
 /* --------------------- sifive_uart0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
@@ -97,6 +95,9 @@ extern __inline__ struct metal_clock * __metal_driver_sifive_uart0_clock(struct 
 extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
+
+
+/* --------------------- sifive_simuart0 ------------ */
 
 
 /* --------------------- sifive_wdog0 ------------ */
@@ -161,10 +162,7 @@ struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
 };
 
 /* From uart@10013000 */
-struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000 = {
-    .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
-};
-
+struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000;
 
 #endif /* METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */

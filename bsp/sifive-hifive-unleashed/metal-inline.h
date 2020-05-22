@@ -121,8 +121,6 @@ extern __inline__ unsigned long __metal_driver_sifive_test0_base(const struct __
 extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __metal_shutdown *sd);
 
 
-/* --------------------- sifive_trace ------------ */
-
 /* --------------------- sifive_uart0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
@@ -133,6 +131,9 @@ extern __inline__ struct metal_clock * __metal_driver_sifive_uart0_clock(struct 
 extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart);
 extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
+
+
+/* --------------------- sifive_simuart0 ------------ */
 
 
 /* --------------------- sifive_wdog0 ------------ */
@@ -388,15 +389,9 @@ struct __metal_driver_sifive_test0 __metal_dt_teststatus_4000 = {
 };
 
 /* From serial@10010000 */
-struct __metal_driver_sifive_uart0 __metal_dt_serial_10010000 = {
-    .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
-};
-
+struct __metal_driver_sifive_uart0 __metal_dt_serial_10010000;
 /* From serial@10011000 */
-struct __metal_driver_sifive_uart0 __metal_dt_serial_10011000 = {
-    .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
-};
-
+struct __metal_driver_sifive_uart0 __metal_dt_serial_10011000;
 /* From cache_controller@2010000 */
 struct __metal_driver_sifive_fu540_c000_l2 __metal_dt_cache_controller_2010000 = {
     .cache.vtable = &__metal_driver_vtable_sifive_fu540_c000_l2.cache,
