@@ -14,7 +14,7 @@ jobs:
           path: wit-packages/freedom-e-sdk
 
       - name: 'Init Wit Workspace'
-        uses: sifive/wit/actions/wit@v0.13.0
+        uses: sifive/wit/actions/wit@9fdc590
         with:
           command: init
           arguments: |
@@ -31,4 +31,4 @@ jobs:
             --workdir="/mnt/workspace" \
             --rm \
             sifive/environment-blockci:0.4.0
-            wake -v -x testFreedomESDKWakeAPI Unit
+            wake -v --in freedom_e_sdk_test -x testFreedomESDKWakeAPI Unit
