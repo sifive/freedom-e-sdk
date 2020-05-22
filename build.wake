@@ -63,39 +63,51 @@ def filterWakeAndDotFiles =
   | filter (!matches `.*\.wake` _.getPathName)
 
 #
-# Plan Resources
+# Build Environment
 #
+
+export tuple FreedomESDKBuildEnv =
+  export Resources: List String
+  export BuildDir: String
 
 export def defaultFreedomESDKResources =
   "riscv-tools/2019.08.0",
   "python/python/3.7.1",
   Nil
 
+export def defaultFreedomESDKBuildDir = "build/freedom-e-sdk"
+
+export def defaultFreedomESDKBuildEnv =
+  FreedomESDKBuildEnv defaultFreedomESDKResources defaultFreedomESDKBuildDir
+
 #
 # Virtualenv Creation
 #
 # Freedom E SDK depends on a number of Python libraries. Here we enable
-# the installation of a single, workspace-wide virtualenv which can be
-# preinstalled using either the `preinstallFreedomESDKVirtualenv` target
-# or the global `preinstall` topic. If the virtualenv has not been
-# preinstalled, it will be created on-demand when needed during the
-# creation of a `FreedomESDKTarget`.
+# the creation of a Virtualenv relative to the BuildDir of Freedom E SDK's
+# Build Environment. By default, these wake rules will ensure the creation
+# of this Virtualenv at run-time with `installFreedomESDKVirtualenv`.
+#
+# If your use-case requires that dependencies are fetched from the internet
+# at workspace creation time, make sure to add `installFreedomESDKVirualenv`
+# to the `preinstall` topic, substituting the FreedomESDKBuildEnv you want
+# to use.
 #
 
-export def freedomESDKBuildDir = "build/freedom-e-sdk"
-export def freedomESDKVenvDir = "{freedomESDKBuildDir}/venv"
+export def freedomESDKVenvDir buildEnv = "{buildEnv.getFreedomESDKBuildEnvBuildDir}/venv"
 
-def makeFreedomESDKVirtualenvJob Unit =
+def makeFreedomESDKVirtualenvJob buildEnv =
   def runDir = here
+  def resources = buildEnv.getFreedomESDKBuildEnvResources
 
   def inputs =
     source "freedom-e-sdk/scripts/virtualenv.mk",
     source "freedom-e-sdk/requirements.txt",
-    mkdir freedomESDKVenvDir,
+    mkdir (freedomESDKVenvDir buildEnv),
     Nil
 
   def cmd =
-    def venvDir = relative runDir freedomESDKVenvDir
+    def venvDir = relative runDir (freedomESDKVenvDir buildEnv)
     "bash", "-c", "%
       export FREEDOM_E_SDK_VENV_PATH=$(pwd)/%{venvDir}
       make -f scripts/virtualenv.mk virtualenv
@@ -107,23 +119,13 @@ def makeFreedomESDKVirtualenvJob Unit =
 
   makePlan cmd inputs
   | setPlanDirectory runDir
-  | setPlanResources defaultFreedomESDKResources
+  | setPlanResources resources
   | setPlanKeep True
-
-# preinstallFreedomESDKVirtualenv allows Freedom E SDK users to
-# preinstall the virtualenv in their workspace at the time of their
-# choosing with `wake -x preinstallFreedomESDKVirtualenv Unit`
-export target preinstallFreedomESDKVirtualenv Unit =
-  makeFreedomESDKVirtualenvJob Unit
-  | runJob
-  | getJobStderr
-
-publish preinstall = (preinstallFreedomESDKVirtualenv), Nil
 
 # Wake rules which depend upon the Freedom E SDK virtualenv should
 # add `installFreedomESDKVirtualenv` to their Plan inputs.
-export target installFreedomESDKVirtualenv Unit =
-  makeFreedomESDKVirtualenvJob Unit
+export target installFreedomESDKVirtualenv buildEnv =
+  makeFreedomESDKVirtualenvJob buildEnv
   | runJob
   | getJobOutputs
 
@@ -134,11 +136,12 @@ export target installFreedomESDKVirtualenv Unit =
 export tuple FreedomESDK =
   export Dir:            String
   export InstalledFiles: List Path
+  export BuildEnv: FreedomESDKBuildEnv
 
 # makeFreedomESDK assembles the components of Freedom E SDK into the directory
 # hierarchy expected by the SDK from their flat layout in the wit workspace.
 # The resulting sdk is located in {destDir}/freedom-e-sdk.
-export def makeFreedomESDK destDir =
+export def makeFreedomESDK buildEnv destDir =
   def sdkDir = "{destDir}/freedom-e-sdk"
   def scriptsDir = "{sdkDir}/scripts"
 
@@ -185,7 +188,7 @@ export def makeFreedomESDK destDir =
     ++ installOpenOCDConfigGenerator          scriptsDir
     ++ installESDKSettingsGenerator           scriptsDir
 
-  FreedomESDK sdkDir Nil
+  FreedomESDK sdkDir Nil buildEnv
   | setFreedomESDKInstalledFiles installedFiles
 
 #
@@ -226,12 +229,13 @@ def targetTypeToString = match _
 #                file generators.
 export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
   def sdkDir = sdk.getFreedomESDKDir
+  def buildEnv = sdk.getFreedomESDKBuildEnv
   def bspDir = "{sdkDir}/bsp/{targetName}"
   def runDir = "{sdkDir}/bsp"
   def updateTargets = "{runDir}/update-targets.sh"
 
   def cmdline =
-    def venvPath = relative runDir freedomESDKVenvDir
+    def venvPath = relative runDir (freedomESDKVenvDir buildEnv)
     def updateTargetsScript = relative runDir updateTargets
     def fdtPath = relative runDir freedomDevicetreeToolsPath
     def targetDTS = relative runDir coreDTS.getPathName
@@ -252,7 +256,7 @@ export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
     coreDTS,
     sdk.getFreedomESDKInstalledFiles
     ++ freedomDevicetreeToolsInstall Unit
-    ++ installFreedomESDKVirtualenv Unit
+    ++ installFreedomESDKVirtualenv buildEnv
 
   def fnOutputs _ =
     def alwaysOutputs =
@@ -277,7 +281,7 @@ export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
 
   def installedFiles =
     makePlan cmdline inputs
-    | setPlanResources defaultFreedomESDKResources
+    | setPlanResources buildEnv.getFreedomESDKBuildEnvResources
     | setPlanFnOutputs fnOutputs
     | setPlanLocalOnly True
     | setPlanDirectory runDir
@@ -290,6 +294,7 @@ export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
 def makeFreedomMetal sdkTarget =
   def sdk = sdkTarget.getFreedomESDKTargetSDK
   def sdkDir = sdk.getFreedomESDKDir
+  def buildEnv = sdk.getFreedomESDKBuildEnv
   def targetName = sdkTarget.getFreedomESDKTargetName
   def bspDir = "{sdkDir}/bsp/{targetName}"
 
@@ -315,7 +320,7 @@ def makeFreedomMetal sdkTarget =
 
   def installedFiles =
     makePlan cmdline inputs
-    | setPlanResources defaultFreedomESDKResources
+    | setPlanResources buildEnv.getFreedomESDKBuildEnvResources
     | setPlanFnOutputs fnOutputs
     | setPlanLocalOnly True
     | runJob
@@ -397,12 +402,13 @@ target makeProgram sdkTarget program =
 def makeProgramJob sdkTarget program =
   def sdk = sdkTarget.getFreedomESDKTargetSDK
   def sdkDir = sdk.getFreedomESDKDir
+  def buildEnv = sdk.getFreedomESDKBuildEnv
   def targetName = sdkTarget.getFreedomESDKTargetName
   def programName = program.getFreedomESDKProgramName
   def programSourceList = program.getFreedomESDKProgramSources
 
   def cmdline =
-    def venvPath = freedomESDKVenvDir
+    def venvPath = freedomESDKVenvDir buildEnv
     "bash", "-c", "%
       export FREEDOM_E_SDK_VENV_PATH=$(pwd)/%{venvPath}
       export FREERTOS_METAL_VENV_PATH=$(pwd)/%{venvPath}
@@ -418,7 +424,7 @@ def makeProgramJob sdkTarget program =
     def sdkInstall = sdk.getFreedomESDKInstalledFiles
     def targetInstall = sdkTarget.getFreedomESDKTargetInstalledFiles
     def programInstall = installFreedomESDKProgram sdk program
-    def virtualenvInstall = installFreedomESDKVirtualenv Unit
+    def virtualenvInstall = installFreedomESDKVirtualenv buildEnv
     sdkInstall
     ++ targetInstall
     ++ programInstall
@@ -427,7 +433,7 @@ def makeProgramJob sdkTarget program =
   def fnOutputs _ = files "{sdkDir}/software/{programName}/release" `[^/]*.(elf|hex)`
 
   makePlan cmdline inputs
-  | setPlanResources defaultFreedomESDKResources
+  | setPlanResources buildEnv.getFreedomESDKBuildEnvResources
   | setPlanFnOutputs fnOutputs
   | setPlanLocalOnly True
   | editPlanEnvironment ("RANLIB='riscv64-unknown-elf-ranlib -D'", _)

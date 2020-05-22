@@ -86,6 +86,7 @@ def filterFreedomESDKPrograms sdkTarget programs =
 
 def targetHasCompatible sdkTarget compatible =
   def sdk = sdkTarget.getFreedomESDKTargetSDK
+  def buildEnv = sdk.getFreedomESDKBuildEnv
   def detectCompatible = "{here}/scripts/detect_compatible.py"
 
   def targetBSPDir = "{sdk.getFreedomESDKDir}/bsp/{sdkTarget.getFreedomESDKTargetName}"
@@ -93,10 +94,10 @@ def targetHasCompatible sdkTarget compatible =
   def inputs =
     source detectCompatible,
     sources "{targetBSPDir}" `.*\.dts`
-    ++ installFreedomESDKVirtualenv Unit
+    ++ installFreedomESDKVirtualenv buildEnv
 
   def cmdline =
-    def venvPath = freedomESDKVenvDir
+    def venvPath = freedomESDKVenvDir buildEnv
     "bash", "-c", "%
       . $(pwd)/%{venvPath}/bin/activate
       touch %{targetBSPDir}/compatcheck

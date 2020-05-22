@@ -11,7 +11,7 @@ from freedom_e_sdk import _
 export target testFreedomESDKWakeAPI Unit =
   # Install Freedom E SDK into destDir
   def destDir = "build/freedom-e-sdk/test-wake"
-  def sdk = makeFreedomESDK destDir
+  def sdk = makeFreedomESDK defaultFreedomESDKBuildEnv destDir
 
   def targetName = "qemu-sifive-e31"
   def coreDTS = source "{here}/bsp/{targetName}/core.dts"
