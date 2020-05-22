@@ -1,10 +1,14 @@
+package freedom_e_sdk_test
+
+from wake import _
+from freedom_e_sdk import _
 
 # This target tests the Freedom E SDK Wake API by
 #  1. Installing the SDK using the Wake API
 #  2. Creating a new target with the qemu-sifive-e31 core.dts
 #  3. Building allFreedomESDKPrograms
 #  4. Checking to make sure all programs built ELFs successfully
-global target testFreedomESDKWakeAPI Unit =
+export target testFreedomESDKWakeAPI Unit =
   # Install Freedom E SDK into destDir
   def destDir = "build/freedom-e-sdk/test-wake"
   def sdk = makeFreedomESDK destDir

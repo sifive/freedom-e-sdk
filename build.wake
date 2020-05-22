@@ -1,3 +1,7 @@
+package freedom_e_sdk
+
+from wake import _
+
 #
 # Utility Functions
 #
@@ -62,7 +66,7 @@ def filterWakeAndDotFiles =
 # Plan Resources
 #
 
-global def defaultFreedomESDKResources =
+export def defaultFreedomESDKResources =
   "riscv-tools/2019.08.0",
   "python/python/3.7.1",
   Nil
@@ -78,8 +82,8 @@ global def defaultFreedomESDKResources =
 # creation of a `FreedomESDKTarget`.
 #
 
-global def freedomESDKBuildDir = "build/freedom-e-sdk"
-global def freedomESDKVenvDir = "{freedomESDKBuildDir}/venv"
+export def freedomESDKBuildDir = "build/freedom-e-sdk"
+export def freedomESDKVenvDir = "{freedomESDKBuildDir}/venv"
 
 def makeFreedomESDKVirtualenvJob Unit =
   def runDir = here
@@ -109,7 +113,7 @@ def makeFreedomESDKVirtualenvJob Unit =
 # preinstallFreedomESDKVirtualenv allows Freedom E SDK users to
 # preinstall the virtualenv in their workspace at the time of their
 # choosing with `wake -x preinstallFreedomESDKVirtualenv Unit`
-global target preinstallFreedomESDKVirtualenv Unit =
+export target preinstallFreedomESDKVirtualenv Unit =
   makeFreedomESDKVirtualenvJob Unit
   | runJob
   | getJobStderr
@@ -118,7 +122,7 @@ publish preinstall = (preinstallFreedomESDKVirtualenv), Nil
 
 # Wake rules which depend upon the Freedom E SDK virtualenv should
 # add `installFreedomESDKVirtualenv` to their Plan inputs.
-global target installFreedomESDKVirtualenv Unit =
+export target installFreedomESDKVirtualenv Unit =
   makeFreedomESDKVirtualenvJob Unit
   | runJob
   | getJobOutputs
@@ -127,14 +131,14 @@ global target installFreedomESDKVirtualenv Unit =
 # Freedom E SDK Installation
 #
 
-global tuple FreedomESDK =
-  global Dir:            String
-  global InstalledFiles: List Path
+export tuple FreedomESDK =
+  export Dir:            String
+  export InstalledFiles: List Path
 
 # makeFreedomESDK assembles the components of Freedom E SDK into the directory
 # hierarchy expected by the SDK from their flat layout in the wit workspace.
 # The resulting sdk is located in {destDir}/freedom-e-sdk.
-global def makeFreedomESDK destDir =
+export def makeFreedomESDK destDir =
   def sdkDir = "{destDir}/freedom-e-sdk"
   def scriptsDir = "{sdkDir}/scripts"
 
@@ -188,13 +192,13 @@ global def makeFreedomESDK destDir =
 # Freedom E SDK Target Creation
 #
 
-global tuple FreedomESDKTarget =
-  global SDK:            FreedomESDK
-  global Name:           String
-  global Type:           FreedomESDKTargetType
-  global InstalledFiles: List Path
+export tuple FreedomESDKTarget =
+  export SDK:            FreedomESDK
+  export Name:           String
+  export Type:           FreedomESDKTargetType
+  export InstalledFiles: List Path
 
-global data FreedomESDKTargetType =
+export data FreedomESDKTargetType =
   RTLTargetType
   ArtyTargetType
   VC707TargetType
@@ -220,7 +224,7 @@ def targetTypeToString = match _
 #             Devicetree Overlay
 #  - targetType: one of FreedomESDKTargetType, used to configure the BSP
 #                file generators.
-global def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
+export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
   def sdkDir = sdk.getFreedomESDKDir
   def bspDir = "{sdkDir}/bsp/{targetName}"
   def runDir = "{sdkDir}/bsp"
@@ -326,7 +330,7 @@ def makeFreedomMetal sdkTarget =
 
 # installFreedomESDKProgram installs the FreedomESDKProgram sources
 # into the SDK
-global target installFreedomESDKProgram sdk program =
+export target installFreedomESDKProgram sdk program =
   def dest = "{sdk.getFreedomESDKDir}/software"
   def name = program.getFreedomESDKProgramName
   def sourceDir = program.getFreedomESDKProgramSourceDir
@@ -336,19 +340,19 @@ global target installFreedomESDKProgram sdk program =
   | map (\p installAs (replace sourceDir.quote name "{dest}/{p.getPathName}") p)
 
 # Build an ELF of a FreedomESDKProgram for a FreedomESDKTarget
-global def makeFreedomESDKProgramHex sdkTarget program =
+export def makeFreedomESDKProgramHex sdkTarget program =
   makeProgram sdkTarget program
   | getPairSecond
 
 # Build a hex of a FreedomESDKProgram for a FreedomESDKTarget
-global def makeFreedomESDKProgramElf sdkTarget program =
+export def makeFreedomESDKProgramElf sdkTarget program =
   makeProgram sdkTarget program
   | getPairFirst
 
 # This rule can be used to detect when the build of a FreedomESDKProgram
 # fails for a given FreedomESDKTarget as a result of the program overflowing
 # some region of memory.
-global def freedomESDKProgramOverflowsMemory sdkTarget program =
+export def freedomESDKProgramOverflowsMemory sdkTarget program =
   def programJob = makeProgramJob sdkTarget program
   def jobStderr = programJob.runJob.getJobStderr | getWhenFail ""
   def sectionWillNotFit = `.*ld: .* section .* will not fit in region.*`
@@ -361,7 +365,7 @@ global def freedomESDKProgramOverflowsMemory sdkTarget program =
 # of the Target interacting with the default Freedom E SDK linker
 # scripts in a way which is incompatible with the available code models
 # in the RISC-V toolchain.
-global def freedomESDKProgramCannotLinkUnderCodeModel sdkTarget program =
+export def freedomESDKProgramCannotLinkUnderCodeModel sdkTarget program =
   def programJob = makeProgramJob sdkTarget program
   def jobStderr = programJob.runJob.getJobStderr | getWhenFail ""
   def relocationTruncated = `.*relocation truncated to fit.*`

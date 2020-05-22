@@ -1,14 +1,18 @@
-global tuple FreedomESDKProgram =
-  global Name: String
-  global Kind: String
-  global Sources: List Path
+package freedom_e_sdk
 
-global def getFreedomESDKProgramSourceDir program =
+from wake import _
+
+export tuple FreedomESDKProgram =
+  export Name: String
+  export Kind: String
+  export Sources: List Path
+
+export def getFreedomESDKProgramSourceDir program =
   def name = program.getFreedomESDKProgramName
   def kind = program.getFreedomESDKProgramKind
   "{kind}-{name}"
 
-global def makeFreedomESDKProgram name kind =
+export def makeFreedomESDKProgram name kind =
   def program = FreedomESDKProgram name kind Nil
   def sourceDir = program.getFreedomESDKProgramSourceDir
   def programSources = sources sourceDir `.*`
@@ -16,7 +20,7 @@ global def makeFreedomESDKProgram name kind =
   | setFreedomESDKProgramSources programSources
 
 # Get the list of Freedom E SDK examples which are compatible with a given target
-global def allFreedomESDKExamples sdkTarget =
+export def allFreedomESDKExamples sdkTarget =
   def programList =
     makeFreedomESDKProgram "hello" "example",
     makeFreedomESDKProgram "atomics" "example",
@@ -59,7 +63,7 @@ global def allFreedomESDKExamples sdkTarget =
   filterFreedomESDKPrograms sdkTarget programList
 
 # Get the list of Freedom E SDK benchmarks which are compatible with a given target
-global def allFreedomESDKBenchmarks sdkTarget =
+export def allFreedomESDKBenchmarks sdkTarget =
   def programList =
     makeFreedomESDKProgram "coremark" "benchmark",
     makeFreedomESDKProgram "dhrystone" "benchmark",
@@ -68,7 +72,7 @@ global def allFreedomESDKBenchmarks sdkTarget =
   filterFreedomESDKPrograms sdkTarget programList
 
 # Get all Freedom E SDK examples and benchmarks which are compatible with a given target
-global def allFreedomESDKPrograms sdkTarget =
+export def allFreedomESDKPrograms sdkTarget =
   allFreedomESDKExamples sdkTarget
   ++ allFreedomESDKBenchmarks sdkTarget
 
