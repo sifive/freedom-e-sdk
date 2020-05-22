@@ -94,6 +94,9 @@ export def defaultFreedomESDKBuildEnv =
 # to use.
 #
 
+export tuple FreedomESDKVirtualenv =
+  export InstalledFiles: List Path
+
 export def freedomESDKVenvDir buildEnv = "{buildEnv.getFreedomESDKBuildEnvBuildDir}/venv"
 
 def makeFreedomESDKVirtualenvJob buildEnv =
@@ -125,9 +128,11 @@ def makeFreedomESDKVirtualenvJob buildEnv =
 # Wake rules which depend upon the Freedom E SDK virtualenv should
 # add `installFreedomESDKVirtualenv` to their Plan inputs.
 export target installFreedomESDKVirtualenv buildEnv =
-  makeFreedomESDKVirtualenvJob buildEnv
-  | runJob
-  | getJobOutputs
+  def installedFiles =
+    makeFreedomESDKVirtualenvJob buildEnv
+    | runJob
+    | getJobOutputs
+  FreedomESDKVirtualenv installedFiles
 
 #
 # Freedom E SDK Installation
@@ -256,7 +261,7 @@ export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
     coreDTS,
     sdk.getFreedomESDKInstalledFiles
     ++ freedomDevicetreeToolsInstall Unit
-    ++ installFreedomESDKVirtualenv buildEnv
+    ++ (installFreedomESDKVirtualenv buildEnv).getFreedomESDKVirtualenvInstalledFiles
 
   def fnOutputs _ =
     def alwaysOutputs =
@@ -424,11 +429,10 @@ def makeProgramJob sdkTarget program =
     def sdkInstall = sdk.getFreedomESDKInstalledFiles
     def targetInstall = sdkTarget.getFreedomESDKTargetInstalledFiles
     def programInstall = installFreedomESDKProgram sdk program
-    def virtualenvInstall = installFreedomESDKVirtualenv buildEnv
     sdkInstall
     ++ targetInstall
     ++ programInstall
-    ++ virtualenvInstall
+    ++ (installFreedomESDKVirtualenv buildEnv).getFreedomESDKVirtualenvInstalledFiles
 
   def fnOutputs _ = files "{sdkDir}/software/{programName}/release" `[^/]*.(elf|hex)`
 

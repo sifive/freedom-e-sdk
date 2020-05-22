@@ -94,7 +94,7 @@ def targetHasCompatible sdkTarget compatible =
   def inputs =
     source detectCompatible,
     sources "{targetBSPDir}" `.*\.dts`
-    ++ installFreedomESDKVirtualenv buildEnv
+    ++ (installFreedomESDKVirtualenv buildEnv).getFreedomESDKVirtualenvInstalledFiles
 
   def cmdline =
     def venvPath = freedomESDKVenvDir buildEnv
