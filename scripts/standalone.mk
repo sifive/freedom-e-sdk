@@ -211,10 +211,16 @@ $(PROGRAM_ELF): \
 # Use elf2hex if we're creating a hex file for RTL simulation
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 .PHONY: software
+ifeq ($(FREEDOM_SDK_TOOLS_PATH),)
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
 	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+else
+$(PROGRAM_HEX): \
+		$(PROGRAM_ELF)
+	$(FREEDOM_SDK_TOOLS_PATH)/bin/$(CROSS_COMPILE)-elf2hex --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+endif
 else
 $(PROGRAM_HEX): \
 		$(PROGRAM_ELF)
