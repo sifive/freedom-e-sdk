@@ -124,6 +124,9 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_select
 extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
 
 
+/* --------------------- sifive_simuart0 ------------ */
+
+
 /* --------------------- sifive_wdog0 ------------ */
 
 

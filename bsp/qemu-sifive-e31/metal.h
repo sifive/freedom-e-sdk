@@ -77,6 +77,8 @@
 
 #define METAL_MAX_UART_INTERRUPTS 1
 
+#define METAL_MAX_SIMUART_INTERRUPTS 0
+
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
@@ -100,76 +102,76 @@
 #include <metal/drivers/sifive_fe310-g000_prci.h>
 
 /* From clock@0 */
-struct __metal_driver_fixed_clock __metal_dt_clock_0;
+extern struct __metal_driver_fixed_clock __metal_dt_clock_0;
 
 /* From clock@2 */
-struct __metal_driver_fixed_clock __metal_dt_clock_2;
+extern struct __metal_driver_fixed_clock __metal_dt_clock_2;
 
 /* From clock@5 */
-struct __metal_driver_fixed_clock __metal_dt_clock_5;
+extern struct __metal_driver_fixed_clock __metal_dt_clock_5;
 
-struct metal_memory __metal_dt_mem_dtim_80000000;
+extern struct metal_memory __metal_dt_mem_dtim_80000000;
 
-struct metal_memory __metal_dt_mem_spi_10014000;
+extern struct metal_memory __metal_dt_mem_spi_10014000;
 
 /* From clint@2000000 */
-struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000;
+extern struct __metal_driver_riscv_clint0 __metal_dt_clint_2000000;
 
 /* From cpu@0 */
-struct __metal_driver_cpu __metal_dt_cpu_0;
+extern struct __metal_driver_cpu __metal_dt_cpu_0;
 
-struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller;
+extern struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller;
 
 /* From interrupt_controller@c000000 */
-struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
+extern struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
 
 /* From local_external_interrupts_0 */
-struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0;
+extern struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0;
 
 /* From gpio@10012000 */
-struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000;
+extern struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000;
 
 /* From led@0 */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_0;
+extern struct __metal_driver_sifive_gpio_led __metal_dt_led_0;
 
 /* From led@1 */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_1;
+extern struct __metal_driver_sifive_gpio_led __metal_dt_led_1;
 
 /* From led@2 */
-struct __metal_driver_sifive_gpio_led __metal_dt_led_2;
+extern struct __metal_driver_sifive_gpio_led __metal_dt_led_2;
 
 /* From pwm@10015000 */
-struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000;
+extern struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000;
 
 /* From aon@10000000 */
-struct __metal_driver_sifive_rtc0 __metal_dt_rtc_10000000;
+extern struct __metal_driver_sifive_rtc0 __metal_dt_rtc_10000000;
 
 /* From spi@10014000 */
-struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000;
+extern struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000;
 
 /* From test@100000 */
-struct __metal_driver_sifive_test0 __metal_dt_test_100000;
+extern struct __metal_driver_sifive_test0 __metal_dt_test_100000;
 
 /* From serial@10013000 */
-struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000;
+extern struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000;
 
 /* From aon@10000000 */
-struct __metal_driver_sifive_wdog0 __metal_dt_aon_10000000;
+extern struct __metal_driver_sifive_wdog0 __metal_dt_aon_10000000;
 
 /* From clock@3 */
-struct __metal_driver_sifive_fe310_g000_hfrosc __metal_dt_clock_3;
+extern struct __metal_driver_sifive_fe310_g000_hfrosc __metal_dt_clock_3;
 
 /* From clock@1 */
-struct __metal_driver_sifive_fe310_g000_hfxosc __metal_dt_clock_1;
+extern struct __metal_driver_sifive_fe310_g000_hfxosc __metal_dt_clock_1;
 
 /* From clock@6 */
-struct __metal_driver_sifive_fe310_g000_lfrosc __metal_dt_clock_6;
+extern struct __metal_driver_sifive_fe310_g000_lfrosc __metal_dt_clock_6;
 
 /* From clock@4 */
-struct __metal_driver_sifive_fe310_g000_pll __metal_dt_clock_4;
+extern struct __metal_driver_sifive_fe310_g000_pll __metal_dt_clock_4;
 
 /* From prci@10008000 */
-struct __metal_driver_sifive_fe310_g000_prci __metal_dt_prci_10008000;
+extern struct __metal_driver_sifive_fe310_g000_prci __metal_dt_prci_10008000;
 
 
 
@@ -977,6 +979,9 @@ static __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 
 
 
+/* --------------------- sifive_simuart0 ------------ */
+
+
 /* --------------------- sifive_wdog0 ------------ */
 static __inline__ unsigned long __metal_driver_sifive_wdog0_control_base(const struct metal_watchdog *const watchdog)
 {
@@ -1263,6 +1268,11 @@ __asm__ (".weak __metal_uart_table");
 struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
 					&__metal_dt_serial_10013000};
 
+#define __METAL_DT_MAX_SIMUARTS 0
+
+__asm__ (".weak __metal_simuart_table");
+struct __metal_driver_sifive_simuart0 *__metal_simuart_table[] = {
+					NULL };
 #define __METAL_DT_MAX_WDOGS 1
 
 __asm__ (".weak __metal_wdog_table");
