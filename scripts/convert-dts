@@ -1,0 +1,70 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+unset dts
+unset SED
+
+while [ "$1" != "" ]
+do
+    case "$1"
+    in
+    --dts)      dts="$2";       shift 2;;
+    *) echo "$0: Unknown argument $1"; exit 1;;
+    esac
+done
+
+if [ "${dts}" == "" ]
+then
+    echo "$0: please provide '--dts' option" >&2
+    exit 1
+fi
+
+# When installed on MacOS with Homebrew, GNU sed is named gsed.
+# If gsed exists, use it.
+if [ "`which gsed`" == "" ]; then
+    SED=sed
+else
+    SED=gsed
+fi
+
+# Is the target an FPGA?
+#if [ `echo ${dts} | grep -c 'arty'` -ne 0 -o `echo ${dts} | grep -c 'fpga'` -ne 0 ] ; then
+    if [ `grep -c 'chosen' ${dts}` -ne 0 ]; then
+    # Is there a metal,entry property in the chosen node?
+    #if [ `grep -c 'metal,entry' ${dts}` -ne 0 ] ; then
+    #    ${SED} -i "/metal,entry/d" ${dts}
+    #    echo "$0: Removing metal,entry property from chosen node in  ${dts}."
+    #fi
+    #if [ `grep -c 'metal,boothart' ${dts}` -ne 0 ] ; then
+    #    ${SED} -i "/metal,entry/d" ${dts}
+    #    echo "$0: Removing metal,entry property from chosen node in  ${dts}."
+    #fi
+    #if [ `grep -c 'stdout-path' ${dts}` -ne 0 ] ; then
+    #    ${SED} -i "/stdout-path/d" ${dts}
+    #    echo "$0: Removing stdout-path property from chosen node in  ${dts}."
+    #fi
+        ${SED} -i '/chosen {/,/};/d' ${dts}
+        echo "$0: Removing chosen node in  ${dts}."
+    fi
+    if [ `grep -c 'led@0red' ${dts}` -ne 0 ] ; then
+        ${SED} -i 's/led@0red/led@0/' ${dts}
+        echo "$0: Change led@0red to led@0 in  ${dts}."
+    fi
+    if [ `grep -c 'led@0green' ${dts}` -ne 0 ] ; then
+        ${SED} -i 's/led@0green/led@1/' ${dts}
+        echo "$0: Change led@0green to led@1 in  ${dts}."
+    fi
+    if [ `grep -c 'led@0blue' ${dts}` -ne 0 ] ; then
+        ${SED} -i 's/led@0blue/led@2/' ${dts}
+        echo "$0: Change led@0blue to led@2 in  ${dts}."
+    fi
+    if [ `grep -c 'sifive,spi0' ${dts}` -ne 0 ] ; then
+        if [ `grep -c 'jedec,spi-nor' ${dts}` -eq 0 ] ; then
+            ${SED} -i '/reg-names = "control", "mem";/a flash@0 {\n compatible = "jedec,spi-nor";\n};' ${dts}
+            echo "$0: Add spi-nor compatible string for flash in  ${dts}."
+        fi
+    fi
+#fi
+

@@ -10,6 +10,7 @@ $0: BSP Generator for the SiFive Freedom E SDK
     --target-type              Specify bsp target type [rtl | arty | vc707 | vcu118].
     --sdk-path=*               The path to the freedom-e-sdk clone directory, public or private.
     --target-dts=*.dts         The path to the target device tree that will be used.
+    --convert                  Convert 19.08 DTS to new format.
 EOF
 }
 
@@ -26,11 +27,14 @@ unset DTSFILE
 unset CUSTOM_PATH
 unset CUSTOM_NAME
 unset NO_FIXUP
+unset CONVERT
 NO_FIXUP=0
+CONVERT=0
 while [ "$1" != "" ]
 do
     case "$1" in
     --help)               help "$0";                                 exit 0;;
+    --convert)            CONVERT=1;                                 shift 1;;
     --no-fixup)           NO_FIXUP=1;                                shift 1;;
     --target-name)        CUSTOM_NAME="$2";                          shift 2;;
     --target-type)        CUSTOM_TYPE="$2";                          shift 2;;
@@ -72,6 +76,10 @@ else
         echo "[INFO] $0: "$CUSTOM_TARGET" not found! Creating one" >&2
 	mkdir -p $CUSTOM_TARGET
     fi
+    if [ $CONVERT -eq 1 -a $TARGET_TYPE == "arty" ] ; then
+        ../scripts/convert-dts --dts $DTSFILE || warn "Failed to convert $DTSFILE for missing elements"
+    fi
+
     cp $DTSFILE "$CUSTOM_TARGET/core.dts"
     TARGET_LIST="$CUSTOM_TARGET "
 fi
