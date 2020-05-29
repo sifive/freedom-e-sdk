@@ -6,11 +6,14 @@
 #include <metal/drivers/sifive_buserror0.h>
 #include <metal/machine.h>
 
-#ifndef METAL_SIFIVE_BUSERROR0
+/* The sifive,error0 device is used to trigger a TileLink bus error for
+ * testing the sifive,buserror0 device. If one isn't present, this example
+ * will fail to compile because we have no way to trigger a bus error. */
+#ifndef METAL_SIFIVE_ERROR0
 #error Example requires a sifive,error0 device to drive bus errors
 #endif
 
-#define BADADDR METAL_SIFIVE_BUSERROR0_0_BASE_ADDRESS
+#define BADADDR METAL_SIFIVE_ERROR0_0_BASE_ADDRESS
 
 struct metal_cpu *cpu;
 struct metal_interrupt *cpu_intr;
