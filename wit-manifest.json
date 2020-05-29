@@ -240,7 +240,7 @@
         "source": "git@github.com:sifive/example-freertos-pmp-blinky.git"
     },
     {
-        "commit": "2a41e4850a2f5adf631b382d2796ec413335242b",
+        "commit": "e4d9931d87eb0545dec7aa2b3e982c3150fd2c66",
         "name": "example-buserror",
         "source": "git@github.com:sifive/example-buserror.git"
     },
