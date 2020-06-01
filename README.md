@@ -220,6 +220,21 @@ machine:
 
 [Segger J-Link Software Downloads](https://www.segger.com/downloads/jlink#J-LinkSoftwareAndDocumentationPack)
 
+##### Install freedom-devicetree-tools dependencies
+
+The example programs within freedom-e-sdk rely on built binaries from the freedom-devicetree-tools repository, 
+which is included as a submodule within the freedom-e-sdk repository.
+These binaries are required to be built and added to your `$PATH` before any freedom-e-sdk software examples can be compiled.  
+To build the freedom-devicetree-tools binaries, follow these steps:
+
+```
+cd /path/to/freedom-e-sdk/freedom-devicetree-tools
+./configure
+make
+```
+
+Then add `/path/to/freedom-e-sdk/freedom-devicetree-tools` to your $PATH.  
+
 #### Cloning the Repository ####
 
 This repository can be cloned by running the following commands:
