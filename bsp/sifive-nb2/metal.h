@@ -1491,7 +1491,7 @@ __asm__ (".weak __metal_qspi_table");
 struct __metal_driver_sifive_nb2qspi0 *__metal_qspi_table[] = {
 					&__metal_dt_nb2qspi0_20400000};
 
-#define __METAL_DT_MAX_UART 2
+#define __METAL_DT_MAX_UARTS 2
 
 __asm__ (".weak __metal_uart_table");
 struct __metal_driver_sifive_nb2uart0 *__metal_uart_table[] = {
