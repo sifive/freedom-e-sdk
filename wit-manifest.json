@@ -30,7 +30,7 @@
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
-        "commit": "4cc91ab5fecbc7cd75d0b1c99b4061a7b6633c23",
+        "commit": "8f3a212aca479f60bc47c543b7ce76395b888258",
         "name": "openocdcfg-generator",
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
