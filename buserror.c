@@ -68,6 +68,9 @@ int main() {
 	/* Trigger an error event */
 	uint8_t bad = *((volatile uint8_t *)BADADDR);
 
+	/* Fence above error event before check below */
+  __asm__ ("fence");
+
 	/* Check if the event is accrued and clear it*/
 	if (metal_buserror_is_event_accrued(beu, METAL_BUSERROR_EVENT_ANY)) {
 		printf("Detected accrued bus error\n");
@@ -86,8 +89,16 @@ int main() {
 		return 4;
 	}
 
+	/* Fence above error clear before trigger below */
+	/* Fence above interrupt enable before trigger below */
+  __asm__ ("fence");
+
 	/* Trigger an error event */
 	bad = *((volatile uint8_t *)BADADDR);
+
+	/* Fence above error event before interrupt check below */
+  __asm__ ("fence");
+  __asm__ ("fence.i");
 
 	if (!accrued) {
 		return 5;
