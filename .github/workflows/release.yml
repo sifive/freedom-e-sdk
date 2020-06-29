@@ -24,6 +24,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
+          fetch-depth: 0
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       # We tag submodules before creating the release notes or the release
