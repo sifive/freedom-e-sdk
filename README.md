@@ -2,7 +2,7 @@
 
 Sifive deliver a high level of API for the cryptographic function call SCL (SiFive Cryptographic Librarie). The HCA is the Hardware Cryptographic Accelerator for this librarie.
 
-This example show how to connect the HCA, but instead of using the high level of SCL API, we will use the low level function (when hardware feature will be available)
+This example show how low level functions can be called (when hardware feature is present) to connect the HCA.
 
 This example perform some AES-ECB, AES-CCM, AES-GCM cryptographic operation with test vector and verify the attended result.
 
