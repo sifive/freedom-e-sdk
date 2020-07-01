@@ -1,16 +1,16 @@
 [
     {
-        "commit": "db4ba0f4a25cee3f892e48c4fe3b58570f148290",
+        "commit": "d3c01bcec778727375bd4d81f7742cafc419c3a7",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "3abf11da1a6d638aecd648487f15adf5e99442ff",
+        "commit": "e4104e02156ea85d07b3317081f5bf3bc0ebee93",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
     {
-        "commit": "5f3ead16ab35bb5a6d39fd2881ffa81b06741bb2",
+        "commit": "22bef0ab3df478089bef6a5eae9c66b70ca1d884",
         "name": "elf2hex",
         "source": "git@github.com:sifive/elf2hex.git"
     },
@@ -20,22 +20,22 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "eb2aee7b32ed975a015155aa83fbf9c784e8478b",
+        "commit": "6749026ffc33721ed898a06266e43fa4b6ef640b",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "3a6205340b165b29fbc6c0bdf178c8782df2b583",
+        "commit": "c9936d689d673813581cde883885b8bfca2a2e82",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
-        "commit": "8f3a212aca479f60bc47c543b7ce76395b888258",
+        "commit": "fecee1979c980517b57ef6794df9c84ae5062e14",
         "name": "openocdcfg-generator",
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "e15884b71bbd8d562d1f5228e021c6b6c1201990",
+        "commit": "11d17b9c930e51321130999f27ecbef1dc4339a4",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -200,12 +200,12 @@
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
     {
-        "commit": "1eaafa44bcb5c7d6c1e1e25b84ac52eeef0b1a4f",
+        "commit": "8e1fc566456e13228d8e1b652cc0141a83bb09e8",
         "name": "FreeRTOS-metal",
         "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
     {
-        "commit": "8f6d4bd2afabe7e3e8ef6fb533fa2bb3a0547ae3",
+        "commit": "d64a0fab15776acae4c1cd75b9676d511e212855",
         "name": "Segger_SystemView-metal",
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
@@ -250,7 +250,7 @@
         "source": "git@github.com:sifive/example-hpm.git"
     },
     {
-        "commit": "18ec13a84f5b0baeb54a76f1e6055b9244c6f3ec",
+        "commit": "748b62612b698b17d6ab2e146553efb4e8d14f79",
         "name": "scl-metal",
         "source": "git@github.com:sifive/scl-metal.git"
     },
