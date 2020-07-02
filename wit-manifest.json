@@ -15,7 +15,7 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "f49036309a4987f269a217e39806cbb56b5e7b8f",
+        "commit": "4da7f1cda2edec5592103acf009c4dae397599f6",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
