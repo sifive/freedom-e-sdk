@@ -198,7 +198,9 @@ endif
 include $(CONFIGURATION).mk
 
 # Benchmark CFLAGS go after loading the CONFIGURATION so that they can override the optimization level
-GCC_VER_GTE10 := $(shell echo `gcc -dumpversion | cut -f1-2 -d.` \>= 10 | bc )
+
+# Checking if we use gcc-10 or not, which need different compiler options for better benchmark scores
+GCC_VER_GTE10 := $(shell echo `${RISCV_GCC} -dumpversion | cut -f1-2 -d.` \>= 10 | bc )
 
 ifeq ($(PROGRAM),dhrystone)
 ifeq ($(DHRY_OPTION),)
