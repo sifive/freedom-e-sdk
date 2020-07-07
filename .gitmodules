@@ -154,3 +154,6 @@
 [submodule "scl-metal"]
 	path = scl-metal
 	url = https://github.com/sifive/scl-metal.git
+[submodule "freedom-metal-next"]
+	path = freedom-metal-next
+	url = ssh://gamma15/home/nathanielg/freedom-metal-next
