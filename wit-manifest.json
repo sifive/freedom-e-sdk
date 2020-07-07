@@ -15,7 +15,7 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "b176952f808af68e0849d48dce97df42952303bd",
+        "commit": "f081aa5f1bcd1565a66d92303cc6fa6f6733ab95",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
@@ -267,7 +267,7 @@
     {
         "commit": "b59ea11c02fa5dd0478686a4f88aa8bf7165376b",
         "name": "example-emmc",
-        "source": "git@github.com:sifive/example-flash.git"
+        "source": "git@github.com:sifive/example-emmc.git"
     }
 
 ]
