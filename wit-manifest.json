@@ -15,7 +15,7 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "5b08c547e4c3f08b45b72d491d858bdcea9cbd3c",
+        "commit": "b176952f808af68e0849d48dce97df42952303bd",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
@@ -35,7 +35,7 @@
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "e15884b71bbd8d562d1f5228e021c6b6c1201990",
+        "commit": "02a41672445333ab8dced1f700d5233330f741d4",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -258,5 +258,16 @@
         "commit": "4ff9d78f7f54de9554fe6789f56d14f5a082e987",
         "name": "example-hca-metal",
         "source": "git@github.com:sifive/example-hca-metal.git"
+    },
+    {
+        "commit": "0c388a003ff58d218e6ab0feec3e486ebdd2a6ae",
+        "name": "example-flash",
+        "source": "git@github.com:sifive/example-flash.git"
+    },
+    {
+        "commit": "b59ea11c02fa5dd0478686a4f88aa8bf7165376b",
+        "name": "example-emmc",
+        "source": "git@github.com:sifive/example-flash.git"
     }
+
 ]

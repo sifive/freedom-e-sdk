@@ -70,7 +70,7 @@ SECTIONS
 
     /* The chicken bit is used by pre-main initialization to enable/disable
      * certain core features */
-    PROVIDE(__metal_chicken_bit = 1);
+    PROVIDE(__metal_chicken_bit = 0);
 
     /* The memory_ecc_scrub bit is used by _entry code to enable/disable
      * memories scrubbing to zero  */
