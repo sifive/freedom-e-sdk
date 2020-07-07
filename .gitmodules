@@ -154,3 +154,15 @@
 [submodule "scl-metal"]
 	path = scl-metal
 	url = https://github.com/sifive/scl-metal.git
+[submodule "example-flash"]
+	path = example-flash
+	url = https://github.com/sifive/example-flash.git
+[submodule "example-emmc"]
+	path = example-emmc
+	url = https://github.com/sifive/example-emmc.git
+[submodule "software/example-flash"]
+	path = software/example-flash
+	url = https://github.com/sifive/example-flash.git
+[submodule "software/example-emmc"]
+	path = software/example-emmc
+	url = https://github.com/sifive/example-emmc.git
