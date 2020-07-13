@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "3abf11da1a6d638aecd648487f15adf5e99442ff",
+        "commit": "630565237e8f7ae9939bc5fca0ea3f35db7e5047",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -45,7 +45,7 @@
         "source": "git@github.com:sifive/benchmark-dhrystone.git"
     },
     {
-        "commit": "4486de1f0afe9d6c1fa8dd63743e5751286f3d2f",
+        "commit": "784fbb2bd1f8231793e6a39bb60fe6c7ec027cb8",
         "name": "benchmark-coremark",
         "source": "git@github.com:sifive/benchmark-coremark.git"
     },
