@@ -215,8 +215,9 @@ endif
 
 ifeq ($(PROGRAM),coremark)
 ifeq ($(RISCV_SERIES),sifive-8-series)
-# 8-series currently uses 7-series mtune, but this may change
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
+# 8-series currently uses 7-series mtune, but this may change as 8-series is natively supported in the future.
+# These flags are tuned for the U84 core.
+RISCV_XCFLAGS += -O3 -funroll-all-loops -fgcse-sm -fgcse-las -finline-functions -finline-limit=1000 -falign-functions=16 -O2 -fno-if-conversion2 -fno-tree-dominator-opts -fselective-scheduling -fno-tree-vectorize -fno-tree-sink -fno-unit-at-a-time -fno-toplevel-reorder -ffloat-store -fno-cprop-registers -mtune=sifive-7-series 
 endif
 ifeq ($(RISCV_SERIES),sifive-7-series)
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
@@ -231,6 +232,20 @@ endif
 endif
 endif
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
+# Also pass along a flag for COREMARK_PEAK_TUNING if is it specified.
+ifeq ($(COREMARK_PEAK_TUNING),1)
+RISCV_XCFLAGS += -DCOREMARK_PEAK_TUNING=$(COREMARK_PEAK_TUNING)
+endif
+# If specified via command line, also pass along any CoreMark performance monitor flags.
+ifeq ($(COREMARK_ENABLE_PERFMON),1)
+RISCV_XCFLAGS += -DCOREMARK_ENABLE_PERFMON=$(COREMARK_ENABLE_PERFMON)
+  ifneq ($(COREMARK_PERFMON_EVENT_SEL3),)
+RISCV_XCFLAGS += -DCOREMARK_PERFMON_EVENT_SEL3=$(COREMARK_PERFMON_EVENT_SEL3)
+  endif
+  ifneq ($(COREMARK_PERFMON_EVENT_SEL4),)
+RISCV_XCFLAGS += -DCOREMARK_PERFMON_EVENT_SEL4=$(COREMARK_PERFMON_EVENT_SEL4)
+  endif
+endif
 endif
 
 ifeq ($(findstring freertos,$(PROGRAM)),freertos)
