@@ -17,6 +17,7 @@ export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
 # SCL_SOURCE_PATH sets the path to the SCL source directory
 export SCL_SOURCE_PATH = $(abspath scl-metal)
 
+export FREEDOM_METAL=$(abspath freedom-metal)
 
 #############################################################
 # BSP loading
@@ -48,15 +49,13 @@ RISCV_LIBC=nano
 endif
 
 ifeq ($(RISCV_LIBC),nano)
-LIBMETAL_EXTRA=-lmetal-gloss
-METAL_WITH_EXTRA=--with-builtin-libgloss
 SPEC=nano
+include $(FREEDOM_METAL)/metal_nano.make
 endif
 
 ifeq ($(RISCV_LIBC),picolibc)
-LIBMETAL_EXTRA=-lmetal-pico
-METAL_WITH_EXTRA=--with-builtin-libmetal-pico
 SPEC=picolibc
+include $(FREEDOM_METAL)/metal_pico.make
 endif
 
 ifeq ($(SPEC),)
@@ -185,10 +184,10 @@ RISCV_LDFLAGS += -Wl,-Map,$(PROGRAM).map
 # Turn off the C standard library
 RISCV_LDFLAGS += -nostartfiles -nostdlib
 # Find the archive files and linker scripts
-RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
+RISCV_LDFLAGS += -T$(abspath $(filter %.lds,$^))
 
 # Link to the relevant libraries
-RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -lmetal $(LIBMETAL_EXTRA) -Wl,--end-group
+RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -Wl,--end-group
 
 # Load the configuration Makefile
 CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
@@ -262,11 +261,16 @@ software: $(PROGRAM_HEX)
 
 PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard $(SRC_DIR)/*.S)
 
+include $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+
+$(SRC_DIR)/$(CONFIGURATION)/metal.mk:
+	@mkdir -p $(SRC_DIR)/$(CONFIGURATION)
+	cd $(SRC_DIR) && python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION)
+
+RISCV_CFLAGS += -I$(CONFIGURATION) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
+
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-pico.a \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
@@ -281,7 +285,7 @@ $(PROGRAM_ELF): \
 		CXXFLAGS="$(RISCV_CXXFLAGS)" \
 		XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
-		LDLIBS="$(RISCV_LDLIBS)" \
+		LDLIBS="$(METAL_SRC) $(METAL_HELPER_SRC) $(RISCV_LDLIBS)" \
 		FREERTOS_METAL_VENV_PATH="$(FREERTOS_METAL_VENV_PATH)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
