@@ -263,7 +263,7 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 
 include $(SRC_DIR)/$(CONFIGURATION)/metal.mk
 
-$(SRC_DIR)/$(CONFIGURATION)/metal.mk:
+$(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp
 	@mkdir -p $(SRC_DIR)/$(CONFIGURATION)
 	cd $(SRC_DIR) && python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION)
 
