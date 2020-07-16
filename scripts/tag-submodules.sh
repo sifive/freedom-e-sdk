@@ -11,7 +11,6 @@ tag=$1; shift 1;
 
 submodules=(\
   freedom-metal \
-  freedom-devicetree-tools \
   FreeRTOS-metal \
   Segger_SystemView-metal \
   scl-metal \

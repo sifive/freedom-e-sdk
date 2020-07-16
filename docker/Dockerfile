@@ -56,11 +56,6 @@ COPY ./ freedom-e-sdk/
 # Set up the Python Virtualenv
 RUN make -C ./freedom-e-sdk virtualenv
 
-# Build and install freedom-devicetree-tools
-RUN cd ./freedom-e-sdk/freedom-devicetree-tools && \
-    ./configure --prefix=/tools/ && \
-    make -j$(nproc) install
-
 ENV PATH=/tools/bin:$PATH
 
 WORKDIR ./freedom-e-sdk

@@ -9,7 +9,6 @@ branch=$1; shift 1;
 echo "Creating release branch ${branch} based on tag ${tag}"
 submodules=(\
   freedom-metal \
-  freedom-devicetree-tools \
   FreeRTOS-metal \
   Segger_SystemView-metal \
   scl-metal \
