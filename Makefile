@@ -23,19 +23,19 @@ endif
 # then there is no need to include any of the other makefiles
 # as we are not really building anything real.
 ifeq ($(MAKECMDGOALS),standalone)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-targets)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-target-tags)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-programs)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-options)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 
 # Default PROGRAM and TARGET
@@ -108,14 +108,6 @@ endif
 
 ifeq ($(NO_INCLUDES),)
 include scripts/standalone.mk
-endif
-
-##############################################################
-# Virtualenv Script Include
-##############################################################
-
-ifeq ($(NO_INCLUDES),)
-include scripts/virtualenv.mk
 endif
 
 #############################################################
