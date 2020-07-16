@@ -17,7 +17,7 @@ export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
 # SCL_SOURCE_PATH sets the path to the SCL source directory
 export SCL_SOURCE_PATH = $(abspath scl-metal)
 
-export FREEDOM_METAL=$(abspath freedom-metal-next)
+export FREEDOM_METAL=$(abspath freedom-metal)
 
 #############################################################
 # BSP loading
