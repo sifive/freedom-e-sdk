@@ -6,7 +6,7 @@ set -x
 
 targets=($(find bsp -name settings.mk | cut -d '/' -f 2)) 
 
-programs=($(ls software))
+programs=(hello return-pass minimal-boot example-freertos-minimal empty sifive-welcome timer-interrupt csr )
 
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
@@ -17,19 +17,6 @@ for target in ${targets[@]}
 do
     for program in "${programs[@]}"
     do
-        # Coremark and Dhrystone don't fit
-        if [ "${program}" == "dhrystone" -o \
-             "${program}" == "coremark" -o  \
-             "${program}" == "example-freertos-blinky-systemview" -o \
-             "${program}" == "example-buserror" ] ; then
-            continue
-        fi
-
-	# mc examples are broken
-	if [ "${program}" == "example-freertos-mc" -o "${program}" == "example-freertos-blinky-mc" ]; then
-	    continue
-	fi
-
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean-software
     done
