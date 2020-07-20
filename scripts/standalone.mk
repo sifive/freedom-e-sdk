@@ -335,3 +335,8 @@ clean-elf2hex:
 	rm -rf scripts/elf2hex/build scripts/elf2hex/install
 clean: clean-elf2hex
 
+##############################################################
+# Virtualenv Script Include
+##############################################################
+
+include scripts/virtualenv.mk

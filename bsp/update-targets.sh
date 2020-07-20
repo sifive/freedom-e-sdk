@@ -82,24 +82,19 @@ if [ "${FREEDOM_E_SDK_VENV_PATH}" == "" ]; then
     FREEDOM_E_SDK_VENV_PATH="../venv"
 fi
 
-DTC=dtc
-MEE_HEADER_GENERATOR=freedom-metal_header-generator
 LDSCRIPT_GENERATOR=../scripts/ldscript-generator/generate_ldscript.py
 SETTINGS_GENERATOR=../scripts/esdk-settings-generator/generate_settings.py
-BARE_HEADER_GENERATOR=freedom-bare_header-generator
 OPENOCDCFG_GENERATOR=../scripts/openocdcfg-generator/generate_openocdcfg.py
 CMSIS_SVD_GENERATOR=../scripts/cmsis-svd-generator/generate_svd.py
 
 CORE_DTS_FILENAME=core.dts
 DESIGN_DTS_FILENAME=design.dts
 DTB_FILENAME=design.dtb
-HEADER_FILENAME=metal.h
 LDS_DEFAULT_FILENAME=metal.default.lds
 LDS_RAMRODATA_FILENAME=metal.ramrodata.lds
 LDS_SCRATCHPAD_FILENAME=metal.scratchpad.lds
 LDS_FREERTOS_FILENAME=metal.freertos.lds
 SETTINGS_FILENAME=settings.mk
-BARE_HEADER_FILENAME=metal-platform.h
 OPENOCDCFG_FILENAME=openocd.cfg
 OPENOCDCFG_CJTAG_FILENAME=openocd.cjtag.cfg
 CMSIS_SVD_FILENAME=design.svd
@@ -118,17 +113,12 @@ update_target() {
         . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $OVERLAY_GENERATOR --type $TARGET_TYPE --output $TARGET/$DESIGN_DTS_FILENAME --rename-include $CORE_DTS_FILENAME $TARGET/$CORE_DTS_FILENAME
     fi
 
-    # Compile temporary .dtb
-    $DTC -I dts -O dtb -o $TARGET/$DTB_FILENAME $TARGET/$DESIGN_DTS_FILENAME || warn "Failed to compile $TARGET/$DESIGN_DTS_FILENAME to dtb"
-
     # Produce parameterized files
-    pushd $TARGET && $MEE_HEADER_GENERATOR -d $DTB_FILENAME -o $HEADER_FILENAME || warn "Failed to produce $TARGET/$HEADER_FILENAME" && popd
     . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_DEFAULT_FILENAME || warn "Failed to produce $TARGET/$LDS_DEFAULT_FILENAME"
     . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_RAMRODATA_FILENAME --ramrodata || warn "Failed to produce $TARGET/$LDS_RAMRODATA_FILENAME"
     . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_SCRATCHPAD_FILENAME --scratchpad || warn "Failed to produce $TARGET/$LDS_SCRATCHPAD_FILENAME"
     . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $LDSCRIPT_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$LDS_FREERTOS_FILENAME --freertos || warn "Failed to produce $TARGET/$LDS_FREERTOS_FILENAME"
     . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $SETTINGS_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -t $TARGET_TYPE -o $TARGET/$SETTINGS_FILENAME || warn "Failed to produce $TARGET/$SETTINGS_FILENAME"
-    pushd  $TARGET && $BARE_HEADER_GENERATOR -d $DTB_FILENAME -o $BARE_HEADER_FILENAME || warn "Failed to produce $TARGET/$BARE_HEADER_FILENAME" && popd
     . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $CMSIS_SVD_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -o $TARGET/$CMSIS_SVD_FILENAME || warn "Failed to produce $TARGET/$CMSIS_SVD_FILENAME"
 
     if [[ "$TARGET_TYPE" =~ "arty" || "$TARGET_TYPE" =~ "vc707" || "$TARGET_TYPE" =~ "vcu118" || "$TARGET_TYPE" =~ "hifive" ]] ; then
@@ -141,9 +131,6 @@ update_target() {
         echo "generating $OPENOCDCFG_CJTAG_FILENAME"
         . ${FREEDOM_E_SDK_VENV_PATH}/bin/activate && $OPENOCDCFG_GENERATOR -d $TARGET/$DESIGN_DTS_FILENAME -p cjtag -b $TARGET_TYPE -o $TARGET/$OPENOCDCFG_CJTAG_FILENAME || warn "Failed to produce $TARGET/$OPENOCDCFG_CJTAG_FILENAME"
     fi
-
-    # Remove temporary .dtb
-    rm $TARGET/$DTB_FILENAME
 
     TARGET_TYPE=""
     echo ""

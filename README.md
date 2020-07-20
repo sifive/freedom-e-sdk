@@ -52,7 +52,7 @@ operating systems to RISC-V.
     * design.dts, core.dts
       - The DeviceTree description of the target. This file is used to parameterize
         the Freedom Metal library to the target device. Modifications to these files
-        are propagated to the generated files by freedom-devicetree-tools.
+        are propagated to the generated files.
     * metal.h, metal-inline.h
       - The Freedom Metal machine headers are generated files which are used internally
         to Freedom Metal to instantiate structures to support the target device.

@@ -5,7 +5,7 @@ set -euo pipefail
 TIMEOUT_SECONDS=10
 
 TARGETS=(qemu-sifive-e31 qemu-sifive-s51 qemu-sifive-u54 qemu-sifive-u54mc )
-PROGRAMS=(hello minimal-boot )
+PROGRAMS=(hello minimal-boot example-freertos-minimal dhrystone coremark timer-interrupt csr )
 
 for target in ${TARGETS[@]} ; do
     for program in ${PROGRAMS[@]} ; do
@@ -16,6 +16,9 @@ for target in ${TARGETS[@]} ; do
         case $program in
             hello)              expected_output="Hello, World!";;
             minimal-boot)       expected_output="minimal-boot";;
+            example-freertos-minimal) expected_output="FreeRTOS Demo";;
+            dhrystone)          expected_output="Dhrystone";;
+            coremark)           expected_output="CoreMark";;
             *)                  expected_output="";;
         esac
 
@@ -25,7 +28,7 @@ for target in ${TARGETS[@]} ; do
 
         >&2 echo "Running ${program} on ${target}"
 
-        timeout --foreground ${TIMEOUT_SECONDS}s bash -c "make TARGET=${target} PROGRAM=${program} simulate 2>/dev/null | tee ${run_output_file}"
+        timeout --foreground ${TIMEOUT_SECONDS}s bash -c "set -euo pipefail; make TARGET=${target} PROGRAM=${program} simulate 2>/dev/null | tee ${run_output_file}"
 
         if [ ! -f ${run_output_file} -o `cat ${run_output_file} | grep -c "${expected_output}"` -eq 0 ] ; then
             >&2 echo "${program} on ${target} failed to produce the expected output"

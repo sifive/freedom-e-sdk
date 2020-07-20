@@ -31,11 +31,6 @@ number of harts, and more. You can configure these options by editing
 ``bsp/spike/spike_options.sh`` and adding your options to the exported
 ``SPIKE_OPTIONS`` variable.
 
-Editing these options usually requires regenerating the BSP files using
-freedom-devicetree-tools, so if you edit ``SPIKE_OPTIONS``, make sure that
-the freedom-devicetree-tools submodule has been built and its output binaries
-are in your ``PATH``.
-
 Running in Spike Simulation
 ---------------------------
 

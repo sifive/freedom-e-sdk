@@ -23,19 +23,19 @@ endif
 # then there is no need to include any of the other makefiles
 # as we are not really building anything real.
 ifeq ($(MAKECMDGOALS),standalone)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-targets)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-target-tags)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-programs)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 ifeq ($(MAKECMDGOALS),list-options)
-NO_INCLUDES = true
+export NO_INCLUDES = true
 endif
 
 # Default PROGRAM and TARGET
@@ -110,14 +110,6 @@ ifeq ($(NO_INCLUDES),)
 include scripts/standalone.mk
 endif
 
-##############################################################
-# Virtualenv Script Include
-##############################################################
-
-ifeq ($(NO_INCLUDES),)
-include scripts/virtualenv.mk
-endif
-
 #############################################################
 # Prints help message
 #############################################################
@@ -135,8 +127,7 @@ help:
 	@echo "    Builds the Freedom Metal library for TARGET."
 	@echo ""
 	@echo " metal-bsp [TARGET=$(TARGET)]"
-	@echo "    Generates the BSP files for TARGET. Requires dtc"
-	@echo "    and freedom-devicetree-tools to be in your PATH"
+	@echo "    Generates the BSP files for TARGET."
 	@echo ""
 	@echo " clean [PROGRAM=$(PROGRAM)] [TARGET=$(TARGET)]"
 	@echo "       [CONFIGURATION=$(CONFIGURATION)]:"
