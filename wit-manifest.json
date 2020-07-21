@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "08d0f2a2544314a3a772cfd14f8b6df855c0963d",
+        "commit": "7b24b700d6805d30f8ca4dd22d09936c7793ba26",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -265,7 +265,7 @@
         "source": "git@github.com:sifive/example-flash.git"
     },
     {
-        "commit": "c76c56ad23453ae73c24b871ed1c991600390266",
+        "commit": "4ae2ed73185b9c634d435438f1f3799c358c2ae4",
         "name": "example-emmc",
         "source": "git@github.com:sifive/example-emmc.git"
     }
