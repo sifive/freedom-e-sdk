@@ -16,9 +16,6 @@ extern __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct met
 
 
 /* --------------------- fixed_factor_clock ------------ */
-extern __inline__ struct metal_clock * __metal_driver_fixed_factor_clock_parent(const struct metal_clock *clock);
-extern __inline__ unsigned long __metal_driver_fixed_factor_clock_mult(const struct metal_clock *clock);
-extern __inline__ unsigned long __metal_driver_fixed_factor_clock_div(const struct metal_clock *clock);
 
 
 /* --------------------- sifive_clint0 ------------ */
@@ -48,6 +45,9 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 
 
 /* --------------------- sifive_buserror0 ------------ */
+extern __inline__ uintptr_t __metal_driver_sifive_buserror0_control_base(const struct metal_buserror *beu);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_buserror0_interrupt_parent(const struct metal_buserror *beu);
+extern __inline__ int __metal_driver_sifive_buserror0_interrupt_id(const struct metal_buserror *beu);
 
 
 /* --------------------- sifive_ccache0 ------------ */
@@ -58,6 +58,9 @@ extern __inline__ uintptr_t __metal_driver_sifive_ccache0_control_base(struct me
 
 
 /* --------------------- sifive_local_external_interrupts0 ------------ */
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_local_external_interrupts0_interrupt_parent(struct metal_interrupt *controller);
+extern __inline__ int __metal_driver_sifive_local_external_interrupts0_num_interrupts(struct metal_interrupt *controller);
+extern __inline__ int __metal_driver_sifive_local_external_interrupts0_interrupt_lines(struct metal_interrupt *controller, int idx);
 
 
 /* --------------------- sifive_global_external_interrupts0 ------------ */
@@ -97,26 +100,28 @@ extern __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __
 
 
 /* --------------------- sifive_trace ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_trace_base(const struct metal_uart *uart);
+extern __inline__ unsigned long __metal_driver_sifive_trace_size(const struct metal_uart *uart);
 
 /* --------------------- sifive_nb2emmc ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_nb2emmc_base(struct metal_emmc *emmc);
-extern __inline__ unsigned long __metal_driver_sifive_nb2emmc_size(struct metal_emmc *emmc);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2emmc_base(struct metal_emmc *emmc);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2emmc_size(struct metal_emmc *emmc);
 extern __inline__ int __metal_driver_sifive_nb2emmc_num_interrupts(struct metal_emmc *emmc);
 extern __inline__ struct metal_interrupt * __metal_driver_sifive_nb2emmc_interrupt_parent(struct metal_emmc *emmc);
 extern __inline__ int __metal_driver_sifive_nb2emmc_interrupt_lines(struct metal_emmc *emmc, int idx);
 
 
 /* --------------------- sifive_nb2qspi0 ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_nb2qspi0_control_base(struct metal_qspi *qspi);
-extern __inline__ unsigned long __metal_driver_sifive_nb2qspi0_control_size(struct metal_qspi *qspi);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2qspi0_control_base(struct metal_qspi *qspi);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2qspi0_control_size(struct metal_qspi *qspi);
 extern __inline__ struct __metal_driver_sifive_nb2gpio0 * __metal_driver_sifive_nb2qspi0_pinmux(struct metal_qspi *qspi);
 extern __inline__ unsigned long __metal_driver_sifive_nb2qspi0_pinmux_output_selector(struct metal_qspi *qspi);
 extern __inline__ unsigned long __metal_driver_sifive_nb2qspi0_pinmux_source_selector(struct metal_qspi *qspi);
 
 
 /* --------------------- sifive_nb2uart0 ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_nb2uart0_control_base(struct metal_uart *uart);
-extern __inline__ unsigned long __metal_driver_sifive_nb2uart0_control_size(struct metal_uart *uart);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2uart0_control_base(struct metal_uart *uart);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2uart0_control_size(struct metal_uart *uart);
 extern __inline__ int __metal_driver_sifive_nb2uart0_num_interrupts(struct metal_uart *uart);
 extern __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interrupt_parent(struct metal_uart *uart);
 extern __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal_uart *uart);
@@ -127,8 +132,8 @@ extern __inline__ unsigned long __metal_driver_sifive_nb2uart0_pinmux_source_sel
 
 
 /* --------------------- sifive_nb2wdt ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_nb2wdt_control_base(const struct metal_watchdog *const watchdog);
-extern __inline__ unsigned long __metal_driver_sifive_nb2wdt_control_size(const struct metal_watchdog *const watchdog);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2wdt_control_base(const struct metal_watchdog *const watchdog);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2wdt_control_size(const struct metal_watchdog *const watchdog);
 extern __inline__ struct metal_interrupt * __metal_driver_sifive_nb2wdt_interrupt_parent(const struct metal_watchdog *const watchdog);
 extern __inline__ int __metal_driver_sifive_nb2wdt_interrupt_line(const struct metal_watchdog *const watchdog);
 extern __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const struct metal_watchdog *const watchdog);
@@ -152,62 +157,13 @@ extern __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const 
 /* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
-/* From refclk */
-struct __metal_driver_fixed_clock __metal_dt_refclk = {
+/* From subsystem_pbus_clock */
+struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-/* From tlclk */
-struct __metal_driver_fixed_factor_clock __metal_dt_tlclk = {
-    .clock.vtable = &__metal_driver_vtable_fixed_factor_clock.clock,
-};
-
-struct metal_memory __metal_dt_mem_itim_1800000 = {
-    ._base_address = 25165824UL,
-    ._size = 4096UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_itim_1801000 = {
-    ._base_address = 25169920UL,
-    ._size = 4096UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_itim_1802000 = {
-    ._base_address = 25174016UL,
-    ._size = 4096UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_itim_1803000 = {
-    ._base_address = 25178112UL,
-    ._size = 4096UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_testram_20000000 = {
-    ._base_address = 536870912UL,
+struct metal_memory __metal_dt_mem_testram_100000000 = {
+    ._base_address = 4294967296UL,
     ._size = 536870911UL,
     ._attrs = {
         .R = 1,
@@ -217,8 +173,8 @@ struct metal_memory __metal_dt_mem_testram_20000000 = {
         .A = 1},
 };
 
-struct metal_memory __metal_dt_mem_testram_40000000 = {
-    ._base_address = 1073741824UL,
+struct metal_memory __metal_dt_mem_testram_c00000000 = {
+    ._base_address = 51539607552UL,
     ._size = 536870911UL,
     ._attrs = {
         .R = 1,
@@ -228,9 +184,9 @@ struct metal_memory __metal_dt_mem_testram_40000000 = {
         .A = 1},
 };
 
-struct metal_memory __metal_dt_mem_memory_80000000 = {
-    ._base_address = 2147483648UL,
-    ._size = 536870912UL,
+struct metal_memory __metal_dt_mem_memory_800000000 = {
+    ._base_address = 34359738368UL,
+    ._size = 8589934592UL,
     ._attrs = {
         .R = 1,
         .W = 1,
@@ -299,9 +255,49 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .init_done = 0,
 };
 
+/* From bus_error_unit@1700000 */
+struct metal_buserror __metal_dt_bus_error_unit_1700000 = {
+};
+
+/* From bus_error_unit@1701000 */
+struct metal_buserror __metal_dt_bus_error_unit_1701000 = {
+};
+
+/* From bus_error_unit@1702000 */
+struct metal_buserror __metal_dt_bus_error_unit_1702000 = {
+};
+
+/* From bus_error_unit@1703000 */
+struct metal_buserror __metal_dt_bus_error_unit_1703000 = {
+};
+
 /* From cache_controller@2010000 */
 struct __metal_driver_sifive_ccache0 __metal_dt_cache_controller_2010000 = {
     .cache.vtable = &__metal_driver_vtable_sifive_ccache0.cache,
+};
+
+/* From local_external_interrupts_0 */
+struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0 = {
+    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
+    .init_done = 0,
+};
+
+/* From local_external_interrupts_1 */
+struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_1 = {
+    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
+    .init_done = 0,
+};
+
+/* From local_external_interrupts_2 */
+struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_2 = {
+    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
+    .init_done = 0,
+};
+
+/* From local_external_interrupts_3 */
+struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_3 = {
+    .irc.vtable = &__metal_driver_vtable_sifive_local_external_interrupts0.local0_vtable,
+    .init_done = 0,
 };
 
 /* From global_external_interrupts */
@@ -315,8 +311,33 @@ struct __metal_driver_sifive_test0 __metal_dt_teststatus_4000 = {
     .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
 };
 
-/* From nb2emmc@21009000 */
-struct __metal_driver_sifive_nb2emmc __metal_dt_nb2emmc_21009000 = {
+/* From trace_encoder_0@10000000 */
+struct __metal_driver_sifive_trace __metal_dt_trace_encoder_0_10000000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_trace.uart,
+};
+
+/* From trace_encoder_1@10001000 */
+struct __metal_driver_sifive_trace __metal_dt_trace_encoder_1_10001000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_trace.uart,
+};
+
+/* From trace_encoder_2@10002000 */
+struct __metal_driver_sifive_trace __metal_dt_trace_encoder_2_10002000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_trace.uart,
+};
+
+/* From trace_encoder_3@10003000 */
+struct __metal_driver_sifive_trace __metal_dt_trace_encoder_3_10003000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_trace.uart,
+};
+
+/* From trace_funnel@10008000 */
+struct __metal_driver_sifive_trace __metal_dt_trace_funnel_10008000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_trace.uart,
+};
+
+/* From nb2emmc@301007000 */
+struct __metal_driver_sifive_nb2emmc __metal_dt_nb2emmc_301007000 = {
     .emmc.vtable = &__metal_driver_vtable_sifive_nb2emmc.emmc,
 };
 
@@ -325,23 +346,23 @@ struct __metal_driver_sifive_flash __metal_dt_flash = {
     .flash.vtable = &__metal_driver_vtable_sifive_flash.flash,
 };
 
-/* From nb2qspi0@20400000 */
-struct __metal_driver_sifive_nb2qspi0 __metal_dt_nb2qspi0_20400000 = {
+/* From nb2qspi0@261010000 */
+struct __metal_driver_sifive_nb2qspi0 __metal_dt_nb2qspi0_261010000 = {
     .qspi.vtable = &__metal_driver_vtable_sifive_nb2qspi0.qspi,
 };
 
-/* From nb2uart0@20505000 */
-struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_20505000 = {
+/* From nb2uart0@302011000 */
+struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302011000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_nb2uart0.uart,
 };
 
-/* From nb2uart0@20506000 */
-struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_20506000 = {
+/* From nb2uart0@302012000 */
+struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302012000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_nb2uart0.uart,
 };
 
-/* From nb2wdt@2050E000 */
-struct __metal_driver_sifive_nb2wdt __metal_dt_nb2wdt_2050E000 = {
+/* From nb2wdt@302058000 */
+struct __metal_driver_sifive_nb2wdt __metal_dt_nb2wdt_302058000 = {
     .watchdog.vtable = &__metal_driver_vtable_sifive_nb2wdt.watchdog,
 };
 

@@ -15,9 +15,8 @@ ENTRY(_enter)
 
 MEMORY
 {
-    itim (airwx) : ORIGIN = 0x1801000, LENGTH = 0x1000
-    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x20000000
-    rom (irx!wa) : ORIGIN = 0x20000000, LENGTH = 0x1fffffff
+    ram (airwx) : ORIGIN = 0x800000000, LENGTH = 0x200000000
+    rom (irx!wa) : ORIGIN = 0x100000000, LENGTH = 0x1fffffff
 }
 
 PHDRS
@@ -77,15 +76,13 @@ SECTIONS
 
     /* The memory_ecc_scrub bit is used by _entry code to enable/disable
      * memories scrubbing to zero  */
-    PROVIDE(__metal_eccscrub_bit = 0);
+    PROVIDE(__metal_eccscrub_bit = 1);
 
     /* The RAM memories map for ECC scrubbing */
-    PROVIDE( metal_itim_0_memory_start = 0x1800000 );
-    PROVIDE( metal_itim_0_memory_end = 0x1800000 + 0x4000 );
     /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
     /* User is recommended to enable the full size for manual RTL simulation run! */
-    PROVIDE( metal_memory_0_memory_start = 0x80000000 );
-    PROVIDE( metal_memory_0_memory_end = 0x80000000 + 0x10000 );
+    PROVIDE( metal_memory_0_memory_start = 0x800000000 );
+    PROVIDE( metal_memory_0_memory_end = 0x800000000 + 0x10000 );
 
     /* ROM SECTION
      *
@@ -168,7 +165,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >itim AT>rom :itim_init
+    } >ram AT>rom :itim_init
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );

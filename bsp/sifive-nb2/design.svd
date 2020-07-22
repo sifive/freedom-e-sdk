@@ -14,7 +14,7 @@
       <baseAddress>0x2010000</baseAddress>
       <addressBlock>
         <offset>0</offset>
-        <size>0x1000</size>
+        <size>0x4000</size>
         <usage>registers</usage>
       </addressBlock>
       <registers>
@@ -784,6 +784,36 @@
           <addressOffset>0x20C</addressOffset>
         </register>
         <register>
+          <name>priority_132</name>
+          <description>PRIORITY Register for interrupt id 132</description>
+          <addressOffset>0x210</addressOffset>
+        </register>
+        <register>
+          <name>priority_133</name>
+          <description>PRIORITY Register for interrupt id 133</description>
+          <addressOffset>0x214</addressOffset>
+        </register>
+        <register>
+          <name>priority_134</name>
+          <description>PRIORITY Register for interrupt id 134</description>
+          <addressOffset>0x218</addressOffset>
+        </register>
+        <register>
+          <name>priority_135</name>
+          <description>PRIORITY Register for interrupt id 135</description>
+          <addressOffset>0x21C</addressOffset>
+        </register>
+        <register>
+          <name>priority_136</name>
+          <description>PRIORITY Register for interrupt id 136</description>
+          <addressOffset>0x220</addressOffset>
+        </register>
+        <register>
+          <name>priority_137</name>
+          <description>PRIORITY Register for interrupt id 137</description>
+          <addressOffset>0x224</addressOffset>
+        </register>
+        <register>
           <name>pending_0</name>
           <description>PENDING Register for interrupt ids 31 to 0</description>
           <addressOffset>0x1000</addressOffset>
@@ -805,7 +835,7 @@
         </register>
         <register>
           <name>pending_4</name>
-          <description>PENDING Register for interrupt ids 131 to 128</description>
+          <description>PENDING Register for interrupt ids 137 to 128</description>
           <addressOffset>0x1010</addressOffset>
         </register>
         <register>
@@ -830,7 +860,7 @@
         </register>
         <register>
           <name>enable_4_0</name>
-          <description>ENABLE Register for interrupt ids 131 to 128 for hart 0</description>
+          <description>ENABLE Register for interrupt ids 137 to 128 for hart 0</description>
           <addressOffset>0x2010</addressOffset>
         </register>
         <register>
@@ -855,7 +885,7 @@
         </register>
         <register>
           <name>enable_4_1</name>
-          <description>ENABLE Register for interrupt ids 131 to 128 for hart 1</description>
+          <description>ENABLE Register for interrupt ids 137 to 128 for hart 1</description>
           <addressOffset>0x2090</addressOffset>
         </register>
         <register>
@@ -880,7 +910,7 @@
         </register>
         <register>
           <name>enable_4_2</name>
-          <description>ENABLE Register for interrupt ids 131 to 128 for hart 2</description>
+          <description>ENABLE Register for interrupt ids 137 to 128 for hart 2</description>
           <addressOffset>0x2110</addressOffset>
         </register>
         <register>
@@ -905,7 +935,7 @@
         </register>
         <register>
           <name>enable_4_3</name>
-          <description>ENABLE Register for interrupt ids 131 to 128 for hart 3</description>
+          <description>ENABLE Register for interrupt ids 137 to 128 for hart 3</description>
           <addressOffset>0x2190</addressOffset>
         </register>
         <register>
