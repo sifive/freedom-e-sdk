@@ -32,7 +32,7 @@
 | mem-latency                           |                     |  
 | minimal-boot                          | Y                   | Y
 | multicore-hello                       | Y                   | Y
-| plic-interrupts                       |                     |  
+| plic-interrupts                       | Y                   | Y
 | return-fail                           | Y                   | Y
 | return-pass                           | Y                   | Y
 | sifive-welcome                        | Y                   | Y
