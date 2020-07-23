@@ -27,8 +27,8 @@
 | example-user-syscall                  | Y                   | Y
 | example-watchdog                      |                     |  
 | hello                                 | Y                   |  
-| local-interrupt                       | Y                   |  
-| local-vector-interrupts               |                     |  
+| local-interrupt                       | Y                   | Y
+| local-vector-interrupts               | Y                   | Y
 | mem-latency                           |                     |  
 | minimal-boot                          | Y                   | Y
 | multicore-hello                       | Y                   | Y
