@@ -1,7 +1,7 @@
 | Example				| Builds	      | Runs
 | ------				| ------	      | ------
 | atomics				| Y		      | Y
-| cflush                                |                     |  
+| cflush                                | Y                   | Y
 | clic-hardware-vector-interrupts       |                     |  
 | clic-nested-interrupts                |                     |  
 | clic-nonvector-interrupts             |                     |  
