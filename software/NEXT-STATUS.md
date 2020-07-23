@@ -23,8 +23,8 @@
 | example-pwm                           | Y                   |  
 | example-rtc                           |                     |  
 | example-spi                           | Y                   | Y
-| example-user-mode                     |                     |  
-| example-user-syscall                  |                     |  
+| example-user-mode                     | Y                   | Y 
+| example-user-syscall                  | Y                   | Y
 | example-watchdog                      |                     |  
 | hello                                 | Y                   |  
 | local-interrupt                       | Y                   |  
