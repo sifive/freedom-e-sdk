@@ -39,4 +39,3 @@
 | software-interrupt                    | Y                   | Y 
 | test-coreip                           |                     |  
 | timer-interrupt                       | Y                   | Y 
-| uart-interrupt                        |                     |  

@@ -175,11 +175,6 @@
         "source": "git@github.com:sifive/example-minimal-boot.git"
     },
     {
-        "name": "example-uart-interrupt",
-        "commit": "2d246cd192c3bf69cff51c434f838f4095e36b5e",
-        "source": "git@github.com:sifive/example-uart-interrupt.git"
-    },
-    {
         "name": "example-atomics",
         "commit": "b99fb5d268285231114efe144a7cbd758f1b5779",
         "source": "git@github.com:sifive/example-atomics.git"
