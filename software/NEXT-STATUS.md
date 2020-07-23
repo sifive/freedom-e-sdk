@@ -36,8 +36,7 @@
 | return-fail                           | Y                   | Y
 | return-pass                           | Y                   | Y
 | sifive-welcome                        | Y                   | Y
-| software                              |                     |  
-| software-interrupt                    |                     |  
+| software-interrupt                    | Y                   | Y 
 | test-coreip                           |                     |  
 | timer-interrupt                       | Y                   | Y 
 | uart-interrupt                        |                     |  
