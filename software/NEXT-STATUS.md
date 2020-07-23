@@ -26,7 +26,7 @@
 | example-user-mode                     | Y                   | Y 
 | example-user-syscall                  | Y                   | Y
 | example-watchdog                      |                     |  
-| hello                                 | Y                   |  
+| hello                                 | Y                   | Y
 | local-interrupt                       | Y                   | Y
 | local-vector-interrupts               | Y                   | Y
 | mem-latency                           |                     |  
