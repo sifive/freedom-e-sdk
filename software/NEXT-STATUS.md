@@ -31,7 +31,7 @@
 | local-vector-interrupts               |                     |  
 | mem-latency                           |                     |  
 | minimal-boot                          | Y                   | Y
-| multicore-hello                       |                     |  
+| multicore-hello                       | Y                   | Y
 | plic-interrupts                       |                     |  
 | return-fail                           | Y                   | Y
 | return-pass                           | Y                   | Y
