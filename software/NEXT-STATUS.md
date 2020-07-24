@@ -29,7 +29,7 @@
 | hello                                 | Y                   | Y
 | local-interrupt                       | Y                   | Y
 | local-vector-interrupts               | Y                   | Y
-| mem-latency                           |                     |  
+| mem-latency                           | Y                   | Y
 | minimal-boot                          | Y                   | Y
 | multicore-hello                       | Y                   | Y
 | plic-interrupts                       | Y                   | Y
