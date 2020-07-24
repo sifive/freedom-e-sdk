@@ -19,7 +19,7 @@
 | example-hpm                           | Y                   | Y
 | example-i2c                           | Y                   |
 | example-itim                          | Y                   | Y
-| example-pmp                           |                     |  
+| example-pmp                           | Y                   |  
 | example-pwm                           | Y                   |  
 | example-rtc                           |                     |  
 | example-spi                           | Y                   | Y
