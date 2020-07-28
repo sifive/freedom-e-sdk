@@ -261,7 +261,7 @@ SECTIONS
         PROVIDE(metal_segment_stack_end = .);
     } >ram :ram
 
-    .heap (NOLOAD) : ALIGN(4) {
+    .heap (NOLOAD) : ALIGN(8) {
         PROVIDE( __end = . );
         PROVIDE( __heap_start = . );
         PROVIDE( metal_segment_heap_target_start = . );

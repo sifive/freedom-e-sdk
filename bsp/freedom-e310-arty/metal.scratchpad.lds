@@ -72,15 +72,6 @@ SECTIONS
      * certain core features */
     PROVIDE(__metal_chicken_bit = 1);
 
-    /* The memory_ecc_scrub bit is used by _entry code to enable/disable
-     * memories scrubbing to zero  */
-    PROVIDE(__metal_eccscrub_bit = 0);
-
-    /* The RAM memories map for ECC scrubbing */
-    PROVIDE( metal_dtim_0_memory_start = 0x80000000 );
-    PROVIDE( metal_dtim_0_memory_end = 0x80000000 + 0x4000 );
-    PROVIDE( metal_itim_0_memory_start = 0x8000000 );
-    PROVIDE( metal_itim_0_memory_end = 0x8000000 + 0x4000 );
 
     /* ROM SECTION
      *
@@ -261,7 +252,7 @@ SECTIONS
         PROVIDE(metal_segment_stack_end = .);
     } >ram :ram
 
-    .heap (NOLOAD) : ALIGN(4) {
+    .heap (NOLOAD) : ALIGN(8) {
         PROVIDE( __end = . );
         PROVIDE( __heap_start = . );
         PROVIDE( metal_segment_heap_target_start = . );
