@@ -70,15 +70,6 @@ SECTIONS
      * certain core features */
     PROVIDE(__metal_chicken_bit = 1);
 
-    /* The memory_ecc_scrub bit is used by _entry code to enable/disable
-     * memories scrubbing to zero  */
-    PROVIDE(__metal_eccscrub_bit = 0);
-
-    /* The RAM memories map for ECC scrubbing */
-    /* Default memory to zero-scrub for at most 64KB, for limiting RTL simulation run time. */
-    /* User is recommended to enable the full size for manual RTL simulation run! */
-    PROVIDE( metal_memory_0_memory_start = 0x80000000 );
-    PROVIDE( metal_memory_0_memory_end = 0x80000000 + 0x10000 );
 
     /* ROM SECTION
      *
@@ -262,7 +253,7 @@ SECTIONS
         PROVIDE(metal_segment_stack_end = .);
     } >testram :ram
 
-    .heap (NOLOAD) : ALIGN(4) {
+    .heap (NOLOAD) : ALIGN(8) {
         PROVIDE( __end = . );
         PROVIDE( __heap_start = . );
         PROVIDE( metal_segment_heap_target_start = . );

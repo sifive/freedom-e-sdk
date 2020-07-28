@@ -1,41 +1,41 @@
 [
     {
-        "commit": "3670edbb341df75008f51bb7813df1951206802f",
+        "commit": "4c0e8c03b7dca6bc48a0a4de23da7e382062ae8f",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "3abf11da1a6d638aecd648487f15adf5e99442ff",
+        "commit": "bdeb3fd57b46bc30fceb1fb0ac3841ca19d23620",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
     {
-        "commit": "5f3ead16ab35bb5a6d39fd2881ffa81b06741bb2",
+        "commit": "136c7b9dc515770f5dde3b2193ecef1d1b060e07",
         "name": "elf2hex",
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "5b08c547e4c3f08b45b72d491d858bdcea9cbd3c",
+        "commit": "934c69d374e1ef3f5c9661535f4d8a5a65f776cb",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "3a1d07ecaa90471a798e2b2003d7b33038d6c7ae",
+        "commit": "0e3f81db4ba27c87387360bae5054783379be949",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "3a6205340b165b29fbc6c0bdf178c8782df2b583",
+        "commit": "b285612ecfaf19efea1b4b8f9143bb2f1256831f",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
-        "commit": "7e23e1a708eb4ccf2fe198261771689a875a9e54",
+        "commit": "6bba6b25e02f68990fdc84ac06d94634189f01df",
         "name": "openocdcfg-generator",
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "9728da6024564a8cb7df66baf70920c4ed5af4e0",
+        "commit": "795d65bc6c033c6d97222f2683f2112631558aa2",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -200,12 +200,12 @@
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
     {
-        "commit": "1eaafa44bcb5c7d6c1e1e25b84ac52eeef0b1a4f",
+        "commit": "29abc54367d0d8ee150805575ae2e1c34a69c251",
         "name": "FreeRTOS-metal",
         "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
     {
-        "commit": "8f6d4bd2afabe7e3e8ef6fb533fa2bb3a0547ae3",
+        "commit": "cd89dbc2f3d5222d9856780517261ad7a2804805",
         "name": "Segger_SystemView-metal",
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
