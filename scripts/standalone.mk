@@ -263,9 +263,21 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 
 include $(SRC_DIR)/$(CONFIGURATION)/metal.mk
 
+APPLICATION_CONFIG = $(wildcard $(SRC_DIR)/*.ini)
+
+ifeq ($(APPLICATION_CONFIG),)
 $(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp
 	@mkdir -p $(SRC_DIR)/$(CONFIGURATION)
-	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && cd $(SRC_DIR) && python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION)
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
+	  cd $(SRC_DIR) && \
+	  python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION)
+else
+$(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLICATION_CONFIG)
+	@mkdir -p $(SRC_DIR)/$(CONFIGURATION)
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
+	  cd $(SRC_DIR) && \
+	  python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION) --application-config $(APPLICATION_CONFIG)
+endif
 
 RISCV_CFLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
 RISCV_CXX_FLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
