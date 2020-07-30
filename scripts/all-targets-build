@@ -1,12 +1,10 @@
 #!/bin/bash
 
-set -e
-set -o pipefail
-set -x
+set -euxo pipefail
 
 targets=($(find bsp -name settings.mk | cut -d '/' -f 2)) 
 
-programs=(hello return-pass minimal-boot example-freertos-minimal empty sifive-welcome timer-interrupt csr )
+programs=($(ls software))
 
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
@@ -17,10 +15,22 @@ for target in ${targets[@]}
 do
     for program in "${programs[@]}"
     do
-        make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
-        make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean-software
+        # Coremark and Dhrystone don't fit on all targets
+        if [[ "${program}" == "dhrystone" ]] ; then continue; fi
+        if [[ "${program}" == "coremark" ]] ; then continue; fi
+
+        # Exclude CLIC, buserror, and SystemView examples
+        if [[ "${program}" == *"clic"* ]] ; then continue; fi
+        if [[ "${program}" == *"buserror"* ]] ; then continue; fi
+        if [[ "${program}" == *"systemview"* ]] ; then continue; fi
+
+	# mc examples are broken
+	if [[ "${program}" == "example-freertos-mc" ]]; then continue; fi
+	if [[ "${program}" == "example-freertos-blinky-mc" ]]; then continue; fi
+
+        make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" software
+        make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean
     done
-    make TARGET="${target}" clean
 done
 
 echo "PASSED"
