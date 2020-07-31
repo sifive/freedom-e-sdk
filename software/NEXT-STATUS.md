@@ -2,10 +2,10 @@
 | ------				| ------	      | ------
 | atomics				| Y		      | Y
 | cflush                                | Y                   | Y
-| clic-hardware-vector-interrupts       |                     |  
-| clic-nested-interrupts                |                     |  
-| clic-nonvector-interrupts             |                     |  
-| clic-selective-vector-interrupts      |                     |  
+| clic-hardware-vector-interrupts       | Y                   | Y
+| clic-nested-interrupts                | Y                   | Y
+| clic-nonvector-interrupts             | Y                   | Y
+| clic-selective-vector-interrupts      | Y                   | Y
 | coremark                              | Y                   | Y
 | csr                                   | Y                   | Y
 | dhrystone                             | Y                   | Y
