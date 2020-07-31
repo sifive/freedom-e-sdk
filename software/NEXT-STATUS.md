@@ -21,11 +21,11 @@
 | example-itim                          | Y                   | Y
 | example-pmp                           | Y                   |  
 | example-pwm                           | Y                   |  
-| example-rtc                           |                     |  
+| example-rtc                           | Y                   | Y
 | example-spi                           | Y                   | Y
 | example-user-mode                     | Y                   | Y 
 | example-user-syscall                  | Y                   | Y
-| example-watchdog                      |                     |  
+| example-watchdog                      | Y                   | Y
 | hello                                 | Y                   | Y
 | local-interrupt                       | Y                   | Y
 | local-vector-interrupts               | Y                   | Y
