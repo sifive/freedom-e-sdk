@@ -319,6 +319,7 @@ int main(int argc, char *argv[]) {
     uint8_t *ptr8;
     size_t digest_len;
     size_t i;
+    size_t len;
 
 	struct metal_cpu *cpu;
 	cpu = metal_cpu_get(metal_cpu_get_current_hartid());
@@ -438,11 +439,11 @@ int main(int argc, char *argv[]) {
     {
         if (SCL_OK == metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_CCM))
         {
-            if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), (uint8_t *)NIST_AAD_CCM, sizeof(NIST_AAD_CCM), 24) )
+            if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), (uint8_t *)NIST_AAD_CCM, sizeof(NIST_AAD_CCM), sizeof(NIST_DATA_CCM)) )
             {
-                if (SCL_OK ==  metal_sifive_scl.aes_func.auth_core(&metal_sifive_scl, &ctx_aes_auth, SCL_LITTLE_ENDIAN_MODE, (uint8_t *)NIST_DATA_CCM, sizeof(NIST_DATA_CCM), (uint8_t *)tmp) )
+                if (SCL_OK ==  metal_sifive_scl.aes_func.auth_core(&metal_sifive_scl, &ctx_aes_auth, (uint8_t *)NIST_DATA_CCM, sizeof(NIST_DATA_CCM), (uint8_t *)tmp, &len) )
                 {
-                    if (SCL_OK ==  metal_sifive_scl.aes_func.auth_finish(&metal_sifive_scl, &ctx_aes_auth, (uint8_t *)&tmp[2], tag) )
+                    if (SCL_OK ==  metal_sifive_scl.aes_func.auth_finish(&metal_sifive_scl, &ctx_aes_auth, (uint8_t *)&tmp[len / sizeof(uint64_t)], tag) )
                     {
                         cyclecount = metal_cpu_get_timer(cpu)-oldcount;
 
@@ -513,7 +514,7 @@ int main(int argc, char *argv[]) {
         {
             if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_GCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, 0, (uint8_t *)NIST_AAD_GCM, sizeof(NIST_AAD_GCM), sizeof(NIST_DATA_GCM)) )
             {
-                if (SCL_OK ==  metal_sifive_scl.aes_func.auth_core(&metal_sifive_scl, &ctx_aes_auth, SCL_LITTLE_ENDIAN_MODE, (uint8_t *)NIST_DATA_GCM, sizeof(NIST_DATA_GCM), (uint8_t *)tmp) )
+                if (SCL_OK ==  metal_sifive_scl.aes_func.auth_core(&metal_sifive_scl, &ctx_aes_auth, (uint8_t *)NIST_DATA_GCM, sizeof(NIST_DATA_GCM), (uint8_t *)tmp, &len) )
                 {
                     if (SCL_OK ==  metal_sifive_scl.aes_func.auth_finish(&metal_sifive_scl, &ctx_aes_auth, NULL, tag) )
                     {
