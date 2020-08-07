@@ -245,12 +245,12 @@
         "source": "git@github.com:sifive/example-hpm.git"
     },
     {
-        "commit": "e75b44749e07baa0b9ed53b5a693b5a0be812914",
+        "commit": "4818abe8f032319d91325f320147da9ca8f9f17d",
         "name": "scl-metal",
         "source": "git@github.com:sifive/scl-metal.git"
     },
     {
-        "commit": "9175f625d60214c2eb2232059aed2d48cd7cb0c2",
+        "commit": "e893e4701366791b7fd0e8fc120a48638d89d6d1",
         "name": "example-hca-metal",
         "source": "git@github.com:sifive/example-hca-metal.git"
     },
