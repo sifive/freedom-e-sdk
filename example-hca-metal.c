@@ -380,7 +380,7 @@ int main(int argc, char *argv[]) {
     {
         if (SCL_OK == metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_CCM2))
         {
-            if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), (uint8_t *)NIST_AAD_CCM2, sizeof(NIST_AAD_CCM2), 0) )
+            if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 2), (uint8_t *)NIST_AAD_CCM2, sizeof(NIST_AAD_CCM2), 0) )
             {
                 if (SCL_OK ==  metal_sifive_scl.aes_func.auth_finish(&metal_sifive_scl, &ctx_aes_auth, (uint8_t *)&tmp[2], tag) )
                 {
@@ -439,7 +439,7 @@ int main(int argc, char *argv[]) {
     {
         if (SCL_OK == metal_sifive_scl.aes_func.setiv(&metal_sifive_scl, NIST_IV_CCM))
         {
-            if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 1), (uint8_t *)NIST_AAD_CCM, sizeof(NIST_AAD_CCM), sizeof(NIST_DATA_CCM)) )
+            if (SCL_OK ==  metal_sifive_scl.aes_func.auth_init(&metal_sifive_scl, &ctx_aes_auth, SCL_AES_CCM, SCL_ENCRYPT, SCL_LITTLE_ENDIAN_MODE, CCM_TQ(7, 2), (uint8_t *)NIST_AAD_CCM, sizeof(NIST_AAD_CCM), sizeof(NIST_DATA_CCM)) )
             {
                 if (SCL_OK ==  metal_sifive_scl.aes_func.auth_core(&metal_sifive_scl, &ctx_aes_auth, (uint8_t *)NIST_DATA_CCM, sizeof(NIST_DATA_CCM), (uint8_t *)tmp, &len) )
                 {
