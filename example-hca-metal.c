@@ -313,7 +313,6 @@ int main(int argc, char *argv[]) {
     uint32_t val;
     uint64_t oldcount, cyclecount;
     uint64_t tmp[8] = {0};
-    uint8_t tmp8[64] = {0};
     uint64_t tag[2] = {0};
     uint64_t *ptr64;
     uint8_t *ptr8;
