@@ -30,7 +30,9 @@ void illegal_instruction_fault_handler(struct metal_cpu *cpu, int ecode)
 
 void user_mode_entry_point()
 {
-	/* Attempt to read from a machine-mode CSR */
+	/* Attempt to read from a machine-mode CSR. Note that the misa CSR has width MXLEN, so "int" 
+	 * may be inappropriate in a real application; there is no harm here since the value is ignored. 
+	 * Please see the ISA spec (II:3.1.1) for details on determining MXLEN. */
 	int misa;
 	__asm__ volatile("csrr %0, misa" : "=r" (misa));
 
