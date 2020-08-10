@@ -237,14 +237,6 @@ list-programs:
 list-options: list-programs list-targets
 
 #############################################################
-# Import rules to build Freedom Metal
-#############################################################
-
-ifeq ($(NO_INCLUDES),)
-include scripts/libmetal.mk
-endif
-
-#############################################################
 # Standalone Project Export
 #############################################################
 
@@ -277,7 +269,6 @@ standalone: \
 		scripts/esdk-settings-generator \
 		scripts/elf2hex \
 		scripts/standalone.mk \
-		scripts/libmetal.mk \
 		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
@@ -356,7 +347,6 @@ endif
 	echo "CONFIGURATION ?= ${CONFIGURATION}" >> $</Makefile
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
-	cat scripts/libmetal.mk >> $</Makefile
 else # "rtl" not in TARGET_TAGS
 standalone: \
 		$(STANDALONE_DEST) \
@@ -373,7 +363,6 @@ standalone: \
 		scripts/openocdcfg-generator \
 		scripts/esdk-settings-generator \
 		scripts/standalone.mk \
-		scripts/libmetal.mk \
 		scripts/virtualenv.mk
 	cp -r $(addprefix $(BSP_DIR)/,$(filter-out build,$(shell ls $(BSP_DIR)))) $</bsp/
 
@@ -449,7 +438,6 @@ endif
 	echo "CONFIGURATION ?= ${CONFIGURATION}" >> $</Makefile
 	echo "" >> $</Makefile
 	cat scripts/standalone.mk >> $</Makefile
-	cat scripts/libmetal.mk >> $</Makefile
 endif # rtl in TARGET_TAGS
 
 endif # STANDALONE_DEST
