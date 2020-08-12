@@ -165,9 +165,9 @@ RISCV_CFLAGS   += -ffunction-sections -fdata-sections
 RISCV_CXXFLAGS += -ffunction-sections -fdata-sections
 endif
 # Include the Metal headers
-RISCV_CCASFLAGS += -I$(abspath $(BSP_DIR)/install/include/)
-RISCV_CFLAGS    += -I$(abspath $(BSP_DIR)/install/include/)
-RISCV_CXXFLAGS  += -I$(abspath $(BSP_DIR)/install/include/)
+RISCV_CCASFLAGS += -I$(abspath $(FREEDOM_METAL))
+RISCV_CFLAGS    += -I$(abspath $(FREEDOM_METAL))
+RISCV_CXXFLAGS  += -I$(abspath $(FREEDOM_METAL))
 # Reference selected library
 RISCV_ASFLAGS   += --specs=$(SPEC).specs
 RISCV_CCASFLAGS += --specs=$(SPEC).specs
@@ -261,31 +261,12 @@ software: $(PROGRAM_HEX)
 
 PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard $(SRC_DIR)/*.S)
 
-include $(SRC_DIR)/$(CONFIGURATION)/metal.mk
-
-APPLICATION_CONFIG = $(wildcard $(SRC_DIR)/*.ini)
-
-ifeq ($(APPLICATION_CONFIG),)
-$(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp
-	@mkdir -p $(SRC_DIR)/$(CONFIGURATION)
-	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
-	  cd $(SRC_DIR) && \
-	  python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION)
-else
-$(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLICATION_CONFIG)
-	@mkdir -p $(SRC_DIR)/$(CONFIGURATION)
-	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
-	  cd $(SRC_DIR) && \
-	  python3 $(FREEDOM_METAL)/scripts/codegen.py --dts $(BSP_DIR)/design.dts --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks --output-dir=$(CONFIGURATION) --application-config $(APPLICATION_CONFIG)
-endif
-
-RISCV_CFLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
-RISCV_CXX_FLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
-
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
+		$(METAL_SRC) $(METAL_HELPER_SRC) \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)
+	$(MAKE) $(SRC_DIR)/$(CONFIGURATION)/metal.mk
 	$(MAKE) -C $(SRC_DIR) $(basename $(notdir $@)) \
 		PORT_DIR=$(PORT_DIR) \
 		PROGRAM=$(PROGRAM) \
@@ -319,13 +300,95 @@ $(PROGRAM_HEX): \
 	$(RISCV_OBJCOPY) -O ihex $(PROGRAM_ELF) $@
 endif
 
-
 .PHONY: clean-software
 clean-software:
 	$(MAKE) -C $(SRC_DIR) PORT_DIR=$(PORT_DIR) clean
 	rm -rf $(SRC_DIR)/$(CONFIGURATION)
 .PHONY: clean
 clean: clean-software
+
+#############################################################
+# Metal Code Generation
+#############################################################
+
+include $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+
+# If the program has a .ini file, pass it to the Metal code generator
+APPLICATION_CONFIG = $(wildcard $(SRC_DIR)/*.ini)
+ifneq ($(APPLICATION_CONFIG),)
+METAL_CODEGEN_FLAGS += --application-config $(APPLICATION_CONFIG)
+endif
+
+$(SRC_DIR)/$(CONFIGURATION)/metal.mk: $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLICATION_CONFIG) $(METAL_MK_DEPEND)
+	@mkdir -p $(dir $@)
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
+	  python3 $(FREEDOM_METAL)/scripts/codegen.py \
+	    --dts $(BSP_DIR)/design.dts \
+	    --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks \
+	    --output-dir $(dir $@) \
+	    $(METAL_CODEGEN_FLAGS)
+	@touch $@
+
+$(METAL_SRC): $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+$(METAL_HELPER_SRC): $(SRC_DIR)/$(CONFIGURATION)/metal.mk
+
+RISCV_CFLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
+RISCV_CXX_FLAGS += -I$(abspath $(SRC_DIR)/$(CONFIGURATION)) $(METAL_CFLAGS) $(METAL_HELPER_CFLAGS)
+
+#############################################################
+# Metal BSP Support Files
+#############################################################
+
+OVERLAY_GENERATOR = scripts/devicetree-overlay-generator/generate_overlay.py
+LDSCRIPT_GENERATOR = scripts/ldscript-generator/generate_ldscript.py
+CMSIS_SVD_GENERATOR = scripts/cmsis-svd-generator/generate_svd.py
+SETTINGS_GENERATOR = scripts/esdk-settings-generator/generate_settings.py
+
+$(BSP_DIR)/design.dts: $(BSP_DIR)/core.dts $(OVERLAY_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(OVERLAY_GENERATOR) --type $(TARGET) --output $@ --rename-include $(notdir $<) $<
+
+$(BSP_DIR)/metal.default.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@
+
+$(BSP_DIR)/metal.ramrodata.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --ramrodata
+
+$(BSP_DIR)/metal.scratchpad.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --scratchpad
+
+$(BSP_DIR)/metal.freertos.lds: $(BSP_DIR)/design.dts $(LDSCRIPT_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(LDSCRIPT_GENERATOR) -d $< -o $@ --freertos
+
+$(BSP_DIR)/design.svd: $(BSP_DIR)/design.dts $(CMSIS_SVD_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(CMSIS_SVD_GENERATOR) -d $< -o $@
+
+$(BSP_DIR)/settings.mk: $(BSP_DIR)/design.dts $(SETTINGS_GENERATOR)
+	$(MAKE) -f scripts/virtualenv.mk virtualenv
+	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && $(SETTINGS_GENERATOR) -d $< -o $@ -t $(TARGET)
+
+ifeq ($(findstring spike,$(TARGET)),spike)
+$(BSP_DIR)/spike_options.sh:
+	echo "export SPIKE_OPTIONS=\"\"" > $@
+
+ifneq ($(shell which spike),)
+$(BSP_DIR)/core.dts: $(BSP_DIR)/spike_options.sh
+	. $< && scripts/spikedts $@
+endif # which spike
+endif # findstring spike,$(TARGET)
+
+.PHONY: bsp
+metal-bsp:\
+	   $(BSP_DIR)/metal.default.lds \
+	   $(BSP_DIR)/metal.ramrodata.lds \
+	   $(BSP_DIR)/metal.scratchpad.lds \
+	   $(BSP_DIR)/metal.freertos.lds \
+	   $(BSP_DIR)/settings.mk
 
 #############################################################
 # elf2hex
