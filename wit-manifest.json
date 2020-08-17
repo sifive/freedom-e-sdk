@@ -35,7 +35,7 @@
         "name": "esdk-settings-generator"
     },
     {
-        "commit": "0ddff533cc9052c524990d5ace4560372053314b",
+        "commit": "61eab9139403e4bc98486e0cd4f5d07bf72e9456",
         "source": "git@github.com:sifive/benchmark-dhrystone.git",
         "name": "benchmark-dhrystone"
     },
@@ -135,7 +135,7 @@
         "name": "example-return-pass"
     },
     {
-        "commit": "e8675dc71ff898cbf1aab09d4541e3681bdf718b",
+        "commit": "66462688734f0020c143acae6799ac607edfac4c",
         "source": "git@github.com:sifive/example-sifive-welcome.git",
         "name": "example-sifive-welcome"
     },
