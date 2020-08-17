@@ -313,7 +313,7 @@ export def makeFreedomESDKTargetFromCoreDTS sdk targetName coreDTS targetType =
       | head
       | getOrElse (makeBadPath (makeError "Unable to get generated core.dts"))
     makeFreedomMetalCodeGenerationOptions designDTS (coreDTS, Nil) bspDir
-    | runFreedomMetalCodeGeneration
+    | runFreedomMetalCodeGeneration sdkDir
     | getJobOutputs
     | map getPathResult
     | findFail

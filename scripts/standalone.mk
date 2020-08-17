@@ -2,6 +2,8 @@
 # Makefile Arguments
 #############################################################
 
+# ROOT_DIR sets the root directory of Freedom E SDK or standalone project
+ROOT_DIR ?= $(abspath .)
 # BSP_DIR sets the path to the target-specific board support package.
 BSP_DIR ?= $(abspath bsp)
 # SRC_DIR sets the path to the program source directory
@@ -330,8 +332,8 @@ $(METAL_MK): $(FREEDOM_E_SDK_VENV_PATH)/.stamp $(APPLICATION_CONFIG) $(METAL_MK_
 	. $(FREEDOM_E_SDK_VENV_PATH)/bin/activate && \
 	  python3 $(FREEDOM_METAL)/scripts/codegen.py \
 	    --dts $(BSP_DIR)/design.dts \
-	    --source-paths $(FREEDOM_METAL) $(FREEDOM_METAL)/sifive-blocks \
-	    --output-dir $(dir $@) \
+	    --source-paths freedom-metal freedom-metal/sifive-blocks \
+	    --output-dir $(shell realpath $(dir $@) --relative-to=$(ROOT_DIR)) \
 	    $(METAL_CODEGEN_FLAGS)
 	@touch $@
 endif
