@@ -1,6 +1,6 @@
 [
     {
-        "commit": "dba4141e1186ddb5a380b24417ea4d01f87d0256",
+        "commit": "c1e1be002be5c707638aaeac8ec963306410110f",
         "source": "git@github.com:sifive/freedom-metal.git",
         "name": "freedom-metal"
     },
