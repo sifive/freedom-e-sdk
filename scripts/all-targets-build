@@ -19,10 +19,9 @@ do
         if [[ "${program}" == "dhrystone" ]] ; then continue; fi
         if [[ "${program}" == "coremark" ]] ; then continue; fi
 
-        # Exclude CLIC, buserror, and SystemView examples
+        # Exclude CLIC, buserror, spi, HCA, and SystemView examples
         if [[ "${program}" == *"clic"* ]] ; then continue; fi
         if [[ "${program}" == *"buserror"* ]] ; then continue; fi
-        if [[ "${program}" == *"systemview"* ]] ; then continue; fi
 
 	# mc examples are broken
 	if [[ "${program}" == "example-freertos-mc" ]]; then continue; fi
