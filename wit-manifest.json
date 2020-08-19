@@ -20,12 +20,12 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "0e3f81db4ba27c87387360bae5054783379be949",
+        "commit": "d9ec971fee8f9af97dac4011d50b45a5c9d31c20",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "b285612ecfaf19efea1b4b8f9143bb2f1256831f",
+        "commit": "b170b93562cbdc76196bfc51e01135f0e7464fb8",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
