@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "e4104e02156ea85d07b3317081f5bf3bc0ebee93",
+        "commit": "db8686171e0610e5c8d8455a0b5a5d117532cd14",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -20,12 +20,12 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "6749026ffc33721ed898a06266e43fa4b6ef640b",
+        "commit": "d9ec971fee8f9af97dac4011d50b45a5c9d31c20",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "c9936d689d673813581cde883885b8bfca2a2e82",
+        "commit": "b170b93562cbdc76196bfc51e01135f0e7464fb8",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
