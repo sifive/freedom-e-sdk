@@ -39,9 +39,6 @@ extern __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_buserror0 ------------ */
 
 
-/* --------------------- sifive_ccache0 ------------ */
-
-
 /* --------------------- sifive_clic0 ------------ */
 
 
