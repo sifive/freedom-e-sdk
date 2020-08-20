@@ -182,9 +182,6 @@ extern __inline__ long __metal_driver_sifive_fe310_g000_prci_size( );
 extern __inline__ const struct __metal_driver_vtable_sifive_fe310_g000_prci * __metal_driver_sifive_fe310_g000_prci_vtable( );
 
 
-/* --------------------- sifive_fu540_c000_l2 ------------ */
-
-
 /* From clock@0 */
 struct __metal_driver_fixed_clock __metal_dt_clock_0 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,

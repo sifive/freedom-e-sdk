@@ -120,9 +120,6 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 /* --------------------- fe310_g000_prci ------------ */
 
 
-/* --------------------- sifive_fu540_c000_l2 ------------ */
-
-
 /* From ethclk */
 struct __metal_driver_fixed_clock __metal_dt_ethclk = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,

@@ -1,6 +1,6 @@
 [
     {
-        "commit": "fc33ef11b11f49e991fe9195cb43036493fbc297",
+        "commit": "3dcf089e31f6c4087fbdeae14ca150850ba782cd",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
@@ -260,7 +260,7 @@
         "source": "git@github.com:sifive/example-hca-metal.git"
     },
     {
-        "commit": "25e3d8c5f963a0a3b4eb2bd9f691dd5b96636324",
+        "commit": "817e1b54223da438f7d242b1b824cb9900f5d756",
         "name": "example-l2pm",
         "source": "git@github.com:sifive/example-l2pm.git"
     }
