@@ -269,9 +269,6 @@ static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_fe310_g000_prci ------------ */
 
 
-/* --------------------- sifive_fu540_c000_l2 ------------ */
-
-
 #define __METAL_DT_MAX_MEMORIES 1
 
 __asm__ (".weak __metal_memory_table");

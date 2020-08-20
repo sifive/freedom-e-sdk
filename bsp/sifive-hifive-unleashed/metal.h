@@ -52,6 +52,16 @@
 
 #define __METAL_PLIC_NUM_PARENTS 9
 
+#define METAL_SIFIVE_CCACHE0_INTERRUPTS { 1, 2, 3, }
+
+#define METAL_SIFIVE_CCACHE0_INTERRUPT_PARENT &__metal_dt_interrupt_controller_c000000.controller
+
+#define METAL_CACHE_DRIVER_PREFIX sifive_ccache0
+
+#define METAL_SIFIVE_CCACHE0_PERFMON_COUNTERS 0
+
+#define __METAL_DT_SIFIVE_CCACHE0_HANDLE (struct metal_cache *)NULL
+
 #define __METAL_CLIC_SUBINTERRUPTS 0
 #define METAL_MAX_CLIC_INTERRUPTS 0
 
@@ -89,13 +99,13 @@
 #include <metal/drivers/riscv_cpu.h>
 #include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
+#include <metal/drivers/sifive_ccache0.h>
 #include <metal/drivers/sifive_gpio0.h>
 #include <metal/drivers/sifive_i2c0.h>
 #include <metal/drivers/sifive_pwm0.h>
 #include <metal/drivers/sifive_spi0.h>
 #include <metal/drivers/sifive_test0.h>
 #include <metal/drivers/sifive_uart0.h>
-#include <metal/drivers/sifive_fu540-c000_l2.h>
 
 /* From refclk */
 struct __metal_driver_fixed_clock __metal_dt_refclk;
@@ -185,9 +195,6 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_10010000;
 
 /* From serial@10011000 */
 struct __metal_driver_sifive_uart0 __metal_dt_serial_10011000;
-
-/* From cache_controller@2010000 */
-struct __metal_driver_sifive_fu540_c000_l2 __metal_dt_cache_controller_2010000;
 
 
 
@@ -1211,19 +1218,6 @@ static __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 /* --------------------- sifive_fe310_g000_prci ------------ */
 
 
-/* --------------------- sifive_fu540_c000_l2 ------------ */
-static __inline__ uintptr_t __metal_driver_sifive_fu540_c000_l2_control_base(struct metal_cache *cache)
-{
-	if ((uintptr_t)cache == (uintptr_t)&__metal_dt_cache_controller_2010000) {
-		return METAL_SIFIVE_FU540_C000_L2_2010000_BASE_ADDRESS;
-	}
-	else {
-		return 0;
-	}
-}
-
-
-
 #define __METAL_DT_MAX_MEMORIES 9
 
 __asm__ (".weak __metal_memory_table");
@@ -1349,11 +1343,6 @@ struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
 __asm__ (".weak __metal_wdog_table");
 struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] = {
 					NULL };
-/* From cache_controller@2010000 */
-#define __METAL_DT_SIFIVE_FU540_C000_L2_HANDLE (&__metal_dt_cache_controller_2010000.cache)
-
-#define __METAL_DT_CACHE_CONTROLLER_2010000_HANDLE (&__metal_dt_cache_controller_2010000.cache)
-
 #endif /* MACROS_ELSE_METAL_H*/
 
 #endif /* ! __METAL_MACHINE_MACROS */

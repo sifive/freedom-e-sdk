@@ -1372,9 +1372,6 @@ static __inline__ const struct __metal_driver_vtable_sifive_fe310_g000_prci * __
 
 
 
-/* --------------------- sifive_fu540_c000_l2 ------------ */
-
-
 #define __METAL_DT_MAX_MEMORIES 3
 
 __asm__ (".weak __metal_memory_table");
