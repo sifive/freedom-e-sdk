@@ -50,9 +50,6 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 /* --------------------- sifive_buserror0 ------------ */
 
 
-/* --------------------- sifive_ccache0 ------------ */
-
-
 /* --------------------- sifive_clic0 ------------ */
 
 
@@ -151,10 +148,6 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 
 
 /* --------------------- fe310_g000_prci ------------ */
-
-
-/* --------------------- sifive_fu540_c000_l2 ------------ */
-extern __inline__ uintptr_t __metal_driver_sifive_fu540_c000_l2_control_base(struct metal_cache *cache);
 
 
 /* From refclk */
@@ -395,11 +388,6 @@ struct __metal_driver_sifive_uart0 __metal_dt_serial_10010000 = {
 /* From serial@10011000 */
 struct __metal_driver_sifive_uart0 __metal_dt_serial_10011000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
-};
-
-/* From cache_controller@2010000 */
-struct __metal_driver_sifive_fu540_c000_l2 __metal_dt_cache_controller_2010000 = {
-    .cache.vtable = &__metal_driver_vtable_sifive_fu540_c000_l2.cache,
 };
 
 

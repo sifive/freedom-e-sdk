@@ -149,6 +149,8 @@ operating systems to RISC-V.
     - A memory test that measure the latency at different cache layers and memory blocks
   - example-hpm
     - Demonstrates usage of the RISC-V hardware performance counter APIs.
+  - example-l2pm
+    - Demonstrates usage of Sifive L2 performance monitor counter APIs to capture L2 cache event logs.
   - example-freertos-minimal
     - A simple FreeRTOS skeleton to build your FreeRTOS application.
   - example-freertos-blinky
