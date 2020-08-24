@@ -4,7 +4,7 @@ set -euxo pipefail
 
 targets=($(find bsp -name settings.mk | cut -d '/' -f 2)) 
 
-programs=($(ls software))
+programs=($(find software -name Makefile | cut -d '/' -f 2))
 
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
