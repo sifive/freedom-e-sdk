@@ -7,6 +7,7 @@
  */
 
 #include <metal/drivers/sifive_ccache0.h>
+#include <metal/drivers/sifive_l2pf0.h>
 #include <metal/machine.h>
 #include <stdio.h>
 
@@ -30,7 +31,7 @@
  * innerAcquireBlock_Hit
  * innerAcquirePerm_Hit
  */
-#define L1MISS_L2HIT_EVENTS ((0x02) | (((1 << 6) | (1 << 7)) << 8))
+#define L1MISS_L2HIT_EVENTS ((0x02) | (((1 << 6) | (1 << 5)) << 8))
 
 /* Capture prefetch events.
  * Event Set 1
@@ -71,6 +72,10 @@
 #else
 #define PRINT(...)
 #endif
+
+extern char metal_segment_heap_target_start;
+volatile int *addr;
+volatile int readvalue;
 
 int main() {
 
@@ -120,21 +125,75 @@ int main() {
   /* Counters start incrementing from the moment event selectors are set.
    * Event selectors are configured for the set of L2 events to be captured.*/
 
+  /* Run some memory operations */
+  addr = (int *)&metal_segment_heap_target_start;
+  for (int i = 0; i < 1000; i++) {
+    readvalue = *addr;
+    addr = addr + 16;
+  }
+
   /* Report error, if read counter values are zero. */
   count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER0);
   if (count == 0)
     return 7;
   PRINT("L1 miss event count: %lu\n", count);
 
+  /* Run some memory operations */
+  addr = (int *)&metal_segment_heap_target_start;
+  for (int i = 0; i < 1000; i++) {
+    readvalue = *addr;
+    addr = addr + 16;
+  }
+
   count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER1);
   if (count == 0)
     return 8;
   PRINT("L1 miss hit L2 event count: %lu\n", count);
 
+#ifdef METAL_SIFIVE_L2PF0
+  /* Enable prefetch unit */
+  sifive_l2pf0_enable();
+
+  /* Read some memory sections */
+  addr = (int *)&metal_segment_heap_target_start;
+
+  for (int j = 0; j < 64; j++) {
+    readvalue = *addr;
+    addr += 16;
+  }
+  addr = (int *)&metal_segment_heap_target_start;
+
+  for (int j = 0; j < 64; j++) {
+    readvalue = *addr;
+    addr += 16;
+  }
+
   count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER2);
   if (count == 0)
     return 9;
   PRINT("Prefetch event count: %lu\n", count);
+
+  /* Memory operations to trigger Prefetch events */
+
+  for (int i = 1; i < 64; i++) {
+    sifive_l2pf0_disable();
+    addr = (int *)&metal_segment_heap_target_start;
+    addr = addr + (i << 14);
+    addr = addr + 32;
+    for (int j = 0; j < i; j++) {
+      addr = addr + 16;
+      readvalue = *addr;
+    }
+
+    sifive_l2pf0_enable();
+    addr = (int *)&metal_segment_heap_target_start;
+    addr = addr + (i << 14);
+    readvalue = *addr;
+    addr = addr + 16;
+    readvalue = *addr;
+    addr = addr + 16;
+    readvalue = *addr;
+  }
 
   count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER3);
   if (count == 0)
@@ -145,6 +204,7 @@ int main() {
   if (count == 0)
     return 11;
   PRINT("L1 request misses L2 event count: %lu\n", count);
+#endif
 
   /* Clear off event selectors, to stop counters. */
   sifive_ccache0_set_pmevent_selector(L2PM_COUNTER0, 0);
