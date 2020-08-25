@@ -63,8 +63,17 @@
  * it could be 32 base register + 32 register for FPU and some other for the
  * specific extensions.
  */
-//#define configMINIMAL_STACK_SIZE		( ( size_t ) 164 )
 #define configMINIMAL_STACK_SIZE		( ( size_t ) 256 )
+
+/*
+ * FPU Support: If configENABLE_FPU is not set, it will be set to 1 into FreeRTOS.h due to ARMv8M ports.
+ * We Set this value if gcc request fpu support
+ */
+#ifdef __riscv_fdiv
+#define configENABLE_FPU	1
+#else
+#define configENABLE_FPU	0
+#endif /* __riscv_fdiv */
 
 /*
  * ucHeap buffer is defined by the application and store into section .heap with freedom metal
