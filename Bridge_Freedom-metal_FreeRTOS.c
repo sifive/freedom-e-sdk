@@ -91,6 +91,13 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 		metal_interrupt_init(clic);
 	}
 #endif
+
+	/*
+	 * Call xPortFreeRTOSInit in order to set xISRTopStack
+	 */
+	if ( 0 != xPortFreeRTOSInit((StackType_t)&( xISRStack[ ( configMINIMAL_STACK_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 1 ] ))) {
+		_exit(-1);
+	}
 }
 
 
