@@ -99,7 +99,6 @@ static void prvSetupHardware( void );
  */
 static void prvQueueReceiveTask( void *pvParameters );
 static void prvQueueSendTask( void *pvParameters );
-
 /*-----------------------------------------------------------*/
 
 /* The queue used by both tasks. */
@@ -301,11 +300,6 @@ static void prvQueueSendTask( void *pvParameters )
 		xReturned = xQueueSend( xQueue, &ulValueToSend, 0U );
 		configASSERT( xReturned == pdPASS );
 	}
-
-#if( portUSING_MPU_WRAPPERS == 1 )
-	xPortRaisePrivilege();
-#endif
-	vTaskEndScheduler();
 }
 /*-----------------------------------------------------------*/
 
@@ -365,6 +359,10 @@ static void prvSetupHardware( void )
 		metal_led_on(led0_green);
 		metal_led_on(led0_blue);
 	}
+
+#if ( configENABLE_FPU == 1 )
+	prvSetupFPU();
+#endif /* (configENABLE_FPU == 1 ) */
 }
 /*-----------------------------------------------------------*/
 
