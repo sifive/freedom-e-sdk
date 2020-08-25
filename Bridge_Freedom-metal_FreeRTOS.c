@@ -16,7 +16,7 @@
 # include "SEGGER_SYSVIEW_FreeRTOS.h"
 #endif
 
-static __attribute__ ((aligned(16))) StackType_t xISRStack[ configMINIMAL_STACK_SIZE ] __attribute__ ((section (".heap"))) = { 0 };
+static __attribute__ ((aligned(16))) StackType_t xISRStack[ configMINIMAL_STACK_SIZE  + 1 ] __attribute__ ((section (".heap"))) ;
 __attribute__ ((aligned(4))) uint8_t ucHeap[ configTOTAL_HEAP_SIZE ] __attribute__ ((section (".heap")));
 
 
@@ -83,22 +83,24 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 		metal_interrupt_init(clic);
 	}
 #endif
-
-	/*
-	* Call xPortFreeRTOSInit in order to set xISRTopStack
-	*/
-	if ( 0 != xPortFreeRTOSInit((StackType_t)&( xISRStack[ ( configMINIMAL_STACK_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 1 ] ))) {
-		_exit(-1);
-	}
 }
 
 
-void FreedomMetal_InterruptHandler( portUBASE_TYPE hartid, portUBASE_TYPE mcause, portUBASE_TYPE mtvec )
+void FreedomMetal_InterruptHandler( void )
 {	
     int id;
     void *priv;
     struct __metal_driver_riscv_cpu_intc *intc;
     struct __metal_driver_cpu *cpu;
+    portUBASE_TYPE mcause, hartid, mtvec;
+	
+    __asm__ __volatile__ (
+		"csrr %0, mhartid \n"
+		"csrr %1, mcause \n"
+		"csrr %2, mtvec \n"
+		: "=r"(hartid), "=r"(mcause), "=r"(mtvec)
+		::
+	);
 
     cpu = __metal_cpu_table[hartid];
 
@@ -135,7 +137,7 @@ cleanup:
 void FreedomMetal_ExceptionHandler( void )
 {
     int id;
-    uintptr_t mcause, hartid;
+    portUBASE_TYPE mcause, hartid;
     struct __metal_driver_riscv_cpu_intc *intc;
     struct __metal_driver_cpu *cpu;
 	
