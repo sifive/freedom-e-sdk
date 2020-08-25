@@ -210,12 +210,12 @@
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
     {
-        "commit": "2881813d57f9a525acab219373d3af3868581620",
+        "commit": "dea6cd2dde1c75727fc07e1402a105a64665e8fb",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
     },
     {
-        "commit": "283d4063e44aa0e09a904ad2ea9be431943098c5",
+        "commit": "03ab2b8934664e74498a524f9485a0e264bb0595",
         "name": "example-freertos-minimal",
         "source": "git@github.com:sifive/example-freertos-minimal.git"
     },
@@ -235,7 +235,7 @@
         "source": "git@github.com:sifive/example-clic-nested-interrupts.git"
     },
     {
-        "commit": "38f5944701fa704fcf48405bd5ad18713a0fa741",
+        "commit": "1f9d0a6252e43362bee4bd4608030bf6d71eb081",
         "name": "example-freertos-pmp-blinky",
         "source": "git@github.com:sifive/example-freertos-pmp-blinky.git"
     },
