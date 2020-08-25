@@ -44,9 +44,8 @@ include $(FREERTOS_DIR)/scripts/FreeRTOS.mk
 
 export FREERTOS_CONFIG_DIR = $(abspath ./)
 MAKE_CONFIG += 	freeRTOS.define.portHANDLE_INTERRUPT = FreedomMetal_InterruptHandler \
-				freeRTOS.define.portHANDLE_EXCEPTION = FreedomMetal_ExceptionHandler \
-				freeRTOS.define.MTIME_CTRL_ADDR = 0x2000000
-
+				freeRTOS.define.portHANDLE_EXCEPTION = FreedomMetal_ExceptionHandler 
+				
 ifeq ($(TARGET),sifive-hifive-unleashed)
 	MAKE_CONFIG += freeRTOS.define.MTIME_RATE_HZ = 1000000
 else
@@ -82,21 +81,23 @@ export MAKE_CONFIG
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.S libfreertos
 	@echo "Assemble: $<"
-	$(HIDE)$(CC) -o $@ $(ASFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CC) -o $@ $(ASFLAGS) $(XCFLAGS) $(CPPFLAGS) $(_COMMON_CFLAGS) $<
+	@echo
 
 # ----------------------------------------------------------------------
 # Compile Object Files From C
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.c libfreertos
 	@echo "Compile: $<"
-	$(HIDE)$(CC) -c -o $@ $(CFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CC) -c -o $@ $(CFLAGS) $(XCFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
+	@echo
 
 # ----------------------------------------------------------------------
 # Compile Object Files From CPP
 # ----------------------------------------------------------------------
 $(OBJ_DIR)/%.o: %.cpp libfreertos
 	@echo "Compile: $<"
-	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
+	$(HIDE)$(CXX) -c -o $@ $(CXXFLAGS) $(XCFLAGS) $(CPPFLAGS) $(CFLAGS_COMMON) $(_COMMON_CFLAGS) $<
 
 # ----------------------------------------------------------------------
 # create dedicated directory for Object files
@@ -123,8 +124,8 @@ $(PROGRAM): \
 	directories \
 	libfreertos \
 	$(OBJS)
-	@echo "Build: $@"
-	$(CC) $(CFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
+	$(CC) $(CFLAGS) $(XCFLAGS) $(LDFLAGS) $(_ADD_LDFLAGS) $(OBJS) $(LOADLIBES) $(LDLIBS) -o $@
+	@echo
 
 clean::
 	rm -rf $(BUILD_DIRECTORIES)
