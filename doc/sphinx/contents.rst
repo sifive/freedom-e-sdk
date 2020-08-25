@@ -289,3 +289,6 @@ The example programs can be found under the ``software/`` directory.
 - example-l2pm
 
   - Demonstrates usage of Sifive L2 performance monitor counter APIs to capture L2 cache event logs.
+
+- example-l2pf
+  - Example for usage and measuring effectiveness of SiFive L2 Prefetcher.
