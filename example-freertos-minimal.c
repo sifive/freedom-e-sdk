@@ -35,8 +35,8 @@ extern struct metal_led *led0_red, *led0_green, *led0_blue;
  * 		- prvSetupHardware: Setup Hardware according CPU and Board.
  */
 static void prvSetupHardware( void );
-
 /*-----------------------------------------------------------*/
+
 struct metal_cpu *cpu0;
 struct metal_interrupt *cpu_intr, *tmr_intr;
 struct metal_led *led0_red, *led0_green, *led0_blue;
