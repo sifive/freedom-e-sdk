@@ -77,8 +77,8 @@ writes to the queue.  Therefore the queue will never have more than one item in
 it at any time, and even with a queue length of 1, the sending task will never
 find the queue full. */
 #define mainQUEUE_LENGTH					( 1 )
-
 /*-----------------------------------------------------------*/
+
 /*
  * Functions:
  * 		- prvSetupHardware: Setup Hardware according CPU and Board.
@@ -90,7 +90,6 @@ static void prvSetupHardware( void );
  */
 static void prvQueueReceiveTask( void *pvParameters );
 static void prvQueueSendTask( void *pvParameters );
-
 /*-----------------------------------------------------------*/
 
 /* The queue used by both tasks. */
@@ -101,8 +100,8 @@ struct metal_interrupt *cpu_intr, *tmr_intr;
 struct metal_led *led0_red, *led0_green, *led0_blue;
 
 #define LED_ERROR ((led0_red == NULL) || (led0_green == NULL) || (led0_blue == NULL))
-
 /*-----------------------------------------------------------*/
+
 int main( void )
 {
 	TaskHandle_t xHandle_ReceiveTask, xHandle_SendTask;
@@ -131,11 +130,13 @@ int main( void )
 		/* Start the tasks and timer running. */
 		vTaskStartScheduler();
 
-	/* If all is well, the scheduler will now be running, and the following
-	line will never be reached.  If the following line does execute, then
-	there was insufficient FreeRTOS heap memory available for the Idle and/or
-	timer tasks to be created. 
-	or task have stoppped the Scheduler */
+		/**
+		 * If all is well, the scheduler will now be running, and the following 
+		 * line will never be reached.  If the following line does execute, then 
+		 * there was insufficient FreeRTOS heap memory available for the Idle and/or 
+		 * timer tasks to be created. or task have stoppped the Scheduler 
+		 * 
+		 */
 
 		vTaskDelete( xHandle_SendTask );
 		vTaskDelete( xHandle_ReceiveTask );
@@ -172,10 +173,12 @@ static void prvQueueSendTask( void *pvParameters )
 		/* Place this task in the blocked state until it is time to run again. */
 		vTaskDelayUntil( &xNextWakeTime, mainQUEUE_TICK_COUNT_FOR_1S );
 
-		/* Send to the queue - causing the queue receive task to unblock and
-		toggle the LED.  0 is used as the block time so the sending operation
-		will not block - it shouldn't need to block as the queue should always
-		be empty at this point in the code. */
+		/** 
+		 * Send to the queue - causing the queue receive task to unblock and 
+		 * toggle the LED.  0 is used as the block time so the sending operation
+		 * will not block - it shouldn't need to block as the queue should always
+		 * be empty at this point in the code. 
+		 */
 		xReturned = xQueueSend( xQueue, &ulValueToSend, 0U );
 		configASSERT( xReturned == pdPASS );
 	}
@@ -195,13 +198,17 @@ static void prvQueueReceiveTask( void *pvParameters )
 
 	for( ;; )
 	{
-		/* Wait until something arrives in the queue - this task will block
-		indefinitely provided INCLUDE_vTaskSuspend is set to 1 in
-		FreeRTOSConfig.h. */
+		/**
+		 * Wait until something arrives in the queue - this task will block
+		 * indefinitely provided INCLUDE_vTaskSuspend is set to 1 in
+		 * FreeRTOSConfig.h
+		 */
 		xQueueReceive( xQueue, &ulReceivedValue, portMAX_DELAY );
 
-		/*  To get here something must have been received from the queue, but
-		is it the expected value?  If it is, toggle the LED. */
+		/**
+		 * To get here something must have been received from the queue, but
+		 * is it the expected value?  If it is, toggle the LED. 
+		 */
 		if( ulReceivedValue == ulExpectedValue )
 		{
 			write( STDOUT_FILENO, pcPassMessage, strlen( pcPassMessage ) );
@@ -225,7 +232,7 @@ static void prvSetupHardware( void )
 {
 	const char * const pcWarningMsg = "At least one of LEDs is null.\n";
 
-	// This demo will toggle LEDs colors so we define them here
+	/* This demo will toggle LEDs colors so we define them here */
 	led0_red = metal_led_get_rgb("LD0", "red");
 	led0_green = metal_led_get_rgb("LD0", "green");
 	led0_blue = metal_led_get_rgb("LD0", "blue");
