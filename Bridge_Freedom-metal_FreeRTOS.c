@@ -25,6 +25,10 @@ __attribute__((constructor)) static void FreeRTOS_init(void);
 __attribute__((constructor)) static void SEGGER_SysView_init(void);
 #endif
 
+#if( configENABLE_FPU == 1 )
+	extern void prvSetupFPU( void );
+#endif /* configENABLE_FPU */
+
 __attribute__((constructor)) static void FreeRTOS_init(void)
 {
 	struct metal_cpu *cpu;
@@ -35,6 +39,10 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 
 	/* Remove compiler warning about unused parameter. */
 	( void ) pcErrorMsg;
+
+#if ( configENABLE_FPU == 1 )
+	prvSetupFPU();
+#endif /* (configENABLE_FPU == 1 ) */
 
   /*
    * Initilize freedom-metal interrupt managment.
