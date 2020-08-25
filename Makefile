@@ -44,8 +44,8 @@ include $(FREERTOS_DIR)/scripts/FreeRTOS.mk
 
 export FREERTOS_CONFIG_DIR = $(abspath ./)
 MAKE_CONFIG += 	freeRTOS.define.portHANDLE_INTERRUPT = FreedomMetal_InterruptHandler \
-				freeRTOS.define.portHANDLE_EXCEPTION = FreedomMetal_ExceptionHandler \
-				freeRTOS.define.MTIME_CTRL_ADDR = 0x2000000 
+				freeRTOS.define.portHANDLE_EXCEPTION = FreedomMetal_ExceptionHandler 
+				
 ifeq ($(TARGET),sifive-hifive-unleashed)
 	MAKE_CONFIG += freeRTOS.define.MTIME_RATE_HZ = 1000000
 else
