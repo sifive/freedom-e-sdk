@@ -359,10 +359,6 @@ static void prvSetupHardware( void )
 		metal_led_on(led0_green);
 		metal_led_on(led0_blue);
 	}
-
-#if ( configENABLE_FPU == 1 )
-	prvSetupFPU();
-#endif /* (configENABLE_FPU == 1 ) */
 }
 /*-----------------------------------------------------------*/
 
