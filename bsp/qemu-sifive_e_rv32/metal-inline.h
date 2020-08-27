@@ -59,6 +59,11 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 
 
 /* --------------------- sifive_gpio0 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_gpio0_base(struct metal_gpio *gpio);
+extern __inline__ unsigned long __metal_driver_sifive_gpio0_size(struct metal_gpio *gpio);
+extern __inline__ int __metal_driver_sifive_gpio0_num_interrupts(struct metal_gpio *gpio);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_gpio0_interrupt_parent(struct metal_gpio *gpio);
+extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_gpio *gpio, int idx);
 
 
 /* --------------------- sifive_gpio_button ------------ */
@@ -123,6 +128,9 @@ extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_select
 
 
 /* --------------------- fe310_g000_prci ------------ */
+extern __inline__ long __metal_driver_sifive_fe310_g000_prci_base( );
+extern __inline__ long __metal_driver_sifive_fe310_g000_prci_size( );
+extern __inline__ const struct __metal_driver_vtable_sifive_fe310_g000_prci * __metal_driver_sifive_fe310_g000_prci_vtable( );
 
 
 /* --------------------- sifive_fu540_c000_l2 ------------ */
@@ -207,9 +215,19 @@ struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .init_done = 0,
 };
 
+/* From gpio@10012000 */
+struct __metal_driver_sifive_gpio0 __metal_dt_gpio_10012000 = {
+    .gpio.vtable = &__metal_driver_vtable_sifive_gpio0.gpio,
+};
+
 /* From spi@10014000 */
 struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
     .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
+};
+
+/* From test@12000 */
+struct __metal_driver_sifive_test0 __metal_dt_test_12000 = {
+    .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
 };
 
 /* From uart@10013000 */
@@ -220,6 +238,11 @@ struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000 = {
 /* From uart@10023000 */
 struct __metal_driver_sifive_uart0 __metal_dt_uart_10023000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
+};
+
+/* From pcri@10008000 */
+struct __metal_driver_sifive_fe310_g000_prci __metal_dt_pcri_10008000 = {
+    .vtable = &__metal_driver_vtable_sifive_fe310_g000_prci,
 };
 
 

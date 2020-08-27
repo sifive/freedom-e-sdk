@@ -70,7 +70,7 @@
         ranges;
 
         test@12000 {
-            compatible = "sifive,test";
+            compatible = "sifive,test0";
             reg = <0x0 0x00012000 0x0 0x2000>;
         };
 
@@ -100,13 +100,14 @@
         };
 
         pcri@10008000 {
-            compatible = "sifive,prci,e";
+	    // this identifier is required by Freedom-E-SDK
+            compatible = "sifive,fe310-g000,prci";
             reg = <0x0 0x10008000 0x0 0x1000>;
         };
 
         gpio@10012000 {
             reg = <0x0 0x10012000 0x0 0x1000>;
-            compatible = "sifive,gpio";
+            compatible = "sifive,gpio0";
             interrupt-parent = <&plic>;
             interrupts = <8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
                           24 25 26 27 28 29 30 31 32 33 34 34 36 37 38 39>;
