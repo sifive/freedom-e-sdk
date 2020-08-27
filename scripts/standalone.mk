@@ -47,6 +47,15 @@ ifeq ($(RISCV_LIBC),)
 RISCV_LIBC=nano
 endif
 
+ifeq ($(RISCV_LIBC),segger)
+# Disable format string errors when building with -Werror
+RISCV_CFLAGS += -Wno-error=format=
+
+LIBMETAL_EXTRA=-lmetal-segger
+METAL_WITH_EXTRA=--with-builtin-libmetal-segger
+SPEC=gloss-segger
+endif
+
 ifeq ($(RISCV_LIBC),nano)
 LIBMETAL_EXTRA=-lmetal-gloss
 METAL_WITH_EXTRA=--with-builtin-libgloss
