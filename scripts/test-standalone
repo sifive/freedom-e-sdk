@@ -6,6 +6,10 @@ PROGRAMS=(hello example-freertos-minimal )
 TARGET=qemu-sifive-e31
 
 for PROGRAM in ${PROGRAMS[@]} ; do
+    if [ "${PROGRAM}" == "example-freertos-minimal" -a "${RISCV_LIBC}" == "segger" ] ; then
+        continue
+    fi
+
     STANDALONE_DEST="${PROGRAM}-standalone"
 
     make PROGRAM=${PROGRAM} TARGET=${TARGET} STANDALONE_DEST=${STANDALONE_DEST} standalone
