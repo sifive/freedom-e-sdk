@@ -1,0 +1,158 @@
+/dts-v1/;
+/ {
+    #address-cells = <2>;
+    #size-cells = <2>;
+    // based on fe310-g002 (HiFive-revB) with 64-bit core and extensions
+    compatible = "sifive,qemu_sifive_e_64";
+    model = "sifive,qemu_sifive_e_64";
+    cpus {
+        #address-cells = <2>;
+        #size-cells = <0>;
+        compatible = "sifive,cores";
+
+       cpu0: cpu@0 {
+            compatible = "sifive-s51-riscv-cpu", "riscv";
+            device_type = "cpu";
+            riscv,isa = "rv64imac";
+            reg = <0x0 0x0>;
+            timebase-frequency = <32768>;
+            hardware-exec-breakpoint-count = <4>;
+            // the following definitions are required by Freedom-E-SDk tools
+            sifive,dtim = <&dtim>;
+            sifive,itim = <&itim>;
+            hlic: interrupt-controller {
+                    #interrupt-cells = <1>;
+                    compatible = "riscv,cpu-intc";
+                    interrupt-controller;
+            };
+        };
+    };
+
+    resetrom: rom@1000 {
+        device_type = "memory";
+        reg = <0x0 0x00001000 0x0 0x1000>;
+        qemu,ram = <0x01>;
+        read-only;
+    };
+
+    maskrom: rom@10000 {
+        device_type = "memory";
+        reg = <0x0 0x00010000 0x0 0x2000>;
+        qemu,ram = <0x01>;
+        read-only;
+    };
+
+    itim: itim@8000000 {
+       device_type = "memory";
+       compatible = "sifive,itim";
+       reg = <0x0 0x08000000 0x0 0x2000>;
+    };
+
+    /*
+    xip@20000000 {
+        device_type = "memory";
+        reg = <0x0 0x20000000 0x0 0x20000000>;
+        qemu,ram = <0x01>;
+        read-only;
+    };
+    */
+
+    dtim: dtim@80000000 {
+       device_type = "memory";
+       compatible = "sifive,dtim";
+       reg = <0x0 0x80000000 0x0 0x100000>;
+    };
+
+    soc {
+        #address-cells = <2>;
+        #size-cells = <2>;
+        compatible = "qemu:system-memory";
+        ranges;
+
+        test@12000 {
+            compatible = "sifive,test";
+            reg = <0x0 0x00012000 0x0 0x2000>;
+        };
+
+        otp@20000 {
+            compatible = "sifive,otp,e";
+            reg = <0x0 0x20000 0x0 0x2000 0x0 0x10010000 0x0 0x1000>;
+            reg-names = "mem", "control";
+        };
+
+        clint@2000000 {
+            compatible = "riscv,clint0";
+            reg = <0x0 0x02000000 0x0 0x10000>;
+            reg-names = "control";
+            interrupts-extended = <&hlic 0x03 &hlic 0x07>;
+            clock-frequency = <32768>;
+        };
+
+        plic: interrupt-controller@c000000 {
+            compatible = "riscv,plic0";
+            reg = <0x0 0x0c000000 0x0 0x4000000>;
+            reg-names = "control";
+            interrupt-controller;
+            interrupts-extended = <&hlic 11>;
+            #interrupt-cells = <0x01>;
+            riscv,ndev = <54>;
+            riscv,max-priority = <7>;
+        };
+
+        pcri@10008000 {
+            compatible = "sifive,prci,e";
+            reg = <0x0 0x10008000 0x0 0x1000>;
+        };
+
+        gpio@10012000 {
+            reg = <0x0 0x10012000 0x0 0x1000>;
+            compatible = "sifive,gpio";
+            interrupt-parent = <&plic>;
+            interrupts = <8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+                          24 25 26 27 28 29 30 31 32 33 34 34 36 37 38 39>;
+        };
+
+        uart0: uart@10013000 {
+            compatible = "sifive,uart0";
+            interrupt-parent = <&plic>;
+            interrupts = <3>;
+            reg = <0x0 0x10013000 0x0 0x1000>;
+            reg-names = "control";
+        };
+
+        qspi0: spi@10014000 {
+            compatible = "sifive,spi0";
+            reg = <0x0 0x10014000 0x0 0x1000 0x0 0x20000000 0x0 0x20000000>;
+            reg-names = "control", "mem";
+            interrupt-parent = <&plic>;
+            interrupts = <5>;
+            // the following is for now fully useless for QEMU
+            // but Freedom-E-SDK tools search for a compatible flash
+            // to obtain the address of its parent container, which is in
+            // turn used as the entry point for Metal.
+            // This need to be addressed in another iteration.
+            #address-cells = <1>;
+            #size-cells = <0>;
+            flash@0 {
+                compatible = "jedec,spi-nor";
+                reg = <0x0>;
+            };
+        };
+
+        hca0: hca@1007000 {
+            compatible = "sifive,hca-0.5";
+            interrupt-parent = <&plic>;
+            interrupts = <53 54>;
+            reg = <0x0 0x10070000 0x0 0x1000>;
+            reg-names = "control";
+        };
+
+        uart1: uart@10023000 {
+            compatible = "sifive,uart0";
+            interrupt-parent = <&plic>;
+            interrupts = <4>;
+            reg = <0x0 0x10023000 0x0 0x1000>;
+            reg-names = "control";
+        };
+    };
+};
