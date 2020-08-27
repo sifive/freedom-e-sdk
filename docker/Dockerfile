@@ -1,7 +1,7 @@
 FROM ubuntu:16.04 AS download-tarballs
 
 ARG RISCV_TOOLS_TARBALL=riscv64-unknown-elf-gcc-10.1.0-2020.07.0-x86_64-linux-ubuntu14.tar.gz
-ARG RISCV_PICOLIBC_TARBALL=riscv64-unknown-elf-picolibc-1.4.6-2019.08.0-x86_64-linux-ubuntu14.tar.gz
+ARG RISCV_PICOLIBC_TARBALL=riscv64-unknown-elf-picolibc-1.4.6-2020.07.0-x86_64-linux-ubuntu14.tar.gz
 ARG QEMU_TARBALL=riscv-qemu-4.1.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz
 
 RUN apt-get update && \
