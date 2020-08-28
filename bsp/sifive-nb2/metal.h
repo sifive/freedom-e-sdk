@@ -139,7 +139,7 @@
 /* From subsystem_pbus_clock */
 struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock;
 
-struct metal_memory __metal_dt_mem_testram_100000000;
+struct metal_memory __metal_dt_mem_testram_800000000;
 
 struct metal_memory __metal_dt_mem_testram_c00000000;
 
@@ -1694,7 +1694,7 @@ static __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const 
 
 __asm__ (".weak __metal_memory_table");
 struct metal_memory *__metal_memory_table[] = {
-					&__metal_dt_mem_testram_100000000,
+					&__metal_dt_mem_testram_800000000,
 					&__metal_dt_mem_testram_c00000000,
 					&__metal_dt_mem_memory_800000000};
 

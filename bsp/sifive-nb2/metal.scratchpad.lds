@@ -13,7 +13,7 @@ ENTRY(_enter)
 MEMORY
 {
     ram (airwx) : ORIGIN = 0x800000000, LENGTH = 0x200000000
-    rom (irx!wa) : ORIGIN = 0x100000000, LENGTH = 0x1fffffff
+    rom (irx!wa) : ORIGIN = 0x800000000, LENGTH = 0x1fffffff
 }
 
 PHDRS
@@ -65,7 +65,7 @@ SECTIONS
      * hart which runs application code unless the application overrides the
      * secondary_main() function to start execution on secondary harts.
      */
-    PROVIDE(__metal_boot_hart = 1);
+    PROVIDE(__metal_boot_hart = 0);
 
     /* The chicken bit is used by pre-main initialization to enable/disable
      * certain core features */
@@ -78,8 +78,8 @@ SECTIONS
     /* The RAM memories map for ECC scrubbing */
     /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
     /* User is recommended to enable the full size for manual RTL simulation run! */
-    PROVIDE( metal_memory_0_memory_start = 0x800000000 );
-    PROVIDE( metal_memory_0_memory_end = 0x800000000 + 0x10000 );
+    PROVIDE( metal_memory_0_memory_start = 0x800100000 );
+    PROVIDE( metal_memory_0_memory_end = 0x800100000 + 0x10000 );
 
     /* ROM SECTION
      *

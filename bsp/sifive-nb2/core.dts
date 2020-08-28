@@ -7,7 +7,7 @@
 	model = "SiFive,FU700";
 
 chosen {
-metal,boothart = <&L14>;
+metal,boothart = <&L10>;
 stdout-path = "/soc/nb2uart0@302011000:9600";
 };
 	L47: cpus {
@@ -64,7 +64,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 			riscv,isa = "rv64imafdc";
 			riscv,pmpregions = <4>;
 			sifive,buserror = <&L13>;
-			status = "okay";
+			status = "disable";
 			timebase-frequency = <1000000>;
 			tlb-split;
 			L11: interrupt-controller {
@@ -94,7 +94,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 			riscv,isa = "rv64imafdc";
 			riscv,pmpregions = <4>;
 			sifive,buserror = <&L17>;
-			status = "okay";
+			status = "disable";
 			timebase-frequency = <1000000>;
 			tlb-split;
 			L15: interrupt-controller {
@@ -124,7 +124,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 			riscv,isa = "rv64imafdc";
 			riscv,pmpregions = <4>;
 			sifive,buserror = <&L21>;
-			status = "okay";
+			status = "disable";
 			timebase-frequency = <1000000>;
 			tlb-split;
 			L19: interrupt-controller {
@@ -278,7 +278,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 		};
 		L0: subsystem_pbus_clock {
 			#clock-cells = <0>;
-			clock-frequency = <10000000>;
+			clock-frequency = <5000000>;
 			clock-output-names = "subsystem_pbus_clock";
 			compatible = "fixed-clock";
 		};
