@@ -11,8 +11,8 @@
 #include <metal/machine.h>
 #include <stdio.h>
 
-/* Check for presence of SiFive L2 cache controller */
-#ifdef METAL_SIFIVE_CCACHE0
+/* Check for presence of SiFive L2 cache controller and PM counters */
+#if defined(METAL_SIFIVE_CCACHE0) && METAL_SIFIVE_CCACHE0_PERFMON_COUNTERS > 5
 
 /* Macros to set event selector values */
 /* Capture L1 miss events.
@@ -138,45 +138,14 @@ int main() {
     return 7;
   PRINT("L1 miss event count: %lu\n", count);
 
-  /* Run some memory operations */
-  addr = (int *)&metal_segment_heap_target_start;
-  for (int i = 0; i < 1000; i++) {
-    readvalue = *addr;
-    addr = addr + 16;
-  }
-
   count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER1);
   if (count == 0)
     return 8;
   PRINT("L1 miss hit L2 event count: %lu\n", count);
 
 #ifdef METAL_SIFIVE_L2PF0
-  /* Enable prefetch unit */
-  sifive_l2pf0_enable();
-
-  /* Read some memory sections */
-  addr = (int *)&metal_segment_heap_target_start;
-
-  for (int j = 0; j < 64; j++) {
-    readvalue = *addr;
-    addr += 16;
-  }
-  addr = (int *)&metal_segment_heap_target_start;
-
-  for (int j = 0; j < 64; j++) {
-    readvalue = *addr;
-    addr += 16;
-  }
-
-  count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER2);
-  if (count == 0)
-    return 9;
-  PRINT("Prefetch event count: %lu\n", count);
-
   /* Memory operations to trigger Prefetch events */
-
   for (int i = 1; i < 64; i++) {
-    sifive_l2pf0_disable();
     addr = (int *)&metal_segment_heap_target_start;
     addr = addr + (i << 14);
     addr = addr + 32;
@@ -185,7 +154,6 @@ int main() {
       readvalue = *addr;
     }
 
-    sifive_l2pf0_enable();
     addr = (int *)&metal_segment_heap_target_start;
     addr = addr + (i << 14);
     readvalue = *addr;
@@ -194,6 +162,11 @@ int main() {
     addr = addr + 16;
     readvalue = *addr;
   }
+
+  count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER2);
+  if (count == 0)
+    return 9;
+  PRINT("Prefetch event count: %lu\n", count);
 
   count = sifive_ccache0_get_pmevent_counter(L2PM_COUNTER3);
   if (count == 0)
@@ -214,6 +187,27 @@ int main() {
   sifive_ccache0_set_pmevent_selector(L2PM_COUNTER4, 0);
 
   return 0;
+}
+
+/* Boot hart ID exported from linker */
+extern char __metal_boot_hart;
+
+/* secondary_main() runs on all HARTs */
+int secondary_main() {
+#ifdef METAL_SIFIVE_L2PF0
+  /* Enable L2 prefetcher for each hart */
+  sifive_l2pf0_enable();
+#endif
+  uintptr_t hart_id = metal_cpu_get_current_hartid();
+
+  if (hart_id == (uintptr_t)&__metal_boot_hart) {
+    /* Boot hart runs main() */
+    return main();
+  } else {
+    while (1) {
+      __asm__ __volatile__("wfi");
+    }
+  }
 }
 
 #else
