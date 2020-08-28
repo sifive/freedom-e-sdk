@@ -41,6 +41,9 @@
 #define PRINT(...)
 #endif
 
+/* Flag to signal other harts from main() */
+static volatile int wait = 0;
+
 /* Raw access to heap segment */
 extern char metal_segment_heap_target_start;
 
@@ -81,6 +84,9 @@ int main() {
   if (sifive_ccache0_init() != 0)
     return 1;
 
+  /* Keep L2 prefetcher disabled for test */
+  sifive_l2pf0_disable();
+
 #if METAL_SIFIVE_CCACHE0_PERFMON_COUNTERS > 0
   sifive_ccache0_clr_pmevent_counter(L2PM_COUNTER0);
   /* Configure counter 0 to capture prefetch events */
@@ -96,9 +102,6 @@ int main() {
   if (sifive_ccache0_get_pmevent_selector(L2PM_COUNTER1) != PREFETCH_HITS_L2)
     return 3;
 #endif
-
-  /* Keep L2 prefetcher disabled */
-  sifive_l2pf0_disable();
 
   /* Calculate t1 cycles to run mem_test() with L2 prefetcher disabled */
   cpu = metal_cpu_get(metal_cpu_get_current_hartid());
@@ -123,6 +126,7 @@ int main() {
 
   /* Enable L2 prefetcher */
   sifive_l2pf0_enable();
+  wait++;
 
   /* Calculate t2 cycles to run mem_test() with L2 prefetcher enabled */
   t2 = metal_cpu_get_timer(cpu);
@@ -155,6 +159,35 @@ int main() {
   /* If t2 cycle count is higher than t1, something is not right ! */
   if ((t2 > t1) || (t1 == 0) || (t2 == 0))
     return 8;
+
+  wait++;
+  return 0;
+}
+
+/* Boot hart ID exported from linker */
+extern char __metal_boot_hart;
+
+/* secondary_main() runs on all HARTs */
+int secondary_main() {
+  uintptr_t hart_id = metal_cpu_get_current_hartid();
+
+  if (hart_id == (uintptr_t)&__metal_boot_hart) {
+    /* Boot hart runs main() */
+    return main();
+  } else {
+    /* Wait till boot hart enables its prefetch unit */
+    while (wait == 0) { /* Pause */
+      __asm__ __volatile__(".word 0x0100000F" : : : "memory");
+    }
+
+    /* Enable L2 prefetcher for each hart */
+    sifive_l2pf0_enable();
+
+    /* Wait till boot hart runs main() */
+    while (wait == 1) { /* Pause */
+      __asm__ __volatile__(".word 0x0100000F" : : : "memory");
+    }
+  }
 
   return 0;
 }
