@@ -9,6 +9,11 @@
 
 #define NUM_ITERATIONS 10
 
+#ifdef __SEGGER_LIBC__
+/* Segger libc doesn't have fflush, so define it away */
+#define fflush(stdout);
+#endif
+
 METAL_LOCK_DECLARE(my_lock);
 
 int main(void);
