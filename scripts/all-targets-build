@@ -30,8 +30,7 @@ do
             if [ "${program}" == "example-freertos-blinky-systemview" -o \
                  "${program}" == "example-freertos-blinky" -o \
                  "${program}" == "example-freertos-pmp-blinky" -o \
-                 "${program}" == "example-freertos-minimal" -o \
-                 "${program}" == "multicore-hello" ] ; then
+                 "${program}" == "example-freertos-minimal" ] ; then
                 continue
             fi
         fi

@@ -125,7 +125,7 @@
         "source": "git@github.com:sifive/test-coreip.git"
     },
     {
-        "commit": "b8f304d296e031b8139729c02621c29e2cea3b20",
+        "commit": "34342b458bbce934382600aa8694c395ff40838a",
         "name": "example-multicore-hello",
         "source": "git@github.com:sifive/example-multicore-hello.git"
     },
