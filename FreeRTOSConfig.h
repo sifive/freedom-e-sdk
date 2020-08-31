@@ -83,14 +83,14 @@
 
 #define configTOTAL_HEAP_SIZE          		( ( size_t ) 2048 * sizeof( size_t ) )
 
-#define configMAX_TASK_NAME_LEN			( 16 )
-#define configUSE_TRACE_FACILITY		1
-#define configUSE_16_BIT_TICKS			0
-#define configIDLE_SHOULD_YIELD			0
-#define configUSE_MUTEXES			1
-#define configQUEUE_REGISTRY_SIZE		8
+#define configMAX_TASK_NAME_LEN				( 16 )
+#define configUSE_TRACE_FACILITY			1
+#define configUSE_16_BIT_TICKS				0
+#define configIDLE_SHOULD_YIELD				0
+#define configUSE_MUTEXES					1
+#define configQUEUE_REGISTRY_SIZE			8
 #define configCHECK_FOR_STACK_OVERFLOW		2
-#define configUSE_RECURSIVE_MUTEXES		1
+#define configUSE_RECURSIVE_MUTEXES			1
 #define configUSE_MALLOC_FAILED_HOOK		1
 #define configUSE_APPLICATION_TASK_TAG		0
 #define configUSE_COUNTING_SEMAPHORES		1
@@ -107,11 +107,11 @@
 #define configUSE_NEWLIB_REENTRANT 		1 
 
 /* Co-routine definitions. */
-#define configUSE_CO_ROUTINES 			0
+#define configUSE_CO_ROUTINES 				0
 #define configMAX_CO_ROUTINE_PRIORITIES 	( 2 )
 
 /* Software timer definitions. SwitchC */
-#define configUSE_TIMERS			1
+#define configUSE_TIMERS				1
 #define configTIMER_TASK_PRIORITY		( configMAX_PRIORITIES - 1 )
 #define configTIMER_QUEUE_LENGTH		4
 /*
@@ -120,7 +120,6 @@
  * it could be 32 base register + 32 register for FPU and some other for the
  * specific extensions.
  */
-//#define configTIMER_TASK_STACK_DEPTH		( 114 )
 #define configTIMER_TASK_STACK_DEPTH		( 256 )
 
 /* Task priorities.  Allow these to be overridden. */
@@ -132,37 +131,24 @@
 to exclude the API function. */
 #define INCLUDE_vTaskPrioritySet		1
 #define INCLUDE_uxTaskPriorityGet		1
-#define INCLUDE_vTaskDelete			1
-#define INCLUDE_vTaskCleanUpResources		1
+#define INCLUDE_vTaskDelete				1
+#define INCLUDE_vTaskCleanUpResources	1
 #define INCLUDE_vTaskSuspend			1
 #define INCLUDE_vTaskDelayUntil			1
-#define INCLUDE_vTaskDelay			1
+#define INCLUDE_vTaskDelay				1
 #define INCLUDE_eTaskGetState			1
-#define INCLUDE_xTimerPendFunctionCall		1
-
+#define INCLUDE_xTimerPendFunctionCall	1
 
 /* Overwrite some of the stack sizes allocated to various test and demo tasks.
 Like all task stack sizes, the value is the number of words, not bytes. */
-#define bktBLOCK_TIME_TASK_STACK_SIZE 			100
-#define notifyNOTIFIED_TASK_STACK_SIZE 			120
-#define priSUSPENDED_RX_TASK_STACK_SIZE 		90
-#define tmrTIMER_TEST_TASK_STACK_SIZE 			100
-#define ebRENDESVOUS_TEST_TASK_STACK_SIZE 		100
+#define bktBLOCK_TIME_TASK_STACK_SIZE 					100
+#define notifyNOTIFIED_TASK_STACK_SIZE 					120
+#define priSUSPENDED_RX_TASK_STACK_SIZE 				90
+#define tmrTIMER_TEST_TASK_STACK_SIZE 					100
+#define ebRENDESVOUS_TEST_TASK_STACK_SIZE 				100
 #define ebEVENT_GROUP_SET_BITS_TEST_TASK_STACK_SIZE 	115
-#define genqMUTEX_TEST_TASK_STACK_SIZE 			90
-#define genqGENERIC_QUEUE_TEST_TASK_STACK_SIZE 		100
-#define recmuRECURSIVE_MUTEX_TEST_TASK_STACK_SIZE 	90
-
-/* Just in case it was not defined above force to not use it */
-#ifndef configUSE_SEGGER_SYSTEMVIEW
-#define configUSE_SEGGER_SYSTEMVIEW	0
-#endif
-
-#if( configUSE_SEGGER_SYSTEMVIEW == 1 )
-# include <SEGGER_SYSVIEW_FreeRTOS.h>
-# if (INCLUDE_xTaskGetIdleTaskHandle != 1)
-#  define INCLUDE_xTaskGetIdleTaskHandle  1
-# endif
-#endif
+#define genqMUTEX_TEST_TASK_STACK_SIZE 					90
+#define genqGENERIC_QUEUE_TEST_TASK_STACK_SIZE 			100
+#define recmuRECURSIVE_MUTEX_TEST_TASK_STACK_SIZE 		90
 
 #endif /* FREERTOS_CONFIG_H */
