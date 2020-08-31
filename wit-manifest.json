@@ -200,7 +200,7 @@
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
     {
-        "commit": "723f15c60977c5c9d77fec1347ca08ef4bb07a99",
+        "commit": "0d3fef94bb6af6daf41d998f4e06d55dd7584119",
         "name": "FreeRTOS-metal",
         "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
@@ -210,19 +210,14 @@
         "source": "git@github.com:sifive/Segger_SystemView-metal.git"
     },
     {
-        "commit": "dea6cd2dde1c75727fc07e1402a105a64665e8fb",
+        "commit": "c0eb8a33347647d9abf46ba65df200506544ac04",
         "name": "example-freertos-blinky",
         "source": "git@github.com:sifive/example-freertos-blinky.git"
     },
     {
-        "commit": "03ab2b8934664e74498a524f9485a0e264bb0595",
+        "commit": "2e93371de967ffedb5cf3db1044defd38172eef2",
         "name": "example-freertos-minimal",
         "source": "git@github.com:sifive/example-freertos-minimal.git"
-    },
-    {
-        "commit": "a1a5e8bbdf8753fb6103ed80f0ff1d8ce2ffbaeb",
-        "name": "example-freertos-blinky-systemview",
-        "source": "git@github.com:sifive/example-freertos-blinky-systemview.git"
     },
     {
         "commit": "356d0f75492e8233d3b4ea17b39379208811920d",
@@ -235,7 +230,7 @@
         "source": "git@github.com:sifive/example-clic-nested-interrupts.git"
     },
     {
-        "commit": "1f9d0a6252e43362bee4bd4608030bf6d71eb081",
+        "commit": "6d3cd2fe586445a8acd2bd53f753aaba621090ef",
         "name": "example-freertos-pmp-blinky",
         "source": "git@github.com:sifive/example-freertos-pmp-blinky.git"
     },
