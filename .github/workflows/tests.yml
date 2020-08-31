@@ -14,6 +14,7 @@ jobs:
         riscv_libc: [
           "",
           "picolibc",
+          "segger",
         ]
 
     steps:
@@ -21,6 +22,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: freedom-e-sdk
+
+      - name: 'Clone Segger libc'
+        uses: actions/checkout@v2
+        with:
+          repository: sifive/freedom-e-sdk-ci-segger-libc
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          path: freedom-e-sdk/segger-libc
 
       - name: 'Checkout submodules'
         run: |
