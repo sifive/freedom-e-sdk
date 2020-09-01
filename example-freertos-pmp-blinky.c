@@ -163,7 +163,8 @@ int main( void )
 			.puxStackBuffer = NULL,
 		};
 
-        if(0 == xPmpInfo.granularity) {
+        if(0 == xPmpInfo.granularity) 
+		{
 		    init_pmp (&xPmpInfo);
         }
 
@@ -200,7 +201,7 @@ int main( void )
                                 (size_t) METAL_SIFIVE_UART0_0_BASE_ADDRESS,
                                 (size_t *) &xTaskRXDefinition.xRegions[2].pvBaseAddress,
                                 xTaskRXDefinition.xRegions[2].ulLengthInBytes);
-#endif
+#endif /* METAL_SIFIVE_UART0 */
 
         // allocate stack (It will take 2 PMP Slot - So it is not needed to put align the StackBuffer)
         xTaskRXDefinition.puxStackBuffer = ( StackType_t * ) pvPortMalloc( xTaskRXDefinition.usStackDepth * sizeof( StackType_t ) );
@@ -242,7 +243,7 @@ int main( void )
                                 (size_t) METAL_SIFIVE_GPIO0_0_BASE_ADDRESS,
                                 (size_t *) &xTaskTXDefinition.xRegions[2].pvBaseAddress,
                                 xTaskTXDefinition.xRegions[2].ulLengthInBytes);
-#endif
+#endif /* METAL_SIFIVE_GPIO0 */
         // allocate stack (It will take 2 PMP Slot - So it is not needed to put align the StackBuffer)
         xTaskTXDefinition.puxStackBuffer = ( StackType_t * ) pvPortMalloc( xTaskTXDefinition.usStackDepth * sizeof( StackType_t ) );
 
@@ -261,7 +262,7 @@ int main( void )
 		vTaskDelete( xHandle_SendTask );
 		vTaskDelete( xHandle_ReceiveTask );
 	}
-#endif
+#endif /* ( portUSING_MPU_WRAPPERS == 1 ) */
 	write( STDOUT_FILENO, pcMessageEnd, strlen( pcMessageEnd ) );
 
 }
@@ -300,6 +301,15 @@ static void prvQueueSendTask( void *pvParameters )
 		xReturned = xQueueSend( xQueue, &ulValueToSend, 0U );
 		configASSERT( xReturned == pdPASS );
 	}
+
+	/** 
+	 * SiFive CI/CD need to have a exit(0) status to pass
+	 */
+#if( portUSING_MPU_WRAPPERS == 1 )
+	/* We run into user mode, so need to be machine mode before to call vTaskEndScheduler */
+	xPortRaisePrivilege();
+#endif /* ( portUSING_MPU_WRAPPERS == 1 ) */
+	vTaskEndScheduler();
 }
 /*-----------------------------------------------------------*/
 
