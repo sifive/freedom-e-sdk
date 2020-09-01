@@ -1,11 +1,11 @@
 [
     {
-        "commit": "3dcf089e31f6c4087fbdeae14ca150850ba782cd",
+        "commit": "99215f3bb636999699c681f1008bae813def4c72",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "0ba18c5b655ef089e00f0d3d35fcc9d5b88c2756",
+        "commit": "4afda0c6036346ca64a88d5501dd2758c8b12cdd",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -20,12 +20,12 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "d9ec971fee8f9af97dac4011d50b45a5c9d31c20",
+        "commit": "2fffd39510132132112e2b3973a8b1a004da7166",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "b170b93562cbdc76196bfc51e01135f0e7464fb8",
+        "commit": "d8f26eca3fa4833fef301957905e0a2b019eb9dc",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
@@ -200,7 +200,7 @@
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
     {
-        "commit": "8c13d6bb85bba94bbe2ab3143e5161d16701592e",
+        "commit": "723f15c60977c5c9d77fec1347ca08ef4bb07a99",
         "name": "FreeRTOS-metal",
         "source": "git@github.com:sifive/FreeRTOS-metal.git"
     },
