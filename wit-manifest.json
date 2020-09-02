@@ -10,7 +10,7 @@
         "source": "git@github.com:sifive/freedom-metal.git"
     },
     {
-        "commit": "136c7b9dc515770f5dde3b2193ecef1d1b060e07",
+        "commit": "7b5c6f6f8b62b39fe3cf2fd24fca3c4147c0fb06",
         "name": "elf2hex",
         "source": "git@github.com:sifive/elf2hex.git"
     },
