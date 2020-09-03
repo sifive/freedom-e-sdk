@@ -150,11 +150,6 @@
         "source": "git@github.com:sifive/example-timer-interrupt.git"
     },
     {
-        "commit": "d97c67899e46a0d9eaca8fd92071bfdc9c04f7cc",
-        "name": "example-scie-tests",
-        "source": "git@github.com:sifive/example-scie-tests.git"
-    },
-    {
         "commit": "450e50f181bf694ef9a91d200347aac3ddc8d85a",
         "name": "example-local-interrupt",
         "source": "git@github.com:sifive/example-local-interrupt.git"
