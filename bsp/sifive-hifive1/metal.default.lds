@@ -156,7 +156,6 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
-
     } >rom :rom
 
     /* ITIM SECTION
