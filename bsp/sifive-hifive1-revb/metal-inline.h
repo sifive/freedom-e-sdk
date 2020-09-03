@@ -47,9 +47,6 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 /* --------------------- sifive_buserror0 ------------ */
 
 
-/* --------------------- sifive_ccache0 ------------ */
-
-
 /* --------------------- sifive_clic0 ------------ */
 
 
@@ -183,9 +180,6 @@ extern __inline__ long __metal_driver_sifive_fe310_g000_pll_init_rate( );
 extern __inline__ long __metal_driver_sifive_fe310_g000_prci_base( );
 extern __inline__ long __metal_driver_sifive_fe310_g000_prci_size( );
 extern __inline__ const struct __metal_driver_vtable_sifive_fe310_g000_prci * __metal_driver_sifive_fe310_g000_prci_vtable( );
-
-
-/* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
 /* From clock@0 */

@@ -1,11 +1,11 @@
 [
     {
-        "commit": "4c0e8c03b7dca6bc48a0a4de23da7e382062ae8f",
+        "commit": "99215f3bb636999699c681f1008bae813def4c72",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "0ba18c5b655ef089e00f0d3d35fcc9d5b88c2756",
+        "commit": "4afda0c6036346ca64a88d5501dd2758c8b12cdd",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -20,12 +20,12 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "0e3f81db4ba27c87387360bae5054783379be949",
+        "commit": "2fffd39510132132112e2b3973a8b1a004da7166",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "b285612ecfaf19efea1b4b8f9143bb2f1256831f",
+        "commit": "d8f26eca3fa4833fef301957905e0a2b019eb9dc",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
@@ -258,5 +258,15 @@
         "commit": "fa7f4f372439af72a5a20c681428ab9ef861b75d",
         "name": "example-hca-metal",
         "source": "git@github.com:sifive/example-hca-metal.git"
+    },
+    {
+        "commit": "950b3ac73c3e5a2cf7e7463aa05b144e8616569c",
+        "name": "example-l2pm",
+        "source": "git@github.com:sifive/example-l2pm.git"
+    },
+    {
+        "commit": "88e0394e61294152c487512516758bfadfb1d12e",
+        "name": "example-l2pf",
+        "source": "git@github.com:sifive/example-l2pf.git"
     }
 ]

@@ -416,9 +416,6 @@ static __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid)
 /* --------------------- sifive_buserror0 ------------ */
 
 
-/* --------------------- sifive_ccache0 ------------ */
-
-
 /* --------------------- sifive_clic0 ------------ */
 
 
@@ -1378,9 +1375,6 @@ static __inline__ const struct __metal_driver_vtable_sifive_fe310_g000_prci * __
 		return &__metal_driver_vtable_sifive_fe310_g000_prci;
 }
 
-
-
-/* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
 #define __METAL_DT_MAX_MEMORIES 3
