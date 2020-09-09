@@ -168,6 +168,9 @@ RISCV_CXXFLAGS  += --specs=$(SPEC).specs
 RISCV_CFLAGS    += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 RISCV_CXXFLAGS  += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 
+# gcc10 default use -fno-common, but libmetal has lots of multiple definitions
+RISCV_CFLAGS += -fcommon
+
 # Turn on garbage collection for unused sections
 RISCV_LDFLAGS += -Wl,--gc-sections
 # Turn on linker map file generation
@@ -189,6 +192,10 @@ include $(CONFIGURATION).mk
 
 # Benchmark CFLAGS go after loading the CONFIGURATION so that they can override the optimization level
 
+
+# Checking if we use gcc-10 or not, which need different compiler options for better benchmark scores
+GCC_VER_GTE10 := $(shell echo `${RISCV_GCC} -dumpversion | cut -f1-2 -d.` \>= 10 | bc )
+
 ifeq ($(PROGRAM),dhrystone)
 ifeq ($(DHRY_OPTION),)
 # Ground rules (default)
@@ -205,16 +212,20 @@ endif
 
 ifeq ($(PROGRAM),coremark)
 ifeq ($(RISCV_SERIES),sifive-7-series)
-RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops --param max-inline-insns-auto=20 -falign-functions=8 -falign-jumps=8 -falign-loops=8 --param inline-min-speedup=10 -mtune=sifive-7-series -ffast-math
+RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -funroll-all-loops -falign-functions=8 -falign-jumps=8 -falign-loops=8 -finline-limit=1000 -mtune=sifive-7-series -ffast-math
 else
 ifeq ($(RISCV_XLEN),32)
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts -fno-reg-struct-return -fno-rename-registers --param case-values-threshold=8 -fno-crossjumping -freorder-blocks-and-partition -fno-tree-loop-if-convert -fno-tree-sink -fgcse-sm -fno-strict-overflow
 else
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts
-endif
-endif
+endif # RISCV_XLEN==32
+endif # RISCV_SERIES==sifive-7-series
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
-endif
+ifeq ($(GCC_VER_GTE10),1)
+# additional options for gcc-10 to get better performance
+RISCV_XCFLAGS += -fno-tree-loop-distribute-patterns --param fsm-scale-path-stmts=3
+endif # GCC_VER_GTE10==1
+endif # PROGRAM==coremark
 
 ifeq ($(findstring freertos,$(PROGRAM)),freertos)
 RISCV_XCFLAGS += -DWAIT_MS=$(TARGET_FREERTOS_WAIT_MS)
