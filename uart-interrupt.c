@@ -19,7 +19,7 @@ void display_instruction (void) {
     printf("SIFIVE, INC.\n!!\n");
     printf("\n");
     printf("Coreplex IP Eval Kit 'uart-interrupt' Example.\n\n");
-    printf("A 1s debounce timer is used between these interupts.\n");
+    printf("A 1s debounce timer is used between these interrupts.\n");
     printf("\n");
 }
 
