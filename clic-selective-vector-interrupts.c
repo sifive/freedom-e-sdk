@@ -26,7 +26,7 @@ void display_instruction (void) {
     printf("\n");
     printf("Coreplex IP Eval Kit 'clic-selective-vector-interrupts' example.\n\n");
     printf("IRQ 12 (CSIP) is enabled as extrenal interrupt sources.\n");
-    printf("A 10s debounce timer is used to trigger CSIP interupt.\n");
+    printf("A 10s debounce timer is used to trigger CSIP interrupt.\n");
     printf("\n");
 }
 
