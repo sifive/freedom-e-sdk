@@ -54,7 +54,10 @@ RUN mkdir freedom-e-sdk
 COPY ./ freedom-e-sdk/
 
 # Set up the Python Virtualenv
-RUN make -C ./freedom-e-sdk virtualenv
+# We point make at virtualenv.mk to make sure that we don't
+# accidentally generate code for an example and include any
+# build intermediates in the docker image.
+RUN make -C ./freedom-e-sdk -f scripts/virtualenv.mk virtualenv
 
 ENV PATH=/tools/bin:$PATH
 
