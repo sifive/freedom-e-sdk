@@ -5,7 +5,7 @@ set -euo pipefail
 TIMEOUT_SECONDS=10
 
 TARGETS=(qemu-sifive-e31 qemu-sifive-s51 qemu-sifive-u54 qemu-sifive-u54mc )
-PROGRAMS=(hello minimal-boot example-freertos-minimal dhrystone coremark timer-interrupt csr )
+PROGRAMS=(hello minimal-boot example-freertos-minimal timer-interrupt csr )
 
 for target in ${TARGETS[@]} ; do
     for program in ${PROGRAMS[@]} ; do
@@ -17,8 +17,6 @@ for target in ${TARGETS[@]} ; do
             hello)              expected_output="Hello, World!";;
             minimal-boot)       expected_output="minimal-boot";;
             example-freertos-minimal) expected_output="FreeRTOS Demo";;
-            dhrystone)          expected_output="Dhrystone";;
-            coremark)           expected_output="CoreMark";;
             *)                  expected_output="";;
         esac
 
