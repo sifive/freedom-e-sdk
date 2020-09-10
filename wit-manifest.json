@@ -55,17 +55,17 @@
         "source": "git@github.com:sifive/example-cflush.git"
     },
     {
-        "commit": "1d47c36c93ac129569c21e71f2d380f146c846f4",
+        "commit": "58d3c980717df5f5a5656839f2ecbf869c2cf27f",
         "name": "example-clic-hardware-vector-interrupts",
         "source": "git@github.com:sifive/example-clic-hardware-vector-interrupts.git"
     },
     {
-        "commit": "f9e82a7274b7168629a800df67b3d50919256d4e",
+        "commit": "01e2c6ab4e526a06f69d50aaa27e4b9441593014",
         "name": "example-clic-selective-vector-interrupts",
         "source": "git@github.com:sifive/example-clic-selective-vector-interrupts.git"
     },
     {
-        "commit": "0d9e0833492948f44a4abf1bac677329c4b9f336",
+        "commit": "48a119cd430573d9bc21ac50c211abf239194815",
         "name": "example-clic-nonvector-interrupts",
         "source": "git@github.com:sifive/example-clic-nonvector-interrupts.git"
     },
@@ -115,7 +115,7 @@
         "source": "git@github.com:sifive/example-user-syscall.git"
     },
     {
-        "commit": "56e38090bbfaf845b555443c3466f4a3de10b271",
+        "commit": "fb338fea963f1670938c1c4669f45a45f70d4345",
         "name": "example-plic-interrupts",
         "source": "git@github.com:sifive/example-plic-interrupts.git"
     },
@@ -160,12 +160,12 @@
         "source": "git@github.com:sifive/example-scie-tests.git"
     },
     {
-        "commit": "b35002858273caf588f2b903cd0a07aafd85331a",
+        "commit": "054f7076ba2ddde3802a7542b4366c362e9a02f2",
         "name": "example-local-interrupt",
         "source": "git@github.com:sifive/example-local-interrupt.git"
     },
     {
-        "commit": "b4778cdbf2b26ef73d95426ee2233ca15d916e61",
+        "commit": "8078e57b7958fe21d4e7863a7483d93000b3f803",
         "name": "example-local-vector-interrupts",
         "source": "git@github.com:sifive/example-local-vector-interrupts.git"
     },
@@ -180,7 +180,7 @@
         "source": "git@github.com:sifive/example-minimal-boot.git"
     },
     {
-        "commit": "2d246cd192c3bf69cff51c434f838f4095e36b5e",
+        "commit": "0a926cdd05461391b6a51013a8ed2bfbf6c5589d",
         "name": "example-uart-interrupt",
         "source": "git@github.com:sifive/example-uart-interrupt.git"
     },
@@ -225,7 +225,7 @@
         "source": "git@github.com:sifive/example-pwm.git"
     },
     {
-        "commit": "50f45ddac9908edd56e257c70028d798fd1cbfed",
+        "commit": "9d2179f1b997290e4712d15e3323b4e1b83112d5",
         "name": "example-clic-nested-interrupts",
         "source": "git@github.com:sifive/example-clic-nested-interrupts.git"
     },
