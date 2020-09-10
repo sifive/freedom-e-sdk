@@ -20,9 +20,9 @@ void display_instruction (void) {
     printf("\n");
     printf("SIFIVE, INC.\n!!\n");
     printf("\n");
-    printf("E76/S76 Coreplex IP Eval Kit 'plic-interrupts' Example.\n\n");
+    printf("Coreplex IP Eval Kit 'plic-interrupts' Example.\n\n");
     printf("Switch 1 and 2 are enabled as extrenal global interrupt sources.\n");
-    printf("A 10s debounce timer is used between these interupts.\n");
+    printf("A 10s debounce timer is used between these interrupts.\n");
     printf("Pressing Buttons 0-2 toggle LEDs, while turn ON Switch 3 to exit.\n");
     printf("\n");
 }
