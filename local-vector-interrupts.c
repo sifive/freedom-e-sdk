@@ -22,7 +22,7 @@ void display_instruction (void) {
     printf("\n");
     printf("Coreplex IP Eval Kit 'clint-vector-interrupts' Example.\n\n");
     printf("IRQ 3 (SIP) is enabled as external interrupt source.\n");
-    printf("A 10s debounce timer is used to trigger and clear SIP interupt.\n");
+    printf("A 10s debounce timer is used to trigger and clear SIP interrupt.\n");
     printf("\n");
 }
 
