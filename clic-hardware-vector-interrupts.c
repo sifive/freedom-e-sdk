@@ -22,7 +22,7 @@ void display_instruction (void) {
     printf("\n");
     printf("Coreplex IP Eval Kit 'clic-hadrware-vector-interrupts' example.\n\n");
     printf("IRQ 12 (CSIP) is enabled as external interrupt source.\n");
-    printf("A 10s debounce timer is used to trigger and clear CSIP interupt.\n");
+    printf("A 10s debounce timer is used to trigger and clear CSIP interrupt.\n");
     printf("\n");
 }
 
