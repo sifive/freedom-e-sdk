@@ -21,8 +21,8 @@ void display_instruction (void) {
     printf("SIFIVE, INC.\n!!\n");
     printf("\n");
     printf("Coreplex IP Eval Kit 'clic-nested-interrupts' example.\n\n");
-    printf("A 5s debounce timer is used to trigger SIP and CSIP interupts.\n");
-    printf("Which preempted the timer ISR, with SIP has higher priority to CSIP interupt.\n");
+    printf("A 5s debounce timer is used to trigger SIP and CSIP interrupts.\n");
+    printf("Which preempted the timer ISR, with SIP has higher priority to CSIP interrupt.\n");
     printf("\n");
 }
 
