@@ -13,7 +13,6 @@ jobs:
         ]
         riscv_libc: [
           "",
-          "picolibc",
           "segger",
         ]
 
