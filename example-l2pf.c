@@ -5,6 +5,7 @@
  *  Example code for usage and measuring effectiveness of SiFive L2 Prefetcher.
  */
 
+#include <metal/cache.h>
 #include <metal/cpu.h>
 #include <metal/drivers/sifive_ccache0.h>
 #include <metal/drivers/sifive_l2pf0.h>
@@ -44,37 +45,37 @@
 /* Flag to signal other harts from main() */
 static volatile int wait = 0;
 
+/* Boot hart ID exported from linker */
+extern char __metal_boot_hart;
+
 /* Raw access to heap segment */
 extern char metal_segment_heap_target_start;
+extern char metal_segment_heap_target_end;
 
 /* Function to run memory operations */
 static void mem_test() {
-  volatile int *addr;
+  volatile int *addr, *end;
   volatile int readvalue;
 
-  for (int i = 1; i < 64; i++) {
-    addr = (int *)&metal_segment_heap_target_start;
-    addr = addr + (i << 14);
-    addr = addr + 32;
-    for (int j = 0; j < i; j++) {
-      addr = addr + 16;
-      readvalue = *addr;
-    }
+  /* Set start and end memory addresses */
+  addr = (int *)&metal_segment_heap_target_start;
+  end = (int *)(&metal_segment_heap_target_end - 16);
 
-    addr = (int *)&metal_segment_heap_target_start;
-    addr = addr + (i << 14);
+  /* Flush out entire cache */
+  metal_dcache_l1_flush((uintptr_t)&__metal_boot_hart, 0);
+
+  /* Read some memory locations */
+  while (addr < end) {
     readvalue = *addr;
-    addr = addr + 16;
     readvalue = *addr;
-    addr = addr + 16;
-    readvalue = *addr;
+    /* Access memory in multiples of cache block size */
+    addr += 16;
   }
   /* Avoids '-Werror=unused-but-set-variable' error */
   readvalue += 1;
 }
 
 int main() {
-
   struct metal_cpu *cpu;
   uint64_t t1, t2;
 
@@ -163,9 +164,6 @@ int main() {
   wait++;
   return 0;
 }
-
-/* Boot hart ID exported from linker */
-extern char __metal_boot_hart;
 
 /* secondary_main() runs on all HARTs */
 int secondary_main() {
