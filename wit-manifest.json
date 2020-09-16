@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "4afda0c6036346ca64a88d5501dd2758c8b12cdd",
+        "commit": "58f40ee376f85998eabbe9e35654b74e1807e03e",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },

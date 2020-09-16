@@ -62,12 +62,6 @@ METAL_WITH_EXTRA=--with-builtin-libgloss
 SPEC=nano
 endif
 
-ifeq ($(RISCV_LIBC),picolibc)
-LIBMETAL_EXTRA=-lmetal-pico
-METAL_WITH_EXTRA=--with-builtin-libmetal-pico
-SPEC=picolibc
-endif
-
 ifeq ($(SPEC),)
 $(error RISCV_LIBC set to an unsupported value: $(RISCV_LIBC))
 endif
@@ -275,7 +269,6 @@ PROGRAM_SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.h) $(wildcard 
 $(PROGRAM_ELF): \
 		$(PROGRAM_SRCS) \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal.a \
-		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-pico.a \
 		$(BSP_DIR)/install/lib/$(CONFIGURATION)/libmetal-gloss.a \
 		$(BSP_DIR)/metal.$(LINK_TARGET).lds
 	mkdir -p $(dir $@)

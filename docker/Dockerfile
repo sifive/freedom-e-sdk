@@ -3,7 +3,6 @@ FROM ubuntu:16.04 AS download-tarballs
 ARG SIFIVE_TOOLS_URL=https://static.dev.sifive.com/dev-tools/freedom-tools/v2020.08
 
 ARG RISCV_TOOLS_TARBALL=riscv64-unknown-elf-gcc-10.1.0-2020.08.2-x86_64-linux-ubuntu14.tar.gz
-ARG RISCV_PICOLIBC_TARBALL=riscv64-unknown-elf-picolibc-1.4.6-2020.08.2-x86_64-linux-ubuntu14.tar.gz
 ARG RISCV_SEGGER_LIBC_TARBALL=segger_libc-2020.08.2.tar.bz2
 ARG QEMU_TARBALL=riscv-qemu-5.1.0-2020.08.1-x86_64-linux-ubuntu14.tar.gz
 
@@ -13,10 +12,6 @@ RUN apt-get update && \
     bzip2 \
     rsync \
     wget
-
-# Install picolibc
-RUN wget --no-verbose https://github.com/picolibc/picolibc/releases/download/1.4.6/${RISCV_PICOLIBC_TARBALL} && \
-    tar xzf ${RISCV_PICOLIBC_TARBALL}
 
 # Install RISC-V Toolchain
 RUN wget --no-verbose ${SIFIVE_TOOLS_URL}/${RISCV_TOOLS_TARBALL} && \
