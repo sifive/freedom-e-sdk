@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: 'Init Wit Workspace'
-        uses: sifive/wit/actions/init@v0.13.1
+        uses: sifive/wit/actions/init@v0.14.0
         with:
           workspace: ${{ env.WIT_WORKSPACE }}
           additional_packages: git@github.com:sifive/environment-blockci-sifive.git::0.8.0
