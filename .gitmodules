@@ -39,7 +39,7 @@
 	url = https://github.com/sifive/example-empty.git
 [submodule "software/sifive-welcome"]
 	path = software/sifive-welcome
-	url = https://github.com/sifive/sifive-welcome
+	url = https://github.com/sifive/example-sifive-welcome
 [submodule "software/dhrystone"]
 	path = software/dhrystone
 	url = https://github.com/sifive/benchmark-dhrystone
