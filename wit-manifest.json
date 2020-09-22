@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "58f40ee376f85998eabbe9e35654b74e1807e03e",
+        "commit": "54b0cbcf2bf129efe7ff04afbf89210a6dd29358",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -20,7 +20,7 @@
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "320c1f5ab1eddb1d50c38efc80acf607071953f2",
+        "commit": "693073ebafee5b81b2b67f40fafbcaea7723f345",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
@@ -263,5 +263,10 @@
         "commit": "88e0394e61294152c487512516758bfadfb1d12e",
         "name": "example-l2pf",
         "source": "git@github.com:sifive/example-l2pf.git"
+    },
+    {
+        "commit": "cd04f06675b3ba464ffabd72e5800b9ba1313104",
+        "name": "example-lim",
+        "source": "git@github.com:sifive/example-lim.git"
     }
 ]
