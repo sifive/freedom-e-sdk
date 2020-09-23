@@ -1,0 +1,30 @@
+# Taken from api-scala-sifive, since it's unnecessary to take the whole repo.
+package freedom_e_sdk
+
+# Find a git repository.
+# A valid repository must have a file or directory named '.git' within it.
+# If "x/y/z/.git" is found, return "x/y/z"
+def findGitRepository name =
+  require Pass tree = repositoryTree Unit
+  def hits = getPairFirst (tequal name tree)
+  match hits
+    Nil    = Fail (makeError "git repository '{name}' not found")
+    x, Nil = Pass x
+    _      = Fail (makeError "more than one git repository named '{name}': {catWith ", " hits}.")
+
+target repositoryTree Unit =
+  require Pass stdout =
+    makePlan ("find", ".", "-name", ".git", "-print0", Nil) Nil
+    | setPlanLocalOnly True
+    | setPlanPersistence Once
+    | setPlanStdout logNever
+    | setPlanEcho Verbose
+    | runJob
+    | getJobStdout
+  def repoName path = replace `^.*/` "" path     # Extract trailing component of the path
+  tokenize `\0` stdout                           # find outputs paths separated by a nul
+  | filter (_ !=* ".git")                        # Exclude the root repository
+  | map (replace `^\./|/\.git$` "" _)            # Strip leading ./ and trailing /.git
+  | listToTreeMulti (_.repoName <=>* _.repoName) # Sort paths by repository name
+  | Pass
+

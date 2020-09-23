@@ -162,20 +162,24 @@ export def makeFreedomESDK buildEnv destDir =
     | filter (!matches `freedom-e-sdk/scripts/(cmsis-svd-generator|openocdcfg-generator|esdk-settings-generator)(/.*)?` _.getPathName)
     | filterWakeAndDotFiles
 
+  require Pass sclRepo = findGitRepository "scl-metal"
   def sifiveCryptoLibSources =
-    sources "scl-metal" `.*`
+    sources sclRepo `.*`
     | filterWakeAndDotFiles
 
+  require Pass freeRTOSRepo = findGitRepository "FreeRTOS-metal"
   def freeRTOSSources =
-    sources "FreeRTOS-metal" `.*`
+    sources freeRTOSRepo `.*`
     | filterWakeAndDotFiles
 
+  require Pass systemViewRepo = findGitRepository "Segger_SystemView-metal"
   def systemViewSources =
-    sources "Segger_SystemView-metal" `.*`
+    sources systemViewRepo `.*`
     | filterWakeAndDotFiles
 
+  require Pass elf2hexRepo = findGitRepository "elf2hex"
   def elf2hexSources =
-    sources "elf2hex" `.*`
+    sources elf2hexRepo `.*`
     | filterWakeAndDotFiles
 
   require Pass installedFiles = 
