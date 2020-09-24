@@ -72,7 +72,6 @@ SECTIONS
      * certain core features */
     PROVIDE(__metal_chicken_bit = 1);
 
-    PROVIDE(__metal_eccscrub_bit = 0);
 
     /* ROM SECTION
      *
