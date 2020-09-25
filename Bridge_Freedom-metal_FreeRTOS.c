@@ -91,7 +91,7 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 	/*
 	 * Call xPortFreeRTOSInit in order to set xISRTopStack
 	 */
-	if ( 0 != xPortFreeRTOSInit((StackType_t)&( xISRStack[ ( configMINIMAL_STACK_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 1 ] ))) {
+	if ( 0 != xPortFreeRTOSInit((StackType_t)&( xISRStack[ ( (configMINIMAL_STACK_SIZE - 1) & ~portBYTE_ALIGNMENT_MASK ) ] ))) {
 		_exit(-1);
 	}
 }
