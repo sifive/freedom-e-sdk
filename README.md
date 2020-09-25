@@ -296,12 +296,12 @@ export FREEDOM_E_SDK_VENV_PATH=/path/to/venv
 To compile a bare-metal RISC-V program:
 
 ```
-make [PROGRAM=hello] [TARGET=sifive-hifive1] [CONFIGURATION=debug] software
+make [PROGRAM=hello] [TARGET=freedom-e310-arty] [CONFIGURATION=debug] software
 ```
 
 The square brackets in the above command indicate optional parameters for the
 Make invocation. As you can see, the default values of these parameters tell
-the build script to build the `hello` example for the `sifive-hifive1` target
+the build script to build the `hello` example for the `freedom-e310-arty` target
 with the `debug` configuration. If, for example, you wished to build the
 `timer-interrupt` example for the S51 Arty FPGA Evaluation target,
 with the `release` configuration, you would instead run the command
