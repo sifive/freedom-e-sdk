@@ -347,7 +347,7 @@ static void prvQueueReceiveTask( void *pvParameters )
 
 static void prvSetupHardware( void )
 {
-	const char * const pcWarningMsg = "At least one of LEDs is null.\n";
+	const char * const pcWarningMsg = "At least one of LEDs is null.\r\n";
 
 	// This demo will toggle LEDs colors so we define them here
 	led0_red = metal_led_get_rgb("LD0", "red");
@@ -385,7 +385,16 @@ void vApplicationMallocFailedHook( void )
 	FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
 	to query the size of free heap space that remains (although it does not
 	provide information on how the remaining heap might be fragmented). */
+
+	const char * const pcErrorMsg = "ERROR malloc \r\n";
+
 	taskDISABLE_INTERRUPTS();
+
+#if( portUSING_MPU_WRAPPERS == 1 )
+	/* need to be machine mode */
+	xPortRaisePrivilege();
+#endif /* ( portUSING_MPU_WRAPPERS == 1 ) */
+	write( STDOUT_FILENO, pcErrorMsg, strlen(pcErrorMsg) );
 
 	if ( led0_red != NULL )
 	{
@@ -423,7 +432,7 @@ void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
 
 	write( STDOUT_FILENO, "ERROR Stack overflow on func: ", 30 );
 	write( STDOUT_FILENO, pcTaskName, strlen( pcTaskName ) );
-
+	write( STDOUT_FILENO, "\r\n", 3 );
 
 	if ( led0_red != NULL )
 	{

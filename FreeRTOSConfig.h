@@ -56,14 +56,6 @@
  */
 #define configTICK_RATE_HZ			( ( TickType_t ) 100 )
 #define configMAX_PRIORITIES			( 7 )
-/*
- * configMINIMAL_STACK_SIZE must be a value greater than the stack use by 
- * the minimal task + the sizeof the register saved.
- * The size of the register is differrent from a core to another, e.g. on RiscV
- * it could be 32 base register + 32 register for FPU and some other for the
- * specific extensions.
- */
-#define configMINIMAL_STACK_SIZE		( ( size_t ) 256 )
 
 /*
  * FPU Support: If configENABLE_FPU is not set, it will be set to 1 into FreeRTOS.h due to ARMv8M ports.
@@ -73,6 +65,19 @@
 #define configENABLE_FPU	1
 #else
 #define configENABLE_FPU	0
+#endif /* __riscv_fdiv */
+
+/*
+ * configMINIMAL_STACK_SIZE must be a value greater than the stack use by 
+ * the minimal task + the sizeof the register saved.
+ * The size of the register is differrent from a core to another, e.g. on RiscV
+ * it could be 32 base register + 32 register for FPU and some other for the
+ * specific extensions.
+ */
+#ifdef __riscv_fdiv
+#define configMINIMAL_STACK_SIZE		( ( size_t ) 288 )
+#else
+#define configMINIMAL_STACK_SIZE		( ( size_t ) 256 )
 #endif /* __riscv_fdiv */
 
 /*
