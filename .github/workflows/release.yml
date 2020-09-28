@@ -24,13 +24,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
+          fetch-depth: 0
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-
-      # In order to generate release notes, we need a deep clone of the
-      # repository so that we can find the most recent tag and generate
-      # statistics based on it.
-      - name: 'Fetch History'
-        run: git fetch --prune --unshallow
 
       # We tag submodules before creating the release notes or the release
       # to make sure that they get tagged.
