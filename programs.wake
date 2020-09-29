@@ -1,0 +1,119 @@
+package freedom_e_sdk
+
+from wake import _
+
+export tuple FreedomESDKProgram =
+  export Name: String
+  export Kind: String
+  export Sources: List Path
+
+export def getFreedomESDKProgramSourceDir program =
+  def name = program.getFreedomESDKProgramName
+  def kind = program.getFreedomESDKProgramKind
+  "{kind}-{name}"
+
+export def makeFreedomESDKProgram name kind =
+  def program = FreedomESDKProgram name kind Nil
+  def sourceDir = program.getFreedomESDKProgramSourceDir
+  def programSources = sources sourceDir `.*`
+  program
+  | setFreedomESDKProgramSources programSources
+
+# Get the list of Freedom E SDK examples which are compatible with a given target
+export def allFreedomESDKExamples sdkTarget =
+  def programList =
+    makeFreedomESDKProgram "hello" "example",
+    makeFreedomESDKProgram "atomics" "example",
+    makeFreedomESDKProgram "cflush" "example",
+    makeFreedomESDKProgram "clic-hardware-vector-interrupts" "example",
+    makeFreedomESDKProgram "clic-nested-interrupts" "example",
+    makeFreedomESDKProgram "clic-nonvector-interrupts" "example",
+    makeFreedomESDKProgram "clic-selective-vector-interrupts" "example",
+    makeFreedomESDKProgram "csr-access" "example",
+    makeFreedomESDKProgram "empty" "example",
+    makeFreedomESDKProgram "buserror" "example",
+    makeFreedomESDKProgram "freertos-blinky" "example",
+    makeFreedomESDKProgram "freertos-minimal" "example",
+    makeFreedomESDKProgram "freertos-pmp-blinky" "example",
+    makeFreedomESDKProgram "hca-metal" "example",
+    makeFreedomESDKProgram "hpm" "example",
+    makeFreedomESDKProgram "i2c" "example",
+    makeFreedomESDKProgram "itim" "example",
+    makeFreedomESDKProgram "pmp" "example",
+    makeFreedomESDKProgram "pwm" "example",
+    makeFreedomESDKProgram "rtc" "example",
+    makeFreedomESDKProgram "spi" "example",
+    makeFreedomESDKProgram "user-mode" "example",
+    makeFreedomESDKProgram "user-syscall" "example",
+    makeFreedomESDKProgram "watchdog" "example",
+    makeFreedomESDKProgram "hello" "example",
+    makeFreedomESDKProgram "local-interrupt" "example",
+    makeFreedomESDKProgram "local-vector-interrupts" "example",
+    makeFreedomESDKProgram "minimal-boot" "example",
+    makeFreedomESDKProgram "multicore-hello" "example",
+    makeFreedomESDKProgram "plic-interrupts" "example",
+    makeFreedomESDKProgram "return-fail" "example",
+    makeFreedomESDKProgram "return-pass" "example",
+    makeFreedomESDKProgram "sifive-welcome" "example",
+    makeFreedomESDKProgram "software-interrupt" "example",
+    makeFreedomESDKProgram "timer-interrupt" "example",
+    Nil
+  filterFreedomESDKPrograms sdkTarget programList
+
+# Get the list of Freedom E SDK benchmarks which are compatible with a given target
+export def allFreedomESDKBenchmarks sdkTarget =
+  def programList =
+    makeFreedomESDKProgram "coremark" "benchmark",
+    makeFreedomESDKProgram "dhrystone" "benchmark",
+    makeFreedomESDKProgram "mem-latency" "benchmark",
+    Nil
+  filterFreedomESDKPrograms sdkTarget programList
+
+# Get all Freedom E SDK examples and benchmarks which are compatible with a given target
+export def allFreedomESDKPrograms sdkTarget =
+  allFreedomESDKExamples sdkTarget
+  ++ allFreedomESDKBenchmarks sdkTarget
+
+def filterFreedomESDKPrograms sdkTarget programs =
+  def targetHasBusError = targetHasCompatible sdkTarget "sifive,buserror0"
+  def targetHasClic = targetHasCompatible sdkTarget "sifive,clic0"
+
+  programs
+  | filter (\p (! matches `.*buserror.*` p.getFreedomESDKProgramName) || targetHasBusError)
+  | filter (\p (! matches `.*clic.*` p.getFreedomESDKProgramName) || targetHasClic)
+  | filter (\p (! freedomESDKProgramOverflowsMemory sdkTarget p))
+  | filter (\p (! freedomESDKProgramCannotLinkUnderCodeModel sdkTarget p))
+
+def targetHasCompatible sdkTarget compatible =
+  def sdk = sdkTarget.getFreedomESDKTargetSDK
+  def buildEnv = sdk.getFreedomESDKBuildEnv
+  def venv = sdk.getFreedomESDKVenv
+  def detectCompatible = "{here}/scripts/detect_compatible.py"
+
+  def targetBSPDir = "{sdk.getFreedomESDKDir}/bsp/{sdkTarget.getFreedomESDKTargetName}"
+
+  def inputs =
+    source detectCompatible,
+    sdkTarget.getFreedomESDKTargetInstalledFiles
+    ++ venv.getFreedomESDKVirtualenvInstalledFiles
+
+  def cmdline =
+    def venvPath = freedomESDKVenvDir buildEnv
+    "bash", "-c", "%
+      . $(pwd)/%{venvPath}/bin/activate
+      touch %{targetBSPDir}/compatcheck
+      %{detectCompatible} \
+        --dts %{targetBSPDir}/design.dts \
+        --compatible %{compatible}
+      %", Nil
+
+  def jobStatus =
+    makePlan cmdline inputs
+    | setPlanResources defaultFreedomESDKResources
+    | setPlanLocalOnly True
+    | runJob
+    | getJobStatus
+
+  match jobStatus
+    Exited code = code == 0
+    _ = False

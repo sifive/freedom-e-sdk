@@ -26,7 +26,7 @@ FREEDOM_E_SDK_PIP_CACHE_PATH ?= pip-cache
 
 $(FREEDOM_E_SDK_VENV_PATH)/bin/activate:
 	python3 -m venv $(FREEDOM_E_SDK_VENV_PATH)
-	. $@ && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install pip==20.0.1
+	. $@ && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install pip==20.0.1 --disable-pip-version-check
 
 .PHONY: pip-cache
 pip-cache: $(FREEDOM_E_SDK_PIP_CACHE_PATH)/.stamp
@@ -50,8 +50,8 @@ $(FREEDOM_E_SDK_VENV_PATH)/.stamp: $(FREEDOM_E_SDK_VENV_PATH)/bin/activate requi
 	@echo "FREEDOM_E_SDK_PIP_CACHE not found, creating virtualenv from Python Package Index" >&2
 	@echo "You can pre-download Python packages by running 'make pip-cache'."                >&2
 	@echo "################################################################################" >&2
-	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install pip==20.0.1
-	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install -r requirements.txt
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install pip==20.0.1 --disable-pip-version-check
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install -r requirements.txt --disable-pip-version-check
 	touch $@
 
 else # If FREEDOM_E_SDK_PIP_CACHE_PATH does exist, fetch dependences from there
@@ -63,7 +63,7 @@ $(FREEDOM_E_SDK_VENV_PATH)/.stamp: $(FREEDOM_E_SDK_VENV_PATH)/bin/activate requi
 	@echo "##################################################################" >&2
 	@echo "FREEDOM_E_SDK_PIP_CACHE found, creating virtualenv from $(FREEDOM_E_SDK_PIP_CACHE_PATH)" >&2
 	@echo "##################################################################" >&2
-	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install --no-index --find-links $(FREEDOM_E_SDK_PIP_CACHE_PATH) -r requirements.txt
+	. $< && $(FREEDOM_E_SDK_VENV_PATH)/bin/python3 $(FREEDOM_E_SDK_VENV_PATH)/bin/pip install --no-index --find-links $(FREEDOM_E_SDK_PIP_CACHE_PATH) -r requirements.txt --disable-pip-version-check
 	touch $@
 
 endif # FREEDOM_E_SDK_PIP_CACHE_PATH
