@@ -33,7 +33,6 @@ export def allFreedomESDKExamples sdkTarget =
     makeFreedomESDKProgram "empty" "example",
     makeFreedomESDKProgram "buserror" "example",
     makeFreedomESDKProgram "freertos-blinky" "example",
-    makeFreedomESDKProgram "freertos-blinky-systemview" "example",
     makeFreedomESDKProgram "freertos-minimal" "example",
     makeFreedomESDKProgram "freertos-pmp-blinky" "example",
     makeFreedomESDKProgram "hca-metal" "example",
