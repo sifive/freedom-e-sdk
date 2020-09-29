@@ -1,11 +1,11 @@
 [
     {
-        "commit": "3dcf089e31f6c4087fbdeae14ca150850ba782cd",
+        "commit": "3a32afbd919321bb70f96ec4b7b0b4b3a773057b",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "7150fb3619a46fbb1f8d8a8df4f90e4e0ee0fccd",
+        "commit": "42a92158900518be7f21223826ce955116d20e7",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -25,7 +25,7 @@
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "b170b93562cbdc76196bfc51e01135f0e7464fb8",
+        "commit": "3ecb9db66cc4e0829853c527329b9862adf1f987",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
