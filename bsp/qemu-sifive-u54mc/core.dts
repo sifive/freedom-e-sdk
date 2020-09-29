@@ -16,7 +16,7 @@
 			reg = <0x0>;
 			status = "okay";
 			compatible = "riscv";
-			riscv,isa = "rv64imafdcsu";
+			riscv,isa = "rv64imafdc";
 			mmu-type = "riscv,sv48";
 			clock-frequency = <0x3b9aca00>;
 			riscv,pmpregions = <8>;
