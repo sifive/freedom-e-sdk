@@ -162,6 +162,10 @@ SECTIONS
         *(.srodata .srodata.*)
     } >rom :rom
 
+    .eh_frame : {
+	*(.eh_frame .eh_frame.*)
+    }  >rom :rom
+
     /* ITIM SECTION
      *
      * The following sections contain data which is copied from read-only
@@ -295,7 +299,4 @@ SECTIONS
      * and it consumes flash space. Discard it until
      * we have something that can use it
      */
-    /DISCARD/ : {
-	*(.eh_frame .eh_frame.*)
-    }
 }

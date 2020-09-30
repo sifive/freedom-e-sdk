@@ -127,8 +127,6 @@ SECTIONS
         PROVIDE_HIDDEN ( metal_destructors_end = .);
     } >rom :rom
 
- 
-
     .ctors : {
         KEEP (*crtbegin.o(.ctors))
         KEEP (*crtbegin?.o(.ctors))
@@ -158,6 +156,10 @@ SECTIONS
         *(.srodata.cst2)
         *(.srodata .srodata.*)
     } >rom :rom
+    .eh_frame : ALIGN(8) {
+        KEEP (*(.eh_frame)) *(.eh_frame.*)
+    }  >rom :rom
+
 
     /* ITIM SECTION
      *
@@ -292,7 +294,4 @@ SECTIONS
      * and it consumes flash space. Discard it until
      * we have something that can use it
      */
-    /DISCARD/ : {
-	*(.eh_frame .eh_frame.*)
-    }
 }

@@ -152,7 +152,7 @@ QEMU_RISCV64 = qemu-system-riscv64
 
 # Set the arch, ABI, and code model
 RISCV_CCASFLAGS += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
-RISCV_CFLAGS    += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
+RISCV_CFLAGS    += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)  -fasynchronous-unwind-tables
 RISCV_CXXFLAGS  += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 RISCV_ASFLAGS   += -march=$(RISCV_ARCH) -mabi=$(RISCV_ABI) -mcmodel=$(RISCV_CMODEL)
 # Prune unused functions and data
@@ -182,16 +182,19 @@ RISCV_CFLAGS    += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 RISCV_CXXFLAGS  += -DMTIME_RATE_HZ_DEF=$(MTIME_RATE_HZ_DEF)
 
 # Turn on garbage collection for unused sections
-RISCV_LDFLAGS += -Wl,--gc-sections
+#RISCV_LDFLAGS += -Wl,--gc-sections
 # Turn on linker map file generation
 RISCV_LDFLAGS += -Wl,-Map,$(PROGRAM).map
 # Turn off the C standard library
 RISCV_LDFLAGS += -nostartfiles -nostdlib
+CRTBEGIN = $(shell $(RISCV_GCC) $(RISCV_CFLAGS) --print-file-name=crtbegin.o)
+CRTEND = $(shell $(RISCV_GCC) $(RISCV_CFLAGS) --print-file-name=crtend.o)
+RISCV_LDFLAGS += $(CRTBEGIN)
 # Find the archive files and linker scripts
 RISCV_LDFLAGS += -L$(sort $(dir $(abspath $(filter %.a,$^)))) -T$(abspath $(filter %.lds,$^))
 
 # Link to the relevant libraries
-RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -lmetal $(LIBMETAL_EXTRA) -Wl,--end-group
+RISCV_LDLIBS += -Wl,--start-group -lc -lgcc -lm -lmetal $(LIBMETAL_EXTRA) -Wl,--end-group $(CRTEND)
 
 # Load the configuration Makefile
 CONFIGURATION_FILE = $(wildcard $(CONFIGURATION).mk)
