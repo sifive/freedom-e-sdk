@@ -315,7 +315,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 		L51: nb2uart0@302011000 {
 			compatible = "sifive,nb2uart0";
                         interrupt-parent = <&L3>;
-                        interrupts = <67>;
+                        interrupts = <64>;
                         reg = <0x3 0x02011000 0x0 0x1000>;
                         reg-names = "control";
                         clocks = <&L0>;
@@ -323,7 +323,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 		L52: nb2uart0@302012000 {
 			compatible = "sifive,nb2uart0";
                         interrupt-parent = <&L3>;
-                        interrupts = <68>;
+                        interrupts = <65>;
                         reg = <0x3 0x02012000 0x0 0x1000>;
                         reg-names = "control";
                         clocks = <&L0>;
@@ -331,7 +331,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 		L53: nb2wdt@302058000 {
 			compatible = "sifive,nb2wdt";
                         interrupt-parent = <&L3>;
-                        interrupts = <73>;
+                        interrupts = <4>;
                         reg = <0x03 0x02058000 0x00 0x1000>;
                         reg-names = "control";
                         clocks = <&L0>;
@@ -340,14 +340,14 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 			//gpio instance 1
 			compatible = "sifive,nb2gpio0";
                         interrupt-parent = <&L3>;
-                        interrupts = <75>;
+                        interrupts = <69>;
                         reg = <0x3 0x02040000 0x0 0x1000>;
                         reg-names = "control";
 		};
 		L55: nb2qspi0@261010000 {
 			compatible = "sifive,nb2qspi0";
                         interrupt-parent = <&L3>;
-                        interrupts = <65>;
+                        interrupts = <62>;
                         reg = <0x2 0x61010000 0x0 0x1000>;
                         axi-base-addr=<0x2 0x80000000 0x0 0x04000000>;
                         reg-names = "control";
@@ -356,7 +356,7 @@ stdout-path = "/soc/nb2uart0@302011000:9600";
 		L56: nb2emmc@301007000 {
 			compatible = "sifive,nb2emmc";
                         interrupt-parent = <&L3>;
-                        interrupts = <48 49 52>;
+                        interrupts = <45 46>;
                         reg = <0x3 0x01007000 0x0 0x1000>;
                         bus-width =<4>;
                         dma-enable =<0>;

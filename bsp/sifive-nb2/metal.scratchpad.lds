@@ -78,8 +78,8 @@ SECTIONS
     /* The RAM memories map for ECC scrubbing */
     /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
     /* User is recommended to enable the full size for manual RTL simulation run! */
-    PROVIDE( metal_memory_0_memory_start = 0x800100000 );
-    PROVIDE( metal_memory_0_memory_end = 0x800100000 + 0x10000 );
+    PROVIDE( metal_memory_0_memory_start = 0x801000000 );
+    PROVIDE( metal_memory_0_memory_end = 0x801000000 + 0x10000 );
 
     /* ROM SECTION
      *

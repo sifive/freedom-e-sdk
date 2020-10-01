@@ -77,9 +77,9 @@
 
 #define METAL_MAX_PWM0_NCMP 0
 
-#define __METAL_NB2EMMC_301007000_INTERRUPTS 3
+#define __METAL_NB2EMMC_301007000_INTERRUPTS 2
 
-#define METAL_MAX_EMMC_INTERRUPTS 3
+#define METAL_MAX_EMMC_INTERRUPTS 2
 
 #define METAL_EMMC_BUS_WIDTH 4
 
@@ -139,7 +139,7 @@
 /* From subsystem_pbus_clock */
 struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock;
 
-struct metal_memory __metal_dt_mem_testram_800000000;
+struct metal_memory __metal_dt_mem_testram_100000000;
 
 struct metal_memory __metal_dt_mem_testram_c00000000;
 
@@ -1423,13 +1423,10 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2emmc_interru
 static __inline__ int __metal_driver_sifive_nb2emmc_interrupt_lines(struct metal_emmc *emmc, int idx)
 {
 	if (((uintptr_t)emmc == (uintptr_t)&__metal_dt_nb2emmc_301007000) && (idx == 0)) {
-		return 48;
+		return 45;
 	}
 	else if ((((uintptr_t)emmc == (uintptr_t)&__metal_dt_nb2emmc_301007000) && (idx == 1))) {
-		return 49;
-	}
-	else if ((((uintptr_t)emmc == (uintptr_t)&__metal_dt_nb2emmc_301007000) && (idx == 2))) {
-		return 52;
+		return 46;
 	}
 	else {
 		return 0;
@@ -1555,10 +1552,10 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interr
 static __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
-		return 67;
+		return 64;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
-		return 68;
+		return 65;
 	}
 	else {
 		return 0;
@@ -1653,7 +1650,7 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2wdt_interrup
 static __inline__ int __metal_driver_sifive_nb2wdt_interrupt_line(const struct metal_watchdog *const watchdog)
 {
 	if ((uintptr_t)watchdog == (uintptr_t)&__metal_dt_nb2wdt_302058000) {
-		return 73;
+		return 4;
 	}
 	else {
 		return 0;
@@ -1694,7 +1691,7 @@ static __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const 
 
 __asm__ (".weak __metal_memory_table");
 struct metal_memory *__metal_memory_table[] = {
-					&__metal_dt_mem_testram_800000000,
+					&__metal_dt_mem_testram_100000000,
 					&__metal_dt_mem_testram_c00000000,
 					&__metal_dt_mem_memory_800000000};
 
