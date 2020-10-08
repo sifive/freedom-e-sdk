@@ -1,6 +1,6 @@
 [
     {
-        "commit": "99215f3bb636999699c681f1008bae813def4c72",
+        "commit": "a80a716fc67cff85e744708e084c9df254cafb61",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
@@ -15,27 +15,27 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "934c69d374e1ef3f5c9661535f4d8a5a65f776cb",
+        "commit": "08e3c9cb25738fe80af3b6f1d80bb7b5dccd7a18",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "320c1f5ab1eddb1d50c38efc80acf607071953f2",
+        "commit": "27c73995a9797825075ee8beed8be198e1d5d280",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "d8f26eca3fa4833fef301957905e0a2b019eb9dc",
+        "commit": "f2a19e24eedee85e38b61624e3f0e4dd35a1ccd4",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
-        "commit": "6bba6b25e02f68990fdc84ac06d94634189f01df",
+        "commit": "d96690b38998efde77fea95bbde29b66c6a9943f",
         "name": "openocdcfg-generator",
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "795d65bc6c033c6d97222f2683f2112631558aa2",
+        "commit": "13f80b23b3ce9980b88560a7db5c826ee32cc4bd",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
