@@ -7,4 +7,4 @@ Metal libraries. It supports:
 - 4 harts with support for the RV64GC instruction set
 - A Memory Management Unit with SV48 Virtual Memory
 
-This BSP matches QEMU 4.1.0
+This BSP matches the QEMU code in https://github.com/sifive/freedom-qemu
