@@ -13,4 +13,4 @@ This target is ideal for getting familiarize with RISC-V ISA instructions set an
 - 1 RGB LEDS
 - DTIM memory with 4M bytes
 
-This BSP matches the QEMU code in https://git.qemu.org/?p=qemu.git;a=tree;h=refs/tags/v4.1.0;hb=refs/tags/v4.1.0
+This BSP matches the QEMU code in https://github.com/sifive/freedom-qemu
