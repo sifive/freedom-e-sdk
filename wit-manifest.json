@@ -1,11 +1,11 @@
 [
     {
-        "commit": "99215f3bb636999699c681f1008bae813def4c72",
+        "commit": "cfcb6c7e4cea691f267c1c9a640fcc1041441cc7",
         "name": "freedom-devicetree-tools",
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "54b0cbcf2bf129efe7ff04afbf89210a6dd29358",
+        "commit": "cb50f878e122467b626b361871735036895415b5",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -255,12 +255,12 @@
         "source": "git@github.com:sifive/example-hca-metal.git"
     },
     {
-        "commit": "950b3ac73c3e5a2cf7e7463aa05b144e8616569c",
+        "commit": "ea2ab97f258f7a84275cfe7ffe7b191d40d33418",
         "name": "example-l2pm",
         "source": "git@github.com:sifive/example-l2pm.git"
     },
     {
-        "commit": "88e0394e61294152c487512516758bfadfb1d12e",
+        "commit": "2aa54fae8a46be61d267a3bc786093c10c7d0671",
         "name": "example-l2pf",
         "source": "git@github.com:sifive/example-l2pf.git"
     },
