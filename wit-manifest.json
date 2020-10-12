@@ -15,27 +15,27 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "934c69d374e1ef3f5c9661535f4d8a5a65f776cb",
+        "commit": "33877304ee4b8ce745b62a05f7af8bb50c433d27",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
     {
-        "commit": "693073ebafee5b81b2b67f40fafbcaea7723f345",
+        "commit": "24a49b585207063e863267d3ece8a287dcf1b2d1",
         "name": "ldscript-generator",
         "source": "git@github.com:sifive/ldscript-generator.git"
     },
     {
-        "commit": "d8f26eca3fa4833fef301957905e0a2b019eb9dc",
+        "commit": "23ad6ad588a7daa60c35f16ed50e3b1fbcc730ef",
         "name": "cmsis-svd-generator",
         "source": "git@github.com:sifive/cmsis-svd-generator.git"
     },
     {
-        "commit": "6bba6b25e02f68990fdc84ac06d94634189f01df",
+        "commit": "30a1f600ab6bc479868b29a19599afdd5d5e5604",
         "name": "openocdcfg-generator",
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "795d65bc6c033c6d97222f2683f2112631558aa2",
+        "commit": "d59e623729cc05b7c132b67f79abc5d3dd79ae2d",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -80,7 +80,7 @@
         "source": "git@github.com:sifive/example-empty.git"
     },
     {
-        "commit": "5bba3ab6adc8c0c6649c49c4ad13859a1a5c80be",
+        "commit": "8d702959992b972a9238eac7b49dd1171fc5d14d",
         "name": "example-itim",
         "source": "git@github.com:sifive/example-itim.git"
     },
