@@ -20,15 +20,13 @@ do
         # Coremark and Dhrystone don't fit
         if [ "${program}" == "dhrystone" -o \
              "${program}" == "coremark" -o  \
-             "${program}" == "example-freertos-blinky-systemview" -o \
              "${program}" == "example-buserror" ] ; then
             continue
         fi
 
         # FreeRTOS examples are broken with Segger Libc
         if [ "${RISCV_LIBC}" == "segger" ] ; then
-            if [ "${program}" == "example-freertos-blinky-systemview" -o \
-                 "${program}" == "example-freertos-blinky" -o \
+	    if [ "${program}" == "example-freertos-blinky" -o \
                  "${program}" == "example-freertos-pmp-blinky" -o \
                  "${program}" == "example-freertos-minimal" ] ; then
                 continue

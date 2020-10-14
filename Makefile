@@ -298,12 +298,6 @@ ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
 	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
 endif
 
-ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
-	cp -r Segger_SystemView-metal $</
-
-	find $</Segger_SystemView-metal -name ".git*" | xargs rm -rf
-endif
-
 ifneq ($(shell grep scl.mk $(SRC_DIR)/Makefile),)
 	cp -r scl-metal $</
 
@@ -392,12 +386,6 @@ standalone: \
 ifneq ($(shell grep FreeRTOS.mk $(SRC_DIR)/Makefile),)
 	cp -r FreeRTOS-metal $</
 	find $</FreeRTOS-metal -name ".git*" | xargs rm -rf
-endif
-
-ifneq ($(shell grep SystemView.mk $(SRC_DIR)/Makefile),)
-	cp -r Segger_SystemView-metal $</
-
-	find $</Segger_SystemView-metal -name ".git*" | xargs rm -rf
 endif
 
 ifneq ($(shell grep scl.mk $(SRC_DIR)/Makefile),)

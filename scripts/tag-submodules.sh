@@ -13,7 +13,6 @@ submodules=(\
   freedom-metal \
   freedom-devicetree-tools \
   FreeRTOS-metal \
-  Segger_SystemView-metal \
   scl-metal \
   scripts/cmsis-svd-generator \
   scripts/devicetree-overlay-generator \

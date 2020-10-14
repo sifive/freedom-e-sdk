@@ -12,8 +12,6 @@ export FREERTOS_SOURCE_PATH = $(abspath FreeRTOS-metal)
 export FREEDOM_E_SDK_VENV_PATH ?=  $(abspath .)/venv
 # Set FREERTOS_METAL_VENV_PATH to use same venv as FREEDOM_E_SDK_VENV_PATH
 export FREERTOS_METAL_VENV_PATH ?= $(FREEDOM_E_SDK_VENV_PATH)
-# SYSTEMVIEW_SOURCE_PATH sets the path to the SEGGER SystemView source directory
-export SYSTEMVIEW_SOURCE_PATH = $(abspath Segger_SystemView-metal)
 # SCL_SOURCE_PATH sets the path to the SCL source directory
 export SCL_SOURCE_PATH = $(abspath scl-metal)
 
