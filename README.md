@@ -73,14 +73,6 @@ operating systems to RISC-V.
 * [FreeRTOS](https://www.freertos.org/) (found under `FreeRTOS-metal/`):
   - A class of RTOS that is designed to be small enough to run on a microcontroller
   - Provided here under its own license
-* SEGGER\_SystemView (found under `SEGGER_SystemView-metal/`)
-  - A real-time recording and visualization tool for embedded systems that reveals the true
-    runtime behavior of an application, going far deeper than the system insights provided
-    by debuggers. This is particularly effective when developing and working with complex
-    embedded systems comprising multiple threads and interrupts
-  - SystemView can ensure a system performs as designed, can track down inefficiencies,
-    and show unintended interactions and resource conflicts, with a focus on details
-    of every single system tick.
 * A Few Example Programs (found under `software/`)
   - empty
     - An empty project. Serves as a good starting point for your own program.
@@ -159,8 +151,6 @@ operating systems to RISC-V.
     - A simple FreeRTOS skeleton to build your FreeRTOS application.
   - example-freertos-blinky
     - A simple FreeRTOS blinky application.
-  - example-freertos-blinky-systemview
-    - A simple FreeRTOS blinky application with Segger SystemView feature enable (in order to have a realtime trace).
 
 ### Setting up the SDK ###
 

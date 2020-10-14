@@ -162,12 +162,6 @@ The example programs can be found under the ``software/`` directory.
 
   - A simple blinky starter application create just two tasks, one queue
 
-- example-freertos-blinky-systemview
-
-  - A simple blinky starter application create just two tasks, one queue
-    (based on example-freertos-blinky example) in addition this example
-    init and use the SEGGER sytemView trace.
-
 - example-freertos-minimal
 
   - A simple starter example application to start FreeRTOS application
