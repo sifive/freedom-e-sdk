@@ -17,9 +17,6 @@ __attribute__ ((aligned(4))) uint8_t ucHeap[ configTOTAL_HEAP_SIZE ] __attribute
 
 
 __attribute__((constructor)) static void FreeRTOS_init(void);
-#ifdef SEGGER_SYSTEMVIEW
-__attribute__((constructor)) static void SEGGER_SysView_init(void);
-#endif
 
 #if( configENABLE_FPU == 1 )
 	extern void prvSetupFPU( void );
