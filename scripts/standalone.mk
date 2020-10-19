@@ -242,9 +242,6 @@ ifneq ($(filter rtl,$(TARGET_TAGS)),)
 RISCV_XCFLAGS += -DHCA_BYPASS_TRNG
 endif
 
-# A method to pass cycle delay
-RISCV_XCFLAGS += -DMETAL_WAIT_CYCLE=$(TARGET_INTR_WAIT_CYCLE)
-
 #############################################################
 # Software
 #############################################################
