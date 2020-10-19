@@ -197,11 +197,28 @@ export def makeFreedomESDK buildEnv destDir =
     | map getPathResult
     | findFail
 
+  require Pass installedElf2hex =
+    def cmd =
+      "bash", "-c", "%
+        mkdir -p scripts/elf2hex/build
+        cd scripts/elf2hex/build && ../configure \
+          --prefix=$(pwd)/../install \
+          --target=riscv64-unknown-elf
+        make install
+        %", Nil
+    makePlan cmd installedFiles
+    | setPlanDirectory sdkDir
+    | setPlanResources buildEnv.getFreedomESDKBuildEnvResources
+    | runJob
+    | getJobOutputs
+    | map getPathResult
+    | findFail
+
   require Pass venv = installFreedomESDKVirtualenv buildEnv
 
   def sdk =
     FreedomESDK sdkDir Nil buildEnv venv
-    | setFreedomESDKInstalledFiles installedFiles
+    | setFreedomESDKInstalledFiles (installedFiles ++ installedElf2hex)
 
   Pass sdk
 
