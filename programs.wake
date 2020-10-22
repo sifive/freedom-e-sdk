@@ -6,6 +6,7 @@ export tuple FreedomESDKProgram =
   export Name: String
   export Kind: String
   export Sources: List Path
+  export ForFPGA: Boolean
 
 export def getFreedomESDKProgramSourceDir program =
   def name = program.getFreedomESDKProgramName
@@ -13,11 +14,15 @@ export def getFreedomESDKProgramSourceDir program =
   "{kind}-{name}"
 
 export def makeFreedomESDKProgram name kind =
-  def program = FreedomESDKProgram name kind Nil
+  def program = FreedomESDKProgram name kind Nil False
   def sourceDir = program.getFreedomESDKProgramSourceDir
   def programSources = sources sourceDir `.*`
   program
   | setFreedomESDKProgramSources programSources
+
+export def makeFreedomESDKFPGAProgram name kind =
+  makeFreedomESDKProgram name kind
+  | setFreedomESDKProgramForFPGA True
 
 # Get the list of Freedom E SDK examples which are compatible with a given target
 export def allFreedomESDKExamples sdkTarget =
@@ -25,38 +30,41 @@ export def allFreedomESDKExamples sdkTarget =
     makeFreedomESDKProgram "hello" "example",
     makeFreedomESDKProgram "atomics" "example",
     makeFreedomESDKProgram "cflush" "example",
-    makeFreedomESDKProgram "clic-hardware-vector-interrupts" "example",
-    makeFreedomESDKProgram "clic-nested-interrupts" "example",
-    makeFreedomESDKProgram "clic-nonvector-interrupts" "example",
-    makeFreedomESDKProgram "clic-selective-vector-interrupts" "example",
     makeFreedomESDKProgram "csr-access" "example",
     makeFreedomESDKProgram "empty" "example",
     makeFreedomESDKProgram "buserror" "example",
     makeFreedomESDKProgram "freertos-blinky" "example",
     makeFreedomESDKProgram "freertos-minimal" "example",
-    makeFreedomESDKProgram "freertos-pmp-blinky" "example",
     makeFreedomESDKProgram "hca-metal" "example",
     makeFreedomESDKProgram "hpm" "example",
     makeFreedomESDKProgram "i2c" "example",
     makeFreedomESDKProgram "itim" "example",
     makeFreedomESDKProgram "pmp" "example",
-    makeFreedomESDKProgram "pwm" "example",
     makeFreedomESDKProgram "rtc" "example",
     makeFreedomESDKProgram "spi" "example",
     makeFreedomESDKProgram "user-mode" "example",
     makeFreedomESDKProgram "user-syscall" "example",
     makeFreedomESDKProgram "watchdog" "example",
     makeFreedomESDKProgram "hello" "example",
-    makeFreedomESDKProgram "local-interrupt" "example",
-    makeFreedomESDKProgram "local-vector-interrupts" "example",
     makeFreedomESDKProgram "minimal-boot" "example",
     makeFreedomESDKProgram "multicore-hello" "example",
-    makeFreedomESDKProgram "plic-interrupts" "example",
-    makeFreedomESDKProgram "return-fail" "example",
     makeFreedomESDKProgram "return-pass" "example",
-    makeFreedomESDKProgram "sifive-welcome" "example",
     makeFreedomESDKProgram "software-interrupt" "example",
     makeFreedomESDKProgram "timer-interrupt" "example",
+    Nil
+  filterFreedomESDKPrograms sdkTarget programList
+
+export def allFreedomESDKFPGAExamples sdkTarget =
+  def programList =
+    makeFreedomESDKFPGAProgram "clic-hardware-vector-interrupts" "example",
+    makeFreedomESDKFPGAProgram "clic-nested-interrupts" "example",
+    makeFreedomESDKFPGAProgram "clic-nonvector-interrupts" "example",
+    makeFreedomESDKFPGAProgram "clic-selective-vector-interrupts" "example",
+    makeFreedomESDKFPGAProgram "local-interrupt" "example",
+    makeFreedomESDKFPGAProgram "local-vector-interrupts" "example",
+    makeFreedomESDKFPGAProgram "plic-interrupts" "example",
+    makeFreedomESDKFPGAProgram "sifive-welcome" "example",
+    makeFreedomESDKFPGAProgram "pwm" "example",
     Nil
   filterFreedomESDKPrograms sdkTarget programList
 
@@ -72,15 +80,52 @@ export def allFreedomESDKBenchmarks sdkTarget =
 # Get all Freedom E SDK examples and benchmarks which are compatible with a given target
 export def allFreedomESDKPrograms sdkTarget =
   allFreedomESDKExamples sdkTarget
+  ++ allFreedomESDKFPGAExamples sdkTarget
   ++ allFreedomESDKBenchmarks sdkTarget
 
 def filterFreedomESDKPrograms sdkTarget programs =
   def targetHasBusError = targetHasCompatible sdkTarget "sifive,buserror0"
   def targetHasClic = targetHasCompatible sdkTarget "sifive,clic0"
+  def targetHasSPI = targetHasCompatible sdkTarget "sifive,spi0"
+  def targetHasPWM = targetHasCompatible sdkTarget "sifive,pwm0"
+  def targetHasAON = targetHasCompatible sdkTarget "sifive,aon0"
+  def targetIs2Series = targetHasCompatible sdkTarget "sifive,caboose0"
+
+  def coreDTSContents =
+    def coreDTS =
+      sdkTarget.getFreedomESDKTargetInstalledFiles
+      | filter (\p (! matches `.*core\.dts` p.getPathName))
+      | head
+    match coreDTS
+      Some f = read f
+      None = Fail "No core.dts in FreedomESDKTarget".makeError
+  def targetHasPMP =
+    match coreDTSContents
+      # When PMP isn't supported, the riscv,pmpregions property is missing entirely.
+      # If at some point in the future it is present but set to 0 to indicate missing
+      # PMP functionality, this test will need to be updated.
+      Pass c = matches `.*riscv,pmpregions.*` c
+      Fail _ = False
+
+  def targetHasAtomics =
+    match coreDTSContents
+      Pass c = matches `riscv,isa = "rv32.*a.*"` c
+      Fail _ = False
 
   programs
+  | filter (\p (! matches `.*atomics.*` p.getFreedomESDKProgramName) || (! targetIs2Series))
+  | filter (\p (! matches `.*atomics.*` p.getFreedomESDKProgramName) || targetHasAtomics)
   | filter (\p (! matches `.*buserror.*` p.getFreedomESDKProgramName) || targetHasBusError)
   | filter (\p (! matches `.*clic.*` p.getFreedomESDKProgramName) || targetHasClic)
+  | filter (\p (! matches `.*multicore-hello.*` p.getFreedomESDKProgramName) || (! targetIs2Series))
+  | filter (\p (! matches `.*multicore-hello.*` p.getFreedomESDKProgramName) || targetHasAtomics)
+  | filter (\p (! matches `.*spi.*` p.getFreedomESDKProgramName) || targetHasSPI)
+  | filter (\p (! matches `.*pmp.*` p.getFreedomESDKProgramName) || targetHasPMP)
+  | filter (\p (! matches `.*pwm.*` p.getFreedomESDKProgramName) || targetHasPWM)
+  | filter (\p (! matches `.*rtc.*` p.getFreedomESDKProgramName) || targetHasAON)
+  | filter (\p (! matches `.*user.*` p.getFreedomESDKProgramName) || (! targetIs2Series))
+  | filter (\p (! matches `.*user.*` p.getFreedomESDKProgramName) || targetHasPMP)
+  | filter (\p (! matches `.*(watchdog|wdog).*` p.getFreedomESDKProgramName) || targetHasAON)
   | filter (\p (! freedomESDKProgramOverflowsMemory sdkTarget p))
   | filter (\p (! freedomESDKProgramCannotLinkUnderCodeModel sdkTarget p))
 
