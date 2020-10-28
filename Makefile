@@ -192,10 +192,33 @@ clean:
 # A given version of Freedom Studio may not support 
 # 'future' versions of freedom-e-sdk.  Backward support
 # should be supported.
+#
+# 1.0 - Original API
+# 1.1 - Added list-freedomstudio-info target
 #############################################################
 .PHONY: freedomstudio-api-version
 freedomstudio-api-version:
-	@echo 1.0
+	@echo 1.1
+
+#############################################################
+# Prints information that Freedom Studio can use to make best
+# possible decisions to support this example project
+#
+# compiler = gcc 
+# compiler_version = X[.Y[.Z[]]]
+# add_fcommon = (true|false)
+#
+# Only compiler=gcc is supported right now.
+#
+# compiler_version: can be as general or specific as necessary
+# if omitted, then any or only compiler is used. If specified
+# compiler is not present then FS will display a message to
+# the user.
+#
+#############################################################
+.PHONY: list-freedomstudio-helpers
+list-freedomstudio-helpers:
+	@echo compiler=gcc, compiler_version=10
 
 # Find all settings.mk with TARGET_REQUIRE_TAGS in TARGET_TAGS
 # Freedom Studio uses this macro.  Changing this macro may break Freedom Studio's
