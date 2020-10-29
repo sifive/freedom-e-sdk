@@ -6,10 +6,10 @@
 #ifndef METAL_PLATFORM_H
 #define METAL_PLATFORM_H
 
-/* From clock_0 */
+/* From hfclock */
 #define METAL_FIXED_CLOCK__CLOCK_FREQUENCY 16000000UL
 
-/* From clock_1 */
+/* From lfclock */
 #define METAL_FIXED_CLOCK__CLOCK_FREQUENCY 32768UL
 
 #define METAL_FIXED_CLOCK
