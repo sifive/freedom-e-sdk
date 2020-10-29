@@ -4,6 +4,7 @@
         #size-cells = <1>;
 	/* Virtual platform based on HiFive1 Rev. B for with
 	 *
+	 * - RV32 core
 	 * - secondary UART
 	 * - HCA crypto accelerator
 	 * - test finisher virtual device
@@ -59,12 +60,12 @@
                         interrupt-parent = <&plic>;
                         interrupts = <1 2>;
                 };
-                hfclk: clock-0 {
+                hfclk: hfclock {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";
                         clock-frequency = <16000000>;
                 };
-                lfrosc: clock-1 {
+                lfrosc: lfclock {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";
                         clock-frequency = <32768>;
