@@ -60,12 +60,12 @@
                         interrupt-parent = <&plic>;
                         interrupts = <1 2>;
                 };
-                hfclk: hfclock {
+                hfclk: clock@1 {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";
                         clock-frequency = <16000000>;
                 };
-                lfrosc: lfclock {
+                lfrosc: clock@2 {
                         #clock-cells = <0>;
                         compatible = "fixed-clock";
                         clock-frequency = <32768>;
