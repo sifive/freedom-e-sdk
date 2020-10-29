@@ -17,7 +17,7 @@ MEMORY
 {
     itim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x2000
     ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x400000
-    rom (irx!wa) : ORIGIN = 0x20400000, LENGTH = 0x1fc00000
+    rom (irx!wa) : ORIGIN = 0x20010000, LENGTH = 0x1fff0000
 }
 
 PHDRS
