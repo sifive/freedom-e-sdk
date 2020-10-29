@@ -96,11 +96,11 @@
 #include <metal/drivers/sifive_wdog0.h>
 #include <metal/drivers/sifive_fe310-g000_prci.h>
 
-/* From hfclock */
-extern struct __metal_driver_fixed_clock __metal_dt_hfclock;
+/* From clock@1 */
+extern struct __metal_driver_fixed_clock __metal_dt_clock_1;
 
-/* From lfclock */
-extern struct __metal_driver_fixed_clock __metal_dt_lfclock;
+/* From clock@2 */
+extern struct __metal_driver_fixed_clock __metal_dt_clock_2;
 
 extern struct metal_memory __metal_dt_mem_dtim_80000000;
 
@@ -162,11 +162,11 @@ extern struct __metal_driver_sifive_fe310_g000_prci __metal_dt_prci_10008000;
 /* --------------------- fixed_clock ------------ */
 static __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock)
 {
-	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_hfclock) {
-		return METAL_FIXED_CLOCK__CLOCK_FREQUENCY;
+	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_1) {
+		return METAL_FIXED_CLOCK_1_CLOCK_FREQUENCY;
 	}
-	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_lfclock) {
-		return METAL_FIXED_CLOCK__CLOCK_FREQUENCY;
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_clock_2) {
+		return METAL_FIXED_CLOCK_2_CLOCK_FREQUENCY;
 	}
 	else {
 		return 0;
@@ -737,7 +737,7 @@ static __inline__ unsigned long __metal_driver_sifive_spi0_control_size(struct m
 static __inline__ struct metal_clock * __metal_driver_sifive_spi0_clock(struct metal_spi *spi)
 {
 	if ((uintptr_t)spi == (uintptr_t)&__metal_dt_spi_10014000) {
-		return (struct metal_clock *)&__metal_dt_hfclock.clock;
+		return (struct metal_clock *)&__metal_dt_clock_1.clock;
 	}
 	else {
 		return 0;
@@ -870,10 +870,10 @@ static __inline__ int __metal_driver_sifive_uart0_interrupt_line(struct metal_ua
 static __inline__ struct metal_clock * __metal_driver_sifive_uart0_clock(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10013000) {
-		return (struct metal_clock *)&__metal_dt_hfclock.clock;
+		return (struct metal_clock *)&__metal_dt_clock_1.clock;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_serial_10023000) {
-		return (struct metal_clock *)&__metal_dt_hfclock.clock;
+		return (struct metal_clock *)&__metal_dt_clock_1.clock;
 	}
 	else {
 		return 0;

@@ -155,13 +155,13 @@ extern __inline__ const struct __metal_driver_vtable_sifive_fe310_g000_prci * __
 /* --------------------- sifive_fu540_c000_l2 ------------ */
 
 
-/* From hfclock */
-struct __metal_driver_fixed_clock __metal_dt_hfclock = {
+/* From clock@1 */
+struct __metal_driver_fixed_clock __metal_dt_clock_1 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-/* From lfclock */
-struct __metal_driver_fixed_clock __metal_dt_lfclock = {
+/* From clock@2 */
+struct __metal_driver_fixed_clock __metal_dt_clock_2 = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
