@@ -206,7 +206,6 @@ freedomstudio-api-version:
 #
 # compiler = gcc 
 # compiler_version = X[.Y[.Z[]]]
-# add_fcommon = (true|false)
 #
 # Only compiler=gcc is supported right now.
 #
