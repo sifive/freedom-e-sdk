@@ -2,19 +2,20 @@
 / {
         #address-cells = <1>;
         #size-cells = <1>;
-	/* Virtual platform based on HiFive1 Rev. B for with
-	 *
-	 * - RV32 core
-	 * - secondary UART
-	 * - HCA crypto accelerator
-	 * - test finisher virtual device
-	 * - more interrupt channels
-	 * - larger RAM/ROM memory space
-	 * - no PWM/I2C
-	 * - single QSPI
-	 *
-	 * Compatible with qemu-system-riscv32 -machine sifive_e
-	 */
+    /* Virtual platform based on HiFive1 Rev. B for with
+     *
+     * - RV32 core
+     * - secondary UART
+     * - HCA crypto accelerator
+     * - test finisher virtual device
+     * - more interrupt channels
+     * - larger RAM/ROM memory space
+     * - no PWM/I2C
+     * - no PMP
+     * - single QSPI
+     *
+     * Compatible with qemu-system-riscv32 -machine sifive_e
+     */
         compatible = "sifive,qemu-sifive-e31";
         model = "sifive,qemu-sifive-e31";
         cpus {
@@ -31,7 +32,6 @@
                         next-level-cache = <&spi0>;
                         reg = <0>;
                         riscv,isa = "rv32imac";
-                        riscv,pmpregions = <8>;
                         sifive,itim = <&itim>;
                         sifive,dtim = <&dtim>;
                         status = "okay";
