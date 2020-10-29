@@ -14,7 +14,8 @@ ENTRY(_enter)
 
 MEMORY
 {
-    ram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x400000
+    itim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x2000
+    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x400000
     rom (irx!wa) : ORIGIN = 0x20400000, LENGTH = 0x1fc00000
 }
 
@@ -83,6 +84,8 @@ SECTIONS
     /* User is recommended to enable the full size for manual RTL simulation run! */
     PROVIDE( metal_dtim_0_memory_start = 0x80000000 );
     PROVIDE( metal_dtim_0_memory_end = 0x80000000 + 0x10000 );
+    PROVIDE( metal_itim_0_memory_start = 0x8000000 );
+    PROVIDE( metal_itim_0_memory_end = 0x8000000 + 0x2000 );
 
     /* ROM SECTION
      *
@@ -184,7 +187,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >ram AT>rom :itim_init
+    } >itim AT>rom :itim_init
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
