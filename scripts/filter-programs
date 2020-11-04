@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+unset tag
+unset software_dir
+unset all_options
+
+software_dir="$1"
+shift 1
+
+all_options=`find ${software_dir} -name options.mk`
+
+while [[ "$1" != "" ]]
+do
+	all_options=`grep -le "PROGRAM_TAGS.*=.*$1.*" ${all_options}`
+	shift 1
+done
+
+echo ${all_options}
