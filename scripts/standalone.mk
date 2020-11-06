@@ -255,14 +255,14 @@ RISCV_XCFLAGS += -DMETAL_WAIT_CYCLE=$(TARGET_INTR_WAIT_CYCLE)
 #############################################################
 # Freedom Studio
 #############################################################
-#.PHONY: list-all-info
-#list-all-info:
-#	@echo e-sdk-tags: $(E_SDK_TAGS)
-#	@echo e-sdk-reqs: $(E_SDK_REQS)
-#	@echo riscv-arch: $(RISCV_ARCH)
-#	@echo target-tags: $(TARGET_TAGS)
-#	@echo riscv-reqs: $(RISCV_REQS)
-#	@echo program-tags: $(PROGRAM_TAGS)
+.PHONY: list-all-info
+list-all-info:
+	@echo e-sdk-tags: $(E_SDK_TAGS)
+	@echo e-sdk-reqs: $(E_SDK_REQS)
+	@echo riscv-arch: $(RISCV_ARCH)
+	@echo target-tags: $(TARGET_TAGS)
+	@echo riscv-reqs: $(RISCV_REQS)
+	@echo program-tags: $(PROGRAM_TAGS)
 
 #############################################################
 # Software
