@@ -160,3 +160,9 @@
 [submodule "software/example-lim"]
 	path = software/example-lim
 	url = https://github.com/sifive/example-lim.git
+[submodule "software/example-emmc"]
+	path = software/example-emmc
+	url = https://github.com/sifive/example-emmc.git
+[submodule "software/example-flash"]
+	path = software/example-flash
+	url = https://github.com/sifive/example-flash.git

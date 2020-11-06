@@ -268,5 +268,15 @@
         "commit": "cd04f06675b3ba464ffabd72e5800b9ba1313104",
         "name": "example-lim",
         "source": "git@github.com:sifive/example-lim.git"
+    },
+    {
+	"commit": "153413cdc60b1397108165d4f142fa4715524cfa",
+	"name": "example-emmc",
+	"source": "git@github.com:sifive/example-emmc.git"
+    },
+    {
+	"commit": "812ba152d931e2ea5a07c6717cc74e30eb27994c",
+	"name": "example-flash",
+	"source":"git@github.com:sifive/example-flash.git"
     }
 ]
