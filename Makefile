@@ -25,6 +25,12 @@ endif
 ifeq ($(MAKECMDGOALS),standalone)
 NO_INCLUDES = true
 endif
+ifeq ($(MAKECMDGOALS),freedomstudio-api-version)
+NO_INCLUDES = true
+endif
+ifeq ($(MAKECMDGOALS),list-freedomstudio-helpers)
+NO_INCLUDES = true
+endif
 ifeq ($(MAKECMDGOALS),list-targets)
 NO_INCLUDES = true
 endif
