@@ -277,23 +277,23 @@ list-target-info:
 # Find all options.mk with PROGRAM_REQUIRE_TAGS in PROGRAM_TAGS
 # Freedom Studio uses this macro.  Changing this macro may break Freedom Studio's
 # ability to create new projects.
-#MATCHING_OPTIONS = $(shell scripts/filter-programs $(PROGRAM_ROOT)/software $(PROGRAM_REQUIRE_TAGS))
+MATCHING_OPTIONS = $(shell scripts/filter-programs $(PROGRAM_ROOT)/software $(PROGRAM_REQUIRE_TAGS))
 
 # Get the name of the containing directory of all matching options.mk
 # Freedom Studio uses this macro.  Changing this macro may break Freedom Studio's
 # ability to create new projects.
-#MATCHING_PROGRAMS = $(patsubst $(PROGRAM_ROOT)/software/%/,%,$(dir $(MATCHING_OPTIONS)))
+MATCHING_PROGRAMS = $(patsubst $(PROGRAM_ROOT)/software/%/,%,$(dir $(MATCHING_OPTIONS)))
 
 # Metal programs are any submodules in the software folder
 # Freedom Studio uses this target.  Changing this target may break Freedom Studio's
 # ability to create new projects.
 .PHONY: list-programs
 list-programs:
-#ifneq ($(PROGRAM_REQUIRE_TAGS),)
-#	@echo program-list: $(sort $(MATCHING_PROGRAMS))
-#else
+ifneq ($(PROGRAM_REQUIRE_TAGS),)
+	@echo program-list: $(sort $(MATCHING_PROGRAMS))
+else
 	@echo program-list: $(shell ls $(PROGRAM_ROOT)/software)
-#endif
+endif
 
 # Lists all available PROGRAM_TAGS
 #
