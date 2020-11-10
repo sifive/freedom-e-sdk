@@ -67,7 +67,7 @@ SECTIONS
      * hart which runs application code unless the application overrides the
      * secondary_main() function to start execution on secondary harts.
      */
-    PROVIDE(__metal_boot_hart = 1);
+    PROVIDE(__metal_boot_hart = 0);
 
     /* The chicken bit is used by pre-main initialization to enable/disable
      * certain core features */
