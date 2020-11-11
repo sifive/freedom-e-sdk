@@ -168,11 +168,13 @@ To use this SDK, you will need the following software available on your machine:
 * Python Virtualenv
 * Python Pip
 
+Details on installing the RISC-V and Segger software follow. 
+
 ##### Install the RISC-V Toolchain and OpenOCD #####
 
 The RISC-V GNU Toolchain and OpenOCD are available from the SiFive Website at
 
-https://www.sifive.com/boards
+https://www.sifive.com/software
 
 For OpenOCD and/or RISC-V GNU Toolchain, download the .tar.gz for your platform,
 and unpack it to your desired location. Then, use the `RISCV_PATH` and
@@ -192,7 +194,7 @@ export RISCV_PATH=/my/desired/location/riscv64-unknown-elf-gcc-<date>-<version>
 
 The RISC-V QEMU Emulator is available from the SiFive Website at
 
-https://www.sifive.com/boards
+https://www.sifive.com/software
 
 Download the .tar.gz for your platform and unpack it to your desired location.
 Then, add QEMU to your path:
