@@ -26,6 +26,7 @@ PHDRS
     ram PT_LOAD;
     itim_init PT_LOAD;
     text PT_LOAD;
+    lim_init PT_LOAD;
 }
 
 SECTIONS
@@ -78,8 +79,10 @@ SECTIONS
     PROVIDE(__metal_eccscrub_bit = 0);
 
     /* The RAM memories map for ECC scrubbing */
+    /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
+    /* User is recommended to enable the full size for manual RTL simulation run! */
     PROVIDE( metal_dtim_0_memory_start = 0x80000000 );
-    PROVIDE( metal_dtim_0_memory_end = 0x80000000 + 0x400000 );
+    PROVIDE( metal_dtim_0_memory_end = 0x80000000 + 0x10000 );
 
     /* ROM SECTION
      *
@@ -129,15 +132,16 @@ SECTIONS
         PROVIDE_HIDDEN ( metal_destructors_end = .);
     } >rom :rom
 
-	.privileged_functions : ALIGN (4) {
+	.privileged_functions : ALIGN (32) {
         __privileged_functions_start__ = .;
         KEEP(*(privileged_functions))
-        . = ALIGN(4);
+        . = ALIGN(32);
 		__privileged_functions_end__ = .;
 	} >rom
  
 
     .ctors : {
+        . = ALIGN(32);
         __unprivileged_section_start__ = .;
         KEEP (*crtbegin.o(.ctors))
         KEEP (*crtbegin?.o(.ctors))
@@ -166,8 +170,6 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
-        __unprivileged_section_end__ = .;
-
     } >rom :rom
 
     /* ITIM SECTION
@@ -188,10 +190,28 @@ SECTIONS
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
     PROVIDE( metal_segment_itim_target_end = ADDR(.itim) + SIZEOF(.itim) );
 
+    /* LIM SECTION
+     *
+     * The following sections contain data which is copied from read-only
+     * memory into a loosely integrated memory (LIM), which is shared with L2
+     * cache, during pre-main program initialization.
+     *
+     * Generally, the data copied into the LIM should be performance-critical
+     * functions which benefit from low instruction-fetch latency.
+     */
+
+    .lim : ALIGN(8) {
+        *(.lim .lim.*)
+    } >ram AT>rom :lim_init
+
+    PROVIDE( metal_segment_lim_source_start = LOADADDR(.lim) );
+    PROVIDE( metal_segment_lim_target_start = ADDR(.lim) );
+    PROVIDE( metal_segment_lim_target_end = ADDR(.lim) + SIZEOF(.lim) );
+
     /* TEXT SECTION
      *
      * The following section contains the code of the program, excluding
-     * everything that's been allocated into the ITIM already
+     * everything that's been allocated into the ITIM/LIM already
      */
 
     .text : {
@@ -199,6 +219,9 @@ SECTIONS
         *(.text.startup .text.startup.*)
         *(.text .text.*)
         *(.gnu.linkonce.t.*)
+        *(freertos_system_calls)
+        . = ALIGN(32);
+        __unprivileged_section_end__ = .;
     } >rom :text
 
     /* RAM SECTION
@@ -215,6 +238,7 @@ SECTIONS
      */
 
     .data : ALIGN(8) {
+        . = ALIGN(32);
         __unprivileged_data_section_start__ = .;
         *(.data .data.*)
         *(.gnu.linkonce.d.*)
@@ -254,6 +278,7 @@ SECTIONS
         *(.bss .bss.*)
         *(.gnu.linkonce.b.*)
         *(COMMON)
+        . = ALIGN(32);
         __unprivileged_data_section_end__ = .;
     } >ram :ram
 
@@ -261,12 +286,12 @@ SECTIONS
     PROVIDE( metal_segment_bss_target_start = ADDR(.tbss) );
     PROVIDE( metal_segment_bss_target_end = ADDR(.bss) + SIZEOF(.bss) );
 
-    .privileged_data (NOLOAD) : ALIGN(8) {
+    .privileged_data (NOLOAD) : ALIGN(32) {
         __privileged_data_start__ = .;
 		*(privileged_data)
 		/* Non kernel data is kept out of the first _Privileged_Data_Region_Size
 		bytes of SRAM. */
-        . = ALIGN(4);
+        . = ALIGN(32);
 		__privileged_data_end__ = .;
 	} >ram
  
@@ -278,7 +303,7 @@ SECTIONS
         PROVIDE(metal_segment_stack_end = .);
     } >ram :ram
 
-    .heap (NOLOAD) : ALIGN(4) {
+    .heap (NOLOAD) : ALIGN(8) {
         PROVIDE( __end = . );
         PROVIDE( __heap_start = . );
         PROVIDE( metal_segment_heap_target_start = . );

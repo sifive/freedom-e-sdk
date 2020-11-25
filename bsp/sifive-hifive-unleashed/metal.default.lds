@@ -24,6 +24,7 @@ PHDRS
     ram PT_LOAD;
     itim_init PT_LOAD;
     text PT_LOAD;
+    lim_init PT_LOAD;
 }
 
 SECTIONS
@@ -80,9 +81,15 @@ SECTIONS
     PROVIDE( metal_dtim_0_memory_end = 0x1000000 + 0x2000 );
     PROVIDE( metal_itim_0_memory_start = 0x1800000 );
     PROVIDE( metal_itim_0_memory_end = 0x1800000 + 0x4000 );
+    /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
+    /* User is recommended to enable the full size for manual RTL simulation run! */
     PROVIDE( metal_itim_1_memory_start = 0x1808000 );
-    PROVIDE( metal_itim_1_memory_end = 0x1808000 + 0x20000 );
-    /* Default memory to zero-scrub for at most 64KB, for limiting RTL simulation run time. */
+    PROVIDE( metal_itim_1_memory_end = 0x1808000 + 0x10000 );
+    /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
+    /* User is recommended to enable the full size for manual RTL simulation run! */
+    PROVIDE( metal_lim_0_memory_start = 0x8000000 );
+    PROVIDE( metal_lim_0_memory_end = 0x8000000 + 0x10000 );
+    /* Default zero-scrub to at most 64KB, for limiting RTL simulation run time. */
     /* User is recommended to enable the full size for manual RTL simulation run! */
     PROVIDE( metal_memory_0_memory_start = 0x80000000 );
     PROVIDE( metal_memory_0_memory_end = 0x80000000 + 0x10000 );
@@ -165,7 +172,6 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
-
     } >rom :rom
 
     /* ITIM SECTION
@@ -186,10 +192,28 @@ SECTIONS
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
     PROVIDE( metal_segment_itim_target_end = ADDR(.itim) + SIZEOF(.itim) );
 
+    /* LIM SECTION
+     *
+     * The following sections contain data which is copied from read-only
+     * memory into a loosely integrated memory (LIM), which is shared with L2
+     * cache, during pre-main program initialization.
+     *
+     * Generally, the data copied into the LIM should be performance-critical
+     * functions which benefit from low instruction-fetch latency.
+     */
+
+    .lim : ALIGN(8) {
+        *(.lim .lim.*)
+    } >ram AT>rom :lim_init
+
+    PROVIDE( metal_segment_lim_source_start = LOADADDR(.lim) );
+    PROVIDE( metal_segment_lim_target_start = ADDR(.lim) );
+    PROVIDE( metal_segment_lim_target_end = ADDR(.lim) + SIZEOF(.lim) );
+
     /* TEXT SECTION
      *
      * The following section contains the code of the program, excluding
-     * everything that's been allocated into the ITIM already
+     * everything that's been allocated into the ITIM/LIM already
      */
 
     .text : {
@@ -270,7 +294,7 @@ SECTIONS
         PROVIDE(metal_segment_stack_end = .);
     } >ram :ram
 
-    .heap (NOLOAD) : ALIGN(4) {
+    .heap (NOLOAD) : ALIGN(8) {
         PROVIDE( __end = . );
         PROVIDE( __heap_start = . );
         PROVIDE( metal_segment_heap_target_start = . );
