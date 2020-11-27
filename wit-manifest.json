@@ -15,7 +15,7 @@
         "source": "git@github.com:sifive/elf2hex.git"
     },
     {
-        "commit": "934c69d374e1ef3f5c9661535f4d8a5a65f776cb",
+        "commit": "a2fe8020ee978eb5ca88d40cf71a815ccb2b8397",
         "name": "devicetree-overlay-generator",
         "source": "git@github.com:sifive/devicetree-overlay-generator.git"
     },
@@ -35,7 +35,7 @@
         "source": "git@github.com:sifive/openocdcfg-generator.git"
     },
     {
-        "commit": "795d65bc6c033c6d97222f2683f2112631558aa2",
+        "commit": "c1d40501f26b4fa8b7bf7098c7801c026cb3fc1f",
         "name": "esdk-settings-generator",
         "source": "git@github.com:sifive/esdk-settings-generator.git"
     },
@@ -270,7 +270,7 @@
         "source": "git@github.com:sifive/example-lim.git"
     },
     {
-	"commit": "153413cdc60b1397108165d4f142fa4715524cfa",
+	"commit": "e210fb687ce7568bf3c73b48938d3e0a076c4f78",
 	"name": "example-emmc",
 	"source": "git@github.com:sifive/example-emmc.git"
     },
