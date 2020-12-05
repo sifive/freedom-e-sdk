@@ -240,7 +240,7 @@
         "source": "git@github.com:sifive/example-hpm.git"
     },
     {
-        "commit": "4818abe8f032319d91325f320147da9ca8f9f17d",
+        "commit": "b926c2608d90ac7e9afc222451fb09d633589e2f",
         "name": "scl-metal",
         "source": "git@github.com:sifive/scl-metal.git"
     },
