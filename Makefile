@@ -5,7 +5,7 @@ PROGRAM ?= mem-latency
 
 
 $(PROGRAM): clean $(wildcard *.c) $(wildcard *.h) $(wildcard *.S)
-	$(CC) $(CFLAGS) $(LDFLAGS) -Xlinker --defsym=__heap_max=0x1 $(filter %.c %.S,$^) $(LOADLIBES) $(LDLIBS) -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) -Xlinker --defsym=__heap_max=0x1 $(filter %.c %.S,$^) $(LOADLIBES) $(LDLIBS) $(MEM_TEST_FLAGS) -o $@
 	riscv64-unknown-elf-objdump -d $@ > $@.dump
 
 clean:

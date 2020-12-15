@@ -32,12 +32,17 @@ void rnd_init(void *test_setting) {
     setting->nptrs = setting->cur_range / setting->line;
     setting->ptrs = ptr_init_with_random(setting->nptrs - 1, setting->line);
 
-    if (setting->addr) {
+#ifndef TEST_ADDR
+    if (setting->addr)
         free(setting->addr);
-        setting->addr = NULL;
-    }
+#endif
+    setting->addr = NULL;
 
+#ifdef TEST_ADDR
+    register char *addr = setting->addr = (char *)TEST_ADDR;
+#else
     register char *addr = setting->addr = (char *)malloc(setting->max_range);
+#endif
 
     if (!setting->ptrs || !addr) {
         printf("malloc fail\n");
