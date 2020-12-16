@@ -195,7 +195,7 @@
         "source": "git@github.com:sifive/example-i2c.git"
     },
     {
-        "commit": "b6c929b94ed30fc6a3eea51e584c914ffe640982",
+        "commit": "0f908a7637253c6290090d9482e42f03901d829e",
         "name": "benchmark-mem-latency",
         "source": "git@github.com:sifive/benchmark-mem-latency.git"
     },
