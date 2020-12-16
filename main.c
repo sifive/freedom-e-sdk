@@ -50,16 +50,27 @@ void benchmark_latency(void *test_setting, size_t min_loop) {
 
 int main() {
     size_t heap_size = (size_t)(heap_end_location - heap_start_location);
+    // If TEST_ADDR is not specified, by default this program tests the
+    // the heap memory, which is managed by malloc/free. So the test size is
+    // the available heap size.
+    // If TEST_ADDR is specified, it implies testing for non-heap memory.
+    // Therefore, the test_size will use TEST_SIZE, which should be given by an
+    // user.
+#ifdef TEST_ADDR
+    size_t test_size = (size_t)TEST_SIZE;
+#else
+    size_t test_size = heap_size;
+#endif
     struct test_info setting = {0};
     uint32_t test_count = 0;
     uint64_t cycle_count = 0;
     uint32_t i = 0, loop = 5, warmup_loop = 5;
     uint32_t all_test = sizeof(tests) / sizeof(tests[0]);
 
-    printf("heap size: %u K\n", (unsigned int)heap_size / 1024);
+    printf("test size: %u K\n", (unsigned int)test_size / 1024);
 
     while ((test_count < all_test) &&
-           (K_TO_BYTE(tests[test_count].size) < heap_size))
+           (K_TO_BYTE(tests[test_count].size) <= test_size))
         test_count++;
 
     if (test_count == 0) {

@@ -1,23 +1,22 @@
 # Introduction
 
-mem-latency is a micro-benchmark for detecting the memory sub-system micro-architecture.
-
-Currently, it can detect:
-
-* Number of memory hierarchy, e.g., L1, L2, L3, memory
+benchmark-mem-latency is a micro-benchmark for measureing the memory latency.
 
 # Setup
 
-clone benchmark-mem-latency under PATH-TO-FREEDOME-E-SDK/software
+Clone benchmark-mem-latency under PATH-TO-FREEDOME-E-SDK/software
 
-```
-git clone git@github.com:sifive/benchmark-mem-latency.git mem-latency
-```
-under PATH-TO-FREEDOME-E-SDK use followin command to compile & upload to arty
-```
-make software upload PROGRAM=mem-latency TARGET=design-arty
-```
+    git clone git@github.com:sifive/benchmark-mem-latency.git freedom-e-sdk/software/benchmark-mem-latency
 
+To build and run on the Arty FPGA board.
+
+    make -C freedom-e-sdk CONFIGURATION=release  PROGRAM=benchmark-mem-latency TARGET=design-arty clean software upload
+
+To build and run on verilator.
+
+    make -C freedom-e-sdk CONFIGURATION=release  PROGRAM=benchmark-mem-latency TARGET=design-rtl clean software
+    module load verilator/4.028
+    make benchmark-mem-latency.verilator.out
 
 # Result
 
