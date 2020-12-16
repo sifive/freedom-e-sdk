@@ -50,7 +50,7 @@ void benchmark_latency(void *test_setting, size_t min_loop) {
 
 int main() {
     size_t heap_size = (size_t)(heap_end_location - heap_start_location);
-    // If TEST_ADDR is specified, by default this program tests the
+    // If TEST_ADDR is not specified, by default this program tests the
     // the heap memory, which is managed by malloc/free. So the test size is
     // the available heap size.
     // If TEST_ADDR is specified, it implies testing for non-heap memory.
