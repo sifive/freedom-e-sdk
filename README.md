@@ -1,4 +1,4 @@
-# SiFive Freedom E SDK README #
+# SiFive Freedom E SDK for ShaheenRV SoC README #
 
 This repository, maintained by SiFive Inc, makes it easy to get started developing
 software for the Freedom E and Freedom S Embedded RISC-V Platforms. This SDK
