@@ -155,28 +155,6 @@ struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-struct metal_memory __metal_dt_mem_testram_100000000 = {
-    ._base_address = 4294967296UL,
-    ._size = 536870911UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
-struct metal_memory __metal_dt_mem_testram_c00000000 = {
-    ._base_address = 51539607552UL,
-    ._size = 536870911UL,
-    ._attrs = {
-        .R = 1,
-        .W = 1,
-        .X = 1,
-        .C = 1,
-        .A = 1},
-};
-
 struct metal_memory __metal_dt_mem_memory_800000000 = {
     ._base_address = 34359738368UL,
     ._size = 8589934592UL,

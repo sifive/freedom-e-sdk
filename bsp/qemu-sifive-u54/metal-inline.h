@@ -84,22 +84,16 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 
 /* --------------------- sifive_trace ------------ */
 
-/* --------------------- sifive_uart0 ------------ */
-extern __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart);
-extern __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart);
-extern __inline__ int __metal_driver_sifive_uart0_num_interrupts(struct metal_uart *uart);
-extern __inline__ struct metal_interrupt * __metal_driver_sifive_uart0_interrupt_parent(struct metal_uart *uart);
-extern __inline__ int __metal_driver_sifive_uart0_interrupt_line(struct metal_uart *uart);
-extern __inline__ struct metal_clock * __metal_driver_sifive_uart0_clock(struct metal_uart *uart);
-extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart);
-extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart);
-extern __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart);
+/* --------------------- sifive_nb2emmc ------------ */
 
 
-/* --------------------- sifive_simuart0 ------------ */
+/* --------------------- sifive_nb2qspi0 ------------ */
 
 
-/* --------------------- sifive_wdog0 ------------ */
+/* --------------------- sifive_nb2uart0 ------------ */
+
+
+/* --------------------- sifive_nb2wdt ------------ */
 
 
 /* --------------------- sifive_fe310_g000_hfrosc ------------ */
@@ -157,11 +151,6 @@ struct metal_pmp __metal_dt_pmp;
 /* From test@100000 */
 struct __metal_driver_sifive_test0 __metal_dt_test_100000 = {
     .shutdown.vtable = &__metal_driver_vtable_sifive_test0.shutdown,
-};
-
-/* From uart@10013000 */
-struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000 = {
-    .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
 };
 
 

@@ -149,10 +149,6 @@
 /* From subsystem_pbus_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock;
 
-extern struct metal_memory __metal_dt_mem_testram_100000000;
-
-extern struct metal_memory __metal_dt_mem_testram_c00000000;
-
 extern struct metal_memory __metal_dt_mem_memory_800000000;
 
 /* From clint@2000000 */
@@ -1678,12 +1674,10 @@ static __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const 
 /* --------------------- sifive_fe310_g000_prci ------------ */
 
 
-#define __METAL_DT_MAX_MEMORIES 3
+#define __METAL_DT_MAX_MEMORIES 1
 
 __asm__ (".weak __metal_memory_table");
 struct metal_memory *__metal_memory_table[] = {
-					&__metal_dt_mem_testram_100000000,
-					&__metal_dt_mem_testram_c00000000,
 					&__metal_dt_mem_memory_800000000};
 
 /* From nb2uart0@302011000 */

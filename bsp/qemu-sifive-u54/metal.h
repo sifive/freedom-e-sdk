@@ -67,11 +67,7 @@
 
 #define METAL_MAX_PWM0_NCMP 0
 
-#define __METAL_UART_10013000_INTERRUPTS 1
-
-#define METAL_MAX_UART_INTERRUPTS 1
-
-#define METAL_MAX_SIMUART_INTERRUPTS 0
+#define METAL_MAX_UART_INTERRUPTS 0
 
 
 #include <metal/drivers/fixed-clock.h>
@@ -81,7 +77,6 @@
 #include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
 #include <metal/drivers/sifive_test0.h>
-#include <metal/drivers/sifive_uart0.h>
 
 extern struct metal_memory __metal_dt_mem_memory_80000000;
 
@@ -100,9 +95,6 @@ extern struct metal_pmp __metal_dt_pmp;
 
 /* From test@100000 */
 extern struct __metal_driver_sifive_test0 __metal_dt_test_100000;
-
-/* From uart@10013000 */
-extern struct __metal_driver_sifive_uart0 __metal_dt_uart_10013000;
 
 
 
@@ -362,103 +354,14 @@ static __inline__ unsigned long __metal_driver_sifive_test0_size(const struct __
 
 /* --------------------- sifive_trace ------------ */
 
-/* --------------------- sifive_uart0 ------------ */
-static __inline__ unsigned long __metal_driver_sifive_uart0_control_base(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return METAL_SIFIVE_UART0_10013000_BASE_ADDRESS;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ unsigned long __metal_driver_sifive_uart0_control_size(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return METAL_SIFIVE_UART0_10013000_SIZE;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ int __metal_driver_sifive_uart0_num_interrupts(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return METAL_MAX_UART_INTERRUPTS;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ struct metal_interrupt * __metal_driver_sifive_uart0_interrupt_parent(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ int __metal_driver_sifive_uart0_interrupt_line(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ struct metal_clock * __metal_driver_sifive_uart0_clock(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return NULL;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_uart0_pinmux(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return NULL;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_output_selector(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return 0;
-	}
-	else {
-		return 0;
-	}
-}
-
-static __inline__ unsigned long __metal_driver_sifive_uart0_pinmux_source_selector(struct metal_uart *uart)
-{
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_uart_10013000) {
-		return 0;
-	}
-	else {
-		return 0;
-	}
-}
+/* --------------------- sifive_nb2emmc ------------ */
 
 
 
-/* --------------------- sifive_simuart0 ------------ */
+/* --------------------- sifive_nb2uart0 ------------ */
 
 
-/* --------------------- sifive_wdog0 ------------ */
+/* --------------------- sifive_nb2wdt ------------ */
 
 
 /* --------------------- sifive_fe310_g000_hfrosc ------------ */
@@ -552,21 +455,30 @@ struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
 
 #define __METAL_DT_TEST_100000_HANDLE (&__metal_dt_test_100000.shutdown)
 
-#define __METAL_DT_MAX_UARTS 1
+#define __METAL_DT_MAX_EMMC 0
+
+__asm__ (".weak __metal_emmc_table");
+struct __metal_driver_sifive_nb2emmc *__metal_emmc_table[] = {
+					NULL };
+#define __METAL_DT_MAX_FLASH 0
+
+__asm__ (".weak __metal_flash_table");
+struct __metal_driver_sifive_flash *__metal_flash_table[] = {
+					NULL };
+#define __METAL_DT_MAX_QSPIS 0
+
+__asm__ (".weak __metal_qspi_table");
+struct __metal_driver_sifive_nb2qspi0 *__metal_qspi_table[] = {
+					NULL };
+#define __METAL_DT_MAX_UARTS 0
 
 __asm__ (".weak __metal_uart_table");
-struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
-					&__metal_dt_uart_10013000};
-
-#define __METAL_DT_MAX_SIMUARTS 0
-
-__asm__ (".weak __metal_simuart_table");
-struct __metal_driver_sifive_simuart0 *__metal_simuart_table[] = {
+struct __metal_driver_sifive_nb2uart0 *__metal_uart_table[] = {
 					NULL };
 #define __METAL_DT_MAX_WDOGS 0
 
 __asm__ (".weak __metal_wdog_table");
-struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] = {
+struct __metal_driver_sifive_nb2wdt *__metal_wdog_table[] = {
 					NULL };
 #endif /* MACROS_ELSE_METAL_H*/
 

@@ -2,18 +2,19 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 OUTPUT_ARCH("riscv")
 
-/* Default Linker Script
+/* Scratchpad Linker Script
  *
- * This is the default linker script for all Freedom Metal applications.
+ * This linker script is for executing in "scratchpad" mode, where all
+ * application code and data is placed in writable memory.
  */
 
 ENTRY(_enter)
 
 MEMORY
 {
-    itim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x2000
-    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x4000
-    rom (irx!wa) : ORIGIN = 0x20010000, LENGTH = 0x6a120
+    lim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x1e0000
+    ram (airwx) : ORIGIN = 0x800000000, LENGTH = 0x200000000
+    rom (irx!wa) : ORIGIN = 0x100000000, LENGTH = 0x1fffffff
 }
 
 PHDRS
@@ -60,27 +61,42 @@ SECTIONS
      */
     __heap_size = DEFINED(__heap_size) ? __heap_size : 0x800;
 
+	/* The size of patch area in L2 has a default value but could be
+	 * overriden at built-time by adding the following to CFLAGS:
+	 *    
+	 *     -Xlinker --defsym=__patch_size=0x800
+     *
+     * Note that depending on the memory layout, the bitness (32/64bit) of the
+     * target, and the code model in use, this might cause a relocation error.
+     */
+	__patch_size = DEFINED(__patch_size) ? __patch_size : 0x600;
+	PROVIDE(__patch_size = __patch_size);
+
     /* The boot hart sets which hart runs the pre-main initialization routines,
      * including copying .data into RAM, zeroing the BSS region, running
      * constructors, etc. After initialization, the boot hart is also the only
      * hart which runs application code unless the application overrides the
      * secondary_main() function to start execution on secondary harts.
      */
-    PROVIDE(__metal_boot_hart = 0);
+    PROVIDE(__metal_boot_hart = 1);
 
     /* The chicken bit is used by pre-main initialization to enable/disable
      * certain core features */
     PROVIDE(__metal_chicken_bit = 1);
 
-    /* The memory_ecc_scrub bit is used by _entry code to enable/disable
-     * memories scrubbing to zero  */
     PROVIDE(__metal_eccscrub_bit = 0);
 
-    /* The RAM memories map for ECC scrubbing */
-    PROVIDE( metal_dtim_0_memory_start = 0x80000000 );
-    PROVIDE( metal_dtim_0_memory_end = 0x80000000 + 0x4000 );
-    PROVIDE( metal_itim_0_memory_start = 0x8000000 );
-    PROVIDE( metal_itim_0_memory_end = 0x8000000 + 0x2000 );
+	/** Pearl NB2 specific tags declaration */
+    PROVIDE(__section_protocol_ram_end = ORIGIN(ram) + 128K );
+
+	PROVIDE(__ram_start_address = ORIGIN(ram));
+	PROVIDE(__ram_size = LENGTH(ram));
+	PROVIDE(__ram_stop_address = ( __ram_start_address + __ram_size ));
+
+	PROVIDE(__rom_start_address = ORIGIN(rom));
+	PROVIDE(__rom_size = LENGTH(rom));
+	PROVIDE(__rom_stop_address = ( __rom_start_address + __rom_size ));
+
 
     /* ROM SECTION
      *
@@ -96,17 +112,17 @@ SECTIONS
         KEEP (*(.text.metal.init.*))
         KEEP (*(SORT_NONE(.init)))
         KEEP (*(.text.libgloss.start))
-    } >rom :rom
+    } >ram :rom
 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
-    } >rom :rom
+    } >ram :rom
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array))
         PROVIDE_HIDDEN (__preinit_array_end = .);
-    } >rom :rom
+    } >ram :rom
 
     .init_array : ALIGN(8) {
         PROVIDE_HIDDEN (__init_array_start = .);
@@ -117,7 +133,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
         KEEP (*(.metal.init_array));
         PROVIDE_HIDDEN ( metal_constructors_end = .);
-    } >rom :rom
+    } >ram :rom
 
     .fini_array : ALIGN(8) {
         PROVIDE_HIDDEN (__fini_array_start = .);
@@ -128,7 +144,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
         KEEP (*(.metal.fini_array));
         PROVIDE_HIDDEN ( metal_destructors_end = .);
-    } >rom :rom
+    } >ram :rom
 
  
 
@@ -139,7 +155,7 @@ SECTIONS
         KEEP (*(SORT(.ctors.*)))
         KEEP (*(.ctors))
         KEEP (*(.metal.ctors .metal.ctors.*))
-    } >rom :rom
+    } >ram :rom
 
     .dtors : {
         KEEP (*crtbegin.o(.dtors))
@@ -148,7 +164,7 @@ SECTIONS
         KEEP (*(SORT(.dtors.*)))
         KEEP (*(.dtors))
         KEEP (*(.metal.dtors .metal.dtors.*))
-    } >rom : rom
+    } >ram : rom
 
     .rodata : {
         *(.rdata)
@@ -160,7 +176,7 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
-    } >rom :rom
+    } >ram :rom
 
     /* ITIM SECTION
      *
@@ -174,7 +190,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >itim AT>rom :itim_init
+    } >ram AT>ram :itim_init
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -192,7 +208,7 @@ SECTIONS
 
     .lim : ALIGN(8) {
         *(.lim .lim.*)
-    } >ram AT>rom :lim_init
+    } >lim AT>ram :lim_init
 
     PROVIDE( metal_segment_lim_source_start = LOADADDR(.lim) );
     PROVIDE( metal_segment_lim_target_start = ADDR(.lim) );
@@ -205,11 +221,15 @@ SECTIONS
      */
 
     .text : {
+	PROVIDE(__rom_start_code_address = .);
         *(.text.unlikely .text.unlikely.*)
         *(.text.startup .text.startup.*)
         *(.text .text.*)
         *(.gnu.linkonce.t.*)
-    } >rom :text
+	PROVIDE(__rom_stop_code_address = .);
+    } >ram :text
+
+	PROVIDE(__rom_code_size = ( __rom_stop_code_address - __rom_start_code_address ));
 
     /* RAM SECTION
      *
@@ -225,18 +245,35 @@ SECTIONS
      */
 
     .data : ALIGN(8) {
+    	__data_vma_start = .;
+    	*(.data)
+		__patch_table_storage_start = .;
+		*(.data.patch.*)
+		__patch_table_storage_end = .;
         *(.data .data.*)
         *(.gnu.linkonce.d.*)
         . = ALIGN(8);
         PROVIDE( __global_pointer$ = . + 0x800 );
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
-    } >ram AT>rom :ram_init
+        . = ALIGN(16);
+ 		PROVIDE( __otp_start = . );
+		KEEP(*(*otp_*))
+		PROVIDE( __otp_end = . );
+    } >ram AT>ram :ram_init
 
-    .tdata : ALIGN(8) {
+	_patch_table_storage_size = __patch_table_storage_end - __patch_table_storage_start;
+	PROVIDE( __otp_size_real = __otp_end - __otp_start );
+	PROVIDE( __otp_size = ( __otp_size_real > 0x1000 ) ? __otp_size_real : 0x1000 );
+	PROVIDE( __otp_fake_end = ( __otp_start + __otp_size ));
+	PROVIDE( __otp_ofsset = __otp_start - __data_vma_start );
+	PROVIDE( __otp_load_start = LOADADDR(.data) + __otp_ofsset);
+	PROVIDE( __otp_load_end = __otp_load_start + __otp_size_real );
+
+    .tdata __otp_fake_end : ALIGN(0x10) {
         PROVIDE( __tls_base = . );
 	*(.tdata .tdata.* .gnu.linkonce.td.*)
-    } >ram AT>rom :tls :ram_init
+    } >ram AT>ram :tls :ram_init
 
     PROVIDE( __tdata_source = LOADADDR(.tdata) );
     PROVIDE( __tdata_size = SIZEOF(.tdata) );
@@ -275,6 +312,9 @@ SECTIONS
         PROVIDE(metal_segment_stack_begin = .);
         . += __stack_size; /* Hart 0 */
         PROVIDE( _sp = . );
+        . += __stack_size; /* Hart 1 */
+        . += __stack_size; /* Hart 2 */
+        . += __stack_size; /* Hart 3 */
         PROVIDE(metal_segment_stack_end = .);
     } >ram :ram
 
@@ -284,11 +324,41 @@ SECTIONS
         PROVIDE( metal_segment_heap_target_start = . );
         /* If __heap_max is defined, grow the heap to use the rest of RAM,
          * otherwise set the heap size to __heap_size */
-        . = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size;
+        /* . = DEFINED(__heap_max) ? MIN( LENGTH(ram) - ( . - ORIGIN(ram)) , 0x10000000) : __heap_size; */
+		. += __heap_size;
         PROVIDE( metal_segment_heap_target_end = . );
         PROVIDE( _heap_end = . );
         PROVIDE( __heap_end = . );
     } >ram :ram
+
+	.storage.patch_code (NOLOAD) : ALIGN(8) {
+		PROVIDE(__patch_code_storage_start = .);
+		. += __patch_size;
+		PROVIDE(__patch_code_storage_stop = .);
+	} >ram :ram
+
+	PROVIDE( __sbrm_free_start_addr = . );
+	PROVIDE( __sbrm_free_end_addr = __section_protocol_ram_end );
+	PROVIDE( __sbrm_free_size = __sbrm_free_end_addr - __sbrm_free_start_addr );
+
+	PROVIDE( __sbr_free_start_addr = __sbrm_free_start_addr );
+	PROVIDE( __sbr_free_size = __sbrm_free_size );
+	PROVIDE( __sbr_free_end_addr = __sbrm_free_end_addr );
+
+/*
+	PROVIDE( __sbr_free_start_addr = __sbrm_free_end_addr );
+	PROVIDE( __sbr_free_size = 0x10000 );
+	PROVIDE( __sbr_free_end_addr = __sbr_free_start_addr + __sbr_free_size );
+*/
+	__flash_emul_start = __sbr_free_end_addr;
+	__flash_emul_size = 0x10000;
+
+	PROVIDE( __iflash_start = __flash_emul_start );
+	PROVIDE( __iflash_size = __flash_emul_size );
+	PROVIDE( __qspi_start = __flash_emul_start );
+	PROVIDE( __qspi_size = __flash_emul_size / 2 );
+	PROVIDE( __emmc_start = __qspi_start + __qspi_size );
+	PROVIDE( __emmc_size = __flash_emul_size / 2 );
 
     /* C++ exception handling information is
      * not useful with our current runtime environment,

@@ -185,11 +185,11 @@ clean:
 #############################################################
 
 #############################################################
-# Prints freedostudio api version .  This version should be 
+# Prints freedostudio api version .  This version should be
 # incremented if the list-targets, list-target-tags.
 # list-programs, list-options, or standalone targets change
 # in any way that affects Freedom Studio requirements.
-# A given version of Freedom Studio may not support 
+# A given version of Freedom Studio may not support
 # 'future' versions of freedom-e-sdk.  Backward support
 # should be supported.
 #############################################################
