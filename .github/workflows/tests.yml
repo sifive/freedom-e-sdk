@@ -39,10 +39,6 @@ jobs:
             -f freedom-e-sdk/docker/Dockerfile \
             freedom-e-sdk
 
-      - name: 'Check wit-manifest.json matches git submodules'
-        run: |
-          docker run --rm freedom-e-sdk ./scripts/check-submodules
-
       - name: 'Check BSP files are up-to-date'
         run: |
           docker run --rm freedom-e-sdk ./scripts/check-bsps-updated
