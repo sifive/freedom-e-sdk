@@ -263,5 +263,10 @@
         "commit": "cd04f06675b3ba464ffabd72e5800b9ba1313104",
         "name": "example-lim",
         "source": "git@github.com:sifive/example-lim.git"
+    },
+    {
+        "commit": "e296353a93f816d1f9ddbc8898b3014c8686c4ce",
+        "name": "example-privilege-level",
+        "source": "git@github.com:sifive/example-privilege-level.git"
     }
 ]

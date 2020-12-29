@@ -157,3 +157,6 @@
 [submodule "software/example-lim"]
 	path = software/example-lim
 	url = https://github.com/sifive/example-lim.git
+[submodule "software/example-privilege-level"]
+	path = software/example-privilege-level
+	url = https://github.com/sifive/example-privilege-level.git
