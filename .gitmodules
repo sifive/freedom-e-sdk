@@ -7,9 +7,6 @@
 [submodule "doc/html"]
 	path = doc/html
 	url = https://github.com/sifive/freedom-e-sdk-docs.git
-[submodule "software/multicore-hello"]
-	path = software/multicore-hello
-	url = https://github.com/sifive/example-multicore-hello.git
 [submodule "software/example-user-mode"]
 	path = software/example-user-mode
 	url = https://github.com/sifive/example-user-mode.git
