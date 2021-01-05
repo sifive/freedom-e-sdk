@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/example-pwm"]
-	path = software/example-pwm
-	url = https://github.com/sifive/example-pwm.git
 [submodule "software/clic-nested-interrupts"]
 	path = software/clic-nested-interrupts
 	url = https://github.com/sifive/example-clic-nested-interrupts.git
