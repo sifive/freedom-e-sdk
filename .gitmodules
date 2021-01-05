@@ -28,9 +28,6 @@
 [submodule "scripts/esdk-settings-generator"]
 	path = scripts/esdk-settings-generator
 	url = https://github.com/sifive/esdk-settings-generator.git
-[submodule "software/clic-nonvector-interrupts"]
-	path = software/clic-nonvector-interrupts
-	url = https://github.com/sifive/example-clic-nonvector-interrupts.git
 [submodule "software/example-freertos-pmp-blinky"]
 	path = software/example-freertos-pmp-blinky
 	url = https://github.com/sifive/example-freertos-pmp-blinky.git
