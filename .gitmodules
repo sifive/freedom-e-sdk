@@ -4,9 +4,6 @@
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
 	url = https://github.com/sifive/elf2hex.git
-[submodule "software/timer-interrupt"]
-	path = software/timer-interrupt
-	url = https://github.com/sifive/example-timer-interrupt.git
 [submodule "software/local-interrupt"]
 	path = software/local-interrupt
 	url = https://github.com/sifive/example-local-interrupt.git
