@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/minimal-boot"]
-	path = software/minimal-boot
-	url = https://github.com/sifive/example-minimal-boot.git
 [submodule "software/uart-interrupt"]
 	path = software/uart-interrupt
 	url = https://github.com/sifive/example-uart-interrupt.git
