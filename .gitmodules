@@ -4,9 +4,6 @@
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
 	url = https://github.com/sifive/elf2hex.git
-[submodule "software/return-fail"]
-	path = software/return-fail
-	url = https://github.com/sifive/example-return-fail.git
 [submodule "software/return-pass"]
 	path = software/return-pass
 	url = https://github.com/sifive/example-return-pass.git
