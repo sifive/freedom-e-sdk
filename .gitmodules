@@ -31,6 +31,3 @@
 [submodule "scl-metal"]
 	path = scl-metal
 	url = https://github.com/sifive/scl-metal.git
-[submodule "software/example-lim"]
-	path = software/example-lim
-	url = https://github.com/sifive/example-lim.git
