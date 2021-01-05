@@ -1,6 +1,3 @@
-[submodule "software/hello"]
-	path = software/hello
-	url = https://github.com/sifive/example-hello.git
 [submodule "freedom-metal"]
 	path = freedom-metal
 	url = https://github.com/sifive/freedom-metal.git
