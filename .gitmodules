@@ -7,9 +7,6 @@
 [submodule "doc/html"]
 	path = doc/html
 	url = https://github.com/sifive/freedom-e-sdk-docs.git
-[submodule "software/sifive-welcome"]
-	path = software/sifive-welcome
-	url = https://github.com/sifive/sifive-welcome
 [submodule "software/dhrystone"]
 	path = software/dhrystone
 	url = https://github.com/sifive/benchmark-dhrystone
