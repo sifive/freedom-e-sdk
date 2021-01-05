@@ -28,9 +28,6 @@
 [submodule "scripts/esdk-settings-generator"]
 	path = scripts/esdk-settings-generator
 	url = https://github.com/sifive/esdk-settings-generator.git
-[submodule "software/example-hca-metal"]
-	path = software/example-hca-metal
-	url = https://github.com/sifive/example-hca-metal.git
 [submodule "scl-metal"]
 	path = scl-metal
 	url = https://github.com/sifive/scl-metal.git
