@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/example-i2c"]
-	path = software/example-i2c
-	url = https://github.com/sifive/example-i2c.git
 [submodule "software/example-pwm"]
 	path = software/example-pwm
 	url = https://github.com/sifive/example-pwm.git
