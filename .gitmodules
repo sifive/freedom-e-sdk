@@ -13,9 +13,6 @@
 [submodule "FreeRTOS-metal"]
 	path = FreeRTOS-metal
 	url = https://github.com/sifive/FreeRTOS-metal.git
-[submodule "software/example-freertos-minimal"]
-	path = software/example-freertos-minimal
-	url = https://github.com/sifive/example-freertos-minimal.git
 [submodule "scripts/devicetree-overlay-generator"]
 	path = scripts/devicetree-overlay-generator
 	url = https://github.com/sifive/devicetree-overlay-generator.git
