@@ -7,9 +7,6 @@
 [submodule "doc/html"]
 	path = doc/html
 	url = https://github.com/sifive/freedom-e-sdk-docs.git
-[submodule "software/example-user-syscall"]
-	path = software/example-user-syscall
-	url = https://github.com/sifive/example-user-syscall.git
 [submodule "software/coremark"]
 	path = software/coremark
 	url = https://github.com/sifive/benchmark-coremark.git
