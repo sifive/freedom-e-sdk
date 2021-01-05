@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/clic-hardware-vector-interrupts"]
-	path = software/clic-hardware-vector-interrupts
-	url = https://github.com/sifive/example-clic-hardware-vector-interrupts.git
 [submodule "software/local-vector-interrupts"]
 	path = software/local-vector-interrupts
 	url = https://github.com/sifive/example-local-vector-interrupts.git
