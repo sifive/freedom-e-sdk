@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/clic-nested-interrupts"]
-	path = software/clic-nested-interrupts
-	url = https://github.com/sifive/example-clic-nested-interrupts.git
 [submodule "software/mem-latency"]
 	path = software/mem-latency
 	url = https://github.com/sifive/benchmark-mem-latency.git
