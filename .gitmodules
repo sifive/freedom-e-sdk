@@ -7,9 +7,6 @@
 [submodule "doc/html"]
 	path = doc/html
 	url = https://github.com/sifive/freedom-e-sdk-docs.git
-[submodule "software/example-spi"]
-	path = software/example-spi
-	url = https://github.com/sifive/example-spi.git
 [submodule "software/empty"]
 	path = software/empty
 	url = https://github.com/sifive/example-empty.git
