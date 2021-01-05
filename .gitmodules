@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/csr"]
-	path = software/csr
-	url = https://github.com/sifive/example-csr-access.git
 [submodule "software/minimal-boot"]
 	path = software/minimal-boot
 	url = https://github.com/sifive/example-minimal-boot.git
