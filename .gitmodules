@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/mem-latency"]
-	path = software/mem-latency
-	url = https://github.com/sifive/benchmark-mem-latency.git
 [submodule "software/example-hpm"]
 	path = software/example-hpm
 	url = https://github.com/sifive/example-hpm.git
