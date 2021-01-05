@@ -10,9 +10,6 @@
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
 	url = https://github.com/sifive/freedom-devicetree-tools.git
-[submodule "software/test-coreip"]
-	path = software/test-coreip
-	url = https://github.com/sifive/test-coreip.git
 [submodule "software/example-rtc"]
 	path = software/example-rtc
 	url = https://github.com/sifive/example-rtc.git
