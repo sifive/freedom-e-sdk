@@ -28,9 +28,6 @@
 [submodule "scripts/esdk-settings-generator"]
 	path = scripts/esdk-settings-generator
 	url = https://github.com/sifive/esdk-settings-generator.git
-[submodule "software/example-buserror"]
-	path = software/example-buserror
-	url = https://github.com/sifive/example-buserror.git
 [submodule "software/example-hca-metal"]
 	path = software/example-hca-metal
 	url = https://github.com/sifive/example-hca-metal.git
