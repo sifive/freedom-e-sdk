@@ -31,9 +31,6 @@
 [submodule "scl-metal"]
 	path = scl-metal
 	url = https://github.com/sifive/scl-metal.git
-[submodule "software/example-l2pm"]
-	path = software/example-l2pm
-	url = https://github.com/sifive/example-l2pm.git
 [submodule "software/example-l2pf"]
 	path = software/example-l2pf
 	url = https://github.com/sifive/example-l2pf.git
