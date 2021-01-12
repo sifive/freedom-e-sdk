@@ -166,3 +166,6 @@
 [submodule "software/example-flash"]
 	path = software/example-flash
 	url = git@github.com:sifive/example-flash.git
+[submodule "software/example-secure-bootrom"]
+	path = software/example-secure-bootrom
+	url = git@github.com:sifive/example-secure-bootrom-nb2
