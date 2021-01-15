@@ -104,7 +104,7 @@ int main (void)
     metal_led_off(led0_green);
     metal_led_off(led0_blue);
 
-    // Lets get the CPU and and its interrupt
+    // Lets get the CPU and its interrupt
     cpu = metal_cpu_get(metal_cpu_get_current_hartid());
     if (cpu == NULL) {
         printf("CPU null.\n");
