@@ -15,7 +15,11 @@ limitations under the License.
 
 Original Author: Shay Gal-on
 */
+#ifdef __SEGGER_LIBC__
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
 #include "coremark.h"
 #include "core_portme.h"
 
