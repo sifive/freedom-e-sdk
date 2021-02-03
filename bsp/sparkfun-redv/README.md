@@ -1,4 +1,4 @@
-HiFive1 Rev B is a low-cost, Arduino-compatible development board featuring the Freedom E310. It’s the best way to start prototyping and developing your RISC‑V applications.
+Sparkfun RED-V is a low-cost, Arduino-compatible development board featuring the Freedom E310. It’s one of the best ways to start prototyping and developing your RISC‑V applications.
 
 This target is ideal for getting familiar with the RISC-V ISA instruction set and the freedom-metal libraries. It supports:
 
@@ -10,4 +10,4 @@ This target is ideal for getting familiar with the RISC-V ISA instruction set an
 - GPIO memory with 16 interrupt lines
 - SPI memory with 1 interrupt line
 - Serial port with 1 interrupt line
-- 1 RGB LEDS
+- 1 blue LED
