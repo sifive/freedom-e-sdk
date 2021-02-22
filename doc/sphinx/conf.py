@@ -27,6 +27,8 @@ author = 'SiFive Inc.'
 
 # The short X.Y version
 distro_info = lsb_release.get_distro_information()
+
+# The full version, including alpha/beta/rc tags
 release = distro_info['RELEASE']
 
 
