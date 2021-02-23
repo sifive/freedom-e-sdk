@@ -2,7 +2,7 @@
 / {
 	chosen {
 		metal,entry = <&testram1 0 0>;
-		metal,boothart = <&L10>;
+		metal,boothart = <&L14>;
 		metal,eccscrub = <1>;
 		metal,itim = <&L30 0 0>;
 		metal,ram = <&L30 0 0>;
@@ -18,7 +18,7 @@
 &L31 {
 	testram2: testram@c00000000 {
 		compatible = "sifive,testram0";
-		reg = <0x8 0x0 0x0 0x1fffffff>;
+		reg = <0xc 0x0 0x0 0x1fffffff>;
 		reg-names = "mem";
 	};
 };

@@ -7,7 +7,13 @@
 #define METAL_PLATFORM_H
 
 /* From subsystem_pbus_clock */
-#define METAL_FIXED_CLOCK__CLOCK_FREQUENCY 5000000UL
+#define METAL_FIXED_CLOCK__SUBSYSTEM_PBUS_CLOCK 20000000UL
+
+/* From qspi_clock */
+#define METAL_FIXED_CLOCK__QSPI_CLOCK 10000000UL
+
+/* From emmc_clock */
+#define METAL_FIXED_CLOCK__EMMC_CLOCK 100000000UL
 
 #define METAL_FIXED_CLOCK
 

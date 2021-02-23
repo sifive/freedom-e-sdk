@@ -155,6 +155,16 @@ struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
+/* From qspi_clock */
+struct __metal_driver_fixed_clock __metal_dt_qspi_clock = {
+    .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
+};
+
+/* From emmc_clock */
+struct __metal_driver_fixed_clock __metal_dt_emmc_clock = {
+    .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
+};
+
 struct metal_memory __metal_dt_mem_testram_100000000 = {
     ._base_address = 4294967296UL,
     ._size = 536870911UL,

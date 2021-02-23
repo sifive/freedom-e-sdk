@@ -149,6 +149,12 @@
 /* From subsystem_pbus_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock;
 
+/* From qspi_clock */
+extern struct __metal_driver_fixed_clock __metal_dt_qspi_clock;
+
+/* From emmc_clock */
+extern struct __metal_driver_fixed_clock __metal_dt_emmc_clock;
+
 extern struct metal_memory __metal_dt_mem_testram_100000000;
 
 extern struct metal_memory __metal_dt_mem_testram_c00000000;
@@ -252,7 +258,13 @@ extern struct __metal_driver_sifive_nb2wdt __metal_dt_nb2wdt_302058000;
 static __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct metal_clock *clock)
 {
 	if ((uintptr_t)clock == (uintptr_t)&__metal_dt_subsystem_pbus_clock) {
-		return METAL_FIXED_CLOCK__CLOCK_FREQUENCY;
+		return METAL_FIXED_CLOCK__SUBSYSTEM_PBUS_CLOCK;
+	}
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_qspi_clock) {
+		return METAL_FIXED_CLOCK__QSPI_CLOCK;
+	}
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_emmc_clock) {
+		return METAL_FIXED_CLOCK__EMMC_CLOCK;
 	}
 	else {
 		return 0;
@@ -1417,10 +1429,10 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2emmc_interru
 static __inline__ int __metal_driver_sifive_nb2emmc_interrupt_lines(struct metal_emmc *emmc, int idx)
 {
 	if (((uintptr_t)emmc == (uintptr_t)&__metal_dt_nb2emmc_301007000) && (idx == 0)) {
-		return 45;
+		return 46;
 	}
 	else if ((((uintptr_t)emmc == (uintptr_t)&__metal_dt_nb2emmc_301007000) && (idx == 1))) {
-		return 46;
+		return 47;
 	}
 	else {
 		return 0;
@@ -1451,7 +1463,7 @@ static __inline__ unsigned long long __metal_driver_sifive_nb2qspi0_control_size
 static __inline__ struct metal_clock * __metal_driver_sifive_nb2qspi0_clock(struct metal_qspi *qspi)
 {
 	if ((uintptr_t)qspi == (uintptr_t)&__metal_dt_nb2qspi0_261010000) {
-		return (struct metal_clock *)&__metal_dt_subsystem_pbus_clock.clock;
+		return (struct metal_clock *)&__metal_dt_qspi_clock.clock;
 	}
 	else {
 		return 0;
@@ -1546,10 +1558,10 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interr
 static __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
-		return 64;
+		return 62;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
-		return 65;
+		return 63;
 	}
 	else {
 		return 0;
@@ -1644,7 +1656,7 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2wdt_interrup
 static __inline__ int __metal_driver_sifive_nb2wdt_interrupt_line(const struct metal_watchdog *const watchdog)
 {
 	if ((uintptr_t)watchdog == (uintptr_t)&__metal_dt_nb2wdt_302058000) {
-		return 4;
+		return 5;
 	}
 	else {
 		return 0;
@@ -1691,7 +1703,7 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_NB2UART0_302011000_HANDLE (&__metal_dt_nb2uart0_302011000.uart)
 
-#define __METAL_DT_STDOUT_UART_BAUD 9600
+#define __METAL_DT_STDOUT_UART_BAUD 38400
 
 /* From clint@2000000 */
 #define __METAL_DT_RISCV_CLINT0_HANDLE (&__metal_dt_clint_2000000.controller)
