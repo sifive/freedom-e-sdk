@@ -278,5 +278,10 @@
 	"commit": "812ba152d931e2ea5a07c6717cc74e30eb27994c",
 	"name": "example-flash",
 	"source":"git@github.com:sifive/example-flash.git"
+    },
+    {
+	"commit": "28533a8097cae62f2a97074eb807a5907502a82b",
+	"name": "example-otp",
+	"source": "git@github.com:sifive/example-otp.git"
     }
 ]

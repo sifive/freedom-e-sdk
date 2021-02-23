@@ -166,3 +166,6 @@
 [submodule "software/example-flash"]
 	path = software/example-flash
 	url = https://github.com/sifive/example-flash.git
+[submodule "software/example-otp"]
+	path = software/example-otp
+	url = https://github.com/sifive/example-otp.git
