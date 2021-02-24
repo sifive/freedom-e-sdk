@@ -294,6 +294,12 @@ stdout-path = "/soc/nb2uart0@302011000:38400";
 			clock-output-names = "emmc_clock";
 			compatible = "fixed-clock";
 		};
+		L12: otp_clock {
+			#clock-cells = <0>;
+			clock-frequency = <26000000>;
+			clock-output-names = "otp_clock";
+			compatible = "fixed-clock";
+		};
 		L38: teststatus@4000 {
 			compatible = "sifive,test0";
 			reg = <0x0 0x4000 0x0 0x1000>;
@@ -394,6 +400,14 @@ stdout-path = "/soc/nb2uart0@302011000:38400";
                         size = <0x2000000>;
                         erase-block-size = <0x10000>;
                         write-block-size = <1>;
+		};
+		L59: nb2otp@4F0004000 {
+                        compatible = "sifive,nb2otp";
+                        interrupt-parent = <&L3>;
+                        interrupts = <45 46>;
+                        reg = <0x4 0xF0004000 0x0 0x1000>;
+                        reg-names = "control";
+                        clocks = <&L12>;
 		};
 	};
 };

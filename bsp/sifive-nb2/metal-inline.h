@@ -135,6 +135,14 @@ extern __inline__ int __metal_driver_sifive_nb2wdt_interrupt_line(const struct m
 extern __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const struct metal_watchdog *const watchdog);
 
 
+/* --------------------- sifive_nb2otp ------------ */
+extern __inline__ unsigned long long __metal_driver_sifive_nb2otp_base(struct metal_otp *otp);
+extern __inline__ unsigned long long __metal_driver_sifive_nb2otp_size(struct metal_otp *otp);
+extern __inline__ int __metal_driver_sifive_nb2otp_num_interrupts(struct metal_otp *otp);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_nb2otp_interrupt_parent(struct metal_otp *otp);
+extern __inline__ int __metal_driver_sifive_nb2otp_interrupt_lines(struct metal_otp *otp, int idx);
+
+
 /* --------------------- sifive_fe310_g000_hfrosc ------------ */
 
 
@@ -162,6 +170,11 @@ struct __metal_driver_fixed_clock __metal_dt_qspi_clock = {
 
 /* From emmc_clock */
 struct __metal_driver_fixed_clock __metal_dt_emmc_clock = {
+    .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
+};
+
+/* From otp_clock */
+struct __metal_driver_fixed_clock __metal_dt_otp_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
@@ -364,6 +377,11 @@ struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302012000 = {
 /* From nb2wdt@302058000 */
 struct __metal_driver_sifive_nb2wdt __metal_dt_nb2wdt_302058000 = {
     .watchdog.vtable = &__metal_driver_vtable_sifive_nb2wdt.watchdog,
+};
+
+/* From nb2otp@4F0004000 */
+struct __metal_driver_sifive_nb2otp __metal_dt_nb2otp_4F0004000 = {
+    .otp.vtable = &__metal_driver_vtable_sifive_nb2otp.otp,
 };
 
 

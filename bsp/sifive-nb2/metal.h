@@ -127,6 +127,10 @@
 
 #define METAL_MAX_UART_INTERRUPTS 1
 
+#define __METAL_NB2OTP_4F0004000_INTERRUPTS 2
+
+#define METAL_MAX_OTP_INTERRUPTS 2
+
 
 #include <metal/drivers/fixed-clock.h>
 #include <metal/memory.h>
@@ -145,6 +149,7 @@
 #include <metal/drivers/sifive_nb2qspi0.h>
 #include <metal/drivers/sifive_nb2uart0.h>
 #include <metal/drivers/sifive_nb2wdt.h>
+#include <metal/drivers/sifive_nb2otp.h>
 
 /* From subsystem_pbus_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock;
@@ -154,6 +159,9 @@ extern struct __metal_driver_fixed_clock __metal_dt_qspi_clock;
 
 /* From emmc_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_emmc_clock;
+
+/* From otp_clock */
+extern struct __metal_driver_fixed_clock __metal_dt_otp_clock;
 
 extern struct metal_memory __metal_dt_mem_testram_100000000;
 
@@ -252,6 +260,9 @@ extern struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302012000;
 /* From nb2wdt@302058000 */
 extern struct __metal_driver_sifive_nb2wdt __metal_dt_nb2wdt_302058000;
 
+/* From nb2otp@4F0004000 */
+extern struct __metal_driver_sifive_nb2otp __metal_dt_nb2otp_4F0004000;
+
 
 
 /* --------------------- fixed_clock ------------ */
@@ -265,6 +276,9 @@ static __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct met
 	}
 	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_emmc_clock) {
 		return METAL_FIXED_CLOCK__EMMC_CLOCK;
+	}
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_otp_clock) {
+		return METAL_FIXED_CLOCK__OTP_CLOCK;
 	}
 	else {
 		return 0;
@@ -1675,6 +1689,62 @@ static __inline__ struct metal_clock * __metal_driver_sifive_nb2wdt_clock(const 
 
 
 
+/* --------------------- sifive_nb2otp ------------ */
+static __inline__ unsigned long long __metal_driver_sifive_nb2otp_base(struct metal_otp *otp)
+{
+	if ((uintptr_t)otp == (uintptr_t)&__metal_dt_nb2otp_4F0004000) {
+		return METAL_SIFIVE_NB2OTP_4F0004000_BASE_ADDRESS;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ unsigned long long __metal_driver_sifive_nb2otp_size(struct metal_otp *otp)
+{
+	if ((uintptr_t)otp == (uintptr_t)&__metal_dt_nb2otp_4F0004000) {
+		return METAL_SIFIVE_NB2OTP_4F0004000_SIZE;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ int __metal_driver_sifive_nb2otp_num_interrupts(struct metal_otp *otp)
+{
+	if ((uintptr_t)otp == (uintptr_t)&__metal_dt_nb2otp_4F0004000) {
+		return METAL_MAX_OTP_INTERRUPTS;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2otp_interrupt_parent(struct metal_otp *otp)
+{
+	if ((uintptr_t)otp == (uintptr_t)&__metal_dt_nb2otp_4F0004000) {
+		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ int __metal_driver_sifive_nb2otp_interrupt_lines(struct metal_otp *otp, int idx)
+{
+	if (((uintptr_t)otp == (uintptr_t)&__metal_dt_nb2otp_4F0004000) && (idx == 0)) {
+		return 45;
+	}
+	else if ((((uintptr_t)otp == (uintptr_t)&__metal_dt_nb2otp_4F0004000) && (idx == 1))) {
+		return 46;
+	}
+	else {
+		return 0;
+	}
+}
+
+
+
 /* --------------------- sifive_fe310_g000_hfrosc ------------ */
 
 
@@ -1822,6 +1892,12 @@ struct __metal_driver_sifive_nb2uart0 *__metal_uart_table[] = {
 __asm__ (".weak __metal_wdog_table");
 struct __metal_driver_sifive_nb2wdt *__metal_wdog_table[] = {
 					&__metal_dt_nb2wdt_302058000};
+
+#define __METAL_DT_MAX_OTP 1
+
+__asm__ (".weak __metal_otp_table");
+struct __metal_driver_sifive_nb2otp *__metal_otp_table[] = {
+					&__metal_dt_nb2otp_4F0004000};
 
 #endif /* MACROS_ELSE_METAL_H*/
 
