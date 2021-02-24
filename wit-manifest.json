@@ -283,5 +283,10 @@
 	"commit": "28533a8097cae62f2a97074eb807a5907502a82b",
 	"name": "example-otp",
 	"source": "git@github.com:sifive/example-otp.git"
+    },
+    {
+	"commit": "9209c3021184a2a804e3328d452e576c02fd8948",
+	"name": "example-uart",
+	"source": "git@github.com:sifive/example-uart.git"
     }
 ]
