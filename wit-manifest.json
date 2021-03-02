@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "7ccf2e44236aa088a5a1f47100f19508cb3e1d6c",
+        "commit": "270a002f7c96eadf70e31b80c74f42e2da5e4e8c",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -280,12 +280,12 @@
 	"source":"git@github.com:sifive/example-flash.git"
     },
     {
-	"commit": "edcc2a8da0235884e26d6267658c005525621308",
+	"commit": "0851eaf5e2de956f89f0fbbf9db003b61539162b",
 	"name": "example-otp",
 	"source": "git@github.com:sifive/example-otp.git"
     },
     {
-	"commit": "9209c3021184a2a804e3328d452e576c02fd8948",
+	"commit": "f0c4e401f1c18d5d0392e1c596828bf6b0d3908d",
 	"name": "example-uart",
 	"source": "git@github.com:sifive/example-uart.git"
     }
