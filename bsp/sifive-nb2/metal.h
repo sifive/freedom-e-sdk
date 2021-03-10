@@ -109,7 +109,7 @@
 
 #define METAL_FLASH_CHIP_SELECT 1
 
-#define METAL_FLASH_SPI_MAX_FREQUENCY 2000000
+#define METAL_FLASH_SPI_MAX_FREQUENCY 1665000
 
 #define METAL_FLASH_SIZE 33554432
 
@@ -150,6 +150,24 @@
 #include <metal/drivers/sifive_nb2uart0.h>
 #include <metal/drivers/sifive_nb2wdt.h>
 #include <metal/drivers/sifive_nb2otp.h>
+
+#ifdef PRINT_DEBUG_INFO
+#define DEBUG_INFO(...) do { fprintf(stdout, __VA_ARGS__);fflush(stdout);} while (0)
+#else
+#define DEBUG_INFO(fmt, ...) do {} while (0)
+#endif
+
+#ifdef PRINT_DEBUG
+#define DEBUG_PRINT(...) do { fprintf(stdout, __VA_ARGS__);fflush(stdout);} while (0)
+#else
+#define DEBUG_PRINT(fmt, ...) do {} while (0)
+#endif
+
+#ifdef PRINT_DEBUG_ERROR
+#define DEBUG_ERROR(...) do { fprintf(stderr, __VA_ARGS__);fflush(stderr);fflush(stdout);} while (0)
+#else
+#define DEBUG_ERROR(fmt, ...) do {} while (0)
+#endif
 
 /* From subsystem_pbus_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_subsystem_pbus_clock;
