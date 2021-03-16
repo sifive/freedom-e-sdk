@@ -172,3 +172,6 @@
 [submodule "software/example-uart"]
 	path = software/example-uart
 	url = https://github.com/sifive/example-uart.git
+[submodule "software/example-secure-bootrom"]
+	path = software/example-secure-bootrom
+	url = git@github.com:sifive/example-secure-bootrom-nb2
