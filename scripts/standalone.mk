@@ -285,7 +285,8 @@ $(PROGRAM_ELF): \
 		XCFLAGS="$(RISCV_XCFLAGS)" \
 		LDFLAGS="$(RISCV_LDFLAGS)" \
 		LDLIBS="$(RISCV_LDLIBS)" \
-		FREERTOS_METAL_VENV_PATH="$(FREERTOS_METAL_VENV_PATH)"
+		FREERTOS_METAL_VENV_PATH="$(FREERTOS_METAL_VENV_PATH)" \
+		CONFIGURATION="$(CONFIGURATION)"
 	mv $(SRC_DIR)/$(basename $(notdir $@)) $@
 	mv $(SRC_DIR)/$(basename $(notdir $@)).map $(dir $@)
 	touch -c $@
@@ -293,6 +294,16 @@ $(PROGRAM_ELF): \
 	$(RISCV_SIZE) $@
 
 # Use elf2hex if we're creating a hex file for RTL simulation
+ifeq ($(COREIP_MEM_WIDTH),)
+COREIP_MEM_WIDTH = 32
+endif
+
+ifneq ($(findstring bootrom,$(PROGRAM)),)
+$(PROGRAM_HEX): \
+		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
+		$(PROGRAM_ELF)
+		$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+else
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 .PHONY: software
 $(PROGRAM_HEX): \
@@ -304,7 +315,7 @@ $(PROGRAM_HEX): \
 		$(PROGRAM_ELF)
 	$(RISCV_OBJCOPY) -O ihex $(PROGRAM_ELF) $@
 endif
-
+endif
 
 .PHONY: clean-software
 clean-software:
