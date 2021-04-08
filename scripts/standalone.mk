@@ -302,14 +302,16 @@ ifneq ($(findstring bootrom,$(PROGRAM)),)
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
-		$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+		$< --output $@ --input $(PROGRAM_ELF) --bit-width 32
+##		$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
 else
 ifneq ($(filter rtl,$(TARGET_TAGS)),)
 .PHONY: software
 $(PROGRAM_HEX): \
 		scripts/elf2hex/install/bin/$(CROSS_COMPILE)-elf2hex \
 		$(PROGRAM_ELF)
-	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
+	$< --output $@ --input $(PROGRAM_ELF) --bit-width 32
+##	$< --output $@ --input $(PROGRAM_ELF) --bit-width $(COREIP_MEM_WIDTH)
 else
 $(PROGRAM_HEX): \
 		$(PROGRAM_ELF)
