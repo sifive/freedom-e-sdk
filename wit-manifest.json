@@ -5,7 +5,7 @@
         "source": "git@github.com:sifive/freedom-devicetree-tools.git"
     },
     {
-        "commit": "bda33d2ee7307633aeb4e0716afa007e7bff5beb-dirty",
+        "commit": "315994fac64ec9e2f2617209092063b9295aab60",
         "name": "freedom-metal",
         "source": "git@github.com:sifive/freedom-metal.git"
     },
@@ -270,17 +270,17 @@
         "source": "git@github.com:sifive/example-lim.git"
     },
     {
-	"commit": "e210fb687ce7568bf3c73b48938d3e0a076c4f78",
+	"commit": "9956fb9a002273c677225839e5a6c5a8b951ff71",
 	"name": "example-emmc",
 	"source": "git@github.com:sifive/example-emmc.git"
     },
     {
-	"commit": "812ba152d931e2ea5a07c6717cc74e30eb27994c",
+	"commit": "458fad1ae902bc48701899183aaea0a767757dbb",
 	"name": "example-flash",
 	"source":"git@github.com:sifive/example-flash.git"
     },
     {
-	"commit": "0851eaf5e2de956f89f0fbbf9db003b61539162b",
+	"commit": "df229767155b029be016d3d58da9c4650bbb84f9",
 	"name": "example-otp",
 	"source": "git@github.com:sifive/example-otp.git"
     },
