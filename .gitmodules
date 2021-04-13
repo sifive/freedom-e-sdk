@@ -175,3 +175,6 @@
 [submodule "software/example-secure-bootrom"]
 	path = software/example-secure-bootrom
 	url = git@github.com:sifive/example-secure-bootrom-nb2
+[submodule "software/test-scl-metal"]
+	path = software/test-scl-metal
+	url = git@github.com:sifive/test-scl-metal.git
