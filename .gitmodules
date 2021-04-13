@@ -178,3 +178,6 @@
 [submodule "software/test-scl-metal"]
 	path = software/test-scl-metal
 	url = git@github.com:sifive/test-scl-metal.git
+[submodule "software/fpga-sbr-parameters-setup"]
+	path = software/fpga-sbr-parameters-setup
+	url = git@github.com:sifive/fpga-sbr-parameters-setup.git
