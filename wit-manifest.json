@@ -275,7 +275,7 @@
 	"source": "git@github.com:sifive/example-emmc.git"
     },
     {
-	"commit": "458fad1ae902bc48701899183aaea0a767757dbb",
+	"commit": "bda89d674b42712874cfdb6b6e405efbad88b720",
 	"name": "example-flash",
 	"source":"git@github.com:sifive/example-flash.git"
     },
