@@ -1,174 +1,183 @@
 [submodule "software/hello"]
 	path = software/hello
-	url = https://github.com/sifive/example-hello.git
+	url = git@github.com:sifive/example-hello.git
 [submodule "freedom-metal"]
 	path = freedom-metal
-	url = https://github.com/sifive/freedom-metal.git
+	url = git@github.com:sifive/freedom-metal.git
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
-	url = https://github.com/sifive/elf2hex.git
+	url = git@github.com:sifive/elf2hex.git
 [submodule "software/example-itim"]
 	path = software/example-itim
-	url = https://github.com/sifive/example-itim.git
+	url = git@github.com:sifive/example-itim.git
 [submodule "software/software-interrupt"]
 	path = software/software-interrupt
-	url = https://github.com/sifive/example-software-interrupt.git
+	url = git@github.com:sifive/example-software-interrupt.git
 [submodule "software/timer-interrupt"]
 	path = software/timer-interrupt
-	url = https://github.com/sifive/example-timer-interrupt.git
+	url = git@github.com:sifive/example-timer-interrupt.git
 [submodule "software/local-interrupt"]
 	path = software/local-interrupt
-	url = https://github.com/sifive/example-local-interrupt.git
+	url = git@github.com:sifive/example-local-interrupt.git
 [submodule "software/return-fail"]
 	path = software/return-fail
-	url = https://github.com/sifive/example-return-fail.git
+	url = git@github.com:sifive/example-return-fail.git
 [submodule "software/return-pass"]
 	path = software/return-pass
-	url = https://github.com/sifive/example-return-pass.git
+	url = git@github.com:sifive/example-return-pass.git
 [submodule "software/example-pmp"]
 	path = software/example-pmp
-	url = https://github.com/sifive/example-pmp.git
+	url = git@github.com:sifive/example-pmp.git
 [submodule "doc/html"]
 	path = doc/html
-	url = https://github.com/sifive/freedom-e-sdk-docs.git
+	url = git@github.com:sifive/freedom-e-sdk-docs.git
 [submodule "software/example-spi"]
 	path = software/example-spi
-	url = https://github.com/sifive/example-spi.git
+	url = git@github.com:sifive/example-spi.git
 [submodule "software/empty"]
 	path = software/empty
-	url = https://github.com/sifive/example-empty.git
+	url = git@github.com:sifive/example-empty.git
 [submodule "software/sifive-welcome"]
 	path = software/sifive-welcome
-	url = https://github.com/sifive/sifive-welcome
+	url = git@github.com:sifive/sifive-welcome
 [submodule "software/dhrystone"]
 	path = software/dhrystone
-	url = https://github.com/sifive/benchmark-dhrystone
+	url = git@github.com:sifive/benchmark-dhrystone
 [submodule "software/multicore-hello"]
 	path = software/multicore-hello
-	url = https://github.com/sifive/example-multicore-hello.git
+	url = git@github.com:sifive/example-multicore-hello.git
 [submodule "software/example-user-mode"]
 	path = software/example-user-mode
-	url = https://github.com/sifive/example-user-mode.git
+	url = git@github.com:sifive/example-user-mode.git
 [submodule "software/example-user-syscall"]
 	path = software/example-user-syscall
-	url = https://github.com/sifive/example-user-syscall.git
+	url = git@github.com:sifive/example-user-syscall.git
 [submodule "software/coremark"]
 	path = software/coremark
-	url = https://github.com/sifive/benchmark-coremark.git
+	url = git@github.com:sifive/benchmark-coremark.git
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
-	url = https://github.com/sifive/freedom-devicetree-tools.git
+	url = git@github.com:sifive/freedom-devicetree-tools.git
 [submodule "software/test-coreip"]
 	path = software/test-coreip
-	url = https://github.com/sifive/test-coreip.git
+	url = git@github.com:sifive/test-coreip.git
 [submodule "software/example-rtc"]
 	path = software/example-rtc
-	url = https://github.com/sifive/example-rtc.git
+	url = git@github.com:sifive/example-rtc.git
 [submodule "software/example-watchdog"]
 	path = software/example-watchdog
-	url = https://github.com/sifive/example-watchdog.git
+	url = git@github.com:sifive/example-watchdog.git
 [submodule "software/cflush"]
 	path = software/cflush
-	url = https://github.com/sifive/example-cflush.git
+	url = git@github.com:sifive/example-cflush.git
 [submodule "software/plic-interrupts"]
 	path = software/plic-interrupts
-	url = https://github.com/sifive/example-plic-interrupts.git
+	url = git@github.com:sifive/example-plic-interrupts.git
 [submodule "software/clic-selective-vector-interrupts"]
 	path = software/clic-selective-vector-interrupts
-	url = https://github.com/sifive/example-clic-selective-vector-interrupts.git
+	url = git@github.com:sifive/example-clic-selective-vector-interrupts.git
 [submodule "software/clic-hardware-vector-interrupts"]
 	path = software/clic-hardware-vector-interrupts
-	url = https://github.com/sifive/example-clic-hardware-vector-interrupts.git
+	url = git@github.com:sifive/example-clic-hardware-vector-interrupts.git
 [submodule "software/local-vector-interrupts"]
 	path = software/local-vector-interrupts
-	url = https://github.com/sifive/example-local-vector-interrupts.git
+	url = git@github.com:sifive/example-local-vector-interrupts.git
 [submodule "software/csr"]
 	path = software/csr
-	url = https://github.com/sifive/example-csr-access.git
+	url = git@github.com:sifive/example-csr-access.git
 [submodule "software/minimal-boot"]
 	path = software/minimal-boot
-	url = https://github.com/sifive/example-minimal-boot.git
+	url = git@github.com:sifive/example-minimal-boot.git
 [submodule "software/uart-interrupt"]
 	path = software/uart-interrupt
-	url = https://github.com/sifive/example-uart-interrupt.git
+	url = git@github.com:sifive/example-uart-interrupt.git
 [submodule "software/atomics"]
 	path = software/atomics
-	url = https://github.com/sifive/example-atomics.git
+	url = git@github.com:sifive/example-atomics.git
 [submodule "software/example-i2c"]
 	path = software/example-i2c
-	url = https://github.com/sifive/example-i2c.git
+	url = git@github.com:sifive/example-i2c.git
 [submodule "software/example-pwm"]
 	path = software/example-pwm
-	url = https://github.com/sifive/example-pwm.git
+	url = git@github.com:sifive/example-pwm.git
 [submodule "software/clic-nested-interrupts"]
 	path = software/clic-nested-interrupts
-	url = https://github.com/sifive/example-clic-nested-interrupts.git
+	url = git@github.com:sifive/example-clic-nested-interrupts.git
 [submodule "software/mem-latency"]
 	path = software/mem-latency
-	url = https://github.com/sifive/benchmark-mem-latency.git
+	url = git@github.com:sifive/benchmark-mem-latency.git
 [submodule "software/example-hpm"]
 	path = software/example-hpm
-	url = https://github.com/sifive/example-hpm.git
+	url = git@github.com:sifive/example-hpm.git
 [submodule "FreeRTOS-metal"]
 	path = FreeRTOS-metal
-	url = https://github.com/sifive/FreeRTOS-metal.git
+	url = git@github.com:sifive/FreeRTOS-metal.git
 [submodule "Segger_SystemView-metal"]
 	path = Segger_SystemView-metal
-	url = https://github.com/sifive/Segger_SystemView-metal.git
+	url = git@github.com:sifive/Segger_SystemView-metal.git
 [submodule "software/example-freertos-blinky"]
 	path = software/example-freertos-blinky
-	url = https://github.com/sifive/example-freertos-blinky.git
+	url = git@github.com:sifive/example-freertos-blinky.git
 [submodule "software/example-freertos-minimal"]
 	path = software/example-freertos-minimal
-	url = https://github.com/sifive/example-freertos-minimal.git
+	url = git@github.com:sifive/example-freertos-minimal.git
 [submodule "scripts/devicetree-overlay-generator"]
 	path = scripts/devicetree-overlay-generator
-	url = https://github.com/sifive/devicetree-overlay-generator.git
+	url = git@github.com:sifive/devicetree-overlay-generator.git
 [submodule "scripts/ldscript-generator"]
 	path = scripts/ldscript-generator
-	url = https://github.com/sifive/ldscript-generator.git
+	url = git@github.com:sifive/ldscript-generator.git
 [submodule "scripts/cmsis-svd-generator"]
 	path = scripts/cmsis-svd-generator
-	url = https://github.com/sifive/cmsis-svd-generator.git
+	url = git@github.com:sifive/cmsis-svd-generator.git
 [submodule "scripts/openocdcfg-generator"]
 	path = scripts/openocdcfg-generator
-	url = https://github.com/sifive/openocdcfg-generator.git
+	url = git@github.com:sifive/openocdcfg-generator.git
 [submodule "scripts/esdk-settings-generator"]
 	path = scripts/esdk-settings-generator
-	url = https://github.com/sifive/esdk-settings-generator.git
+	url = git@github.com:sifive/esdk-settings-generator.git
 [submodule "software/clic-nonvector-interrupts"]
 	path = software/clic-nonvector-interrupts
-	url = https://github.com/sifive/example-clic-nonvector-interrupts.git
+	url = git@github.com:sifive/example-clic-nonvector-interrupts.git
 [submodule "software/example-freertos-pmp-blinky"]
 	path = software/example-freertos-pmp-blinky
-	url = https://github.com/sifive/example-freertos-pmp-blinky.git
+	url = git@github.com:sifive/example-freertos-pmp-blinky.git
 [submodule "software/example-buserror"]
 	path = software/example-buserror
-	url = https://github.com/sifive/example-buserror.git
+	url = git@github.com:sifive/example-buserror.git
 [submodule "software/example-hca-metal"]
 	path = software/example-hca-metal
-	url = https://github.com/sifive/example-hca-metal.git
+	url = git@github.com:sifive/example-hca-metal.git
 [submodule "scl-metal"]
 	path = scl-metal
-	url = https://github.com/sifive/scl-metal.git
+	url = git@github.com:sifive/scl-metal.git
 [submodule "software/example-l2pm"]
 	path = software/example-l2pm
-	url = https://github.com/sifive/example-l2pm.git
+	url = git@github.com:sifive/example-l2pm.git
 [submodule "software/example-l2pf"]
 	path = software/example-l2pf
-	url = https://github.com/sifive/example-l2pf.git
+	url = git@github.com:sifive/example-l2pf.git
 [submodule "software/example-lim"]
 	path = software/example-lim
-	url = https://github.com/sifive/example-lim.git
+	url = git@github.com:sifive/example-lim.git
 [submodule "software/example-emmc"]
 	path = software/example-emmc
-	url = https://github.com/sifive/example-emmc.git
+	url = git@github.com:sifive/example-emmc.git
 [submodule "software/example-flash"]
 	path = software/example-flash
-	url = https://github.com/sifive/example-flash.git
+	url = git@github.com:sifive/example-flash.git
 [submodule "software/example-otp"]
 	path = software/example-otp
-	url = https://github.com/sifive/example-otp.git
+	url = git@github.com:sifive/example-otp.git
 [submodule "software/example-uart"]
 	path = software/example-uart
-	url = https://github.com/sifive/example-uart.git
+	url = git@github.com:sifive/example-uart.git
+[submodule "software/example-secure-bootrom"]
+	path = software/example-secure-bootrom
+	url = git@github.com:sifive/example-secure-bootrom-nb2
+[submodule "software/test-scl-metal"]
+	path = software/test-scl-metal
+	url = git@github.com:sifive/test-scl-metal.git
+[submodule "software/fpga-sbr-parameters-setup"]
+	path = software/fpga-sbr-parameters-setup
+	url = git@github.com:sifive/fpga-sbr-parameters-setup.git
