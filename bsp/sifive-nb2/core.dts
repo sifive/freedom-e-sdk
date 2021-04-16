@@ -8,7 +8,7 @@
 
 chosen {
 metal,boothart = <&L10>;
-stdout-path = "/soc/nb2uart0@302011000:38400";
+stdout-path = "/soc/nb2uart1@302011000:9600";
 };
 	L47: cpus {
 		#address-cells = <1>;
@@ -278,28 +278,28 @@ stdout-path = "/soc/nb2uart0@302011000:38400";
 		};
 		L0: subsystem_pbus_clock {
 			#clock-cells = <0>;
-			clock-frequency = <20000000>;
+			clock-frequency = <5000000>;
 			clock-output-names = "subsystem_pbus_clock";
 			compatible = "fixed-clock";
 		};
 		L6: qspi_clock {
 			#clock-cells = <0>;
-			clock-frequency = <6660000>;
+			clock-frequency = <5000000>;
 			clock-output-names = "qspi_clock";
 			compatible = "fixed-clock";
 		};
 		L8: emmc_clock {
 			#clock-cells = <0>;
-			clock-frequency = <100000000>;
+			clock-frequency = <10000000>;
 			clock-output-names = "emmc_clock";
 			compatible = "fixed-clock";
 		};
-		L12: otp_clock {
-			#clock-cells = <0>;
-			clock-frequency = <26000000>;
-			clock-output-names = "otp_clock";
-			compatible = "fixed-clock";
-		};
+                L12: crystal_clock {
+                        #clock-cells = <0>;
+                        clock-frequency = <26000000>;
+                        clock-output-names = "crystal_clock";
+                        compatible = "fixed-clock";
+                };
 		L38: teststatus@4000 {
 			compatible = "sifive,test0";
 			reg = <0x0 0x4000 0x0 0x1000>;
@@ -330,7 +330,15 @@ stdout-path = "/soc/nb2uart0@302011000:38400";
 			reg = <0x0 0x10008000 0x0 0x1000>;
 			reg-names = "control";
 		};
-		L51: nb2uart0@302011000 {
+                L50: nb2uart0@4F0009000 {
+                        compatible = "sifive,nb2uart0";
+                        interrupt-parent = <&L3>;
+                        interrupts = <12>;
+                        reg = <0x4 0xF0009000 0x0 0x1000>;
+                        reg-names = "control";
+                        clocks = <&L12>;
+                };
+		L51: nb2uart1@302011000 {
 			compatible = "sifive,nb2uart0";
                         interrupt-parent = <&L3>;
                         interrupts = <62>;
@@ -338,7 +346,7 @@ stdout-path = "/soc/nb2uart0@302011000:38400";
                         reg-names = "control";
                         clocks = <&L0>;
 		};
-		L52: nb2uart0@302012000 {
+		L52: nb2uart2@302012000 {
 			compatible = "sifive,nb2uart0";
                         interrupt-parent = <&L3>;
                         interrupts = <63>;
@@ -394,7 +402,7 @@ stdout-path = "/soc/nb2uart0@302011000:38400";
 			compatible = "sifive,flash";
                         baud = <100000>;
                         chip-select = <1>;
-                        spi-max-frequency = <1665000>;
+                        spi-max-frequency = <5000000>;
                         jedec-id = <0xc2 0x80 0x3a>;
                         label = "MX25UM512";
                         size = <0x2000000>;

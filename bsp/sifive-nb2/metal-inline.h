@@ -173,8 +173,8 @@ struct __metal_driver_fixed_clock __metal_dt_emmc_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
-/* From otp_clock */
-struct __metal_driver_fixed_clock __metal_dt_otp_clock = {
+/* From crystal_clock */
+struct __metal_driver_fixed_clock __metal_dt_crystal_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
@@ -364,13 +364,18 @@ struct __metal_driver_sifive_nb2qspi0 __metal_dt_nb2qspi0_261010000 = {
     .qspi.vtable = &__metal_driver_vtable_sifive_nb2qspi0.qspi,
 };
 
-/* From nb2uart0@302011000 */
-struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302011000 = {
+/* From nb2uart0@4F0009000 */
+struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_4F0009000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_nb2uart0.uart,
 };
 
-/* From nb2uart0@302012000 */
-struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302012000 = {
+/* From nb2uart1@302011000 */
+struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart1_302011000 = {
+    .uart.vtable = &__metal_driver_vtable_sifive_nb2uart0.uart,
+};
+
+/* From nb2uart2@302012000 */
+struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart2_302012000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_nb2uart0.uart,
 };
 

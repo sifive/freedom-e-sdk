@@ -109,7 +109,7 @@
 
 #define METAL_FLASH_CHIP_SELECT 1
 
-#define METAL_FLASH_SPI_MAX_FREQUENCY 1665000
+#define METAL_FLASH_SPI_MAX_FREQUENCY 5000000
 
 #define METAL_FLASH_SIZE 33554432
 
@@ -121,9 +121,11 @@
 
 #define METAL_QSPI_AXI_SIZE 67108864
 
-#define __METAL_NB2UART0_302011000_INTERRUPTS 1
+#define __METAL_NB2UART0_4F0009000_INTERRUPTS 1
 
-#define __METAL_NB2UART0_302012000_INTERRUPTS 1
+#define __METAL_NB2UART1_302011000_INTERRUPTS 1
+
+#define __METAL_NB2UART2_302012000_INTERRUPTS 1
 
 #define METAL_MAX_UART_INTERRUPTS 1
 
@@ -178,8 +180,8 @@ extern struct __metal_driver_fixed_clock __metal_dt_qspi_clock;
 /* From emmc_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_emmc_clock;
 
-/* From otp_clock */
-extern struct __metal_driver_fixed_clock __metal_dt_otp_clock;
+/* From crystal_clock */
+extern struct __metal_driver_fixed_clock __metal_dt_crystal_clock;
 
 extern struct metal_memory __metal_dt_mem_testram_100000000;
 
@@ -269,11 +271,14 @@ extern struct __metal_driver_sifive_flash __metal_dt_flash;
 /* From nb2qspi0@261010000 */
 extern struct __metal_driver_sifive_nb2qspi0 __metal_dt_nb2qspi0_261010000;
 
-/* From nb2uart0@302011000 */
-extern struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302011000;
+/* From nb2uart0@4F0009000 */
+extern struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_4F0009000;
 
-/* From nb2uart0@302012000 */
-extern struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart0_302012000;
+/* From nb2uart1@302011000 */
+extern struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart1_302011000;
+
+/* From nb2uart2@302012000 */
+extern struct __metal_driver_sifive_nb2uart0 __metal_dt_nb2uart2_302012000;
 
 /* From nb2wdt@302058000 */
 extern struct __metal_driver_sifive_nb2wdt __metal_dt_nb2wdt_302058000;
@@ -295,8 +300,8 @@ static __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct met
 	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_emmc_clock) {
 		return METAL_FIXED_CLOCK__EMMC_CLOCK;
 	}
-	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_otp_clock) {
-		return METAL_FIXED_CLOCK__OTP_CLOCK;
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_crystal_clock) {
+		return METAL_FIXED_CLOCK__CRYSTAL_CLOCK;
 	}
 	else {
 		return 0;
@@ -1537,10 +1542,13 @@ static __inline__ unsigned long __metal_driver_sifive_nb2qspi0_pinmux_source_sel
 /* --------------------- sifive_nb2uart0 ------------ */
 static __inline__ unsigned long long __metal_driver_sifive_nb2uart0_control_base(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
+		return METAL_SIFIVE_NB2UART0_4F0009000_BASE_ADDRESS;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
 		return METAL_SIFIVE_NB2UART0_302011000_BASE_ADDRESS;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return METAL_SIFIVE_NB2UART0_302012000_BASE_ADDRESS;
 	}
 	else {
@@ -1550,10 +1558,13 @@ static __inline__ unsigned long long __metal_driver_sifive_nb2uart0_control_base
 
 static __inline__ unsigned long long __metal_driver_sifive_nb2uart0_control_size(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
+		return METAL_SIFIVE_NB2UART0_4F0009000_SIZE;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
 		return METAL_SIFIVE_NB2UART0_302011000_SIZE;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return METAL_SIFIVE_NB2UART0_302012000_SIZE;
 	}
 	else {
@@ -1563,10 +1574,13 @@ static __inline__ unsigned long long __metal_driver_sifive_nb2uart0_control_size
 
 static __inline__ int __metal_driver_sifive_nb2uart0_num_interrupts(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
 		return METAL_MAX_UART_INTERRUPTS;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
+		return METAL_MAX_UART_INTERRUPTS;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return METAL_MAX_UART_INTERRUPTS;
 	}
 	else {
@@ -1576,10 +1590,13 @@ static __inline__ int __metal_driver_sifive_nb2uart0_num_interrupts(struct metal
 
 static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interrupt_parent(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
 		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
+		return NULL;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return NULL;
 	}
 	else {
@@ -1589,10 +1606,13 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interr
 
 static __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
+		return 12;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
 		return 62;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return 63;
 	}
 	else {
@@ -1602,10 +1622,13 @@ static __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal
 
 static __inline__ struct metal_clock * __metal_driver_sifive_nb2uart0_clock(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
+		return (struct metal_clock *)&__metal_dt_crystal_clock.clock;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
 		return (struct metal_clock *)&__metal_dt_subsystem_pbus_clock.clock;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return (struct metal_clock *)&__metal_dt_subsystem_pbus_clock.clock;
 	}
 	else {
@@ -1615,10 +1638,13 @@ static __inline__ struct metal_clock * __metal_driver_sifive_nb2uart0_clock(stru
 
 static __inline__ struct __metal_driver_sifive_nb2gpio0 * __metal_driver_sifive_nb2uart0_pinmux(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
 		return NULL;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
+		return NULL;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return NULL;
 	}
 	else {
@@ -1628,10 +1654,13 @@ static __inline__ struct __metal_driver_sifive_nb2gpio0 * __metal_driver_sifive_
 
 static __inline__ unsigned long __metal_driver_sifive_nb2uart0_pinmux_output_selector(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
 		return 0;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
+		return 0;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return 0;
 	}
 	else {
@@ -1641,10 +1670,13 @@ static __inline__ unsigned long __metal_driver_sifive_nb2uart0_pinmux_output_sel
 
 static __inline__ unsigned long __metal_driver_sifive_nb2uart0_pinmux_source_selector(struct metal_uart *uart)
 {
-	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302011000) {
+	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
 		return 0;
 	}
-	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_302012000) {
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
+		return 0;
+	}
+	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
 		return 0;
 	}
 	else {
@@ -1786,12 +1818,12 @@ struct metal_memory *__metal_memory_table[] = {
 					&__metal_dt_mem_testram_c00000000,
 					&__metal_dt_mem_memory_800000000};
 
-/* From nb2uart0@302011000 */
-#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_nb2uart0_302011000.uart)
+/* From nb2uart0@4F0009000 */
+#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_nb2uart0_4F0009000.uart)
 
-#define __METAL_DT_NB2UART0_302011000_HANDLE (&__metal_dt_nb2uart0_302011000.uart)
+#define __METAL_DT_NB2UART0_4F0009000_HANDLE (&__metal_dt_nb2uart0_4F0009000.uart)
 
-#define __METAL_DT_STDOUT_UART_BAUD 38400
+#define __METAL_DT_STDOUT_UART_BAUD 9600
 
 /* From clint@2000000 */
 #define __METAL_DT_RISCV_CLINT0_HANDLE (&__metal_dt_clint_2000000.controller)
@@ -1898,12 +1930,13 @@ __asm__ (".weak __metal_qspi_table");
 struct __metal_driver_sifive_nb2qspi0 *__metal_qspi_table[] = {
 					&__metal_dt_nb2qspi0_261010000};
 
-#define __METAL_DT_MAX_UARTS 2
+#define __METAL_DT_MAX_UARTS 3
 
 __asm__ (".weak __metal_uart_table");
 struct __metal_driver_sifive_nb2uart0 *__metal_uart_table[] = {
-					&__metal_dt_nb2uart0_302011000,
-					&__metal_dt_nb2uart0_302012000};
+					&__metal_dt_nb2uart0_4F0009000,
+					&__metal_dt_nb2uart1_302011000,
+					&__metal_dt_nb2uart2_302012000};
 
 #define __METAL_DT_MAX_WDOGS 1
 
