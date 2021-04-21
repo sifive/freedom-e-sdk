@@ -1594,10 +1594,10 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interr
 		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
-		return NULL;
+		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart2_302012000) {
-		return NULL;
+		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
 	}
 	else {
 		return 0;
