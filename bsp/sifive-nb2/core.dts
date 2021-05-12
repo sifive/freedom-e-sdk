@@ -8,7 +8,7 @@
 
 chosen {
 metal,boothart = <&L10>;
-stdout-path = "/soc/nb2uart1@302011000:9600";
+stdout-path = "/soc/nb2uart0@4F0009000:9600";
 };
 	L47: cpus {
 		#address-cells = <1>;

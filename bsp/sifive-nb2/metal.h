@@ -1818,10 +1818,10 @@ struct metal_memory *__metal_memory_table[] = {
 					&__metal_dt_mem_testram_c00000000,
 					&__metal_dt_mem_memory_800000000};
 
-/* From nb2uart1@302011000 */
-#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_nb2uart1_302011000.uart)
+/* From nb2uart0@4F0009000 */
+#define __METAL_DT_STDOUT_UART_HANDLE (&__metal_dt_nb2uart0_4F0009000.uart)
 
-#define __METAL_DT_NB2UART1_302011000_HANDLE (&__metal_dt_nb2uart1_302011000.uart)
+#define __METAL_DT_NB2UART0_4F0009000_HANDLE (&__metal_dt_nb2uart0_4F0009000.uart)
 
 #define __METAL_DT_STDOUT_UART_BAUD 9600
 
