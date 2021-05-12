@@ -1823,7 +1823,7 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_NB2UART0_4F0009000_HANDLE (&__metal_dt_nb2uart0_4F0009000.uart)
 
-#define __METAL_DT_STDOUT_UART_BAUD 9600
+#define __METAL_DT_STDOUT_UART_BAUD 38400
 
 /* From clint@2000000 */
 #define __METAL_DT_RISCV_CLINT0_HANDLE (&__metal_dt_clint_2000000.controller)

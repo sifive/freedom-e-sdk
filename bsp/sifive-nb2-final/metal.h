@@ -1613,7 +1613,7 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interr
 static __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
-		return 12;
+		return 61;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
 		return 62;
@@ -1829,7 +1829,7 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_NB2UART0_4F0009000_HANDLE (&__metal_dt_nb2uart0_4F0009000.uart)
 
-#define __METAL_DT_STDOUT_UART_BAUD 9600
+#define __METAL_DT_STDOUT_UART_BAUD 38400
 
 /* From clint@2000000 */
 #define __METAL_DT_RISCV_CLINT0_HANDLE (&__metal_dt_clint_2000000.controller)
