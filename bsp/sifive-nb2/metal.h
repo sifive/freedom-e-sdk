@@ -1607,7 +1607,7 @@ static __inline__ struct metal_interrupt * __metal_driver_sifive_nb2uart0_interr
 static __inline__ int __metal_driver_sifive_nb2uart0_interrupt_line(struct metal_uart *uart)
 {
 	if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart0_4F0009000) {
-		return 12;
+		return 61;
 	}
 	else if ((uintptr_t)uart == (uintptr_t)&__metal_dt_nb2uart1_302011000) {
 		return 62;

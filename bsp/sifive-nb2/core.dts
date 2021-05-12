@@ -333,7 +333,7 @@ stdout-path = "/soc/nb2uart0@4F0009000:9600";
                 L50: nb2uart0@4F0009000 {
                         compatible = "sifive,nb2uart0";
                         interrupt-parent = <&L3>;
-                        interrupts = <12>;
+                        interrupts = <61>;
                         reg = <0x4 0xF0009000 0x0 0x1000>;
                         reg-names = "control";
                         clocks = <&L12>;
