@@ -44,7 +44,7 @@
 	path = software/example-uart
 	url = https://github.com/sifive/example-uart.git
 [submodule "software/example-secure-bootrom"]
-	path = software/example-secure-bootrom
+	path = software/example-secure-bootrom-nb2
 	url = https://github.com/sifive/example-secure-bootrom-nb2.git
 [submodule "software/fpga-sbr-parameters-setup"]
 	path = software/fpga-sbr-parameters-setup
