@@ -33,19 +33,19 @@
 	url = https://github.com/sifive/scl-metal.git
 [submodule "software/example-emmc"]
 	path = software/example-emmc
-	url = https://github.com/example-emmc.git
+	url = https://github.com/sifive/example-emmc.git
 [submodule "software/example-flash"]
 	path = software/example-flash
-	url = https://github.com/example-flash.git
+	url = https://github.com/sifive/example-flash.git
 [submodule "software/example-otp"]
 	path = software/example-otp
-	url = https://github.com/example-otp.git
+	url = https://github.com/sifive/example-otp.git
 [submodule "software/example-uart"]
 	path = software/example-uart
-	url = https://github.com/example-uart.git
+	url = https://github.com/sifive/example-uart.git
 [submodule "software/example-secure-bootrom"]
 	path = software/example-secure-bootrom
-	url = https://github.com/example-secure-bootrom-nb2
+	url = https://github.com/sifive/example-secure-bootrom-nb2.git
 [submodule "software/fpga-sbr-parameters-setup"]
 	path = software/fpga-sbr-parameters-setup
-	url = git@github.com:sifive/fpga-sbr-parameters-setup.git
+	url = https://github.com/sifive/fpga-sbr-parameters-setup.git
