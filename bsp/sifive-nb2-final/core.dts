@@ -330,6 +330,14 @@ stdout-path = "/soc/nb2uart0@4F0009000:38400";
 			reg = <0x0 0x10008000 0x0 0x1000>;
 			reg-names = "control";
 		};
+		L24: hca@20000000 {
+                        clocks = <&L16>;
+                        compatible = "sifive,hca-0.5.3";
+                        interrupt-parent = <&L3>;
+                        interrupts = <1 2>;
+                        reg = <0x0 0x20000000 0x0 0x1000>;
+                        reg-names = "control";
+                };
 		L50: nb2uart0@4F0009000 {
 			compatible = "sifive,nb2uart0";
 			interrupt-parent = <&L3>;
