@@ -178,6 +178,11 @@ struct __metal_driver_fixed_clock __metal_dt_crystal_clock = {
     .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
 };
 
+/* From hca_clock */
+struct __metal_driver_fixed_clock __metal_dt_hca_clock = {
+    .clock.vtable = &__metal_driver_vtable_fixed_clock.clock,
+};
+
 struct metal_memory __metal_dt_mem_testram_100000000 = {
     ._base_address = 4294967296UL,
     ._size = 536870911UL,

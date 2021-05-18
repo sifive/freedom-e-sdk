@@ -183,6 +183,9 @@ extern struct __metal_driver_fixed_clock __metal_dt_emmc_clock;
 /* From crystal_clock */
 extern struct __metal_driver_fixed_clock __metal_dt_crystal_clock;
 
+/* From hca_clock */
+extern struct __metal_driver_fixed_clock __metal_dt_hca_clock;
+
 extern struct metal_memory __metal_dt_mem_testram_100000000;
 
 extern struct metal_memory __metal_dt_mem_testram_c00000000;
@@ -302,6 +305,9 @@ static __inline__ unsigned long __metal_driver_fixed_clock_rate(const struct met
 	}
 	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_crystal_clock) {
 		return METAL_FIXED_CLOCK__CRYSTAL_CLOCK;
+	}
+	else if ((uintptr_t)clock == (uintptr_t)&__metal_dt_hca_clock) {
+		return METAL_FIXED_CLOCK__HCA_CLOCK;
 	}
 	else {
 		return 0;

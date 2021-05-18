@@ -18,6 +18,9 @@
 /* From crystal_clock */
 #define METAL_FIXED_CLOCK__CRYSTAL_CLOCK 26000000UL
 
+/* From hca_clock */
+#define METAL_FIXED_CLOCK__HCA_CLOCK 12500000UL
+
 #define METAL_FIXED_CLOCK
 
 /* From clint@2000000 */
