@@ -1,51 +1,51 @@
 [submodule "freedom-metal"]
 	path = freedom-metal
-	url = https://github.com/sifive/freedom-metal.git
+	url = git@github.com:sifive/freedom-metal.git
 [submodule "scripts/elf2hex"]
 	path = scripts/elf2hex
-	url = https://github.com/sifive/elf2hex.git
+	url = git@github.com:sifive/elf2hex.git
 [submodule "doc/html"]
 	path = doc/html
-	url = https://github.com/sifive/freedom-e-sdk-docs.git
+	url = git@github.com:sifive/freedom-e-sdk-docs.git
 [submodule "freedom-devicetree-tools"]
 	path = freedom-devicetree-tools
-	url = https://github.com/sifive/freedom-devicetree-tools.git
+	url = git@github.com:sifive/freedom-devicetree-tools.git
 [submodule "FreeRTOS-metal"]
 	path = FreeRTOS-metal
-	url = https://github.com/sifive/FreeRTOS-metal.git
+	url = git@github.com:sifive/FreeRTOS-metal.git
 [submodule "scripts/devicetree-overlay-generator"]
 	path = scripts/devicetree-overlay-generator
-	url = https://github.com/sifive/devicetree-overlay-generator.git
+	url = git@github.com:sifive/devicetree-overlay-generator.git
 [submodule "scripts/ldscript-generator"]
 	path = scripts/ldscript-generator
-	url = https://github.com/sifive/ldscript-generator.git
+	url = git@github.com:sifive/ldscript-generator.git
 [submodule "scripts/cmsis-svd-generator"]
 	path = scripts/cmsis-svd-generator
-	url = https://github.com/sifive/cmsis-svd-generator.git
+	url = git@github.com:sifive/cmsis-svd-generator.git
 [submodule "scripts/openocdcfg-generator"]
 	path = scripts/openocdcfg-generator
-	url = https://github.com/sifive/openocdcfg-generator.git
+	url = git@github.com:sifive/openocdcfg-generator.git
 [submodule "scripts/esdk-settings-generator"]
 	path = scripts/esdk-settings-generator
-	url = https://github.com/sifive/esdk-settings-generator.git
+	url = git@github.com:sifive/esdk-settings-generator.git
 [submodule "scl-metal"]
 	path = scl-metal
-	url = https://github.com/sifive/scl-metal.git
+	url = git@github.com:sifive/scl-metal.git
 [submodule "software/example-emmc"]
 	path = software/example-emmc
-	url = https://github.com/sifive/example-emmc.git
+	url = git@github.com:sifive/example-emmc.git
 [submodule "software/example-flash"]
 	path = software/example-flash
-	url = https://github.com/sifive/example-flash.git
+	url = git@github.com:sifive/example-flash.git
 [submodule "software/example-otp"]
 	path = software/example-otp
-	url = https://github.com/sifive/example-otp.git
+	url = git@github.com:sifive/example-otp.git
 [submodule "software/example-uart"]
 	path = software/example-uart
-	url = https://github.com/sifive/example-uart.git
+	url = git@github.com:sifive/example-uart.git
 [submodule "software/fpga-sbr-parameters-setup"]
 	path = software/fpga-sbr-parameters-setup
-	url = https://github.com/sifive/fpga-sbr-parameters-setup.git
+	url = git@github.com:sifive/fpga-sbr-parameters-setup.git
 [submodule "software/example-secure-bootrom-nb2"]
 	path = software/example-secure-bootrom-nb2
-	url = https://github.com/sifive/example-secure-bootrom-nb2
+	url = git@github.com:sifive/example-secure-bootrom-nb2
