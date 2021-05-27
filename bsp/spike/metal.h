@@ -241,6 +241,9 @@ static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_pwm0 ------------ */
 
 
+/* --------------------- sifive_remapper2 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 

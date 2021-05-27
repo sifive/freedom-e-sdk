@@ -957,6 +957,9 @@ static __inline__ int __metal_driver_sifive_pwm0_comparator_count(struct metal_p
 
 
 
+/* --------------------- sifive_remapper2 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 
 static __inline__ unsigned long __metal_driver_sifive_spi0_control_base(struct metal_spi *spi)

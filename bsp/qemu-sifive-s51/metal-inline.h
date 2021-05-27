@@ -96,6 +96,9 @@ extern __inline__ int __metal_driver_sifive_pwm0_compare_width(struct metal_pwm 
 extern __inline__ int __metal_driver_sifive_pwm0_comparator_count(struct metal_pwm *pwm);
 
 
+/* --------------------- sifive_remapper2 ------------ */
+
+
 /* --------------------- sifive_rtc0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_base(const struct metal_rtc *const rtc);
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_size(const struct metal_rtc *const rtc);

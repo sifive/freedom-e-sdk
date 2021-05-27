@@ -99,6 +99,16 @@ extern __inline__ int __metal_driver_sifive_pwm0_compare_width(struct metal_pwm 
 extern __inline__ int __metal_driver_sifive_pwm0_comparator_count(struct metal_pwm *pwm);
 
 
+/* --------------------- sifive_remapper2 ------------ */
+extern __inline__ unsigned long __metal_driver_sifive_remapper2_base(const struct metal_remapper *remapper);
+extern __inline__ unsigned long __metal_driver_sifive_remapper2_size(const struct metal_remapper *remapper);
+extern __inline__ unsigned long long __metal_driver_sifive_remapper2_from_region_base(const struct metal_remapper *remapper);
+extern __inline__ unsigned long long __metal_driver_sifive_remapper2_from_region_size(const struct metal_remapper *remapper);
+extern __inline__ unsigned long long __metal_driver_sifive_remapper2_to_region_base(const struct metal_remapper *remapper);
+extern __inline__ unsigned long long __metal_driver_sifive_remapper2_to_region_size(const struct metal_remapper *remapper);
+extern __inline__ unsigned int __metal_driver_sifive_remapper2_max_from_entry_addr_width(const struct metal_remapper *remapper);
+
+
 /* --------------------- sifive_rtc0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_base(const struct metal_rtc *const rtc);
 extern __inline__ unsigned long __metal_driver_sifive_rtc0_control_size(const struct metal_rtc *const rtc);
@@ -276,6 +286,11 @@ struct __metal_driver_sifive_gpio_led __metal_dt_led_2 = {
 /* From pwm@10015000 */
 struct __metal_driver_sifive_pwm0 __metal_dt_pwm_10015000 = {
     .pwm.vtable = &__metal_driver_vtable_sifive_pwm0.pwm,
+};
+
+/* From remapper@3000000 */
+struct __metal_driver_sifive_remapper2 __metal_dt_remapper_3000000 = {
+    .remapper.vtable = &__metal_driver_vtable_sifive_remapper2.remapper,
 };
 
 /* From aon@10000000 */
