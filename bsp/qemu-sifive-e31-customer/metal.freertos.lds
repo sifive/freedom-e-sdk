@@ -16,6 +16,8 @@ MEMORY
 {
     ram (airwx) : ORIGIN = 0x80000000, LENGTH = 0x400000
     rom (irx!wa) : ORIGIN = 0x20400000, LENGTH = 0x1fc00000
+    rnmi_irq_0 (irx!wa) : ORIGIN = 0x3fffb000, LENGTH = 0x1000
+    rnmi_excp_0 (irx!wa) : ORIGIN = 0x3fffb800, LENGTH = 0x1000
 }
 
 PHDRS
@@ -27,6 +29,7 @@ PHDRS
     itim_init PT_LOAD;
     text PT_LOAD;
     lim_init PT_LOAD;
+    rnmi PT_LOAD;
 }
 
 SECTIONS
@@ -83,6 +86,21 @@ SECTIONS
     /* User is recommended to enable the full size for manual RTL simulation run! */
     PROVIDE( metal_dtim_0_memory_start = 0x80000000 );
     PROVIDE( metal_dtim_0_memory_end = 0x80000000 + 0x10000 );
+
+    /* RNMI SECTION
+     *
+     * The following sections contain RNMI interrupt and exception handlers
+     * for all cores, if RNMI is present in the design, for the entire duration
+     * of program execution.
+     */
+
+    .rnmi_irq_0 : {
+        KEEP (*(.rnmi_irq_0))
+    } >rnmi_irq_0 :rnmi
+
+    .rnmi_excp_0 : {
+        KEEP (*(.rnmi_excp_0))
+    } >rnmi_excp_0 :rnmi
 
 
     /* ROM SECTION
