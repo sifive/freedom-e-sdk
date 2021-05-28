@@ -17,7 +17,7 @@
 #ifndef __METAL_CLINT_NUM_PARENTS
 #define __METAL_CLINT_NUM_PARENTS 0
 #endif
-#define __METAL_PLIC_SUBINTERRUPTS 27
+#define __METAL_PLIC_SUBINTERRUPTS 36
 
 #define __METAL_PLIC_NUM_PARENTS 1
 
@@ -46,7 +46,7 @@
 
 #define __METAL_INTERRUPT_CONTROLLER_C000000_INTERRUPTS 1
 
-#define __METAL_PLIC_SUBINTERRUPTS 27
+#define __METAL_PLIC_SUBINTERRUPTS 36
 
 #define METAL_MAX_PLIC_INTERRUPTS 1
 
@@ -86,6 +86,7 @@
 #include <metal/drivers/riscv_cpu.h>
 #include <metal/drivers/riscv_plic0.h>
 #include <metal/pmp.h>
+#include <metal/drivers/sifive_buserror0.h>
 #include <metal/drivers/sifive_local-external-interrupts0.h>
 #include <metal/drivers/sifive_gpio0.h>
 #include <metal/drivers/sifive_gpio-leds.h>
@@ -124,6 +125,9 @@ extern struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controlle
 
 /* From interrupt_controller@c000000 */
 extern struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000;
+
+/* From bus_error_unit@4000000 */
+extern struct metal_buserror __metal_dt_bus_error_unit_4000000;
 
 /* From local_external_interrupts_0 */
 extern struct __metal_driver_sifive_local_external_interrupts0 __metal_dt_local_external_interrupts_0;
@@ -300,7 +304,7 @@ static __inline__ int __metal_driver_cpu_num_pmp_regions(struct metal_cpu *cpu)
 static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct metal_cpu *cpu)
 {
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
-		return NULL;
+		return &__metal_dt_bus_error_unit_4000000;
 	}
 	else {
 		return NULL;
@@ -383,6 +387,36 @@ static __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid)
 
 
 /* --------------------- sifive_buserror0 ------------ */
+static __inline__ uintptr_t __metal_driver_sifive_buserror0_control_base(const struct metal_buserror *buserror)
+{
+	if ((uintptr_t)buserror == (uintptr_t)&__metal_dt_bus_error_unit_4000000) {
+		return METAL_SIFIVE_BUSERROR0_4000000_BASE_ADDRESS;
+	}
+	else {
+		return 0;
+	}
+}
+
+static __inline__ struct metal_interrupt * __metal_driver_sifive_buserror0_interrupt_parent(const struct metal_buserror *buserror)
+{
+	if ((uintptr_t)buserror == (uintptr_t)&__metal_dt_bus_error_unit_4000000) {
+		return (struct metal_interrupt *)&__metal_dt_interrupt_controller_c000000.controller;
+	}
+	else {
+		return NULL;
+	}
+}
+
+static __inline__ int __metal_driver_sifive_buserror0_interrupt_id(const struct metal_buserror *buserror)
+{
+	if ((uintptr_t)buserror == (uintptr_t)&__metal_dt_bus_error_unit_4000000) {
+		return 35;
+	}
+	else {
+		return 0;
+	}
+}
+
 
 
 /* --------------------- sifive_clic0 ------------ */

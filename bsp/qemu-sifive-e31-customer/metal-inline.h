@@ -45,6 +45,9 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 
 
 /* --------------------- sifive_buserror0 ------------ */
+extern __inline__ uintptr_t __metal_driver_sifive_buserror0_control_base(const struct metal_buserror *beu);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_buserror0_interrupt_parent(const struct metal_buserror *beu);
+extern __inline__ int __metal_driver_sifive_buserror0_interrupt_id(const struct metal_buserror *beu);
 
 
 /* --------------------- sifive_clic0 ------------ */
@@ -237,6 +240,11 @@ struct __metal_driver_riscv_cpu_intc __metal_dt_cpu_0_interrupt_controller = {
 struct __metal_driver_riscv_plic0 __metal_dt_interrupt_controller_c000000 = {
     .controller.vtable = &__metal_driver_vtable_riscv_plic0.plic_vtable,
     .init_done = 0,
+};
+
+/* From bus_error_unit@4000000 */
+struct metal_buserror __metal_dt_bus_error_unit_4000000 = {
+	.__no_empty_structs = 0,
 };
 
 /* From local_external_interrupts_0 */

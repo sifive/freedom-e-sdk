@@ -798,14 +798,69 @@
           <addressOffset>0x68</addressOffset>
         </register>
         <register>
+          <name>priority_27</name>
+          <description>PRIORITY Register for interrupt id 27</description>
+          <addressOffset>0x6C</addressOffset>
+        </register>
+        <register>
+          <name>priority_28</name>
+          <description>PRIORITY Register for interrupt id 28</description>
+          <addressOffset>0x70</addressOffset>
+        </register>
+        <register>
+          <name>priority_29</name>
+          <description>PRIORITY Register for interrupt id 29</description>
+          <addressOffset>0x74</addressOffset>
+        </register>
+        <register>
+          <name>priority_30</name>
+          <description>PRIORITY Register for interrupt id 30</description>
+          <addressOffset>0x78</addressOffset>
+        </register>
+        <register>
+          <name>priority_31</name>
+          <description>PRIORITY Register for interrupt id 31</description>
+          <addressOffset>0x7C</addressOffset>
+        </register>
+        <register>
+          <name>priority_32</name>
+          <description>PRIORITY Register for interrupt id 32</description>
+          <addressOffset>0x80</addressOffset>
+        </register>
+        <register>
+          <name>priority_33</name>
+          <description>PRIORITY Register for interrupt id 33</description>
+          <addressOffset>0x84</addressOffset>
+        </register>
+        <register>
+          <name>priority_34</name>
+          <description>PRIORITY Register for interrupt id 34</description>
+          <addressOffset>0x88</addressOffset>
+        </register>
+        <register>
+          <name>priority_35</name>
+          <description>PRIORITY Register for interrupt id 35</description>
+          <addressOffset>0x8C</addressOffset>
+        </register>
+        <register>
           <name>pending_0</name>
-          <description>PENDING Register for interrupt ids 26 to 0</description>
+          <description>PENDING Register for interrupt ids 31 to 0</description>
           <addressOffset>0x1000</addressOffset>
         </register>
         <register>
+          <name>pending_1</name>
+          <description>PENDING Register for interrupt ids 35 to 32</description>
+          <addressOffset>0x1004</addressOffset>
+        </register>
+        <register>
           <name>enable_0_0</name>
-          <description>ENABLE Register for interrupt ids 26 to 0 for hart 0</description>
+          <description>ENABLE Register for interrupt ids 31 to 0 for hart 0</description>
           <addressOffset>0x2000</addressOffset>
+        </register>
+        <register>
+          <name>enable_1_0</name>
+          <description>ENABLE Register for interrupt ids 35 to 32 for hart 0</description>
+          <addressOffset>0x2004</addressOffset>
         </register>
         <register>
           <name>threshold_0</name>
