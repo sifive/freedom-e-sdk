@@ -74,6 +74,7 @@ SECTIONS
 
     PROVIDE(__metal_eccscrub_bit = 0);
 
+
     /* ROM SECTION
      *
      * The following sections contain data which lives in read-only memory, if
