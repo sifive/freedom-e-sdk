@@ -210,5 +210,9 @@
                         reg = <0x4000000 0x1000>;
                         reg-names = "control";
                 };
+                error-device@3000 {
+                        compatible = "sifive,error0";
+                        reg = <0x3000 0x1000>;
+                };
         };
 };
