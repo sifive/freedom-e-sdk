@@ -276,7 +276,7 @@ stdout-path = "/soc/nb2uart0@4F0009000:38400";
 		};
 		L6: qspi_clock {
 			#clock-cells = <0>;
-			clock-frequency = <133000000>;
+			clock-frequency = <200000000>;
 			clock-output-names = "qspi_clock";
 			compatible = "fixed-clock";
 		};
@@ -409,7 +409,7 @@ stdout-path = "/soc/nb2uart0@4F0009000:38400";
 		};
 		L58: flash {
 			compatible = "sifive,flash";
-                        baud = <133000000>;
+                        baud = <100000000>;
                         chip-select = <1>;
                         spi-max-frequency = <1665000>;
                         jedec-id = <0xc2 0x80 0x3a>;
