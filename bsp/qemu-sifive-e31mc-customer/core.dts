@@ -19,6 +19,7 @@
                         reg = <0>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
+                        sifive,l2pf = <&spf0>;
                         status = "okay";
                         timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -39,6 +40,7 @@
                         reg = <1>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
+                        sifive,l2pf = <&spf1>;
                         status = "okay";
                         timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -59,6 +61,7 @@
                         reg = <2>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
+                        sifive,l2pf = <&spf2>;
                         status = "okay";
                         timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -79,6 +82,7 @@
                         reg = <3>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
+                        sifive,l2pf = <&spf3>;
                         status = "okay";
                         timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -259,6 +263,42 @@
                         label = "LD0blue";
                         gpios = <&gpio0 21>;
                         linux,default-trigger = "none";
+                };
+                spf0: spf@2030000 {
+                        compatible = "sifive,l2pf1";
+                        reg = <0x02030000 0x2000>;
+                        reg-names = "control";
+                        sifive,l2pf-queue-entries = <16>;
+                        sifive,l2pf-window-bits = <6>;
+                        sifive,l2pf-distance-bits = <6>;
+                        sifive,l2pf-streams = <8>;
+                };
+                spf1: spf@2032000 {
+                        compatible = "sifive,l2pf1";
+                        reg = <0x02032000 0x2000>;
+                        reg-names = "control";
+                        sifive,l2pf-queue-entries = <16>;
+                        sifive,l2pf-window-bits = <6>;
+                        sifive,l2pf-distance-bits = <6>;
+                        sifive,l2pf-streams = <8>;
+                };
+                spf2: spf@2034000 {
+                        compatible = "sifive,l2pf1";
+                        reg = <0x02034000 0x2000>;
+                        reg-names = "control";
+                        sifive,l2pf-queue-entries = <16>;
+                        sifive,l2pf-window-bits = <6>;
+                        sifive,l2pf-distance-bits = <6>;
+                        sifive,l2pf-streams = <8>;
+                };
+                spf3: spf@2036000 {
+                        compatible = "sifive,l2pf1";
+                        reg = <0x02036000 0x2000>;
+                        reg-names = "control";
+                        sifive,l2pf-queue-entries = <16>;
+                        sifive,l2pf-window-bits = <6>;
+                        sifive,l2pf-distance-bits = <6>;
+                        sifive,l2pf-streams = <8>;
                 };
         };
 };

@@ -67,6 +67,34 @@
 
 #define METAL_MAX_I2C0_INTERRUPTS 0
 
+#define METAL_SIFIVE_L2PF1_BASE_ADDR {\
+	METAL_SIFIVE_L2PF1_0_BASE_ADDRESS,\
+	}
+
+#define METAL_SIFIVE_L2PF1_QUEUE_ENTRIES {\
+	METAL_SIFIVE_L2PF1_0_QUEUE_ENTRIES,\
+	}
+
+#define METAL_SIFIVE_L2PF1_WINDOW_BITS {\
+	METAL_SIFIVE_L2PF1_0_WINDOW_BITS,\
+	}
+
+#define METAL_SIFIVE_L2PF1_DISTANCE_BITS {\
+	METAL_SIFIVE_L2PF1_0_DISTANCE_BITS,\
+	}
+
+#define METAL_SIFIVE_L2PF1_STREAMS {\
+	METAL_SIFIVE_L2PF1_0_STREAMS,\
+	}
+
+#define METAL_SIFIVE_L2PF1_0_QUEUE_ENTRIES 16
+
+#define METAL_SIFIVE_L2PF1_0_WINDOW_BITS 6
+
+#define METAL_SIFIVE_L2PF1_0_DISTANCE_BITS 6
+
+#define METAL_SIFIVE_L2PF1_0_STREAMS 8
+
 #define __METAL_PWM_10015000_INTERRUPTS 4
 
 #define METAL_MAX_PWM0_INTERRUPTS 4
@@ -100,6 +128,7 @@
 #include <metal/drivers/sifive_local-external-interrupts0.h>
 #include <metal/drivers/sifive_gpio0.h>
 #include <metal/drivers/sifive_gpio-leds.h>
+#include <metal/drivers/sifive_l2pf1.h>
 #include <metal/drivers/sifive_pwm0.h>
 #include <metal/drivers/sifive_remapper2.h>
 #include <metal/drivers/sifive_rtc0.h>

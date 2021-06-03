@@ -19,6 +19,7 @@
                         reg = <0>;
                         riscv,isa = "rv32imac";
                         sifive,dtim = <&dtim>;
+                        sifive,l2pf = <&spf>;
                         status = "okay";
                         timebase-frequency = <1000000>;
                         hardware-exec-breakpoint-count = <4>;
@@ -226,6 +227,15 @@
                         sifive,remapper-to-region-base = <0x0 0x0>;
                         sifive,remapper-to-region-size = <0x1 0x0>;
                         sifive,remapper-max-frm-width = <20>;
+                };
+                spf: spf@2030000 {
+                        compatible = "sifive,l2pf1";
+                        reg = <0x02030000 0x2000>;
+                        reg-names = "control";
+                        sifive,l2pf-queue-entries = <16>;
+                        sifive,l2pf-window-bits = <6>;
+                        sifive,l2pf-distance-bits = <6>;
+                        sifive,l2pf-streams = <8>;
                 };
         };
 };
