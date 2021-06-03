@@ -214,5 +214,18 @@
                         compatible = "sifive,error0";
                         reg = <0x3000 0x1000>;
                 };
+                remapper: remapper@3000000 {
+                        compatible = "sifive,remapper2";
+                        reg = <0x3000000 0x1000>;
+                        reg-names = "control";
+                        sifive,remapper-cpu = <&L6>;
+                        sifive,remapper-entries = <32>;
+                        sifive,remapper-version = <2>;
+                        sifive,remapper-frm-region-base = <0x0 0x0>;
+                        sifive,remapper-frm-region-size = <0x1 0x0>;
+                        sifive,remapper-to-region-base = <0x0 0x0>;
+                        sifive,remapper-to-region-size = <0x1 0x0>;
+                        sifive,remapper-max-frm-width = <20>;
+                };
         };
 };
