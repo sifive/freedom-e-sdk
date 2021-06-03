@@ -85,6 +85,7 @@ SECTIONS
     PROVIDE( metal_itim_0_memory_start = 0x8000000 );
     PROVIDE( metal_itim_0_memory_end = 0x8000000 + 0x2000 );
 
+
     /* ROM SECTION
      *
      * The following sections contain data which lives in read-only memory, if
