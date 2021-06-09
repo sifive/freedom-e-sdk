@@ -409,7 +409,7 @@ stdout-path = "/soc/nb2uart0@4F0009000:38400";
 		};
 		L58: flash {
 			compatible = "sifive,flash";
-                        baud = <100000000>;
+                        baud = <25000000>;
                         chip-select = <1>;
                         spi-max-frequency = <1665000>;
                         jedec-id = <0xc2 0x80 0x3a>;

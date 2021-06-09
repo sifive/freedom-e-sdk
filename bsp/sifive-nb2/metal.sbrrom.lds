@@ -14,7 +14,8 @@ MEMORY
 {
     lim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x1e0000
     ram (airwx) : ORIGIN = 0x8000000, LENGTH = 0x1e0000
-    rom (irx!wa) : ORIGIN = 0x100000000, LENGTH = 0x1fffffff
+    /** ROM is lower by 4 Bytes to save rom for its CRC32 - 0x18000 - 0x00004 = 0x17ffc */
+    rom (irx!wa) : ORIGIN = 0x10000, LENGTH = 0x17ffc
 }
 
 PHDRS
@@ -91,6 +92,9 @@ SECTIONS
 
     PROVIDE(__metal_eccscrub_bit = 0);
 
+
+    PROVIDE(__metal_sbr_init_done = 0);
+
 	/** Pearl NB2 specific tags declaration */
     PROVIDE(__section_protocol_ram_end = ORIGIN(lim) + 208K );
 
@@ -117,7 +121,7 @@ SECTIONS
  		LONG(0x40105013);
  		LONG(0x40f05013);
  		LONG(0x40105013);
-	} >ram :rom
+	} >rom :rom
 
     .init : {
         /* The _enter symbol is placed in the .text.metal.init.enter section
@@ -126,17 +130,17 @@ SECTIONS
         KEEP (*(.text.metal.init.*))
         KEEP (*(SORT_NONE(.init)))
         KEEP (*(.text.libgloss.start))
-    } >ram :rom
+    } >rom :rom
 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
-    } >ram :rom
+    } >rom :rom
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array))
         PROVIDE_HIDDEN (__preinit_array_end = .);
-    } >ram :rom
+    } >rom :rom
 
     .init_array : ALIGN(8) {
         PROVIDE_HIDDEN (__init_array_start = .);
@@ -147,7 +151,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
         KEEP (*(.metal.init_array));
         PROVIDE_HIDDEN ( metal_constructors_end = .);
-    } >ram :rom
+    } >rom :rom
 
     .fini_array : ALIGN(8) {
         PROVIDE_HIDDEN (__fini_array_start = .);
@@ -158,7 +162,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
         KEEP (*(.metal.fini_array));
         PROVIDE_HIDDEN ( metal_destructors_end = .);
-    } >ram :rom
+    } >rom :rom
 
  
 
@@ -169,7 +173,7 @@ SECTIONS
         KEEP (*(SORT(.ctors.*)))
         KEEP (*(.ctors))
         KEEP (*(.metal.ctors .metal.ctors.*))
-    } >ram :rom
+    } >rom :rom
 
     .dtors : {
         KEEP (*crtbegin.o(.dtors))
@@ -178,7 +182,7 @@ SECTIONS
         KEEP (*(SORT(.dtors.*)))
         KEEP (*(.dtors))
         KEEP (*(.metal.dtors .metal.dtors.*))
-    } >ram : rom
+    } >rom : rom
 
     .rodata : {
         *(.rdata)
@@ -190,7 +194,7 @@ SECTIONS
         *(.srodata.cst4)
         *(.srodata.cst2)
         *(.srodata .srodata.*)
-    } >ram :rom
+    } >rom :rom
 
     /* ITIM SECTION
      *
@@ -241,7 +245,7 @@ SECTIONS
         *(.text .text.*)
         *(.gnu.linkonce.t.*)
 	PROVIDE(__rom_stop_code_address = .);
-    } >ram :text
+    } >rom :text
 
 	PROVIDE(__rom_code_size = ( __rom_stop_code_address - __rom_start_code_address ));
 
@@ -271,17 +275,13 @@ SECTIONS
         *(.sdata .sdata.* .sdata2.*)
         *(.gnu.linkonce.s.*)
         . = ALIGN(16);
-/** OTP Area - Start */
-		KEEP(*(.otp_mapping_private))
-		KEEP(*(.otp_mapping_patch))
-		KEEP(*(.otp_mapping_secure))
-/** OTP_Area - End */
-    } >ram AT>ram :ram_init
+
+    } >ram AT>rom :ram_init
 
     .tdata : ALIGN(0x10) {
         PROVIDE( __tls_base = . );
 	*(.tdata .tdata.* .gnu.linkonce.td.*)
-    } >ram AT>ram :tls :ram_init
+    } >ram AT>rom :tls :ram_init
 
     PROVIDE( __tdata_source = LOADADDR(.tdata) );
     PROVIDE( __tdata_size = SIZEOF(.tdata) );
@@ -351,11 +351,6 @@ SECTIONS
 	PROVIDE( __sbr_free_size = __sbrm_free_size );
 	PROVIDE( __sbr_free_end_addr = __sbrm_free_end_addr );
 
-/*
-	PROVIDE( __sbr_free_start_addr = __sbrm_free_end_addr );
-	PROVIDE( __sbr_free_size = 0x10000 );
-	PROVIDE( __sbr_free_end_addr = __sbr_free_start_addr + __sbr_free_size );
-*/
 	__flash_emul_start = __sbr_free_end_addr;
 	__flash_emul_size = 0x10000;
 

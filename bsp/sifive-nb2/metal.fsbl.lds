@@ -12,8 +12,8 @@ ENTRY(_enter)
 
 MEMORY
 {
-    lim (airwx) : ORIGIN = 0x8028400, LENGTH = 0x1e0000
-    ram (airwx) : ORIGIN = 0x8028400, LENGTH = 0x1e0000
+    lim (airwx) : ORIGIN = 0x8028000, LENGTH = 0x1e0000
+    ram (airwx) : ORIGIN = 0x8028000, LENGTH = 0x1e0000
     rom (irx!wa) : ORIGIN = 0x100000000, LENGTH = 0x1fffffff
 }
 /*     ram (airwx) : ORIGIN = 0x800000000, LENGTH = 0x200000000 */
@@ -42,7 +42,7 @@ SECTIONS
      * initializes the stack pointers for each hart at the right offset from
      * the _sp symbol.
      */
-    __stack_size = DEFINED(__stack_size) ? __stack_size : 0x400;
+    __stack_size = DEFINED(__stack_size) ? __stack_size : 0x800;
     PROVIDE(__stack_size = __stack_size);
 
     /* The size of the heap can be overriden at build-time by adding the
@@ -75,6 +75,8 @@ SECTIONS
     PROVIDE(__metal_chicken_bit = 1);
 
     PROVIDE(__metal_eccscrub_bit = 0);
+    
+    PROVIDE(__metal_sbr_init_done = 1);
 
 	/* This particuar tag should indicate where, in U74 core complex RAM,
 	 * the free area where to execute FSBL starts
@@ -107,17 +109,17 @@ SECTIONS
         KEEP (*(.text.metal.init.*))
         KEEP (*(SORT_NONE(.init)))
         KEEP (*(.text.libgloss.start))
-    } >ram :rom
+    } >ram :ram
 
     .fini : {
         KEEP (*(SORT_NONE(.fini)))
-    } >ram :rom
+    } >ram :ram
 
     .preinit_array : ALIGN(8) {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array))
         PROVIDE_HIDDEN (__preinit_array_end = .);
-    } >ram :rom
+    } >ram :ram
 
     .init_array : ALIGN(8) {
         PROVIDE_HIDDEN (__init_array_start = .);
@@ -128,7 +130,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.init_array.*)));
         KEEP (*(.metal.init_array));
         PROVIDE_HIDDEN ( metal_constructors_end = .);
-    } >ram :rom
+    } >ram :ram
 
     .fini_array : ALIGN(8) {
         PROVIDE_HIDDEN (__fini_array_start = .);
@@ -139,7 +141,7 @@ SECTIONS
         KEEP (*(SORT_BY_INIT_PRIORITY(.metal.fini_array.*)));
         KEEP (*(.metal.fini_array));
         PROVIDE_HIDDEN ( metal_destructors_end = .);
-    } >ram :rom
+    } >ram :ram
 
  
 
@@ -203,7 +205,7 @@ SECTIONS
 
     .lim : ALIGN(8) {
         *(.lim .lim.*)
-    } >lim AT>ram :lim_init
+    } >ram AT>ram :lim_init
 
     PROVIDE( metal_segment_lim_source_start = LOADADDR(.lim) );
     PROVIDE( metal_segment_lim_target_start = ADDR(.lim) );
