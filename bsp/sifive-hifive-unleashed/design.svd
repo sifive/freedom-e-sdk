@@ -9,8 +9,8 @@
   <access>read-write</access>
   <peripherals>
     <peripheral>
-      <name>sifive_fu540_c000_l2_0</name>
-      <description>From sifive,fu540-c000,l2,control peripheral generator</description>
+      <name>sifive_ccache0_0</name>
+      <description>From sifive,ccache0,control peripheral generator</description>
       <baseAddress>0x2010000</baseAddress>
       <addressBlock>
         <offset>0</offset>
@@ -53,6 +53,36 @@
           <name>wayenable</name>
           <description>The index of the largest way which has been enabled. May only be increased.</description>
           <addressOffset>0x8</addressOffset>
+        </register>
+        <register>
+          <name>l2perfevent0</name>
+          <description>The L2 performance event0 control register.</description>
+          <addressOffset>0x2000</addressOffset>
+        </register>
+        <register>
+          <name>l2perfevent1</name>
+          <description>The L2 performance event1 control register.</description>
+          <addressOffset>0x2008</addressOffset>
+        </register>
+        <register>
+          <name>l2clientfilter</name>
+          <description>The L2 Client Filterregister.</description>
+          <addressOffset>0x2800</addressOffset>
+        </register>
+        <register>
+          <name>l2pmcounter0</name>
+          <description>The L2 performance monitor counter0 register.</description>
+          <addressOffset>0x3000</addressOffset>
+        </register>
+        <register>
+          <name>l2pmcounter1</name>
+          <description>The L2 performance monitor counter1 register.</description>
+          <addressOffset>0x3008</addressOffset>
+        </register>
+        <register>
+          <name>l2pmcounter63</name>
+          <description>The L2 performance monitor counter63 register.</description>
+          <addressOffset>0x31F8</addressOffset>
         </register>
       </registers>
     </peripheral>
