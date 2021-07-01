@@ -88,6 +88,9 @@ extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_output_selecto
 extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_source_selector(struct metal_i2c *i2c);
 
 
+/* --------------------- sifive_prci0 ------------ */
+
+
 /* --------------------- sifive_pwm0 ------------ */
 extern __inline__ unsigned long __metal_driver_sifive_pwm0_control_base(struct metal_pwm *pwm);
 extern __inline__ unsigned long __metal_driver_sifive_pwm0_control_size(struct metal_pwm *pwm);

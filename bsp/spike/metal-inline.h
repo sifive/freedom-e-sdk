@@ -63,6 +63,9 @@ extern __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_i2c0 ------------ */
 
 
+/* --------------------- sifive_prci0 ------------ */
+
+
 /* --------------------- sifive_pwm0 ------------ */
 
 
