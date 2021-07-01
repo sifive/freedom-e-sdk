@@ -70,6 +70,9 @@ extern __inline__ int __metal_driver_sifive_plic0_context_ids(int hartid);
 /* --------------------- sifive_i2c0 ------------ */
 
 
+/* --------------------- sifive_prci0 ------------ */
+
+
 /* --------------------- sifive_pwm0 ------------ */
 
 

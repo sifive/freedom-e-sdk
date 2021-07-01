@@ -14,8 +14,8 @@ ENTRY(_enter)
 
 MEMORY
 {
-    itim (airwx) : ORIGIN = 0x1808000, LENGTH = 0x8000
-    ram (arw!xi) : ORIGIN = 0x80000000, LENGTH = 0x1f80000000
+    lim (airwx) : ORIGIN = 0x8000000, LENGTH = 0x1e0000
+    ram (airwx) : ORIGIN = 0x8000000, LENGTH = 0x1e0000
     rom (irx!wa) : ORIGIN = 0x20000000, LENGTH = 0x10000000
 }
 
@@ -198,7 +198,7 @@ SECTIONS
 
     .itim : ALIGN(8) {
         *(.itim .itim.*)
-    } >itim AT>rom :itim_init
+    } >ram AT>rom :itim_init
 
     PROVIDE( metal_segment_itim_source_start = LOADADDR(.itim) );
     PROVIDE( metal_segment_itim_target_start = ADDR(.itim) );
@@ -216,7 +216,7 @@ SECTIONS
 
     .lim : ALIGN(8) {
         *(.lim .lim.*)
-    } >ram AT>rom :lim_init
+    } >lim AT>rom :lim_init
 
     PROVIDE( metal_segment_lim_source_start = LOADADDR(.lim) );
     PROVIDE( metal_segment_lim_target_start = ADDR(.lim) );
