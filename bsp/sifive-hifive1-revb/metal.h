@@ -610,13 +610,13 @@ static __inline__ int __metal_driver_sifive_gpio_led_pin(struct metal_led *led)
 static __inline__ char * __metal_driver_sifive_gpio_led_label(struct metal_led *led)
 {
 	if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_0) {
-		return "LD0red";
+		return "LD0blue";
 	}
 	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_1) {
-		return "LD0green";
+		return "LD0red";
 	}
 	else if ((uintptr_t)led == (uintptr_t)&__metal_dt_led_2) {
-		return "LD0blue";
+		return "LD0green";
 	}
 	else {
 		return "";
