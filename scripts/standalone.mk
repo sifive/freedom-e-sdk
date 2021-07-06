@@ -233,6 +233,7 @@ RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-funct
 else
 RISCV_XCFLAGS += -O2 -fno-common -funroll-loops -finline-functions -falign-functions=16 -falign-jumps=4 -falign-loops=4 -finline-limit=1000 -fno-if-conversion2 -fselective-scheduling -fno-tree-dominator-opts
 endif # RISCV_XLEN==32
+RISCV_XCFLAGS += -fno-code-hoisting 
 endif # RISCV_SERIES==sifive-7-series|sifive-8-series
 RISCV_XCFLAGS += -DITERATIONS=$(TARGET_CORE_ITERS)
 ifeq ($(GCC_VER_GTE10),1)
