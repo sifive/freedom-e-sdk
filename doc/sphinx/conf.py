@@ -13,6 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import subprocess
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -24,7 +25,16 @@ copyright = '2019, SiFive Inc.'
 author = 'SiFive Inc.'
 
 # The short X.Y version
-version = os.environ['RELEASE_TAG']
+# if github provides us a ref or tag
+if 'RELEASE_TAG' in os.environ:
+    version = os.environ['RELEASE_TAG']
+# if we are in a git repository
+elif subprocess.call(["git", "branch"], stderr=subprocess.STDOUT, stdout=open(os.devnull, 'w')) == 0:
+    # set version to the current commit id 
+    version = subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip().decode('ascii')
+else:
+    version = "n/a"
+
 # The full version, including alpha/beta/rc tags
 release = version
 
