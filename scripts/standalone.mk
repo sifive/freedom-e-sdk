@@ -60,6 +60,13 @@ METAL_WITH_EXTRA=--with-builtin-libgloss
 SPEC=nano
 endif
 
+ifeq ($(RISCV_LIBC),semihost)
+# semihost must come before metal-gloss
+LIBMETAL_EXTRA=-lsemihost -lmetal-gloss 
+METAL_WITH_EXTRA=--with-builtin-libgloss
+SPEC=semihost
+endif
+
 ifeq ($(SPEC),)
 $(error RISCV_LIBC set to an unsupported value: $(RISCV_LIBC))
 endif
