@@ -355,6 +355,31 @@ make [PROGRAM=hello] [TARGET=sifive-hifive1] [INCLUDE_METAL_SOURCES=1] STANDALON
 
 Run `make help` for more commands.
 
+### Remote Container
+
+You can use the remote container to do your programming your board.
+
+The Remote Container would have all the required Software installed except the Segger Jlink Software (needed for sifive-revb).
+
+You would have to get it from here: https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb (Link is for debian based systems)
+
+### Connect to Segger JLink devices using JLinkEXE ###
+
+Run JlinkExe
+```
+JLinkExe
+```
+
+connect via USB:
+```
+usb
+```
+
+select device:
+```
+device [FE310]
+```
+
 ### For More Information ###
 
 Documentation, Forums, and much more available at
