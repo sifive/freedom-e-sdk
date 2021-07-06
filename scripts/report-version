@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [ ! -f release.txt ] ; then
+    >&2 echo "This is a non IPDelivery Freedom-E-SDK environment"
+else
+    >&2 echo "IPDelivery Freedom-E-SDK environment"
+    >&2 grep "Date:" release.txt
+    >&2 grep "Release:" release.txt
+fi
+
