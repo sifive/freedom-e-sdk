@@ -59,7 +59,7 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 	{
 		struct metal_interrupt *plic;
 
-		// Check if this target has a plic. If not gracefull exit
+		// Check if this target has a plic. If not graceful exit
 		plic = metal_interrupt_get_controller(METAL_PLIC_CONTROLLER, 0);
 		if (plic == NULL) {
 			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
@@ -74,7 +74,7 @@ __attribute__((constructor)) static void FreeRTOS_init(void)
 	{
 	    struct metal_interrupt *clic;
 
-		// Check we this target has a plic. If not gracefull exit
+		// Check if this target has a clic. If not graceful exit
 		clic = metal_interrupt_get_controller(METAL_CLIC_CONTROLLER, 0);
 		if (clic == NULL) {
 			write( STDOUT_FILENO, pcErrorMsg, strlen( pcErrorMsg ) );
