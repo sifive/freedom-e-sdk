@@ -5,3 +5,6 @@
 *.dtb
 venv/
 pip-cache/
+bsp/*/build/
+bsp/*/install/
+software/*/debug/
