@@ -160,7 +160,7 @@
 		refclk: refclk {
 			#clock-cells = <0>;
 			compatible = "fixed-clock";
-			clock-frequency = <33333333>;
+			clock-frequency = <1000000000>;
 			clock-output-names = "xtal";
 		};
 		prci: prci@10000000 {
