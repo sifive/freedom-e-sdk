@@ -160,11 +160,11 @@
 		refclk: refclk {
 			#clock-cells = <0>;
 			compatible = "fixed-clock";
-			clock-frequency = <33333333>;
+			clock-frequency = <1000000000>;
 			clock-output-names = "xtal";
 		};
 		prci: prci@10000000 {
-			compatible = "sifive,ux00prci0";
+			compatible = "sifive,fu540-c000-prci0";
 			reg = <0x0 0x10000000 0x0 0x1000>;
 			reg-names = "control";
 			clocks = <&refclk>;
@@ -194,7 +194,7 @@
 			cache-sets = <2048>;
 			cache-size = <2097152>;
 			cache-unified;
-			compatible = "sifive,fu540-c000,l2", "cache";
+			compatible = "sifive,ccache0", "cache";
 			interrupt-parent = <&L4>;
 			interrupts = <1 2 3>;
 			next-level-cache = <&L25 &L40 &L36>;

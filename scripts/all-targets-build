@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 set -x
 
-targets=($(find bsp -name settings.mk | cut -d '/' -f 2)) 
+targets=($(find bsp -name settings.mk | cut -d '/' -f 2))
 
 programs=($(ls software))
 
@@ -37,6 +37,11 @@ do
 	if [ "${program}" == "example-freertos-mc" -o "${program}" == "example-freertos-blinky-mc" ]; then
 	    continue
 	fi
+
+        # example-rnmi is only supported on qemu-sifive-e31-customer bsp
+        if [ "${program}" == "example-rnmi" -a "${target}" != "qemu-sifive-e31-customer" ]; then
+            continue
+        fi
 
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" -j${nproc} software
         make TARGET="${target}" PROGRAM="${program}" CONFIGURATION="${CONFIGURATION}" clean-software

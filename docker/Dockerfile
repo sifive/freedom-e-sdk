@@ -3,7 +3,6 @@ FROM ubuntu:16.04 AS download-tarballs
 ARG SIFIVE_TOOLS_URL=https://static.dev.sifive.com/dev-tools/freedom-tools/v2020.08
 
 ARG RISCV_TOOLS_TARBALL=riscv64-unknown-elf-gcc-10.1.0-2020.08.2-x86_64-linux-ubuntu14.tar.gz
-ARG RISCV_SEGGER_LIBC_TARBALL=segger_libc-2020.08.2.tar.bz2
 ARG QEMU_TARBALL=riscv-qemu-5.1.0-2020.08.1-x86_64-linux-ubuntu14.tar.gz
 
 RUN apt-get update && \
@@ -18,12 +17,6 @@ RUN wget --no-verbose ${SIFIVE_TOOLS_URL}/${RISCV_TOOLS_TARBALL} && \
     tar xzf ${RISCV_TOOLS_TARBALL} && \
     mkdir -p /tools && \
     rsync -a ${RISCV_TOOLS_TARBALL%.tar.gz}/* /tools/
-
-# Install Segger libc
-COPY ./segger-libc/${RISCV_SEGGER_LIBC_TARBALL} ./
-RUN tar xjf ${RISCV_SEGGER_LIBC_TARBALL} && \
-    cd ${RISCV_SEGGER_LIBC_TARBALL%.tar.bz2} && \
-    RISCV_TOOL_PATH=/tools ./libc_segger_install.sh
 
 # Install QEMU
 RUN wget --no-verbose ${SIFIVE_TOOLS_URL}/${QEMU_TARBALL} && \

@@ -238,7 +238,13 @@ static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 /* --------------------- sifive_i2c0 ------------ */
 
 
+/* --------------------- sifive_prci0 ------------ */
+
+
 /* --------------------- sifive_pwm0 ------------ */
+
+
+/* --------------------- sifive_remapper2 ------------ */
 
 
 /* --------------------- sifive_rtc0 ------------ */
@@ -276,8 +282,7 @@ static __inline__ struct metal_buserror * __metal_driver_cpu_buserror(struct met
 
 #define __METAL_DT_MAX_MEMORIES 1
 
-__asm__ (".weak __metal_memory_table");
-struct metal_memory *__metal_memory_table[] = {
+struct metal_memory *__metal_memory_table[] __attribute__((weak)) = {
 					&__metal_dt_mem_memory_80000000};
 
 /* From htif */
@@ -292,64 +297,52 @@ struct metal_memory *__metal_memory_table[] = {
 
 #define __METAL_DT_MAX_HARTS 1
 
-__asm__ (".weak __metal_cpu_table");
-struct __metal_driver_cpu *__metal_cpu_table[] = {
+struct __metal_driver_cpu *__metal_cpu_table[] __attribute__((weak))  = {
 					&__metal_dt_cpu_0};
 
 #define __MEE_DT_MAX_GPIOS 0
 
-__asm__ (".weak __metal_gpio_table");
-struct __metal_driver_sifive_gpio0 *__metal_gpio_table[] = {
+struct __metal_driver_sifive_gpio0 *__metal_gpio_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_BUTTONS 0
 
-__asm__ (".weak __metal_button_table");
-struct __metal_driver_sifive_gpio_button *__metal_button_table[] = {
+struct __metal_driver_sifive_gpio_button *__metal_button_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_LEDS 0
 
-__asm__ (".weak __metal_led_table");
-struct __metal_driver_sifive_gpio_led *__metal_led_table[] = {
+struct __metal_driver_sifive_gpio_led *__metal_led_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_SWITCHES 0
 
-__asm__ (".weak __metal_switch_table");
-struct __metal_driver_sifive_gpio_switch *__metal_switch_table[] = {
+struct __metal_driver_sifive_gpio_switch *__metal_switch_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_I2CS 0
 
-__asm__ (".weak __metal_i2c_table");
-struct __metal_driver_sifive_i2c0 *__metal_i2c_table[] = {
+struct __metal_driver_sifive_i2c0 *__metal_i2c_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_PWMS 0
 
-__asm__ (".weak __metal_pwm_table");
-struct __metal_driver_sifive_pwm0 *__metal_pwm_table[] = {
+struct __metal_driver_sifive_pwm0 *__metal_pwm_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_RTCS 0
 
-__asm__ (".weak __metal_rtc_table");
-struct __metal_driver_sifive_rtc0 *__metal_rtc_table[] = {
+struct __metal_driver_sifive_rtc0 *__metal_rtc_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_SPIS 0
 
-__asm__ (".weak __metal_spi_table");
-struct __metal_driver_sifive_spi0 *__metal_spi_table[] = {
+struct __metal_driver_sifive_spi0 *__metal_spi_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_UARTS 0
 
-__asm__ (".weak __metal_uart_table");
-struct __metal_driver_sifive_uart0 *__metal_uart_table[] = {
+struct __metal_driver_sifive_uart0 *__metal_uart_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_SIMUARTS 0
 
-__asm__ (".weak __metal_simuart_table");
-struct __metal_driver_sifive_simuart0 *__metal_simuart_table[] = {
+struct __metal_driver_sifive_simuart0 *__metal_simuart_table[] __attribute__((weak))  = {
 					NULL };
 #define __METAL_DT_MAX_WDOGS 0
 
-__asm__ (".weak __metal_wdog_table");
-struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] = {
+struct __metal_driver_sifive_wdog0 *__metal_wdog_table[] __attribute__((weak))  = {
 					NULL };
 /* From htif */
 #define __METAL_DT_SHUTDOWN_HANDLE (&__metal_dt_htif_shutdown.shutdown)
