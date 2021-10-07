@@ -384,19 +384,19 @@ static __inline__ int __metal_driver_cpu_hartid(struct metal_cpu *cpu)
 static __inline__ int __metal_driver_cpu_timebase(struct metal_cpu *cpu)
 {
 	if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_0) {
-		return 1000000;
+		return 1196000000;
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_1) {
-		return 1000000;
+		return 1196000000;
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_2) {
-		return 1000000;
+		return 1196000000;
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_3) {
-		return 1000000;
+		return 1196000000;
 	}
 	else if ((uintptr_t)cpu == (uintptr_t)&__metal_dt_cpu_4) {
-		return 1000000;
+		return 1196000000;
 	}
 	else {
 		return 0;
