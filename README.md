@@ -319,7 +319,7 @@ on some examples.
 Here is an exemple of use :
 
 ```
-make PROGRAM=example-freertos-blinky-pmp TARGET=sifive-hifive1-revb LINK_TARGET=freertos software
+make PROGRAM=example-freertos-pmp-blinky TARGET=sifive-hifive1-revb LINK_TARGET=freertos software
 ```
 
 #### Uploading to the Target Board ####
