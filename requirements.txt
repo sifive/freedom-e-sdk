@@ -9,4 +9,4 @@ MarkupSafe==1.1.1
 setuptools>=30.3.0
 wheel
 setuptools_scm>=3.3.1
-pip==20.0.1
+pip==21.1
