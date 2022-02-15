@@ -124,6 +124,7 @@
                         interrupts = <6>;
                         reg = <0x10014000 0x1000 0x20000000 0x20000000>;
                         reg-names = "control", "mem";
+                        clocks = <&hfclk>;
                         #address-cells = <1>;
                         #size-cells = <1>;
                         flash@0 {
@@ -131,5 +132,24 @@
                                 reg = <0x20000000 0x7a12000>;
                         };
                 };
+                spi2: spi@10034000 {
+                        compatible = "sifive,spi0";
+                        interrupt-parent = <&plic>;
+                        interrupts = <6>;
+                        reg = <0x10034000 0x1000>;
+                        reg-names = "control";
+                        clocks = <&hfclk>;
+
+                };
+                i2c0: i2c@10016000 {
+			compatible = "sifive,i2c0";
+			interrupt-parent = <&plic>;
+			interrupts = <1>;
+			reg = <0x10016000 0x1000>;
+			reg-names = "control";
+                        clocks = <&hfclk>;
+		};
+
+                
         };
 };
