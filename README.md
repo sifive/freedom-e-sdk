@@ -1,3 +1,9 @@
+<div align="center">
+  <h1> :rotating_light: DEPRECATED :rotating_light: </h1>
+</div>
+
+This repository is now deprecated.
+
 # SiFive Freedom E SDK README #
 
 This repository, maintained by SiFive Inc, makes it easy to get started developing
