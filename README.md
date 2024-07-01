@@ -2,7 +2,8 @@
   <h1> :rotating_light: DEPRECATED :rotating_light: </h1>
 </div>
 
-This repository is now deprecated.
+There is no active support anymore for this repository.
+Nevertheless, it can still be used as it is.
 
 # SiFive Freedom E SDK README #
 
