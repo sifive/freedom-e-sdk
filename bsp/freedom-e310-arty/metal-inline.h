@@ -71,13 +71,23 @@ extern __inline__ int __metal_driver_sifive_gpio0_interrupt_lines(struct metal_g
 
 
 /* --------------------- sifive_gpio_led ------------ */
-
+extern __inline__ struct metal_gpio * __metal_driver_sifive_gpio_led_gpio(struct metal_led *led);
+extern __inline__ int __metal_driver_sifive_gpio_led_pin(struct metal_led *led);
+extern __inline__ char * __metal_driver_sifive_gpio_led_label(struct metal_led *led);
 
 /* --------------------- sifive_gpio_switch ------------ */
 
 
 /* --------------------- sifive_i2c0 ------------ */
-
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_control_base(struct metal_i2c *i2c);
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_control_size(struct metal_i2c *i2c);
+extern __inline__ int __metal_driver_sifive_i2c0_num_interrupts(struct metal_i2c *i2c);
+extern __inline__ struct metal_interrupt * __metal_driver_sifive_i2c0_interrupt_parent(struct metal_i2c *i2c);
+extern __inline__ int __metal_driver_sifive_i2c0_interrupt_line(struct metal_i2c *i2c);
+extern __inline__ struct metal_clock * __metal_driver_sifive_i2c0_clock(struct metal_i2c *i2c);
+extern __inline__ struct __metal_driver_sifive_gpio0 * __metal_driver_sifive_i2c0_pinmux(struct metal_i2c *i2c);
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_output_selector(struct metal_i2c *i2c);
+extern __inline__ unsigned long __metal_driver_sifive_i2c0_pinmux_source_selector(struct metal_i2c *i2c);
 
 /* --------------------- sifive_prci0 ------------ */
 
@@ -231,11 +241,45 @@ struct __metal_driver_sifive_spi0 __metal_dt_spi_10014000 = {
     .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
 };
 
+/* From spi@10024000 */
+struct __metal_driver_sifive_spi0 __metal_dt_spi_10024000 = {
+    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
+};
+
+/* From spi@10034000 */
+struct __metal_driver_sifive_spi0 __metal_dt_spi_10034000 = {
+    .spi.vtable = &__metal_driver_vtable_sifive_spi0.spi,
+};
+
 /* From serial@10013000 */
 struct __metal_driver_sifive_uart0 __metal_dt_serial_10013000 = {
     .uart.vtable = &__metal_driver_vtable_sifive_uart0.uart,
 };
 
+/* From led@0red */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0red = {
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+};
+
+/* From led@0green */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0green = {
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+};
+
+/* From led@0blue */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_0blue = {
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+};
+
+/* From led@0blue */
+struct __metal_driver_sifive_gpio_led __metal_dt_led_3 = {
+    .led.vtable = &__metal_driver_vtable_sifive_led.led_vtable,
+};
+
+/* From i2c@10016000 */
+struct __metal_driver_sifive_i2c0 __metal_dt_i2c_10016000 = {
+    .i2c.vtable = &__metal_driver_vtable_sifive_i2c0.i2c,
+};
 
 #endif /* METAL_INLINE_H*/
 #endif /* ! ASSEMBLY */
