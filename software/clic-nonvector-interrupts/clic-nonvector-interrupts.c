@@ -68,6 +68,18 @@ int main (void)
     }
     metal_interrupt_init(cpu_intr);
 
+    // Lets get a CLIC interrupt controller explicitly
+    clic = metal_interrupt_get_controller(METAL_CLIC_CONTROLLER,
+                                          metal_cpu_get_current_hartid());
+    if (clic == NULL) {
+        printf("Exit. This example need a clic interrupt controller.\n");
+        return 0;
+    }
+    metal_interrupt_init(clic);
+
+    // Lets set CLIC in Hardware Vector mode. Note this must be done AFTER init!!
+    metal_interrupt_set_vector_mode(clic, METAL_SELECTIVE_NONVECTOR_MODE);
+
     // Setup Timer interrupt
     tmr_intr = metal_cpu_timer_interrupt_controller(cpu);
     if (tmr_intr == NULL) {
@@ -81,18 +93,6 @@ int main (void)
         printf("Failed. TIMER interrupt handler registration failed\n");
         return (rc * -1);
     }
-
-    // Lets get a CLIC interrupt controller explicitly
-    clic = metal_interrupt_get_controller(METAL_CLIC_CONTROLLER,
-                                          metal_cpu_get_current_hartid());
-    if (clic == NULL) {
-        printf("Exit. This example need a clic interrupt controller.\n");
-        return 0;
-    }
-    metal_interrupt_init(clic);
-
-    // Lets set CLIC in Hardware Vector mode. Note this must be done AFTER init!!
-    metal_interrupt_set_vector_mode(clic, METAL_SELECTIVE_NONVECTOR_MODE);
 
     csip_irq = 12;
     rc = metal_interrupt_register_handler(clic, csip_irq, csip_isr, NULL);
