@@ -93,7 +93,11 @@ typedef ee_u32 ee_ptr_int;
 typedef ee_u64 ee_ptr_int;
 #endif
 typedef signed int ee_size_t;
+
+#ifndef __SEGGER_LIBC__
 #define NULL ((void *)0)
+#endif
+
 /* align_mem :
 	This macro is used to align an offset to point to a 32b value. It is used in the Matrix algorithm to initialize the input memory blocks.
 */
