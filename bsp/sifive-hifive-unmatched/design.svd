@@ -4,7 +4,7 @@
   <version>0.1</version>
   <description>From sifive,hifive-unmatched-a00,model device generator</description>
   <addressUnitBits>8</addressUnitBits>
-  <width>32</width>
+  <width>64</width>
   <size>32</size>
   <access>read-write</access>
   <peripherals>
