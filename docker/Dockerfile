@@ -10,7 +10,8 @@ RUN apt-get update && \
     apt-get install -y \
     bzip2 \
     rsync \
-    wget
+    wget \
+    bc
 
 # Install RISC-V Toolchain
 RUN wget --no-verbose ${SIFIVE_TOOLS_URL}/${RISCV_TOOLS_TARBALL} && \
