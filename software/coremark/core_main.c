@@ -32,6 +32,24 @@ Original Author: Shay Gal-on
 	Returns:
 	NULL.
 */
+
+#include <metal/csr.h>
+#define READ_CSR(x) ({ unsigned long __tmp; METAL_CPU_GET_CSR(x, __tmp); __tmp;})
+
+static uint64_t get_cycles(void)
+{
+#if __riscv_xlen == 32
+  while (1) {
+    uint32_t hi = READ_CSR(mcycleh);
+    uint32_t lo = READ_CSR(mcycle);
+    if (hi == READ_CSR(mcycleh))
+      return ((uint64_t)hi << 32) | lo;
+  }
+#else
+  return READ_CSR(mcycle);
+#endif
+}
+
 static ee_u16 list_known_crc[]   =      {(ee_u16)0xd4b0,(ee_u16)0x3340,(ee_u16)0x6a79,(ee_u16)0xe714,(ee_u16)0xe3c1};
 static ee_u16 matrix_known_crc[] =      {(ee_u16)0xbe52,(ee_u16)0x1199,(ee_u16)0x5608,(ee_u16)0x1fd7,(ee_u16)0x0747};
 static ee_u16 state_known_crc[]  =      {(ee_u16)0x5e47,(ee_u16)0x39bf,(ee_u16)0xe5a4,(ee_u16)0x8e3a,(ee_u16)0x8d84};
@@ -96,6 +114,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	ee_s16 known_id=-1,total_errors=0;
 	ee_u16 seedcrc=0;
 	CORE_TICKS total_time;
+	uint64_t start_cycles, stop_cycles;
 	core_results results[MULTITHREAD];
 #if (MEM_METHOD==MEM_STACK)
 	ee_u8 stack_memblock[TOTAL_DATA_SIZE*MULTITHREAD];
@@ -213,6 +232,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	}
 	/* perform actual benchmark */
 	start_time();
+	start_cycles = get_cycles();
 #if (MULTITHREAD>1)
 	if (default_num_contexts>MULTITHREAD) {
 		default_num_contexts=MULTITHREAD;
@@ -229,6 +249,7 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	iterate(&results[0]);
 #endif
 	stop_time();
+	stop_cycles = get_cycles();
 	total_time=get_time();
 	/* get a function of the input to report */
 	seedcrc=crc16(results[0].seed1,seedcrc);
@@ -286,11 +307,33 @@ MAIN_RETURN_TYPE main(int argc, char *argv[]) {
 	/* and report results */
 	ee_printf("CoreMark Size    : %lu\n", (long unsigned) results[0].size);
 	ee_printf("Total ticks      : %lu\n", (long unsigned) total_time);
+  // This version of printf() cannot handle values greater than 32b, so check for that.
+  if ((stop_cycles - start_cycles) < 4000000000ULL) {
+    ee_printf("Total core cycles: %lu\n", (long unsigned) (stop_cycles - start_cycles));
+  } else {
+    // Divide by a thousand, and add on three zeroes, as an approximation.
+    ee_printf("Total core cycles: approx %lu000\n", (long unsigned) ((stop_cycles - start_cycles)/1000ULL));
+  }
+  // The core cycles/iter calculation can always be correctly printed out for all of our cores.
+	ee_u32 cycles_per_iter = (stop_cycles - start_cycles) / (default_num_contexts*results[0].iterations);
+
+	ee_printf("Core cycles/iter : %lu\n", (long unsigned) cycles_per_iter);
+
+	/* CoreMarks/MHz is equal to how many iterations we can do in 1,000,000
+	 * cycles, i.e. 1,000,000 divided by the cycles per iteration.
+	 */
 #if HAS_FLOAT
+	ee_printf("CoreMarks/MHz: %6.2f\n", 1000000.0 / cycles_per_iter);
 	ee_printf("Total time (secs): %f\n",time_in_secs(total_time));
 	if (time_in_secs(total_time) > 0)
 		ee_printf("Iterations/Sec   : %f\n",default_num_contexts*results[0].iterations/time_in_secs(total_time));
 #else 
+	// Use a numerator of 10^8, i.e. 100M, so that everything is biased by 100x
+	// factor, so we can get two digits past the decimal point.
+	uint32_t coremarks_times_100_per_mhz = 100000000 / cycles_per_iter;
+	uint32_t coremarks_per_mhz_trunc = coremarks_times_100_per_mhz / 100;
+	uint32_t coremarks_per_mhz_decimal = coremarks_times_100_per_mhz % 100;
+	ee_printf("CoreMarks/MHz: approx %2d.%02d\n", coremarks_per_mhz_trunc, coremarks_per_mhz_decimal);
 	ee_printf("Total time (secs): %d\n",time_in_secs(total_time));
 	if (time_in_secs(total_time) > 0)
 		ee_printf("Iterations/Sec   : %d\n",default_num_contexts*results[0].iterations/time_in_secs(total_time));
